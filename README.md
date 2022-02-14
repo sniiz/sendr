@@ -2,7 +2,7 @@
 a messaging app written in react native
 
 # !!THIS PROJECT IS STILL IN IT'S EARLIEST DEVELOPMENT!!
-a whole lot of features are still under way  
+a whole lot of features are still underway  
 also i know nothing about react native soooo  
 
 # roadmap! 
