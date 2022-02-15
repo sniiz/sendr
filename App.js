@@ -19,18 +19,10 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const storeData = async (value) => {
-    try {
-        await AsyncStorage.setItem("@storage_Key", value);
-    } catch (e) {
-        console.error("error saving data");
-    }
-};
-
 function makeid(length) {
     var result = "";
     var characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}:"<>';
     var charactersLength = characters.length;
     for (var i = 0; i < length; i++) {
         result += characters.charAt(
@@ -40,25 +32,33 @@ function makeid(length) {
     return result;
 }
 
-var settings = require("./assets/preferences.json");
-var colors = require(`./assets/light.json`);
+const store = async (prefs) => {
+    const jsonvalue = JSON.stringify(prefs);
+    await AsyncStorage.setItem("preferences", jsonvalue);
+};
+
+const read = async () => {
+    const jsonvalue = await AsyncStorage.getItem("preferences");
+    return jsonvalue != null ? JSON.parse(jsonvalue) : null;
+};
+
+var defsettings = require("./assets/preferences.json");
 var messages = require("./demos/messages.json");
 //var uitext = require("./assets/en-lang.json");
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window"); //probably wont use this but hey just in case
 var errortxt = "";
 var textgood = false;
 const goodletters = /([^a-zA-Z._0123456789-])/;
-var uid = settings.uid;
 
-// if (!uid) {
-//     console.log("no uid find, generating new one...");
-//     settings_out.set("uid", makeid(15));
-//     settings_out.save();
-//     settings = require("./assets/preferences.json");
-// }
+try {
+    read(prefs);
+} catch {
+    defsettings["uid"] = makeid(7); //UID LENGTH: 7 SYMBOLS (note to self: dont forget this you dingus)
+    store(defsettings);
+}
 
-// TODO: fix this
+var colors = require(`./assets/${read()["theme"]}.json`);
 
 const FadeInView = (props) => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
