@@ -19,6 +19,9 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+var defsettings = require("./assets/preferences.json");
+var messages = require("./demos/messages.json");
+
 function makeid(length) {
     var result = "";
     var characters =
@@ -42,22 +45,23 @@ const read = async () => {
     return jsonvalue != null ? JSON.parse(jsonvalue) : null;
 };
 
-var defsettings = require("./assets/preferences.json");
-var messages = require("./demos/messages.json");
-//var uitext = require("./assets/en-lang.json");
+// var uitext = require("./assets/en-lang.json");
 
-const { width, height } = Dimensions.get("window"); //probably wont use this but hey just in case
+const { width, height } = Dimensions.get("window"); // probably wont use this but hey just in case (i am a brilliant programmer indeed)
 var errortxt = "";
 var textgood = false;
 const goodletters = /([^a-zA-Z._0123456789-])/;
 
 try {
     read(prefs);
+    console.log(prefs);
 } catch {
-    defsettings["uid"] = makeid(7); //UID LENGTH: 7 SYMBOLS (note to self: dont forget this you dingus)
+    defsettings["uid"] = makeid(7);
+    print(defsettings); // UID LENGTH: 7 SYMBOLS (note to self: dont forget this you dingus)
     store(defsettings);
 }
 
+console.log(read());
 var colors = require(`./assets/${read()["theme"]}.json`);
 
 const FadeInView = (props) => {
@@ -86,7 +90,7 @@ const FadeInView = (props) => {
 function loggedin(nav, txt) {
     var nick = txt;
     if (textgood) {
-        console.log(nick);
+        // console.log(nick);
         nav.navigate("chat");
     }
 }
