@@ -59,7 +59,8 @@ try {
     defsettings["uid"] = makeid(7);
     print(defsettings); // UID LENGTH: 7 SYMBOLS (note to self: dont forget this you dingus)
     store(defsettings);
-}
+} // this is such a mess omg
+// TODO: fix whatever in the heck is above
 
 console.log(read());
 var colors = require(`./assets/${read()["theme"]}.json`);
