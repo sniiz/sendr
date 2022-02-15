@@ -9,6 +9,8 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+assets/en-lang.json
+assets/fonts/poppins-bold.ttf
 
 # macOS
 .DS_Store
