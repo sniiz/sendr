@@ -9,7 +9,7 @@ also i know nothing about react native soooo
 
 [x] basic chat rendering  
 [ ] message input system  
-[ ] figuring out storage somehow  
+[ ] figuring out storage somehow (WIP)  
 [ ] networking (oh god no)  
 [ ] comfort features (reactions, typing indicators etc)  
 [ ] ui overhaul if needed  
