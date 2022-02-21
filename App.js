@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, { useState, useRef, useEffect } from "react";
 import {
     StyleSheet,
     Text,
@@ -17,7 +17,10 @@ import {
     FlatList,
     TouchableHighlight,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import chat from "./components/chat";
+import Login from "./components/loginscreen";
+import generate from "./components/generatepfp";
+import firebase from "./components/firebase";
 
 var defsettings = require("./assets/preferences.json");
 var messages = require("./demos/messages.json");
@@ -35,35 +38,12 @@ function makeid(length) {
     return result;
 }
 
-const store = async (prefs) => {
-    const jsonvalue = JSON.stringify(prefs);
-    await AsyncStorage.setItem("preferences", jsonvalue);
-};
-
-const read = async () => {
-    const jsonvalue = await AsyncStorage.getItem("preferences");
-    return jsonvalue != null ? JSON.parse(jsonvalue) : null;
-};
-
 // var uitext = require("./assets/en-lang.json");
 
 const { width, height } = Dimensions.get("window"); // probably wont use this but hey just in case (i am a brilliant programmer indeed)
-var errortxt = "";
 var textgood = false;
-const goodletters = /([^a-zA-Z._0123456789-])/;
 
-try {
-    read(prefs);
-    console.log(prefs);
-} catch {
-    defsettings["uid"] = makeid(7);
-    print(defsettings); // UID LENGTH: 7 SYMBOLS (note to self: dont forget this you dingus)
-    store(defsettings);
-} // this is such a mess omg
-// TODO: fix whatever in the heck is above
-
-console.log(read());
-var colors = require(`./assets/${read()["theme"]}.json`);
+var colors = require("./assets/light.json");
 
 const FadeInView = (props) => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -87,62 +67,6 @@ const FadeInView = (props) => {
         </Animated.View>
     );
 };
-
-function loggedin(nav, txt) {
-    var nick = txt;
-    if (textgood) {
-        // console.log(nick);
-        nav.navigate("chat");
-    }
-}
-
-function analyzenick(nick) {
-    if (nick.length > 15) {
-        textgood = false;
-        return "please ensure your username is less than 15 characters long.";
-    } else if (nick.length < 3) {
-        textgood = false;
-        return "please ensure your username is longer than 3 characters.";
-    } else if (goodletters.test(nick)) {
-        textgood = false;
-        return "usernames can only include english letters, numbers,\ndots(.), underscores(_), and dashes(-).";
-    } else if (nick.includes(" ")) {
-        textgood = false;
-        return "usernames can only include english letters, numbers,\ndots(.), underscores(_), and dashes(-).";
-    } else textgood = true;
-}
-
-function Login({ navigation }) {
-    const [text, setText] = useState("");
-    return (
-        <SafeAreaView style={styleslogin.container}>
-            <FadeInView>
-                <Text style={styleslogin.version}>v0.2.41b</Text>
-                <Text style={styleslogin.wee}>✨ indev version ✨</Text>
-                <Text style={styleslogin.Text}>sendr.</Text>
-                <View style={styleslogin.tbox}>
-                    <TextInput
-                        style={styleslogin.input}
-                        onChangeText={(newText) => setText(newText)}
-                        defaultValue={text}
-                        placeholder="your username here"
-                        placeholderTextColor="gray"
-                    />
-                    <Text style={styleslogin.errortext}>
-                        {analyzenick(text)}
-                    </Text>
-                    <TouchableHighlight
-                        onPress={() => {
-                            loggedin(navigation, text);
-                        }}
-                    >
-                        <Text style={styleslogin.proceed}>👉submit</Text>
-                    </TouchableHighlight>
-                </View>
-            </FadeInView>
-        </SafeAreaView>
-    );
-}
 
 function Chat({ navigation }) {
     const Item = ({ content, username, time }) => (
@@ -201,60 +125,6 @@ export default function App() {
         </NavigationContainer>
     );
 }
-
-const styleslogin = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.main,
-        alignItems: "center",
-        justifyContent: "center",
-        paddingBottom: 160,
-    },
-    Text: {
-        color: colors.accent,
-        fontSize: 70,
-        fontWeight: "bold",
-        textAlign: "center",
-        overflow: "visible",
-    },
-    version: {
-        color: "gray",
-        textAlign: "center",
-        paddingTop: -20,
-        //paddingBottom: 10,
-    },
-    wee: {
-        color: "gray",
-        textAlign: "center",
-        fontStyle: "italic",
-        paddingBottom: 30,
-    },
-    errortext: {
-        color: "#f54242",
-        fontSize: 13,
-        textAlign: "center",
-        paddingTop: 10,
-    },
-    input: {
-        color: colors.main,
-        backgroundColor: colors.accent,
-        padding: 10,
-        fontWeight: "normal",
-        width: 400,
-        fontSize: 30,
-        textAlign: "center",
-        lineHeight: 50,
-        borderRadius: 20,
-    },
-    proceed: {
-        paddingTop: 10,
-        color: colors.accent,
-        width: 10,
-        fontSize: 30,
-        fontWeight: "bold",
-        width: "auto",
-    },
-});
 
 const styleschat = StyleSheet.create({
     container: {
