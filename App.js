@@ -17,6 +17,12 @@ import {
     FlatList,
     TouchableHighlight,
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
+
+EStyleSheet.build({
+    // always call EStyleSheet.build() even if you don't use global variables!
+    $textColor: "#0275d8",
+});
 import chat from "./components/chat";
 import Login from "./components/loginscreen";
 import generate from "./components/generatepfp";
