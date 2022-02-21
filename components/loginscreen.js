@@ -9,6 +9,7 @@ import {
     StyleSheet,
     KeyboardAvoidingView,
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 var colors = require("../assets/light.json");
 
@@ -35,20 +36,16 @@ const FadeInView = (props) => {
     );
 };
 
-function analyzenick(nick) {
-    if (nick.length > 15) {
+function analyzeemail(email) {
+    if (!email.includes("@")) {
         textgood = false;
-        return "please ensure your username is less than 15 characters long.";
-    } else if (nick.length < 3) {
+        return "please enter a valid email.";
+    } else if (!email.includes(".")) {
         textgood = false;
-        return "please ensure your username is longer than 3 characters.";
-    } else if (goodletters.test(nick)) {
-        textgood = false;
-        return "usernames can only include english letters, numbers,\ndots(.), underscores(_), and dashes(-).";
-    } else if (nick.includes(" ")) {
-        textgood = false;
-        return "usernames can only include english letters, numbers,\ndots(.), underscores(_), and dashes(-).";
-    } else textgood = true;
+        return "please enter a valid email.";
+    } else {
+        textgood = true;
+    }
 }
 
 function loggedin(nav, txt) {
@@ -62,49 +59,76 @@ function loggedin(nav, txt) {
 const goodletters = /([^a-zA-Z._0123456789-])/;
 var textgood = false;
 const Login = ({ navigation }) => {
-    const [text, setText] = useState("");
+    const [email, setMail] = useState("");
+    const [password, setPass] = useState("");
     return (
-        <KeyboardAvoidingView style={styleslogin.container}>
+        <SafeAreaView style={styleslogin.container}>
             <FadeInView>
-                <Text style={styleslogin.version}>v0.2.41b</Text>
-                <Text style={styleslogin.wee}>✨ indev version ✨</Text>
-                <Text style={styleslogin.Text}>sendr.</Text>
+                <Text style={styleslogin.version}>v0.2.83b</Text>
+                <Text style={styleslogin.wee}>
+                    ✨ i hate everything version ✨
+                </Text>
+                <Text style={styleslogin.Text}>log into sendr.</Text>
                 <View style={styleslogin.tbox}>
                     <TextInput
                         style={styleslogin.input}
-                        onChangeText={(newText) => setText(newText)}
-                        defaultValue={text}
-                        placeholder="your username here"
+                        onChangeText={(newText) => setMail(newText)}
+                        placeholder="email"
+                        placeholderTextColor="gray"
+                    />
+                    <TextInput
+                        style={styleslogin.input}
+                        onChangeText={(newText) => setPass(newText)}
+                        placeholder="password"
                         placeholderTextColor="gray"
                     />
                     <Text style={styleslogin.errortext}>
-                        {analyzenick(text)}
+                        {analyzeemail(email)}
                     </Text>
                     <TouchableHighlight
                         onPress={() => {
-                            loggedin(navigation, text);
+                            loggedin(navigation, email, password);
                         }}
                     >
-                        <Text style={styleslogin.proceed}>👉submit</Text>
+                        <Text style={styleslogin.proceed}>👉log in</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        onPress={() => {
+                            loggedin(navigation, email, password);
+                        }}
+                    >
+                        <Text style={styleslogin.noacc}>
+                            🔐don't have an account?
+                        </Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        onPress={() => {
+                            loggedin(navigation, email, password);
+                        }}
+                    >
+                        <Text style={styleslogin.hacc}>
+                            🧑‍💻proceed anonymously
+                        </Text>
                     </TouchableHighlight>
                 </View>
             </FadeInView>
-        </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 };
 
-const styleslogin = StyleSheet.create({
+const styleslogin = EStyleSheet.create({
     container: {
         flex: 1,
+        paddingHorizontal: 10,
         backgroundColor: colors.main,
         alignItems: "center",
         justifyContent: "center",
-        paddingBottom: 160,
     },
     Text: {
         color: colors.accent,
         fontSize: 70,
         fontWeight: "bold",
+        marginBottom: 10,
         textAlign: "center",
         overflow: "visible",
     },
@@ -130,10 +154,12 @@ const styleslogin = StyleSheet.create({
         color: colors.main,
         backgroundColor: colors.accent,
         padding: 10,
+        marginLeft: 20,
         fontWeight: "normal",
         width: 400,
         fontSize: 30,
         textAlign: "center",
+        marginBottom: 10,
         lineHeight: 50,
         borderRadius: 20,
     },
@@ -143,6 +169,27 @@ const styleslogin = StyleSheet.create({
         width: 10,
         fontSize: 30,
         fontWeight: "bold",
+        width: "auto",
+    },
+    noacc: {
+        paddingTop: 10,
+        color: colors.accent,
+        width: 10,
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: "right",
+        marginRight: 10,
+        width: "auto",
+    },
+    hacc: {
+        paddingTop: 10,
+        color: colors.accent,
+        width: 10,
+        fontSize: 20,
+        fontWeight: "bold",
+        fontStyle: "italic",
+        textAlign: "right",
+        marginRight: 10,
         width: "auto",
     },
 });
