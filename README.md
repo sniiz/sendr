@@ -8,9 +8,9 @@ also i know nothing about react native soooo
 # roadmap! 
 
 [x] basic chat rendering  
-[ ] message input system  
-[ ] figuring out storage somehow (WIP)  
-[ ] networking (oh god no)  
+[x] message input system  
+[ ] GETTING FIREBASE TO WORK SOMEHOW (omg ihate it so much) (WIP)  
+[ ] custom server perhaps (oh god no)  
 [ ] comfort features (reactions, typing indicators etc)  
-[ ] ui overhaul if needed  
-[ ] usability things (settings and such)  
+[ ] ui overhaul if needed (because lets be honest GiftedChat is pretty stinky)  
+[ ] usability things (settings and such)
