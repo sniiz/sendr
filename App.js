@@ -1,6 +1,13 @@
+import React, {
+    useState,
+    useRef,
+    useEffect,
+    createContext,
+    useLayoutEffect,
+    useCallback,
+} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useState, useRef, useEffect } from "react";
 import {
     StyleSheet,
     Text,
@@ -9,27 +16,24 @@ import {
     TextInput,
     Animated,
     Dimensions,
-    Platform,
-    PixelRatio,
-    StatusBar,
-    Button,
-    Image,
-    FlatList,
     TouchableHighlight,
 } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-
-EStyleSheet.build({
-    // always call EStyleSheet.build() even if you don't use global variables!
-    $textColor: "#0275d8",
-});
-import chat from "./components/chat";
-import Login from "./components/loginscreen";
-import generate from "./components/generatepfp";
-import firebase from "./components/firebase";
-
-var defsettings = require("./assets/preferences.json");
-var messages = require("./demos/messages.json");
+import {
+    collection,
+    addDoc,
+    orderBy,
+    query,
+    onSnapshot,
+} from "firebase/firestore";
+import { GiftedChat } from "react-native-gifted-chat";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+    signInAnonymously,
+    onAuthStateChanged,
+    getAdditionalUserInfo,
+    getAuth,
+} from "firebase/auth";
+import { auth, database } from "./config/firebase";
 
 function makeid(length) {
     var result = "";
@@ -44,12 +48,47 @@ function makeid(length) {
     return result;
 }
 
-// var uitext = require("./assets/en-lang.json");
+var id = makeid(7);
 
-const { width, height } = Dimensions.get("window"); // probably wont use this but hey just in case (i am a brilliant programmer indeed)
+const store = async (prefs) => {
+    const jsonvalue = JSON.stringify(prefs);
+    await AsyncStorage.setItem("preferences", jsonvalue);
+};
+
+const read = async () => {
+    const jsonvalue = await AsyncStorage.getItem("preferences");
+    return jsonvalue != null ? JSON.parse(jsonvalue) : null;
+};
+
+const AuthenticatedUserContext = createContext({});
+
+const AuthenticatedUserProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+
+    return (
+        <AuthenticatedUserContext.Provider value={{ user, setUser }}>
+            {children}
+        </AuthenticatedUserContext.Provider>
+    );
+};
+
+var defsettings = require("./assets/preferences.json");
+var messages = require("./demos/messages.json");
+//var uitext = require("./assets/en-lang.json");
+
+const { width, height } = Dimensions.get("window"); //probably wont use this but hey just in case
+var errortxt = "";
 var textgood = false;
+const goodletters = /([^a-zA-Z._0123456789-])/;
 
-var colors = require("./assets/light.json");
+// try {
+//     read(prefs);
+// } catch {
+//     defsettings["uid"] = makeid(7); //UID LENGTH: 7 SYMBOLS (note to self: dont forget this you dingus)
+//     store(defsettings);
+// }
+
+var colors = require("./assets/dark.json");
 
 const FadeInView = (props) => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -74,40 +113,201 @@ const FadeInView = (props) => {
     );
 };
 
-function Chat({ navigation }) {
-    const Item = ({ content, username, time }) => (
-        <View style={styleschat.message}>
-            <Text style={styleschat.unametext}>
-                {username} • {new Date(time * 1000).toString()}
-            </Text>
-            <Text style={styleschat.msgtext}>{content}</Text>
-        </View>
-    );
-    const renderItem = ({ item }) => (
-        <Item content={item.content} username={item.author} time={item.date} />
-    );
+function loggedin(nav, txt) {
+    var nick = txt;
+    if (textgood) {
+        signInAnonymously(getAuth())
+            .then(() => {
+                console.log("signed in successfully");
+                nav.navigate("chat");
+            })
+            .catch((error) => {
+                console.warn(error);
+            });
+    }
+}
+
+function analyzenick(nick) {
+    if (nick.length >= 15) {
+        textgood = false;
+        return "please ensure your username is less than 15 characters long.";
+    } else if (nick.length < 3) {
+        textgood = false;
+        return "please ensure your username is longer than 3 characters.";
+    } else if (goodletters.test(nick)) {
+        textgood = false;
+        return "usernames can only include english letters, numbers,\ndots(.), underscores(_), and dashes(-).";
+    } else if (nick.includes(" ")) {
+        textgood = false;
+        return "usernames can only include english letters, numbers,\ndots(.), underscores(_), and dashes(-).";
+    } else textgood = true;
+}
+
+function Login({ navigation }) {
     const [text, setText] = useState("");
     return (
-        <View style={styleschat.container}>
+        <SafeAreaView style={styleslogin.container}>
             <FadeInView>
-                <View style={styleschat.msgbox}>
-                    <FlatList
-                        data={messages}
-                        renderItem={renderItem}
-                        keyExtractor={(item) => item.id}
-                    />
-                </View>
-                <View style={styleschat.textboxbox}>
+                <Text style={styleslogin.version}>v0.0.1pb</Text>
+                <Text style={styleslogin.wee}>✨ public beta ✨</Text>
+                <Text style={styleslogin.Text}>sendr.</Text>
+                <View style={styleslogin.tbox}>
                     <TextInput
-                        style={styleschat.input}
+                        style={styleslogin.input}
                         onChangeText={(newText) => setText(newText)}
-                        defaultValue={text}
-                        placeholder="say something..."
+                        value={text}
+                        placeholder="your username here"
                         placeholderTextColor="gray"
                     />
+                    <Text style={styleslogin.errortext}>
+                        {analyzenick(text)}
+                    </Text>
+                    <View style={styleslogin.elbutton}>
+                        <TouchableHighlight
+                            onPress={() => {
+                                loggedin(navigation, text);
+                            }}
+                        >
+                            <Text style={styleslogin.proceed}>👉submit</Text>
+                        </TouchableHighlight>
+                    </View>
                 </View>
             </FadeInView>
-        </View>
+        </SafeAreaView>
+    );
+}
+
+function Chat({ navigation }) {
+    useLayoutEffect(() => {
+        const collectionRef = collection(database, "chats");
+        const q = query(collectionRef, orderBy("createdAt", "desc"));
+
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            setMessages(
+                querySnapshot.docs.map((doc) => ({
+                    _id: doc.data()._id,
+                    createdAt: doc.data().createdAt.toDate(),
+                    text: doc.data().text,
+                    user: doc.data().user,
+                }))
+            );
+        });
+
+        return unsubscribe;
+    });
+
+    const onSend = useCallback((messages = []) => {
+        setMessages((previousMessages) =>
+            GiftedChat.append(previousMessages, messages)
+        );
+        const { _id, createdAt, text, user } = messages[0];
+        addDoc(collection(database, "chats"), {
+            _id,
+            createdAt,
+            text,
+            user,
+        });
+    }, []);
+
+    const [messages, setMessages] = useState([]);
+
+    return (
+        <GiftedChat
+            messages={messages}
+            showAvatarForEveryMessage={true}
+            onSend={(messages) => onSend(messages)}
+            user={{
+                _id: auth?.currentUser?.uid,
+            }}
+        />
+    );
+    // const Item = ({ content, username, time }) => (
+    //     <View style={styleschat.message}>
+    //         <Text style={styleschat.unametext}>
+    //             {username} • {new Date(time * 1000).toString()}
+    //         </Text>
+    //         <Text style={styleschat.msgtext}>{content}</Text>
+    //     </View>
+    // );
+    // const renderItem = ({ item }) => (
+    //     <Item content={item.content} username={item.author} time={item.date} />
+    // );
+    // const [text, setText] = useState("");
+    // return (
+    //     <View style={styleschat.container}>
+    //         <FadeInView>
+    //             <View style={styleschat.msgbox}>
+    //                 <FlatList
+    //                     data={messages}
+    //                     renderItem={renderItem}
+    //                     keyExtractor={(item) => item.id}
+    //                 />
+    //             </View>
+    //             <View style={styleschat.textboxbox}>
+    //                 <TextInput
+    //                     style={styleschat.input}
+    //                     onChangeText={(newText) => setText(newText)}
+    //                     defaultValue={text}
+    //                     placeholder="say something..."
+    //                     placeholderTextColor="gray"
+    //                 />
+    //             </View>
+    //         </FadeInView>
+    //     </View>
+    // );
+}
+
+function loading({ navigation }) {
+    return (
+        <SafeAreaView style={styleslogin.container}>
+            <Text style={styleslogin.Text}>
+                L + ratio + wrong + get a job + unfunny + you fell off + never
+                liked you anyway + cope + ur allergic to gluten + don't care +
+                cringe ur a kid + literally shut the fuck up + galileo did it
+                better + your avi was made in MS Excel + ur bf is kinda ugly + i
+                have more subscribers + owned + ur a toddler + reverse double
+                take back + u sleep in a different bedroom from your wife + get
+                rekt + i said it better + u smell + copy + who asked + dead game
+                + seethe + no bitches + ur a coward + stay mad + you main yuumi
+                + aired + you drive a fiat 500 + the hood watches xqc now + yo
+                mama + ok + bozo + u suck + ratio + ratio + ratio + ratio + cry
+                about it + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+                + ratio + ratio + ratio + ratio + ratio + ratio + ratio + ratio
+            </Text>
+        </SafeAreaView>
     );
 }
 
@@ -120,17 +320,85 @@ export default function App() {
                 <Stack.Screen
                     name="login"
                     component={Login}
-                    options={{ title: "log in" }}
+                    options={{ title: "log in", headerShown: false }}
                 />
                 <Stack.Screen
                     name="chat"
                     component={Chat}
-                    options={{ title: "chat" }}
+                    options={{ title: "chat", headerShown: false }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
     );
 }
+
+const styleslogin = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 90,
+        backgroundColor: colors.main,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingBottom: 100,
+    },
+    tbox: {
+        backgroundColor: colors.main,
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    Text: {
+        color: colors.accent,
+        fontSize: 70,
+        fontWeight: "bold",
+        textAlign: "center",
+        overflow: "visible",
+    },
+    version: {
+        color: "gray",
+        textAlign: "center",
+        paddingTop: -20,
+        //paddingBottom: 10,
+    },
+    wee: {
+        color: "gray",
+        textAlign: "center",
+        fontStyle: "italic",
+        paddingBottom: 30,
+    },
+    elbutton: {
+        width: "100%",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+    },
+    errortext: {
+        color: "#f54242",
+        fontSize: 13,
+        textAlign: "center",
+        paddingTop: 10,
+    },
+    input: {
+        color: colors.accent,
+        borderWidth: 5,
+        borderColor: colors.accent,
+        padding: 10,
+        fontWeight: "normal",
+        width: 300,
+        fontSize: 30,
+        textAlign: "center",
+        lineHeight: 50,
+        borderRadius: 20,
+    },
+    proceed: {
+        paddingTop: 10,
+        color: colors.accent,
+        width: 10,
+        fontSize: 30,
+        fontWeight: "bold",
+        alignSelf: "flex-start",
+        width: "auto",
+    },
+});
 
 const styleschat = StyleSheet.create({
     container: {
@@ -147,8 +415,9 @@ const styleschat = StyleSheet.create({
         flexDirection: "row",
     },
     input: {
-        color: colors.main,
-        backgroundColor: colors.accent,
+        color: colors.accent,
+        borderColor: colors.accent,
+        borderWidth: 5,
         padding: 10,
         paddingVertical: 7,
         paddingLeft: 20,
