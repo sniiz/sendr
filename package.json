@@ -12,9 +12,11 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.16.1",
     "@react-navigation/native-stack": "^6.5.0",
+    "dotenv": "^16.0.0",
     "edit-json-file": "^1.7.0",
     "expo": "~44.0.0",
     "expo-status-bar": "~1.2.0",
+    "expo-updates": "~0.11.6",
     "firebase": "^9.6.7",
     "react": "17.0.1",
     "react-dom": "17.0.1",

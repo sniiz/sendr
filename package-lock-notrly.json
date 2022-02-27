@@ -10,9 +10,11 @@
       "dependencies": {
         "@react-native-async-storage/async-storage": "^1.16.1",
         "@react-navigation/native-stack": "^6.5.0",
+        "dotenv": "^16.0.0",
         "edit-json-file": "^1.7.0",
         "expo": "~44.0.0",
         "expo-status-bar": "~1.2.0",
+        "expo-updates": "~0.11.6",
         "firebase": "^9.6.7",
         "react": "17.0.1",
         "react-dom": "17.0.1",
@@ -4966,6 +4968,14 @@
       "resolved": "https://registry.npmjs.org/destroy/-/destroy-1.0.4.tgz",
       "integrity": "sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA="
     },
+    "node_modules/dotenv": {
+      "version": "16.0.0",
+      "resolved": "https://registry.npmjs.org/dotenv/-/dotenv-16.0.0.tgz",
+      "integrity": "sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==",
+      "engines": {
+        "node": ">=12"
+      }
+    },
     "node_modules/edit-json-file": {
       "version": "1.7.0",
       "resolved": "https://registry.npmjs.org/edit-json-file/-/edit-json-file-1.7.0.tgz",
@@ -5372,12 +5382,25 @@
         "expo": "*"
       }
     },
+    "node_modules/expo-json-utils": {
+      "version": "0.2.1",
+      "resolved": "https://registry.npmjs.org/expo-json-utils/-/expo-json-utils-0.2.1.tgz",
+      "integrity": "sha512-wU7gXGtaUlyxFLTp5e3PbnJB90/92r6gEc2BuMHdqE0OxhTQKyKzRszk2szCsdkeI7L4XntvZhCs1Px+gL1gvA=="
+    },
     "node_modules/expo-keep-awake": {
       "version": "10.0.2",
       "resolved": "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-10.0.2.tgz",
       "integrity": "sha512-Ro1lgyKldbFs4mxhWM+goX9sg0S2SRR8FiJJeOvaRzf8xNhrZfWA00Zpr+/3ocCoWQ3eEL+X9UF4PXXHf0KoOg==",
       "peerDependencies": {
         "expo": "*"
+      }
+    },
+    "node_modules/expo-manifests": {
+      "version": "0.2.4",
+      "resolved": "https://registry.npmjs.org/expo-manifests/-/expo-manifests-0.2.4.tgz",
+      "integrity": "sha512-8PrMPyvElKXflYd1ApDHJR9JF0SR996iVEVQgHAMLzVP7OqEAM6dQaFeqrRqVn/DSsxEWkJTpxv8WJ5NWrT4Lg==",
+      "dependencies": {
+        "expo-json-utils": "~0.2.0"
       }
     },
     "node_modules/expo-modules-autolinking": {
@@ -5494,6 +5517,38 @@
       "version": "1.2.0",
       "resolved": "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.2.0.tgz",
       "integrity": "sha512-pVZZ/kDCXFK79E4dCtRecs3XLC8aiwlciutSd/fFmUPJSQZ1Txia6hlKajPt0GAYft8/YnT0V3URXzWZOBniYQ=="
+    },
+    "node_modules/expo-structured-headers": {
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/expo-structured-headers/-/expo-structured-headers-2.1.1.tgz",
+      "integrity": "sha512-0up4sfHHsiK2YLpTwD/ssUD2oeSGzVUeARnu/itKAJO4zHqjpc+m8N1s7HPSJcdC7fdDpMjzcdrDasT0o+cOAw=="
+    },
+    "node_modules/expo-updates": {
+      "version": "0.11.6",
+      "resolved": "https://registry.npmjs.org/expo-updates/-/expo-updates-0.11.6.tgz",
+      "integrity": "sha512-nTzEc/z0/QHwu6gJhYSh5TWDSzNLO9bmtP4aQzStfqT8RRoh1bYRomszxjc7e3CsZT8xrG88XKlZ4iKL6zHLoQ==",
+      "dependencies": {
+        "@expo/config": "^6.0.6",
+        "@expo/config-plugins": "^4.0.2",
+        "@expo/metro-config": "~0.2.6",
+        "expo-manifests": "~0.2.2",
+        "expo-structured-headers": "~2.1.0",
+        "expo-updates-interface": "~0.5.0",
+        "fbemitter": "^2.1.1",
+        "resolve-from": "^5.0.0",
+        "uuid": "^3.4.0"
+      },
+      "peerDependencies": {
+        "expo": "*"
+      }
+    },
+    "node_modules/expo-updates-interface": {
+      "version": "0.5.1",
+      "resolved": "https://registry.npmjs.org/expo-updates-interface/-/expo-updates-interface-0.5.1.tgz",
+      "integrity": "sha512-RLvC69o1BkhHP6hNaWiIvSiTgXABB9v4HnoietoXKFHlAyxlQCupy6ki164KpZNrOS/PFJ2WWqZOvKfiyDVO+w==",
+      "peerDependencies": {
+        "expo": "*"
+      }
     },
     "node_modules/extend-shallow": {
       "version": "3.0.2",
@@ -10444,9 +10499,9 @@
       "deprecated": "Please see https://github.com/lydell/urix#deprecated"
     },
     "node_modules/url-parse": {
-      "version": "1.5.4",
-      "resolved": "https://registry.npmjs.org/url-parse/-/url-parse-1.5.4.tgz",
-      "integrity": "sha512-ITeAByWWoqutFClc/lRZnFplgXgEZr3WJ6XngMM/N9DMIm4K8zXPCZ1Jdu0rERwO84w1WC5wkle2ubwTA4NTBg==",
+      "version": "1.5.9",
+      "resolved": "https://registry.npmjs.org/url-parse/-/url-parse-1.5.9.tgz",
+      "integrity": "sha512-HpOvhKBvre8wYez+QhHcYiVvVmeF6DVnuSOOPhe3cTum3BnqHhvKaZm8FU5yTiOu/Jut2ZpB2rA/SbBA1JIGlQ==",
       "dependencies": {
         "querystringify": "^2.1.1",
         "requires-port": "^1.0.0"
@@ -14547,6 +14602,11 @@
       "resolved": "https://registry.npmjs.org/destroy/-/destroy-1.0.4.tgz",
       "integrity": "sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA="
     },
+    "dotenv": {
+      "version": "16.0.0",
+      "resolved": "https://registry.npmjs.org/dotenv/-/dotenv-16.0.0.tgz",
+      "integrity": "sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q=="
+    },
     "edit-json-file": {
       "version": "1.7.0",
       "resolved": "https://registry.npmjs.org/edit-json-file/-/edit-json-file-1.7.0.tgz",
@@ -14868,11 +14928,24 @@
         "fontfaceobserver": "^2.1.0"
       }
     },
+    "expo-json-utils": {
+      "version": "0.2.1",
+      "resolved": "https://registry.npmjs.org/expo-json-utils/-/expo-json-utils-0.2.1.tgz",
+      "integrity": "sha512-wU7gXGtaUlyxFLTp5e3PbnJB90/92r6gEc2BuMHdqE0OxhTQKyKzRszk2szCsdkeI7L4XntvZhCs1Px+gL1gvA=="
+    },
     "expo-keep-awake": {
       "version": "10.0.2",
       "resolved": "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-10.0.2.tgz",
       "integrity": "sha512-Ro1lgyKldbFs4mxhWM+goX9sg0S2SRR8FiJJeOvaRzf8xNhrZfWA00Zpr+/3ocCoWQ3eEL+X9UF4PXXHf0KoOg==",
       "requires": {}
+    },
+    "expo-manifests": {
+      "version": "0.2.4",
+      "resolved": "https://registry.npmjs.org/expo-manifests/-/expo-manifests-0.2.4.tgz",
+      "integrity": "sha512-8PrMPyvElKXflYd1ApDHJR9JF0SR996iVEVQgHAMLzVP7OqEAM6dQaFeqrRqVn/DSsxEWkJTpxv8WJ5NWrT4Lg==",
+      "requires": {
+        "expo-json-utils": "~0.2.0"
+      }
     },
     "expo-modules-autolinking": {
       "version": "0.5.5",
@@ -14960,6 +15033,33 @@
       "version": "1.2.0",
       "resolved": "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.2.0.tgz",
       "integrity": "sha512-pVZZ/kDCXFK79E4dCtRecs3XLC8aiwlciutSd/fFmUPJSQZ1Txia6hlKajPt0GAYft8/YnT0V3URXzWZOBniYQ=="
+    },
+    "expo-structured-headers": {
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/expo-structured-headers/-/expo-structured-headers-2.1.1.tgz",
+      "integrity": "sha512-0up4sfHHsiK2YLpTwD/ssUD2oeSGzVUeARnu/itKAJO4zHqjpc+m8N1s7HPSJcdC7fdDpMjzcdrDasT0o+cOAw=="
+    },
+    "expo-updates": {
+      "version": "0.11.6",
+      "resolved": "https://registry.npmjs.org/expo-updates/-/expo-updates-0.11.6.tgz",
+      "integrity": "sha512-nTzEc/z0/QHwu6gJhYSh5TWDSzNLO9bmtP4aQzStfqT8RRoh1bYRomszxjc7e3CsZT8xrG88XKlZ4iKL6zHLoQ==",
+      "requires": {
+        "@expo/config": "^6.0.6",
+        "@expo/config-plugins": "^4.0.2",
+        "@expo/metro-config": "~0.2.6",
+        "expo-manifests": "~0.2.2",
+        "expo-structured-headers": "~2.1.0",
+        "expo-updates-interface": "~0.5.0",
+        "fbemitter": "^2.1.1",
+        "resolve-from": "^5.0.0",
+        "uuid": "^3.4.0"
+      }
+    },
+    "expo-updates-interface": {
+      "version": "0.5.1",
+      "resolved": "https://registry.npmjs.org/expo-updates-interface/-/expo-updates-interface-0.5.1.tgz",
+      "integrity": "sha512-RLvC69o1BkhHP6hNaWiIvSiTgXABB9v4HnoietoXKFHlAyxlQCupy6ki164KpZNrOS/PFJ2WWqZOvKfiyDVO+w==",
+      "requires": {}
     },
     "extend-shallow": {
       "version": "3.0.2",
@@ -18839,9 +18939,9 @@
       "integrity": "sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI="
     },
     "url-parse": {
-      "version": "1.5.4",
-      "resolved": "https://registry.npmjs.org/url-parse/-/url-parse-1.5.4.tgz",
-      "integrity": "sha512-ITeAByWWoqutFClc/lRZnFplgXgEZr3WJ6XngMM/N9DMIm4K8zXPCZ1Jdu0rERwO84w1WC5wkle2ubwTA4NTBg==",
+      "version": "1.5.9",
+      "resolved": "https://registry.npmjs.org/url-parse/-/url-parse-1.5.9.tgz",
+      "integrity": "sha512-HpOvhKBvre8wYez+QhHcYiVvVmeF6DVnuSOOPhe3cTum3BnqHhvKaZm8FU5yTiOu/Jut2ZpB2rA/SbBA1JIGlQ==",
       "requires": {
         "querystringify": "^2.1.1",
         "requires-port": "^1.0.0"
