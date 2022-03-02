@@ -4,13 +4,13 @@ export default {
     expo: {
         name: "sendr",
         slug: "sendr",
-        version: "0.4.27b",
+        version: "0.0.1pb",
         orientation: "portrait",
         icon: "./assets/icon.png",
         splash: {
             image: "./assets/splash.png",
             resizeMode: "contain",
-            backgroundColor: "#ffffff",
+            backgroundColor: "#100f0d",
         },
         updates: {
             fallbackToCacheTimeout: 0,
@@ -25,7 +25,7 @@ export default {
             package: "com.sniiz.sendr_beta",
             adaptiveIcon: {
                 foregroundImage: "./assets/adaptive-icon.png",
-                backgroundColor: "#FFFFFF",
+                backgroundColor: "#100f0d",
             },
             versionCode: 1,
         },

@@ -146,34 +146,38 @@ function analyzenick(nick) {
 function Login({ navigation }) {
     const [text, setText] = useState("");
     return (
-        <SafeAreaView style={styleslogin.container}>
-            <FadeInView>
-                <Text style={styleslogin.version}>v0.0.1pb</Text>
-                <Text style={styleslogin.wee}>✨ public beta ✨</Text>
-                <Text style={styleslogin.Text}>sendr.</Text>
-                <View style={styleslogin.tbox}>
-                    <TextInput
-                        style={styleslogin.input}
-                        onChangeText={(newText) => setText(newText)}
-                        value={text}
-                        placeholder="your username here"
-                        placeholderTextColor="gray"
-                    />
-                    <Text style={styleslogin.errortext}>
-                        {analyzenick(text)}
-                    </Text>
-                    <View style={styleslogin.elbutton}>
-                        <TouchableHighlight
-                            onPress={() => {
-                                loggedin(navigation, text);
-                            }}
-                        >
-                            <Text style={styleslogin.proceed}>👉submit</Text>
-                        </TouchableHighlight>
+        <View style={styleslogin.bg}>
+            <SafeAreaView style={styleslogin.container}>
+                <FadeInView>
+                    <Text style={styleslogin.version}>v0.0.1pb</Text>
+                    <Text style={styleslogin.wee}>✨ public beta ✨</Text>
+                    <Text style={styleslogin.Text}>sendr.</Text>
+                    <View style={styleslogin.tbox}>
+                        <TextInput
+                            style={styleslogin.input}
+                            onChangeText={(newText) => setText(newText)}
+                            value={text}
+                            placeholder="your username here"
+                            placeholderTextColor="gray"
+                        />
+                        <Text style={styleslogin.errortext}>
+                            {analyzenick(text)}
+                        </Text>
+                        <View style={styleslogin.elbutton}>
+                            <TouchableHighlight
+                                onPress={() => {
+                                    loggedin(navigation, text);
+                                }}
+                            >
+                                <Text style={styleslogin.proceed}>
+                                    👉submit
+                                </Text>
+                            </TouchableHighlight>
+                        </View>
                     </View>
-                </View>
-            </FadeInView>
-        </SafeAreaView>
+                </FadeInView>
+            </SafeAreaView>
+        </View>
     );
 }
 
@@ -341,6 +345,10 @@ const styleslogin = StyleSheet.create({
         justifyContent: "center",
         paddingBottom: 100,
     },
+    bg: {
+        flex: 1,
+        backgroundColor: colors.main,
+    },
     tbox: {
         backgroundColor: colors.main,
         width: "100%",
@@ -391,7 +399,7 @@ const styleslogin = StyleSheet.create({
     },
     proceed: {
         paddingTop: 10,
-        color: colors.accent,
+        color: "e0e0e0",
         width: 10,
         fontSize: 30,
         fontWeight: "bold",
@@ -405,6 +413,10 @@ const styleschat = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.main,
         justifyContent: "flex-end",
+    },
+    bg: {
+        flex: 1,
+        backgroundColor: colors.main,
     },
     msgbox: {
         // height: "100%",
