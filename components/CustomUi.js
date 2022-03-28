@@ -8,7 +8,6 @@ import {
     Text,
     Platform,
 } from "react-native";
-import AnimatedLottieView from "lottie-react-native";
 import { Button, Input, Image } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
 import ThemedListItem from "react-native-elements/dist/list/ListItem";
@@ -46,18 +45,18 @@ export class Header extends React.Component {
     }
 }
 
-export class Loading extends React.Component {
-    render() {
-        return (
-            <SafeAreaView style={styles.container}>
-                <AnimatedLottieView
-                    source={require("../assets/loading.json")}
-                    style={styles.ImageDimension}
-                />
-            </SafeAreaView>
-        );
-    }
-}
+// export class Loading extends React.Component {
+//     render() {
+//         return (
+//             <SafeAreaView style={styles.container}>
+//                 <AnimatedLottieView
+//                     source={require("../assets/loading.json")}
+//                     style={styles.ImageDimension}
+//                 />
+//             </SafeAreaView>
+//         );
+//     }
+// }
 
 const styles = StyleSheet.create({
     ImageDimension: {
