@@ -1,44 +1,35 @@
-import "dotenv/config";
+// made this a .js so that i can add todos without vscode screaming at me
 
 export default {
     expo: {
         name: "sendr",
         slug: "sendr",
-        version: "0.0.1pb",
+        version: "v0.1.6pa",
         orientation: "portrait",
-        icon: "./assets/icon.png",
+        icon: "./assets/icon.png", // TODO make an actual icon
         splash: {
             image: "./assets/splash.png",
             resizeMode: "contain",
-            backgroundColor: "#100f0d",
+            backgroundColor: "#ffffff",
         },
         updates: {
             fallbackToCacheTimeout: 0,
         },
         assetBundlePatterns: ["**/*"],
         ios: {
-            supportsTablet: false,
+            supportsTablet: true,
             bundleIdentifier: "com.sniiz.sendr",
-            buildNumber: "0.4.27b",
+            buildNumber: "0.1.0pa",
         },
         android: {
-            package: "com.sniiz.sendr_beta",
+            package: "com.sniiz.sendr_alpha",
             adaptiveIcon: {
                 foregroundImage: "./assets/adaptive-icon.png",
-                backgroundColor: "#100f0d",
+                backgroundColor: "#FFFFFF",
             },
-            versionCode: 1,
         },
         web: {
             favicon: "./assets/favicon.png",
-        },
-        extra: {
-            apiKey: process.env.API_KEY,
-            authDomain: process.env.AUTH_DOMAIN,
-            projectId: process.env.PROJECT_ID,
-            storageBucket: process.env.STORAGE_BUCKET,
-            messagingSenderId: process.env.MESSAGING_SENDER_ID,
-            appId: process.env.APP_ID,
         },
     },
 };
