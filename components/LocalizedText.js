@@ -1,4 +1,5 @@
-import { NativeModules, Platform } from "react-native";
+// import { NativeModules, Platform } from "react-native";
+import * as Localization from "expo-localization";
 
 const uiText = {
     en: {
@@ -221,23 +222,28 @@ const supported = ["en", "es", "fr", "de", "it", "pt", "ru", "zh", "ja"]; // ter
 // } else {
 //     export default uiText.en;
 
-if (Platform.OS === "ios") {
-    var lang =
-        NativeModules.SettingsManager.settings.AppleLocale ||
-        NativeModules.SettingsManager.settings.AppleLanguages[0];
-    lang = lang.slice(0, 2);
-    // console.log("ios lang: " + lang);
-    if (!supported.includes(lang)) {
-        lang = "en";
-    }
-} else if (Platform.OS === "android") {
-    var lang = NativeModules.SettingsManager.settings.language;
-    lang = lang.slice(0, 2);
-    if (!supported.includes(lang)) {
-        lang = "en";
-    }
-} else {
-    var lang = "en"; // TODO figure out how to get this on web/desktop
+// if (Platform.OS === "ios") {
+//     var lang =
+//         NativeModules.SettingsManager.settings.AppleLocale ||
+//         NativeModules.SettingsManager.settings.AppleLanguages[0];
+//     lang = lang.slice(0, 2);
+//     // console.log("ios lang: " + lang);
+//     if (!supported.includes(lang)) {
+//         lang = "en";
+//     }
+// } else if (Platform.OS === "android") {
+//     var lang = NativeModules.SettingsManager.settings.language;
+//     lang = lang.slice(0, 2);
+//     if (!supported.includes(lang)) {
+//         lang = "en";
+//     }
+// } else {
+//     var lang = "en"; // TODO figure out how to get this on web/desktop
+// }
+
+var lang = Localization.locale.substring(0, 2);
+if (!supported.includes(lang)) {
+    lang = "en";
 }
 
 var UIText = uiText[lang];

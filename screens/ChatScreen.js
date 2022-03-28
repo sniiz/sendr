@@ -118,7 +118,7 @@ const ChatScreen = ({ navigation, route }) => {
                     }}
                 >
                     {/* <TouchableOpacity
-                        onPress={Alert.alert(
+                        onPress={Alert.alert( 
                             "sendr",
                             "message attachements are not yet available."
                         )}
