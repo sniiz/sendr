@@ -14,9 +14,6 @@ const AddChatScreen = ({ navigation }) => {
     const [chat, setChat] = useState("");
 
     const createChat = async () => {
-        if (chat === null) {
-            return;
-        }
         const db = getFirestore();
         const auth = getAuth();
         await addDoc(collection(db, "chats"), {

@@ -29,6 +29,8 @@ import {
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
+import UIText from "../components/LocalizedText";
+import { async } from "@firebase/util";
 
 // set notification handler
 Notifications.setNotificationHandler({
@@ -39,11 +41,72 @@ Notifications.setNotificationHandler({
     }),
 });
 
+registerForPushNotificationsAsync = async () => {
+    if (Device.isDevice) {
+        const { status: existingStatus } =
+            await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== "granted") {
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+        }
+        if (finalStatus !== "granted") {
+            alert("Failed to get push token for push notification!");
+            return;
+        }
+        const token = (await Notifications.getExpoPushTokenAsync()).data;
+        console.log(token);
+        this.setState({ expoPushToken: token });
+    } else {
+        alert("Must use physical device for Push Notifications");
+    }
+
+    if (Platform.OS === "android") {
+        Notifications.setNotificationChannelAsync("default", {
+            name: "default",
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: "#FF231F7C",
+        });
+    }
+};
+
+async function sendPushNotification(
+    expoPushToken,
+    messageContent,
+    author,
+    chatName,
+    chatId
+) {
+    const message = {
+        to: expoPushToken,
+        sound: "default",
+        title: chatName,
+        body: `${author}: ${messageContent}`,
+    };
+
+    await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Accept-encoding": "gzip, deflate",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(message),
+    });
+}
+
 const ChatScreen = ({ navigation, route }) => {
     const [msgInput, setMsgInput] = useState("");
     const [messages, setMessages] = useState([]);
+    // const [expoPushToken, setExpoPushToken] = useState("");
+    // const [notification, setNotification] = useState(false);
+    // const notificationListener = useRef();
+    // const responseListener = useRef();
     const auth = getAuth();
     const db = getFirestore();
+
+    var lastSnapshot = null;
 
     const sendMsg = async () => {
         Keyboard.dismiss();
@@ -60,24 +123,58 @@ const ChatScreen = ({ navigation, route }) => {
     };
 
     // TODO notifications
-    useEffect(
-        () =>
-            onSnapshot(
-                query(
-                    collection(db, `chats/${route.params.id}`, "messages"),
-                    orderBy("timestamp", "desc")
-                ),
-                (snapshot) => {
-                    setMessages(
-                        snapshot.docs.reverse().map((doc) => ({
-                            id: doc.id,
-                            ...doc.data(),
-                        }))
-                    );
-                }
-            ),
-        [route]
-    );
+    try {
+        useEffect(
+            () =>
+                onSnapshot(
+                    query(
+                        collection(db, `chats/${route.params.id}`, "messages"),
+                        orderBy("timestamp", "desc")
+                    ),
+                    (snapshot) => {
+                        setMessages(
+                            snapshot.docs.reverse().map((doc) => ({
+                                id: doc.id,
+                                ...doc.data(),
+                            }))
+                        );
+                        // if (lastSnapshot !== snapshot) {
+                        //     sendPushNotification(
+                        //         expoPushToken,
+                        //         snapshot.docs[0].data().message,
+                        //         snapshot.docs[0].data().displayName,
+                        //         route.params.name,
+                        //         route.params.id
+                        //     );
+                        // }
+                        // lastSnapshot = snapshot;
+                        // TODO notifications ffs D:<
+                    }
+                )[route]
+        );
+    } catch (error) {
+        Alert.alert(
+            UIText["errors"]["title"],
+            `${UIText["errors"]["body"]} ${error}`,
+            [
+                {
+                    text: UIText["errors"]["dontReport"],
+                    onPress: () => navigation.navigate("Home"),
+                },
+                {
+                    text: UIText["errors"]["report"],
+                    onPress: async () => {
+                        await addDoc(collection(db, "errors"), {
+                            timestamp: serverTimestamp(),
+                            error: error,
+                            user: auth.currentUser.email,
+                        });
+                        navigation.navigate("Home");
+                    },
+                },
+            ]
+        );
+    }
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -172,9 +269,7 @@ const ChatScreen = ({ navigation, route }) => {
                             }
                         >
                             <Text style={styles.createdText}>
-                                {
-                                    '{snapshot.collection(db, `chats/${route.params.chatid}.author["name"]`)} created {snapshot.collection(db, `chats/${route.params.chatid}.name`}'
-                                }
+                                {`${route.params.chatName} ${UIText["newChatScreen"]["created"]}!`}
                             </Text>
                             {messages.map((message) =>
                                 message.email === auth.currentUser.email ? (
@@ -198,8 +293,6 @@ const ChatScreen = ({ navigation, route }) => {
                                                             uri: message.photoURL,
                                                         }}
                                                         size={30}
-                                                        position="absolute"
-                                                        left={5}
                                                     /> // FIXME wonky pfp positioning
                                                 ) : null}
                                             </View>
@@ -224,14 +317,14 @@ const ChatScreen = ({ navigation, route }) => {
                                                         uri: message.photoURL,
                                                     }}
                                                     size={30}
-                                                    position="absolute"
-                                                    bottom={-15}
-                                                    right={-5}
-                                                    containerStyle={{
-                                                        position: "absolute",
-                                                        bottom: -15,
-                                                        right: -5,
-                                                    }}
+                                                    // position="absolute"
+                                                    // bottom={-15}
+                                                    // right={-5}
+                                                    // containerStyle={{
+                                                    //     position: "absolute",
+                                                    //     bottom: -15,
+                                                    //     right: -5,
+                                                    // }}
                                                 /> // FIXME here too
                                             ) : null}
                                             <Text style={styles.senderName}>
@@ -248,6 +341,7 @@ const ChatScreen = ({ navigation, route }) => {
                         <View style={styles.footer}>
                             <TextInput // occasinally layers behind keyboard on android
                                 // (why is android so jank)
+                                // FIXME chat footer on android
                                 placeholder="type something..."
                                 placeholderTextColor="grey"
                                 style={styles.textInput}
