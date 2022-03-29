@@ -10,6 +10,17 @@ import ChatScreen from "./screens/ChatScreen";
 // import SettingsScreen from "./screens/SettingsScreen"; // wip screen
 import UIText from "./components/LocalizedText";
 import ProfileScreen from "./screens/ProfileScreen";
+import { LogBox } from "react-native";
+import _ from "lodash";
+
+LogBox.ignoreLogs(["Warning:..."]); // ignore specific logs
+LogBox.ignoreAllLogs(); // ignore all logs
+const _console = _.clone(console);
+console.warn = (message) => {
+    if (message.indexOf("Setting a timer") <= -1) {
+        _console.warn(message);
+    }
+};
 
 const Stack = createNativeStackNavigator();
 const globalScreenOptions = {

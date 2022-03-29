@@ -24,6 +24,7 @@ const uiText = {
         newChatScreen: {
             barTitle: "new chat",
             title: "new chat",
+            created: "created",
             chatNamePlaceholder: "chat name here",
         },
         settingsScreen: {
@@ -36,6 +37,12 @@ const uiText = {
             barTitle: "profile",
             wipText:
                 "\nthis section is still under construction. i'm working hard on it!\n\n- yours truly",
+        },
+        errors: {
+            title: "uh oh 😯",
+            body: "please forgive me. an error occured",
+            report: "report",
+            dontReport: "don't report",
         },
     },
     fr: {
@@ -60,6 +67,7 @@ const uiText = {
         newChatScreen: {
             barTitle: "chat nouveau",
             title: "chat nouveau",
+            created: "a été créé",
             chatNamePlaceholder: "nom du chat ici",
         },
         settingsScreen: {
@@ -71,6 +79,12 @@ const uiText = {
             barTitle: "profil",
             wipText:
                 "\ncette section est encore en construction. j'y travaille dur!\n\n- haley de sendr",
+        },
+        errors: {
+            title: "ah non 😯",
+            body: "cette erreur est survenue",
+            report: "rapport",
+            dontReport: "ne pas rapporter",
         },
     },
     es: {
@@ -95,6 +109,7 @@ const uiText = {
         newChatScreen: {
             barTitle: "nuevo chat",
             title: "nuevo chat",
+            created: "se ha creado el",
             chatNamePlaceholder: "nombre del chat aquí",
         },
         settingsScreen: {
@@ -106,6 +121,12 @@ const uiText = {
             barTitle: "perfil",
             wipText:
                 "\nesta sección está aún en construcción. ¡estoy trabajando duro en ello!\n\n- haley de sendr",
+        },
+        errors: {
+            title: "ah no 😯",
+            body: "¡oh, no! ocurrió este error: ",
+            report: "informar a la desarrolladorar",
+            dontReport: "no informar",
         },
     },
     ru: {
@@ -130,6 +151,7 @@ const uiText = {
         newChatScreen: {
             barTitle: "новый чат",
             title: "новый чат",
+            created: "был создан",
             chatNamePlaceholder: "сюда название чата",
         },
         settingsScreen: {
@@ -141,6 +163,12 @@ const uiText = {
             barTitle: "профиль",
             wipText:
                 "\nой. эти настройки пока еще не зкончены. я очень усердно над ними работаю!\n\n- хейли",
+        },
+        errors: {
+            title: "о нет 😯",
+            body: "какая досада, произошла ошибка:",
+            report: "сообщить разработчику",
+            dontReport: "не сообщать",
         },
     },
     zh: {
@@ -165,6 +193,7 @@ const uiText = {
         newChatScreen: {
             barTitle: "新建聊天",
             title: "新建聊天",
+            created: "已创建",
             chatNamePlaceholder: "聊天名称",
         },
         settingsScreen: {
@@ -176,6 +205,12 @@ const uiText = {
             barTitle: "个人资料",
             wipText:
                 "\n哎呀。 这些设置尚不可用。 不过，我正在努力研究它们!\n\n- sendr的海利",
+        },
+        errors: {
+            title: "哎呀 😯",
+            body: "哎呀，出错了:",
+            report: "向开发者报告",
+            dontReport: "不要报告",
         },
     },
     ja: {
@@ -200,6 +235,7 @@ const uiText = {
         newChatScreen: {
             barTitle: "新しいチャット",
             title: "新しいチャット",
+            created: "作成されました",
             chatNamePlaceholder: "チャット名",
         },
         settingsScreen: {
@@ -211,6 +247,12 @@ const uiText = {
             barTitle: "プロフィール",
             wipText:
                 "\nええとああ。 設定はまだ利用できません。 頑張っています！\n\n- セーンダのヘイリー",
+        },
+        errors: {
+            title: "ああ (つω`｡)",
+            body: "大野！ エラーが発生しました：",
+            report: "開発者に報告",
+            dontReport: "報告しない",
         },
     },
 };
