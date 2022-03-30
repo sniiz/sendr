@@ -280,7 +280,7 @@ const supported = ["en", "es", "fr", "de", "it", "pt", "ru", "zh", "ja"]; // ter
 //         lang = "en";
 //     }
 // } else {
-//     var lang = "en"; // TODO figure out how to get this on web/desktop
+//     var lang = "en";
 // }
 
 var lang = Localization.locale.substring(0, 2);
