@@ -12,5 +12,4 @@ a messaging app written in react native
 -   [ ] comfort features (reactions, typing indicators etc)
 -   [x] ui overhaul if needed (because lets be honest GiftedChat is pretty stinky)
 -   [ ] usability things (settings and such) (WIP)
-
 -   [ ] ~~custom server perhaps (oh god no)~~

@@ -292,16 +292,33 @@ const ChatScreen = ({ navigation, route }) => {
                                                         source={{
                                                             uri: message.photoURL,
                                                         }}
+                                                        // style={{
+                                                        //     marginRight: 10,
+                                                        // }}
                                                         size={30}
+                                                        // bottom={10}
+                                                        position="absolute"
                                                     /> // FIXME wonky pfp positioning
                                                 ) : null}
                                             </View>
-                                            <Text style={styles.receiverName}>
-                                                {message.displayName}
-                                            </Text>
-                                            <Text style={styles.receiverText}>
-                                                {message.message}
-                                            </Text>
+                                            <View
+                                                style={{
+                                                    marginLeft: message.photoURL
+                                                        ? 30
+                                                        : 0,
+                                                }}
+                                            >
+                                                <Text
+                                                    style={styles.receiverName}
+                                                >
+                                                    {message.displayName}
+                                                </Text>
+                                                <Text
+                                                    style={styles.receiverText}
+                                                >
+                                                    {message.message}
+                                                </Text>
+                                            </View>
                                         </View>
                                     </View>
                                 ) : (
@@ -317,7 +334,7 @@ const ChatScreen = ({ navigation, route }) => {
                                                         uri: message.photoURL,
                                                     }}
                                                     size={30}
-                                                    // position="absolute"
+                                                    position="absolute"
                                                     // bottom={-15}
                                                     // right={-5}
                                                     // containerStyle={{
@@ -327,12 +344,20 @@ const ChatScreen = ({ navigation, route }) => {
                                                     // }}
                                                 /> // FIXME here too
                                             ) : null}
-                                            <Text style={styles.senderName}>
-                                                {message.displayName}
-                                            </Text>
-                                            <Text style={styles.senderText}>
-                                                {message.message}
-                                            </Text>
+                                            <View
+                                                style={{
+                                                    marginLeft: message.photoURL
+                                                        ? 30
+                                                        : 0,
+                                                }}
+                                            >
+                                                <Text style={styles.senderName}>
+                                                    {message.displayName}
+                                                </Text>
+                                                <Text style={styles.senderText}>
+                                                    {message.message}
+                                                </Text>
+                                            </View>
                                         </View>
                                     </View>
                                 )

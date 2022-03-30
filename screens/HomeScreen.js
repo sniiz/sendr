@@ -37,7 +37,11 @@ const HomeScreen = ({ navigation }) => {
         () =>
             onSnapshot(collection(db, "chats"), (snapshot) => {
                 setChats(
-                    snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+                    snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        name: doc.chatName,
+                        ...doc.data(),
+                    }))
                 );
             }),
         []
