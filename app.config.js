@@ -4,7 +4,7 @@ export default {
     expo: {
         name: "sendr",
         slug: "sendr",
-        version: "v0.1.7pa",
+        version: "v0.1.6pa",
         orientation: "portrait",
         icon: "./assets/icon.png", // TODO make an actual icon
         splash: {
@@ -13,15 +13,11 @@ export default {
             backgroundColor: "#ffffff",
         },
         plugins: [
-            "expo-notifications",
-            // : {
-            //     icon: "./assets/adaptive-icon.png",
-            //     color: "#ffffff",
-            //     // sounds: [
-            //     //     "./local/assets/notification-sound.wav",
-            //     //     "./local/assets/notification-sound-other.wav",
-            //     // ],
-            // },
+            "expo-image-picker",
+            {
+                photoPermission:
+                    "allow sendr to access your photos to set your profile picture",
+            },
         ],
         updates: {
             fallbackToCacheTimeout: 0,
@@ -30,7 +26,7 @@ export default {
         ios: {
             supportsTablet: true,
             bundleIdentifier: "com.sniiz.sendr",
-            buildNumber: "0.1.7pa",
+            buildNumber: "0.1.6pa",
         },
         android: {
             package: "com.sniiz.sendr_alpha",
