@@ -17,7 +17,7 @@ import {
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 
-const logo = require("../assets/wip_logo_white.png");
+// const logo = require("../assets/wip_logo_white.png");
 const version = require("../assets/version-info.json");
 
 const LoginScreen = ({ navigation }) => {
