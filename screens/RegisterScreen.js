@@ -38,7 +38,13 @@ const RegisterScreen = ({ navigation }) => {
                     displayName: fullname,
                     // photoURL: imgurl,
                 })
-                    .then(() => console.log("profile updated"))
+                    .then(() => {
+                        console.log("profile updated");
+                        // navigation.navigate(
+                        //     UIText["emailVerifyScreen"]["barTitle"]
+                        // );
+                        // TODO email verification
+                    })
                     .catch((error) => {
                         console.log(error.message);
                     });

@@ -4,6 +4,7 @@ import {
     SafeAreaView,
     View,
     TouchableOpacity,
+    ScrollView,
     Image,
 } from "react-native";
 import UIText from "../components/LocalizedText";
@@ -12,12 +13,29 @@ import React from "react";
 import { getAuth, signOut } from "../firebase";
 
 export default function ProfileScreen() {
+    const [nerdData, setNerdData] = React.useState(false);
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>¯\_(ツ)_/¯</Text>
-            <Text style={styles.settingText}>
-                {UIText["profileScreen"]["wipText"]}
-            </Text>
+            <ScrollView>
+                <View
+                    style={{
+                        marginTop: 300,
+                    }}
+                />
+                <Text style={styles.title}>¯\_(ツ)_/¯</Text>
+                <Text style={styles.settingText}>
+                    {UIText["profileScreen"]["wipText"]}
+                </Text>
+                <View
+                    style={{
+                        marginTop: 1000,
+                    }}
+                />
+                <Text style={styles.settingText}>
+                    profile info for nerds{"\n\n\n"}
+                    {JSON.stringify(getAuth().currentUser)}
+                </Text>
+            </ScrollView>
         </SafeAreaView>
     );
 }

@@ -12,19 +12,19 @@ export default {
             resizeMode: "contain",
             backgroundColor: "#ffffff",
         },
-        plugins: [
-            "expo-image-picker",
-            {
-                photoPermission:
-                    "allow sendr to access your photos to set your profile picture",
-            },
-        ],
+        // plugins: [
+        //     "expo-image-picker",
+        //     {
+        //         photoPermission:
+        //             "allow sendr to access your photos to set your profile picture",
+        //     },
+        // ],
         updates: {
             fallbackToCacheTimeout: 0,
         },
         assetBundlePatterns: ["**/*"],
         ios: {
-            supportsTablet: true,
+            supportsTablet: false,
             bundleIdentifier: "com.sniiz.sendr",
             buildNumber: "0.1.6pa",
         },
