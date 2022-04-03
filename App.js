@@ -7,6 +7,7 @@ import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
 import AddChatScreen from "./screens/AddChatScreen";
 import ChatScreen from "./screens/ChatScreen";
+import EmailVerifyScreen from "./screens/EmailVerifyScreen";
 // import SettingsScreen from "./screens/SettingsScreen"; // wip screen
 import UIText from "./components/LocalizedText";
 import ProfileScreen from "./screens/ProfileScreen";
@@ -56,6 +57,10 @@ export default function App() {
                     name={UIText["profileScreen"]["barTitle"]}
                     component={ProfileScreen}
                 />
+                {/* <Stack.Screen
+                    name={UIText["emailVerifyScreen"]["barTitle"]}
+                    component={EmailVerifyScreen}
+                /> */}
             </Stack.Navigator>
         </NavigationContainer>
     );

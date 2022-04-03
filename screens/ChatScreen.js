@@ -296,7 +296,7 @@ const ChatScreen = ({ navigation, route }) => {
                                                         size={30}
                                                         // bottom={10}
                                                         position="absolute"
-                                                    /> // FIXME wonky pfp positioning
+                                                    />
                                                 ) : null}
                                             </View>
                                             <View
@@ -340,7 +340,7 @@ const ChatScreen = ({ navigation, route }) => {
                                                     //     bottom: -15,
                                                     //     right: -5,
                                                     // }}
-                                                /> // FIXME here too
+                                                />
                                             ) : null}
                                             <View
                                                 style={{

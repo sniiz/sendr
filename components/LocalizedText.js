@@ -21,6 +21,13 @@ const uiText = {
             // pfpPlaceholder: "profile picture url (optional)",
             signUpButton: "sign up 👉",
         },
+        emailVerifyScreen: {
+            barTitle: "email verification",
+            title: "we need to confirm that this email is yours.",
+            verifyButton: "send verification email 📨",
+            didNotReceiveEmail:
+                "did not receive email? tap the button again to resend ✌️",
+        },
         newChatScreen: {
             barTitle: "new chat",
             title: "new chat",
@@ -30,14 +37,16 @@ const uiText = {
         settingsScreen: {
             barTitle: "settings",
             wipText:
-                "\nwoops. i'm sorry settings are not yet available. i'm working on it though!\n\n- yours truly",
+                "\nwoops. we're sorry settings are not yet available. we're working on it though!\n\n- yours truly",
+            revealInfoButton: "reveal user info for nerds 👀",
             // TODO: settings text
         },
         profileScreen: {
             barTitle: "profile",
             wipText:
-                "\nthis section is still under construction. i'm working hard on it!\n\n- yours truly",
+                "\nthis section is still under construction. we're working hard on it!\n\n- yours truly",
         },
+
         errors: {
             title: "uh oh 😯",
             body: "please forgive me. an error occured",
@@ -64,6 +73,13 @@ const uiText = {
             // pfpPlaceholder: "url de la photo de profil (optionnel)",
             signUpButton: "inscrivez-vous 👉",
         },
+        emailVerifyScreen: {
+            barTitle: "vérification email",
+            title: "il faut confirmer que c'est vraiment votre email.",
+            verifyButton: "envoyer un email de vérification 📨",
+            didNotReceiveEmail:
+                "n'avez-vous pas reçu d'email? cliquez de nouveau pour réenvoyer ✌️",
+        },
         newChatScreen: {
             barTitle: "chat nouveau",
             title: "chat nouveau",
@@ -73,12 +89,13 @@ const uiText = {
         settingsScreen: {
             barTitle: "paramètres",
             wipText:
-                "\noups. je suis désolé, les paramètres ne sont pas encore finís. j'y travaille dur!\n\n- haley de sendr",
+                "\noups. je suis désolé, les paramètres ne sont pas encore finís. j'y travaille dur!\n\n- equipe de sendr",
+            revealInfoButton: "révéler les infos utilisateur pour les devs 👀",
         },
         profileScreen: {
             barTitle: "profil",
             wipText:
-                "\ncette section est encore en construction. j'y travaille dur!\n\n- haley de sendr",
+                "\ncette section est encore en construction. j'y travaille dur!\n\n- equipe de sendr",
         },
         errors: {
             title: "ah non 😯",
@@ -106,6 +123,13 @@ const uiText = {
             // pfpPlaceholder: "url de la imagenn de perfil (opcional)",
             signUpButton: "regístrate 👉",
         },
+        emailVerifyScreen: {
+            barTitle: "verificación de email",
+            title: "necesitamos confirmar que ese email es tuyo.",
+            verifyButton: "enviar email de verificación 📨",
+            didNotReceiveEmail:
+                "¿no has recibido el email? haz click de nuevo para reenviar ✌️",
+        },
         newChatScreen: {
             barTitle: "nuevo chat",
             title: "nuevo chat",
@@ -115,12 +139,13 @@ const uiText = {
         settingsScreen: {
             barTitle: "ajustes",
             wipText:
-                "\n¡ups! lo siento, la configuración aún no está hecha. ¡estoy trabajando duro en ello!\n\n- haley de sendr",
+                "\n¡ups! lo siento, la configuración aún no está hecha. ¡estoy trabajando duro en ello!\n\n- equipo de sendr",
+            revealInfoButton: "revelar información de usuario para nerds 👀",
         },
         profileScreen: {
             barTitle: "perfil",
             wipText:
-                "\nesta sección está aún en construcción. ¡estoy trabajando duro en ello!\n\n- haley de sendr",
+                "\nesta sección está aún en construcción. ¡estoy trabajando duro en ello!\n\n- equipo de sendr",
         },
         errors: {
             title: "ah no 😯",
@@ -148,6 +173,13 @@ const uiText = {
             // pfpPlaceholder: "url картинки на профиль (необязательно)",
             signUpButton: "создать 👉",
         },
+        emailVerifyScreen: {
+            barTitle: "подтверждение почты",
+            title: "нам нужно подтвердить, что это почта принадлежит тебе.",
+            verifyButton: "отправить письмо подтверждения 📨",
+            didNotReceiveEmail:
+                "не получили письмо? нажми еще раз, чтобы отправить заново ✌️",
+        },
         newChatScreen: {
             barTitle: "новый чат",
             title: "новый чат",
@@ -157,12 +189,13 @@ const uiText = {
         settingsScreen: {
             barTitle: "настройки",
             wipText:
-                "\nой. прости пожалуйста, настройки пока еще не закончены. я очень усердно над ними работаю!\n\n- хейли",
+                "\nой. прости пожалуйста, настройки пока еще не закончены. мы очень усердно над ними работаем!\n\n- команда sendr",
+            revealInfoButton: "показать инфо о профиле для разрабов 👀",
         },
         profileScreen: {
             barTitle: "профиль",
             wipText:
-                "\nой. эти настройки пока еще не зкончены. я очень усердно над ними работаю!\n\n- хейли",
+                "\nой. эти настройки пока еще не зкончены. мы очень усердно над ними работаем!\n\n- команда sendr",
         },
         errors: {
             title: "о нет 😯",
@@ -190,6 +223,12 @@ const uiText = {
             // pfpPlaceholder: "头像网址 (可选的)",
             signUpButton: "报名 👉",
         },
+        emailVerifyScreen: {
+            barTitle: "邮箱验证",
+            title: "我们需要验证这个电子邮件是你的.",
+            verifyButton: "发送验证邮件 📨",
+            didNotReceiveEmail: "没有收到邮件? 点击重新发送 ✌️",
+        },
         newChatScreen: {
             barTitle: "新建聊天",
             title: "新建聊天",
@@ -205,6 +244,7 @@ const uiText = {
             barTitle: "个人资料",
             wipText:
                 "\n哎呀。 这些设置尚不可用。 不过，我正在努力研究它们!\n\n- sendr的海利",
+            revealInfoButton: "显示个人资料给开发者 👀",
         },
         errors: {
             title: "哎呀 😯",
@@ -232,6 +272,12 @@ const uiText = {
             // pfpPlaceholder: "プロフィール写真のurl (随意)",
             signUpButton: "サインアップ 👉",
         },
+        emailVerifyScreen: {
+            barTitle: "メール確認",
+            title: "このメールアドレスはあなたのものですか？",
+            verifyButton: "メールを確認する 📨",
+            didNotReceiveEmail: "メールが届いていませんか？ メールを再送信 ✌️",
+        },
         newChatScreen: {
             barTitle: "新しいチャット",
             title: "新しいチャット",
@@ -247,6 +293,7 @@ const uiText = {
             barTitle: "プロフィール",
             wipText:
                 "\nええとああ。 設定はまだ利用できません。 頑張っています！\n\n- セーンダのヘイリー",
+            revealInfoButton: "開示するプロフィール経歴を開示する 👀",
         },
         errors: {
             title: "ああ (つω`｡)",

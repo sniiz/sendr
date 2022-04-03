@@ -1,6 +1,6 @@
 {
   "name": "sendr",
-  "version": "0.1.7",
+  "version": "0.1.6",
   "description": "an incredibly secure messaging app",
   "author": "sniiz-haley",
   "main": "node_modules/expo/AppEntry.js",
@@ -39,6 +39,7 @@
     "react-native-components": "^0.0.1",
     "react-native-elements": "^3.4.2",
     "react-native-localize": "^2.2.1",
+    "react-native-popup-menu": "^0.15.12",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-web": "0.17.1"
