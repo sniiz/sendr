@@ -1,6 +1,6 @@
 {
   "name": "sendr",
-  "version": "0.1.7",
+  "version": "0.1.71",
   "description": "a minimalist messaging app",
   "author": "sniiz-haley",
   "main": "node_modules/expo/AppEntry.js",
