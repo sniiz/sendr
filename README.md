@@ -1,6 +1,6 @@
 # sendr
 
-a messaging app written in react native
+a minimalist messaging app
 
 # roadmap!
 

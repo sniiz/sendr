@@ -8,10 +8,11 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
-web-build/
-firebase.js
+# web-build/
+# firebase.js
 electron-webpack.js
 released-apps/
+site/
 
 # macOS
 .DS_Store

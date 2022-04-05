@@ -3,6 +3,7 @@ import {
     Text,
     KeyboardAvoidingView,
     View,
+    Platform,
     TouchableOpacity,
 } from "react-native";
 import {
