@@ -3,6 +3,7 @@ import {
     StyleSheet,
     KeyboardAvoidingView,
     Platform,
+    View,
     TouchableWithoutFeedback,
 } from "react-native";
 import { Button, Input, Text } from "react-native-elements";
@@ -36,14 +37,16 @@ const AddChatScreen = ({ navigation }) => {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
         >
-            <Input
-                placeholder="chat name here"
-                value={chat}
-                style={styles.input}
-                placeholderTextColor="gray"
-                onChangeText={(text) => setChat(text)}
-                onSubmitEditing={createChat}
-            />
+            <View style={styles.inputContainer}>
+                <Input
+                    placeholder="chat name here"
+                    value={chat}
+                    style={styles.input}
+                    placeholderTextColor="gray"
+                    onChangeText={(text) => setChat(text)}
+                    onSubmitEditing={createChat}
+                />
+            </View>
             <TouchableWithoutFeedback onPress={createChat}>
                 <Text style={styles.button}>create ✍️</Text>
             </TouchableWithoutFeedback>
@@ -59,6 +62,7 @@ const styles = StyleSheet.create({
         padding: 30,
         alignContent: "center",
         justifyContent: "center",
+        alignItems: "center",
         paddingBottom: 90,
         flex: 1,
         height: "100%",
@@ -69,13 +73,18 @@ const styles = StyleSheet.create({
         borderColor: "white",
         padding: 10,
         marginTop: 0,
+        alignSelf: "center",
         textAlign: "left",
+    },
+    inputContainer: {
+        width: 320,
+        marginVertical: 10,
     },
     button: {
         color: "white",
         fontSize: 25,
         marginBottom: 20,
-        marginTop: -10,
+        // marginTop: -10,
         fontWeight: "bold",
         textAlign: "center",
         overflow: "visible",

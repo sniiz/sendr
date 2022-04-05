@@ -1,7 +1,7 @@
 {
   "name": "sendr",
-  "version": "0.1.6",
-  "description": "an incredibly secure messaging app",
+  "version": "0.1.7",
+  "description": "a minimalist messaging app",
   "author": "sniiz-haley",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -56,6 +56,5 @@
     "@expo/webpack-config": "^0.16.19",
     "electron": "^18.0.1",
     "electron-builder": "^22.14.13"
-  },
-  "private": true
+  }
 }

@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    text: {
-        color: "white",
-        fontWeight: "bold",
-        fontFamily: Platform.OS === "ios" ? "Arial" : "monospace", // TODO find a monospace ios font
-    },
+    // text: {
+    //     color: "white",
+    //     fontWeight: "bold",
+    //     fontFamily: Platform.OS === "ios" ? "Arial" : "monospace", // TODO find a monospace ios font
+    // },
 });

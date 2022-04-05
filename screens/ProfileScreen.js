@@ -26,7 +26,7 @@ export default function ProfileScreen() {
                 <Text style={styles.settingText}>
                     {UIText["profileScreen"]["wipText"]}
                 </Text>
-                <View
+                {/* <View
                     style={{
                         marginTop: 1000,
                     }}
@@ -34,7 +34,7 @@ export default function ProfileScreen() {
                 <Text style={styles.settingText}>
                     profile info for nerds{"\n\n\n"}
                     {JSON.stringify(getAuth().currentUser)}
-                </Text>
+                </Text> */}
             </ScrollView>
         </SafeAreaView>
     );

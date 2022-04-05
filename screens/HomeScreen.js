@@ -17,9 +17,8 @@ import {
     collection,
     getFirestore,
     onSnapshot,
-} from "../firebase"; // firebase.js is gitignored bc idk .env
-// so y'all on github cant build this yourself
-// >:)
+} from "../firebase";
+// [0.1.71pa] firebase.js is no longer gitignored
 import UIText from "../components/LocalizedText";
 
 const HomeScreen = ({ navigation }) => {
@@ -154,10 +153,11 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
     container: {
-        height: "100%",
+        flex: 1,
         color: "black",
     },
     main: {
+        flex: 1,
         color: "black",
         backgroundColor: "black",
     },
