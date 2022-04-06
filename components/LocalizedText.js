@@ -116,6 +116,8 @@ const uiText = {
             serverBody:
                 "notre serveur est déçu pour une raison quelconque. nous sommes désolés.",
             serverOk: "ok",
+            noChats:
+                "oh non! il semble que notre serveur est triste et ne veut pas charger vos chats.",
             serverMoreInfo: "plus d'info",
         },
     },
@@ -172,6 +174,8 @@ const uiText = {
             serverBody:
                 "nuestro servidor está enfadado por alguna razón. ¡nos disculpamos!",
             serverOk: "ok",
+            noChats:
+                "¡oh no! parece que nuestro servidor está triste y no puede cargar tus chats.",
             serverMoreInfo: "más información",
         },
     },
@@ -227,6 +231,8 @@ const uiText = {
             serverTitle: "о нет 😯",
             serverBody: "наш сервер обиделся. прости пожалуйста.",
             serverOk: "ок",
+            noChats:
+                "ой. похоже, что наш сервер обиделся и не может загрузить твои чаты.",
             serverMoreInfo: "подробнее",
         },
     },
@@ -281,6 +287,8 @@ const uiText = {
             serverTitle: "哎呀 😯",
             serverBody: "我们的服务器出错了。 对不起!",
             serverOk: "好的",
+
+            noChats: "哎呀。 我们的服务器出错了，无法获取你的聊天。",
             serverMoreInfo: "更多信息",
         },
     },
@@ -335,6 +343,8 @@ const uiText = {
             serverTitle: "ああ (つω`｡)",
             serverBody: "サーバーにエラーが発生しました。 ごめんなさい!",
             serverOk: "OK",
+            noChats:
+                "大野！ サーバーにエラーが発生しました。 チャットを取得できません。",
             serverMoreInfo: "詳細情報",
         },
     },
