@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Platform, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -11,17 +11,17 @@ import EmailVerifyScreen from "./screens/EmailVerifyScreen";
 // import SettingsScreen from "./screens/SettingsScreen"; // wip screen
 import UIText from "./components/LocalizedText";
 import ProfileScreen from "./screens/ProfileScreen";
-import { LogBox } from "react-native";
+import { LogBox, AppState } from "react-native";
 import _ from "lodash";
+import * as firebase from "./firebase";
 
-LogBox.ignoreLogs(["Warning:..."]); // ignore specific logs
-LogBox.ignoreAllLogs(); // ignore all logs
-const _console = _.clone(console);
-console.warn = (message) => {
-    if (message.indexOf("Setting a timer") <= -1) {
-        _console.warn(message);
-    }
-};
+// LogBox.ignoreAllLogs(); // ignore all logs
+// const _console = _.clone(console);
+// console.warn = (message) => {
+//     if (message.indexOf("Setting a timer") <= -1) {
+//         _console.warn(message);
+//     }
+// };
 
 const Stack = createNativeStackNavigator();
 const globalScreenOptions = {
@@ -31,39 +31,77 @@ const globalScreenOptions = {
 };
 
 export default function App() {
-    return (
-        <NavigationContainer style={styles.container}>
-            {/* TODO add some cool transition between screens on android */}
-            <Stack.Navigator screenOptions={globalScreenOptions}>
-                <Stack.Screen
-                    name={UIText["loginScreen"]["barTitle"]}
-                    component={LoginScreen}
-                />
-                <Stack.Screen
-                    name={UIText["signUpScreen"]["barTitle"]}
-                    component={RegisterScreen}
-                />
-                <Stack.Screen name="home" component={HomeScreen} />
-                <Stack.Screen
-                    name={UIText["newChatScreen"]["barTitle"]}
-                    component={AddChatScreen}
-                />
-                <Stack.Screen name="chat" component={ChatScreen} />
-                {/* <Stack.Screen
+    const appState = useRef(AppState.currentState);
+    const [appStateVisible, setAppStateVisible] = useState(appState.current);
+    useEffect(() => {
+        const subscription = AppState.addEventListener(
+            "change",
+            (nextAppState) => {
+                if (
+                    appState.current.match(/inactive|background/) &&
+                    nextAppState === "active"
+                ) {
+                    console.log("App has come to the foreground!");
+                }
+
+                appState.current = nextAppState;
+                setAppStateVisible(appState.current);
+                console.log("AppState", appState.current);
+            }
+        );
+        return () => {
+            subscription.remove();
+        };
+    }, []);
+    useEffect(() => {
+        var auth = firebase.getAuth();
+        if (auth.currentUser != null) {
+            const db = firebase.getFirestore();
+            async () => {
+                await firebase.setDoc(
+                    doc(db, "usersOnline", auth.currentUser.uid),
+                    "yep"
+                );
+            };
+        }
+    }, []);
+    try {
+        return (
+            <NavigationContainer style={styles.container}>
+                {/* TODO add some cool transition between screens on android */}
+                <Stack.Navigator screenOptions={globalScreenOptions}>
+                    <Stack.Screen
+                        name={UIText["loginScreen"]["barTitle"]}
+                        component={LoginScreen}
+                    />
+                    <Stack.Screen
+                        name={UIText["signUpScreen"]["barTitle"]}
+                        component={RegisterScreen}
+                    />
+                    <Stack.Screen name="home" component={HomeScreen} />
+                    <Stack.Screen
+                        name={UIText["newChatScreen"]["barTitle"]}
+                        component={AddChatScreen}
+                    />
+                    <Stack.Screen name="chat" component={ChatScreen} />
+                    {/* <Stack.Screen
                     name={UIText["settingsScreen"]["barTitle"]}
                     component={SettingsScreen}
                 /> */}
-                <Stack.Screen
-                    name={UIText["profileScreen"]["barTitle"]}
-                    component={ProfileScreen}
-                />
-                {/* <Stack.Screen
+                    <Stack.Screen
+                        name={UIText["profileScreen"]["barTitle"]}
+                        component={ProfileScreen}
+                    />
+                    {/* <Stack.Screen
                     name={UIText["emailVerifyScreen"]["barTitle"]}
                     component={EmailVerifyScreen}
                 /> */}
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
+                </Stack.Navigator>
+            </NavigationContainer>
+        );
+    } catch (error) {
+        alert(error);
+    }
 }
 
 const styles = StyleSheet.create({

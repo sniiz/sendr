@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "white",
         padding: 10,
-        marginTop: -10,
+        marginTop: Platform.OS === "web" ? 0 : -10,
         textAlign: "left",
     },
     container: {

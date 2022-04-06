@@ -10,6 +10,7 @@ import { Button, Input, Text } from "react-native-elements";
 import { CoolButton } from "../components/CustomUi";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { collection, addDoc, getFirestore, getAuth } from "../firebase";
+import UIText from "../components/LocalizedText";
 
 const AddChatScreen = ({ navigation }) => {
     const [chat, setChat] = useState("");
@@ -18,6 +19,7 @@ const AddChatScreen = ({ navigation }) => {
         const db = getFirestore();
         const auth = getAuth();
         await addDoc(collection(db, "chats"), {
+            // chat info
             chatName: chat,
             // createdBy: auth.currentUser.fullname,
         })
@@ -27,7 +29,7 @@ const AddChatScreen = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: "new chat",
+            title: UIText["newChatScreen"]["barTitle"],
             headerBackTitle: "back to chats",
         });
     }, [navigation]);
@@ -39,7 +41,7 @@ const AddChatScreen = ({ navigation }) => {
         >
             <View style={styles.inputContainer}>
                 <Input
-                    placeholder="chat name here"
+                    placeholder={UIText["newChatScreen"]["chatNamePlaceholder"]}
                     value={chat}
                     style={styles.input}
                     placeholderTextColor="gray"
@@ -48,7 +50,9 @@ const AddChatScreen = ({ navigation }) => {
                 />
             </View>
             <TouchableWithoutFeedback onPress={createChat}>
-                <Text style={styles.button}>create ✍️</Text>
+                <Text style={styles.button}>
+                    {UIText["newChatScreen"]["create"]} ✍️
+                </Text>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
     );

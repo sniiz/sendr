@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     errorText: {
         color: "red",
         fontSize: 12,
-        // marginTop: -15,
+        marginTop: Platform.OS === "web" ? 0 : -15,
         textAlign: "center",
         fontStyle: "italic",
     },
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     },
     elbutton: {
         alignItems: "center",
-        marginTop: 10,
+        marginTop: Platform.OS === "web" ? 10 : 0,
     },
     version: {
         color: "gray",

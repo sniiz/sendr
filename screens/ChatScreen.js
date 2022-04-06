@@ -12,6 +12,7 @@ import {
     Alert,
     Keyboard,
     TouchableWithoutFeedback,
+    ActivityIndicator,
 } from "react-native";
 import { Avatar } from "react-native-elements";
 import { StatusBar } from "expo-status-bar";
@@ -29,6 +30,8 @@ import {
 // import * as Notifications from "expo-notifications";
 // import * as Permissions from "expo-permissions";
 import UIText from "../components/LocalizedText";
+// import Spinner from "react-native-ios-kit";
+// import database from "@react-native-firebase/database";
 
 // // set notification handler
 // Notifications.setNotificationHandler({
@@ -97,6 +100,8 @@ import UIText from "../components/LocalizedText";
 const ChatScreen = ({ navigation, route }) => {
     const [msgInput, setMsgInput] = useState("");
     const [messages, setMessages] = useState([]);
+    const [sending, setSending] = useState(false);
+    const [usersOnline, setUsersOnline] = useState([]);
     // const [expoPushToken, setExpoPushToken] = useState("");
     // const [notification, setNotification] = useState(false);
     // const notificationListener = useRef();
@@ -108,71 +113,74 @@ const ChatScreen = ({ navigation, route }) => {
 
     const sendMsg = async () => {
         Keyboard.dismiss();
+        setSending(true);
 
-        await addDoc(collection(db, `chats/${route.params.id}`, "messages"), {
+        addDoc(collection(db, `chats/${route.params.id}`, "messages"), {
             timestamp: serverTimestamp(),
             message: msgInput,
             displayName: auth.currentUser.displayName,
             email: auth.currentUser.email,
             photoURL: auth.currentUser.photoURL,
         })
-            .then(() => setMsgInput(""))
+            .then(() => {
+                setMsgInput("");
+                setSending(false);
+            })
             .catch((error) => alert(error.message));
     };
 
-    // TODO notifications
-    try {
-        useEffect(
-            () =>
-                onSnapshot(
-                    query(
-                        collection(db, `chats/${route.params.id}`, "messages"),
-                        orderBy("timestamp", "desc")
-                    ),
-                    (snapshot) => {
-                        setMessages(
-                            snapshot.docs.reverse().map((doc) => ({
-                                id: doc.id,
-                                ...doc.data(),
-                            }))
-                        );
-                        // if (lastSnapshot !== snapshot) {
-                        //     sendPushNotification(
-                        //         expoPushToken,
-                        //         snapshot.docs[0].data().message,
-                        //         snapshot.docs[0].data().displayName,
-                        //         route.params.name,
-                        //         route.params.id
-                        //     );
-                        // }
-                        // lastSnapshot = snapshot;
-                        // TODO notifications ffs D:<
-                    }
-                )[route]
-        );
-    } catch (error) {
-        Alert.alert(
-            UIText["errors"]["title"],
-            `${UIText["errors"]["body"]} ${error}`,
-            [
-                {
-                    text: UIText["errors"]["dontReport"],
-                    onPress: () => navigation.navigate("Home"),
-                },
-                {
-                    text: UIText["errors"]["report"],
-                    onPress: async () => {
-                        await addDoc(collection(db, "errors"), {
-                            timestamp: serverTimestamp(),
-                            error: error,
-                            user: auth.currentUser.email,
-                        });
-                        navigation.navigate("Home");
-                    },
-                },
-            ]
-        );
-    }
+    useEffect(() => {
+        onSnapshot(
+            query(
+                collection(db, `chats/${route.params.id}`, "messages"),
+                orderBy("timestamp", "desc")
+            ),
+            (snapshot) => {
+                setMessages(
+                    snapshot.docs.reverse().map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }))
+                );
+                // if (lastSnapshot !== snapshot) {
+                //     sendPushNotification(
+                //         expoPushToken,
+                //         snapshot.docs[0].data().message,
+                //         snapshot.docs[0].data().displayName,
+                //         route.params.name,
+                //         route.params.id
+                //     );
+                // }
+                // lastSnapshot = snapshot;
+                // TODO notifications ffs D:<
+            },
+            (error) => {
+                Alert.alert(
+                    UIText["errors"]["serverTitle"],
+                    UIText["errors"]["serverBody"],
+                    [
+                        {
+                            text: UIText["errors"]["serverOk"],
+                            onPress: () => navigation.goBack(),
+                        },
+                        {
+                            text: `${UIText["errors"]["serverMoreInfo"]}...`,
+                            onPress: () => {
+                                Alert.alert(
+                                    UIText["errors"]["serverMoreInfo"],
+                                    error
+                                        .toString()
+                                        .split("\n")
+                                        .map((line) => `${line}\n`)
+                                        .join("")
+                                );
+                            },
+                        },
+                    ]
+                );
+            }
+        )[route];
+    });
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -241,7 +249,9 @@ const ChatScreen = ({ navigation, route }) => {
     }, [navigation, messages]);
 
     const scrollViewRef = useRef();
-
+    const theme = {
+        primaryColor: "white",
+    };
     return (
         <SafeAreaView
             style={{
@@ -372,12 +382,16 @@ const ChatScreen = ({ navigation, route }) => {
                                 onChangeText={(text) => setMsgInput(text)}
                                 onSubmitEditing={sendMsg}
                             />
-                            <TouchableOpacity
-                                onPress={sendMsg}
-                                activeOpacity={0.5}
-                            >
-                                <Text style={styles.sendbutton}>send</Text>
-                            </TouchableOpacity>
+                            {sending ? (
+                                <ActivityIndicator size="small" color="white" />
+                            ) : (
+                                <TouchableOpacity
+                                    onPress={sendMsg}
+                                    activeOpacity={0.5}
+                                >
+                                    <Text style={styles.sendbutton}>send</Text>
+                                </TouchableOpacity>
+                            )}
                         </View>
                     </>
                 </TouchableWithoutFeedback>
