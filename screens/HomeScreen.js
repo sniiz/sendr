@@ -7,7 +7,9 @@ import {
     View,
     SafeAreaView,
     ScrollView,
+    Alert,
     TouchableOpacity,
+    Platform,
 } from "react-native";
 import { Avatar } from "react-native-elements";
 import CustomListItem from "../components/CustomListItem";
@@ -18,11 +20,12 @@ import {
     getFirestore,
     onSnapshot,
 } from "../firebase";
-// [0.1.71pa] firebase.js is no longer gitignored
+// sorry firebase is gitignored im scared of .envs
 import UIText from "../components/LocalizedText";
 
 const HomeScreen = ({ navigation }) => {
     const [chats, setChats] = useState([]);
+    const [Error, setError] = useState(false);
     const auth = getAuth();
     const db = getFirestore();
 
@@ -34,15 +37,23 @@ const HomeScreen = ({ navigation }) => {
 
     useEffect(
         () =>
-            onSnapshot(collection(db, "chats"), (snapshot) => {
-                setChats(
-                    snapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        name: doc.chatName,
-                        ...doc.data(),
-                    }))
-                );
-            }),
+            onSnapshot(
+                collection(db, "chats"),
+                (snapshot) => {
+                    setChats(
+                        snapshot.docs.map((doc) => ({
+                            id: doc.id,
+                            name: doc.chatName,
+                            ...doc.data(),
+                        }))
+                    );
+                },
+                // wow this code below looks awful
+                // but it works
+                (error) => {
+                    setError(true);
+                }
+            ),
         []
     );
 
@@ -135,16 +146,42 @@ const HomeScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.main}>
             <StatusBar style="light" />
-            <ScrollView style={styles.container}>
-                {chats.map(({ id, chatName }) => (
-                    <CustomListItem
-                        key={id}
-                        id={id}
-                        chatName={chatName}
-                        enterChat={enterChat}
-                    />
-                ))}
-            </ScrollView>
+
+            {!Error || chats.length > 1 ? (
+                <ScrollView style={styles.container}>
+                    {chats.map(({ id, chatName }) => (
+                        <CustomListItem
+                            key={id}
+                            id={id}
+                            chatName={chatName}
+                            enterChat={enterChat}
+                        />
+                    ))}
+                </ScrollView>
+            ) : (
+                <View style={styles.containerStatic}>
+                    <Text
+                        style={{
+                            fontSize: 40,
+                            color: "gray",
+                            textAlign: "center",
+                        }}
+                    >
+                        {"(×﹏×)"}
+                    </Text>
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            color: "gray",
+                            textAlign: "center",
+                            fontFamily:
+                                Platform.OS === "ios" ? "Courier" : "monospace",
+                        }}
+                    >
+                        {UIText["errors"]["noChats"]}
+                    </Text>
+                </View>
+            )}
         </SafeAreaView>
     );
 };
@@ -155,6 +192,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         color: "black",
+    },
+    containerStatic: {
+        flex: 1,
+        color: "black",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        paddingVertical: "15%",
+        paddingHorizontal: "10%",
     },
     main: {
         flex: 1,

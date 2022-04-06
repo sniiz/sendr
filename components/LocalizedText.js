@@ -1,6 +1,7 @@
 // import { NativeModules, Platform } from "react-native";
 import * as Localization from "expo-localization";
 
+// TODO ask people who actually know the languages whether any of this makes sense
 const uiText = {
     en: {
         loginScreen: {
@@ -32,6 +33,7 @@ const uiText = {
             barTitle: "new chat",
             title: "new chat",
             created: "created",
+            create: "create",
             chatNamePlaceholder: "chat name here",
         },
         settingsScreen: {
@@ -52,6 +54,12 @@ const uiText = {
             body: "please forgive me. an error occured",
             report: "report",
             dontReport: "don't report",
+            serverTitle: "uh oh 😯",
+            serverBody: "our server is unhappy for some reason. we're sorry.",
+            serverOk: "ok",
+            noChats:
+                "oh no! it looks like our server is having some trouble loading your chats. please try again later.",
+            serverMoreInfo: "more info",
         },
     },
     fr: {
@@ -78,19 +86,21 @@ const uiText = {
             title: "il faut confirmer que c'est vraiment votre email.",
             verifyButton: "envoyer un email de vérification 📨",
             didNotReceiveEmail:
-                "n'avez-vous pas reçu d'email? cliquez de nouveau pour réenvoyer ✌️",
+                "n'avez-vous pas reçu d'email? cliquez ici pour réenvoyer ✌️",
         },
         newChatScreen: {
             barTitle: "chat nouveau",
             title: "chat nouveau",
             created: "a été créé",
+            create: "créer",
             chatNamePlaceholder: "nom du chat ici",
         },
         settingsScreen: {
             barTitle: "paramètres",
             wipText:
-                "\noups. je suis désolé, les paramètres ne sont pas encore finís. j'y travaille dur!\n\n- equipe de sendr",
-            revealInfoButton: "révéler les infos utilisateur pour les devs 👀",
+                "\noups. nous sommes désolé, les paramètres ne sont pas encore finís. nous'y travaillons dur!\n\n- equipe de sendr",
+            revealInfoButton:
+                "révéler les infos de l'utilisateur pour les devs 👀",
         },
         profileScreen: {
             barTitle: "profil",
@@ -102,6 +112,11 @@ const uiText = {
             body: "cette erreur est survenue",
             report: "rapport",
             dontReport: "ne pas rapporter",
+            serverTitle: "ah non 😯",
+            serverBody:
+                "notre serveur est déçu pour une raison quelconque. nous sommes désolés.",
+            serverOk: "ok",
+            serverMoreInfo: "plus d'info",
         },
     },
     es: {
@@ -134,6 +149,7 @@ const uiText = {
             barTitle: "nuevo chat",
             title: "nuevo chat",
             created: "se ha creado el",
+            create: "crear",
             chatNamePlaceholder: "nombre del chat aquí",
         },
         settingsScreen: {
@@ -152,6 +168,11 @@ const uiText = {
             body: "¡oh, no! ocurrió este error: ",
             report: "informar a la desarrolladorar",
             dontReport: "no informar",
+            serverTitle: "ah no 😯",
+            serverBody:
+                "nuestro servidor está enfadado por alguna razón. ¡nos disculpamos!",
+            serverOk: "ok",
+            serverMoreInfo: "más información",
         },
     },
     ru: {
@@ -184,6 +205,7 @@ const uiText = {
             barTitle: "новый чат",
             title: "новый чат",
             created: "был создан",
+            create: "создать",
             chatNamePlaceholder: "сюда название чата",
         },
         settingsScreen: {
@@ -202,6 +224,10 @@ const uiText = {
             body: "какая досада, произошла ошибка:",
             report: "сообщить разработчику",
             dontReport: "не сообщать",
+            serverTitle: "о нет 😯",
+            serverBody: "наш сервер обиделся. прости пожалуйста.",
+            serverOk: "ок",
+            serverMoreInfo: "подробнее",
         },
     },
     zh: {
@@ -233,6 +259,7 @@ const uiText = {
             barTitle: "新建聊天",
             title: "新建聊天",
             created: "已创建",
+            create: "创建",
             chatNamePlaceholder: "聊天名称",
         },
         settingsScreen: {
@@ -251,6 +278,10 @@ const uiText = {
             body: "哎呀，出错了:",
             report: "向开发者报告",
             dontReport: "不要报告",
+            serverTitle: "哎呀 😯",
+            serverBody: "我们的服务器出错了。 对不起!",
+            serverOk: "好的",
+            serverMoreInfo: "更多信息",
         },
     },
     ja: {
@@ -282,6 +313,7 @@ const uiText = {
             barTitle: "新しいチャット",
             title: "新しいチャット",
             created: "作成されました",
+            create: "作成",
             chatNamePlaceholder: "チャット名",
         },
         settingsScreen: {
@@ -300,11 +332,17 @@ const uiText = {
             body: "大野！ エラーが発生しました：",
             report: "開発者に報告",
             dontReport: "報告しない",
+            serverTitle: "ああ (つω`｡)",
+            serverBody: "サーバーにエラーが発生しました。 ごめんなさい!",
+            serverOk: "OK",
+            serverMoreInfo: "詳細情報",
         },
     },
 };
 
 const supported = ["en", "es", "fr", "de", "it", "pt", "ru", "zh", "ja"]; // terrible way to do this but nothing else worked
+
+// wowee what a mess
 
 // if (RNLocalize.getLocales()[0].languageCode in uiText) {
 //     export default uiText[RNLocalize.getLocales()[0].languageCode];
@@ -336,6 +374,6 @@ if (!supported.includes(lang)) {
 }
 
 var UIText = uiText[lang];
-console.log(lang);
+// console.log(lang);
 
 export default UIText;

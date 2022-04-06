@@ -3,6 +3,8 @@ import {
     getFirestore,
     collection,
     addDoc,
+    setDoc,
+    doc,
     onSnapshot,
     serverTimestamp,
     query,
@@ -16,6 +18,7 @@ import {
     updateProfile,
     signOut,
 } from "firebase/auth";
+import { getDatabase, ref, onValue, set } from "firebase/database";
 // import { getDoc } from 'firebase/firestore'
 const firebaseConfig = {
     apiKey: "AIzaSyD2c5D7MtdLHYcTQpm2GJsDb2PY36lGmss",
@@ -41,4 +44,10 @@ export {
     serverTimestamp,
     query,
     orderBy,
+    getDatabase,
+    ref,
+    onValue,
+    set,
+    setDoc,
+    doc,
 };

@@ -17,6 +17,8 @@
   "dependencies": {
     "@expo-google-fonts/anonymous-pro": "^0.2.2",
     "@expo/vector-icons": "^12.0.5",
+    "@react-native-firebase/app": "^14.7.0",
+    "@react-native-firebase/database": "^14.7.0",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "browserslist": "^4.20.2",
@@ -43,6 +45,8 @@
     "react-native": "0.64.3",
     "react-native-components": "^0.0.1",
     "react-native-elements": "^3.4.2",
+    "react-native-firebase": "^5.6.0",
+    "react-native-ios-kit": "^0.0.22",
     "react-native-localize": "^2.2.1",
     "react-native-popup-menu": "^0.15.12",
     "react-native-safe-area-context": "3.3.2",
