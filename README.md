@@ -13,5 +13,6 @@ a minimalist messaging app
 -   [x] ui overhaul if needed (because lets be honest GiftedChat is pretty stinky)
 -   [ ] usability things (settings and such) (WIP)
 -   [ ] proper desktop client
+-   [ ] presences
 
 -   [ ] ~~custom server perhaps (oh god no)~~
