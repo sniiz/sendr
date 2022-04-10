@@ -1,8 +1,3 @@
-import {
-    onAuthStateChanged,
-    updatePassword,
-    updateProfile,
-} from "firebase/auth";
 import React, {
     useLayoutEffect,
     useState,
@@ -21,7 +16,14 @@ import {
 import { Avatar, Input } from "react-native-elements";
 // import ImageCropPicker from "react-native-image-crop-picker";
 import UIText from "../components/LocalizedText";
-import { getAuth, signOut, deleteUser } from "../firebase";
+import {
+    getAuth,
+    signOut,
+    deleteUser,
+    onAuthStateChanged,
+    updateProfile,
+    updatePassword,
+} from "../firebase";
 import Spinner from "react-native-loading-spinner-overlay";
 // import { Storage } from "expo-storage";
 
@@ -125,6 +127,12 @@ export default function SettingsScreen({ navigation }) {
                             color: "white",
                             textAlign: "center",
                             margin: 10,
+                        }}
+                    />
+                    <View
+                        style={{
+                            width: "100%",
+                            height: "10%",
                         }}
                     />
                     <Text style={[styles.settingText, { marginLeft: 0 }]}>
