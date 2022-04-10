@@ -17,6 +17,7 @@ import {
     signInWithEmailAndPassword,
     updateProfile,
     updatePassword,
+    sendEmailVerification,
     deleteUser,
     signOut,
 } from "firebase/auth";
@@ -40,6 +41,7 @@ export {
     updateProfile,
     updatePassword,
     signOut,
+    sendEmailVerification,
     collection,
     addDoc,
     getFirestore,
