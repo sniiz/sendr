@@ -114,7 +114,15 @@ const RegisterScreen = ({ navigation }) => {
                     onChangeText={(text) => setImgurl(text)}
                 /> */}
             </View>
-            <Text style={[styles.version, { marginTop: -5, fontSize: 13 }]}>
+            <Text
+                style={[
+                    styles.version,
+                    {
+                        marginTop: Platform.OS === "web" ? -5 : -15,
+                        fontSize: 13,
+                    },
+                ]}
+            >
                 {UIText["signUpScreen"]["disclaimer"]}
             </Text>
 

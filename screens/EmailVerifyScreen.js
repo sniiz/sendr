@@ -11,7 +11,7 @@ import {
     createUserWithEmailAndPassword,
     updateProfile,
 } from "../firebase";
-import { onAuthStateChanged, sendEmailVerification } from "firebase/auth";
+import { onAuthStateChanged, sendEmailVerification } from "../firebase";
 import UIText from "../components/LocalizedText";
 import { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
