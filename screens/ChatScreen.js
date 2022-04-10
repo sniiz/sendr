@@ -111,6 +111,16 @@ const ChatScreen = ({ navigation, route }) => {
 
     var lastSnapshot = null;
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerStyle: { backgroundColor: "white" },
+            headerTitle: route.params.chatName,
+            headerTitleStyle: { color: "black" },
+            headerTintColor: "black",
+            headerTitleAlign: "center",
+        });
+    }, [navigation]);
+
     const sendMsg = async () => {
         Keyboard.dismiss();
         setSending(true);

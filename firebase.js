@@ -16,6 +16,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     updateProfile,
+    deleteUser,
     signOut,
 } from "firebase/auth";
 import { getDatabase, ref, onValue, set } from "firebase/database";
@@ -50,4 +51,5 @@ export {
     set,
     setDoc,
     doc,
+    deleteUser,
 };

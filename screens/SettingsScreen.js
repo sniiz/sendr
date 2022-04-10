@@ -1,22 +1,35 @@
-import React, { useLayoutEffect, useState } from "react";
-import { render } from "react-dom";
+import {
+    onAuthStateChanged,
+    updatePassword,
+    updateProfile,
+} from "firebase/auth";
+import React, {
+    useLayoutEffect,
+    useState,
+    componentDidMount,
+    useEffect,
+} from "react";
 import {
     StyleSheet,
-    KeyboardAvoidingView,
-    Platform,
-    TouchableWithoutFeedback,
     View,
-    SafeAreaView,
-    TextInput,
+    Text,
+    TouchableOpacity,
+    // Input,
     ScrollView,
     Switch,
 } from "react-native";
-import { Button, Input, Text } from "react-native-elements";
+import { Avatar, Input } from "react-native-elements";
+// import ImageCropPicker from "react-native-image-crop-picker";
 import UIText from "../components/LocalizedText";
-import { Storage } from "expo-storage";
+import { getAuth, signOut, deleteUser } from "../firebase";
+import Spinner from "react-native-loading-spinner-overlay";
+// import { Storage } from "expo-storage";
 
 // const storage = new MMKVStorage().Loader().initialize();
 // TODO: find a way to store things
+
+const asyncSleep = (sec) =>
+    new Promise((resolve) => setTimeout(resolve, sec * 1000));
 
 class BinarySwitch extends React.Component {
     constructor(props) {
@@ -54,26 +67,268 @@ class BinarySwitch extends React.Component {
     }
 }
 
-export default function SettingsScreen() {
+export default function SettingsScreen({ navigation }) {
     // TODO: settings
-    if (false) {
+    const [logOutCount, setLogOutCount] = useState(0);
+    const [deleteCount, setDeleteCount] = useState(0);
+
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState("");
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerStyle: { backgroundColor: "white" },
+            headerTitleStyle: { color: "black" },
+            headerTintColor: "black",
+            headerTitleAlign: "center",
+        });
+    }, [navigation]);
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    async () => {
+        user.reload();
+    };
+
+    if (true) {
         return (
-            <SafeAreaView style={styles.container}>
-                <ScrollView>
-                    <BinarySwitch title="test setting :D" />
-                    <BinarySwitch title="another one :D" />
-                    <BinarySwitch title="another one :D" />
-                    <BinarySwitch title="another one :D" />
-                    <BinarySwitch title="another one :D" />
-                    <BinarySwitch title="another one :D" />
-                    <BinarySwitch title="another one :D" />
-                </ScrollView>
-            </SafeAreaView>
+            <ScrollView
+                contentContainerStyle={styles.container}
+                style={{ backgroundColor: "black", paddingVertical: 30 }}
+            >
+                <>
+                    {/* <View
+                        style={{
+                            height: "30%",
+                            width: "80%",
+                            margin: 20,
+                            marginTop: 50,
+                            minHeight: 200,
+                            padding: "auto",
+                            borderColor: "gray",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderWidth: 2,
+                        }}
+                    >
+                        <Text style={styles.settingText}>
+                            profile settings placeholder
+                        </Text>
+                    </View> */}
+                    <Spinner
+                        visible={isLoading}
+                        textContent={null}
+                        textStyle={{
+                            color: "white",
+                            textAlign: "center",
+                            margin: 10,
+                        }}
+                    />
+                    <Text style={[styles.settingText, { marginLeft: 0 }]}>
+                        {UIText["settingsScreen"]["pfp"]}
+                    </Text>
+                    <Avatar
+                        rounded
+                        size="large"
+                        source={{
+                            uri: "https://i.imgur.com/dA9mtkT.png",
+                        }}
+                        containerStyle={{
+                            marginBottom: 20,
+                        }}
+                        onPress={() => {
+                            // let user pick an image from their gallery and update their profile picture in firebase
+                            // ImageCropPicker.openPicker({
+                            //     width: 300,
+                            //     height: 300,
+                            //     cropping,
+                            //     includeBase64,
+                            //     // includeExif: true,
+                            // })
+                            //     .then((image) => {
+                            //         console.log(image);
+                            //     })
+                            //     .catch((err) => {
+                            //         console.log(err);
+                            //     });
+                            alert(UIText["settingsScreen"]["incomplete"]);
+                        }}
+                    />
+
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.settingText}>
+                            {UIText["settingsScreen"]["username"]}
+                        </Text>
+                        <Input
+                            style={styles.input}
+                            placeholder={user?.displayName}
+                            placeholderTextColor="gray"
+                            onChangeText={(text) => {
+                                setUsername(text);
+                            }}
+                            value={
+                                username !== null ? username : user?.displayName
+                            }
+                        />
+                        {username?.length >= 3 ? (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    if (username !== user?.displayName) {
+                                        setIsLoading(true);
+                                        updateProfile(user, {
+                                            displayName: username,
+                                        }).then(() => {
+                                            setUsername(null);
+                                            setIsLoading(false);
+                                        });
+                                    }
+                                }}
+                            >
+                                <Text
+                                    style={[
+                                        styles.settingHeader,
+                                        { marginLeft: 10, marginBottom: 10 },
+                                    ]}
+                                >
+                                    {username === user.displayName
+                                        ? `${UIText["settingsScreen"]["alreadyNamed"]} ${username}!`
+                                        : `${UIText["settingsScreen"]["changeUsername"]} ${username} 🤙`}
+                                </Text>
+                            </TouchableOpacity>
+                        ) : null}
+                        <Text style={styles.settingText}>
+                            {UIText["settingsScreen"]["password"]}
+                        </Text>
+                        <Input
+                            style={styles.input}
+                            placeholder={"********"}
+                            secureTextEntry
+                            onChangeText={(text) => {
+                                setPassword(text);
+                            }}
+                            placeholderTextColor="gray"
+                        />
+                        {password?.length >= 6 ? (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setIsLoading(true);
+                                    updatePassword(user, password).then(() => {
+                                        setIsLoading(false);
+                                        setPassword("");
+                                    });
+                                }}
+                            >
+                                <Text
+                                    style={[
+                                        styles.settingHeader,
+                                        { marginLeft: 10, marginBottom: 10 },
+                                    ]}
+                                >
+                                    change password 🔐
+                                </Text>
+                            </TouchableOpacity>
+                        ) : null}
+                    </View>
+                    <View
+                        style={{
+                            height: "10%",
+                            width: "100%",
+                        }}
+                    ></View>
+                    <TouchableOpacity
+                        onPress={() => {
+                            //Alert.alert(
+                            //    "are you sure you want to log out?",
+                            //    "you will have to enter your details again if you want to use sendr",
+                            //    [
+                            //        {
+                            //            text: "no, nevermind",
+                            //            onPress: () => {},
+                            //        },
+                            //        {
+                            //            text: "yes, log me out",
+                            //            onPress: () => {
+                            //                signOut(getAuth())
+                            //                    .then(() => {
+                            //                        navigation.navigate(
+                            //                            UIText[
+                            //                                "loginScreen"
+                            //                            ]["barTitle"]
+                            //                        );
+                            //                    })
+                            //                    .catch((error) => {å
+                            //                        console.log(error);
+                            //                    });
+                            //            },
+                            //        },
+                            //    ]
+                            //);
+                            setLogOutCount(logOutCount + 1);
+                            setDeleteCount(0);
+                            if (logOutCount === 1) {
+                                signOut(getAuth())
+                                    .then(() => {
+                                        navigation.navigate(
+                                            UIText["loginScreen"]["barTitle"]
+                                        );
+                                        setLogOutCount(0);
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
+                            }
+                            asyncSleep(7).then(() => {
+                                setLogOutCount(0);
+                            });
+                        }}
+                    >
+                        <Text style={styles.dangerButton}>
+                            {UIText["settingsScreen"]["logOutButton"]}
+                        </Text>
+                    </TouchableOpacity>
+                    {logOutCount === 1 ? (
+                        <Text style={styles.settingText}>
+                            {UIText["settingsScreen"]["logOutConfirm"]}
+                        </Text>
+                    ) : null}
+
+                    <View style={{ height: 20, width: "100%" }}></View>
+
+                    <TouchableOpacity
+                        onPress={() => {
+                            setDeleteCount(deleteCount + 1);
+                            if (deleteCount === 1) {
+                                deleteUser(user).then(() => {
+                                    navigation.navigate(
+                                        UIText["loginScreen"]["barTitle"]
+                                    );
+                                    setDeleteCount(0);
+                                });
+                            }
+                            asyncSleep(7).then(() => {
+                                setDeleteCount(0);
+                            });
+                        }}
+                    >
+                        <Text style={styles.dangerButton}>
+                            {UIText["settingsScreen"]["deleteAccountButton"]}
+                        </Text>
+                    </TouchableOpacity>
+                    {deleteCount === 1 ? (
+                        <Text style={styles.settingText}>
+                            {UIText["settingsScreen"]["deleteAccountConfirm"]}
+                        </Text>
+                    ) : null}
+                </>
+            </ScrollView>
         );
     } else {
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>¯\_(ツ)_/¯</Text>
+                <Text style={styles.dangerButton}>¯\_(ツ)_/¯</Text>
                 <Text style={styles.settingText}>
                     {UIText["settingsScreen"]["wipText"]}
                 </Text>
@@ -87,7 +342,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#000",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
     },
 
     settingContainer: {
@@ -105,15 +360,35 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
     },
-    title: {
-        color: "white",
-        fontSize: 40,
-        fontWeight: "bold",
+    dangerButton: {
+        color: "#ff3333",
+        fontSize: 20,
+        // fontWeight: "bold",
         textAlign: "center",
         overflow: "visible",
     },
+    inputContainer: {
+        width: "70%",
+        maxWidth: 500,
+        alignItems: "flex-start",
+        marginVertical: 10,
+    },
+    input: {
+        color: "white",
+        borderWidth: 2,
+        borderColor: "white",
+        width: "100%",
+        padding: 10,
+        marginTop: 0,
+        textAlign: "left",
+    },
     settingText: {
         color: "gray",
-        fontSize: 15,
+        fontSize: 19,
+        textAlign: "center",
+        marginBottom: 10,
+        marginLeft: 10,
+        // marginHorizontal: 50,
+        // marginVertical: 10,
     },
 });

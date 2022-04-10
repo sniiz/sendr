@@ -25,7 +25,10 @@ const RegisterScreen = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackTitle: "back to login",
+            headerStyle: { backgroundColor: "white" },
+            headerTitleStyle: { color: "black" },
+            headerTintColor: "black",
+            headerTitleAlign: "center",
         });
     }, [navigation]);
 
@@ -59,7 +62,7 @@ const RegisterScreen = ({ navigation }) => {
         >
             <StatusBar />
             <Text style={styles.version}>
-                v{version.number}
+                {version.number}
                 {"\n"}✨ {version.name} ✨
             </Text>
             <Header
@@ -111,6 +114,10 @@ const RegisterScreen = ({ navigation }) => {
                     onChangeText={(text) => setImgurl(text)}
                 /> */}
             </View>
+            <Text style={[styles.version, { marginTop: -5, fontSize: 13 }]}>
+                {UIText["signUpScreen"]["disclaimer"]}
+            </Text>
+
             <TouchableWithoutFeedback onPress={register}>
                 <Text style={styles.login}>
                     {UIText["signUpScreen"]["signUpButton"]}

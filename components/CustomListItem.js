@@ -40,7 +40,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
                 source={{
                     uri:
                         chatMessages?.[0]?.photoURL ||
-                        "https://i.pinimg.com/564x/7c/b4/c9/7cb4c9330d30ab7ad8007d6a53076e34.jpg",
+                        "https://i.imgur.com/dA9mtkT.png",
                 }}
             />
             <ListItem.Content>

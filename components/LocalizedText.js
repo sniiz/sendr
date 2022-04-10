@@ -1,7 +1,8 @@
 // import { NativeModules, Platform } from "react-native";
 import * as Localization from "expo-localization";
 
-// TODO ask people who actually know the languages whether any of this makes sense
+// this is a clunky way to localize but while the app is small its not a huge deal
+// i think
 const uiText = {
     en: {
         loginScreen: {
@@ -18,6 +19,8 @@ const uiText = {
             title: "sign up for sendr.",
             nicknamePlaceholder: "nickname",
             emailPlaceholder: "email",
+            disclaimer:
+                "(don't worry - we won't spam you and/or sell your data 👌)",
             passwordPlaceholder: "password",
             // pfpPlaceholder: "profile picture url (optional)",
             signUpButton: "sign up 👉",
@@ -41,6 +44,19 @@ const uiText = {
             wipText:
                 "\nwoops. we're sorry settings are not yet available. we're working on it though!\n\n- yours truly",
             revealInfoButton: "reveal user info for nerds 👀",
+            pfp: "profile picture",
+            username: "username",
+            password: "password",
+            logOutButton: "log out 🚪",
+            deleteAccountButton: "delete account 🗑",
+            logOutConfirm:
+                "are you sure you want to log out? (press again to confirm)",
+            deleteAccountConfirm:
+                "are you absolutely sure you want to delete your account? (press again to confirm)",
+            incomplete: ":(\nsadly, this feature is not yet implemented.",
+            changeUsername: "change username to",
+            changePassword: "change password",
+            alreadyNamed: "you're already named",
             // TODO: settings text
         },
         profileScreen: {
@@ -77,6 +93,8 @@ const uiText = {
             title: "inscrivez-vous pour sendr.",
             nicknamePlaceholder: "pseudo",
             emailPlaceholder: "email",
+            disclaimer:
+                "(ne t'inquiète pas - nous ne te spammerons pas et/ou ne vendrons pas tes données 👌)",
             passwordPlaceholder: "mot de passe",
             // pfpPlaceholder: "url de la photo de profil (optionnel)",
             signUpButton: "inscrivez-vous 👉",
@@ -101,6 +119,20 @@ const uiText = {
                 "\noups. nous sommes désolé, les paramètres ne sont pas encore finís. nous'y travaillons dur!\n\n- equipe de sendr",
             revealInfoButton:
                 "révéler les infos de l'utilisateur pour les devs 👀",
+            pfp: "photo de profil",
+            username: "pseudo",
+            password: "mot de passe",
+            logOutButton: "se déconnecter 🚪",
+            deleteAccountButton: "supprimer le compte 🗑",
+            logOutConfirm:
+                "es-tu sûre de vouloir te déconnecter? (appuie encore pour confirmer)",
+            deleteAccountConfirm:
+                "es-tu absolument sûr de vouloir supprimer ton compte? (appuie encore pour confirmer)",
+            incomplete:
+                ":(\nmalheureusement, cette fonctionnalité n'est pas encore implémentée.",
+            changeUsername: "changer le pseudo à",
+            changePassword: "changer le mot de passe",
+            alreadyNamed: "tu es déjà nommé",
         },
         profileScreen: {
             barTitle: "profil",
@@ -136,6 +168,8 @@ const uiText = {
             title: "regístrate para sendr.",
             nicknamePlaceholder: "apodo",
             emailPlaceholder: "email",
+            disclaimer:
+                "(no te preocupes - no te enviaremos spam ni venderemos tus datos 👌)",
             passwordPlaceholder: "contraseña",
             // pfpPlaceholder: "url de la imagenn de perfil (opcional)",
             signUpButton: "regístrate 👉",
@@ -159,6 +193,19 @@ const uiText = {
             wipText:
                 "\n¡ups! lo siento, la configuración aún no está hecha. ¡estoy trabajando duro en ello!\n\n- equipo de sendr",
             revealInfoButton: "revelar información de usuario para nerds 👀",
+            pfp: "foto de perfil",
+            username: "apodo",
+            password: "contraseña",
+            logOutButton: "cerrar sesión 🚪",
+            deleteAccountButton: "borrar cuenta 🗑",
+            logOutConfirm:
+                "¿estás seguro de que quieres cerrar sesión? (presiona de nuevo para confirmar)",
+            deleteAccountConfirm:
+                "¿estás absolutamente seguro de que quieres borrar tu cuenta? (presiona de nuevo para confirmar)",
+            incomplete: ":(\nlo siento, esta función aún no está hecha.",
+            changeUsername: "cambiar el apodo a",
+            changePassword: "cambiar la contraseña",
+            alreadyNamed: "ya estás nombreado",
         },
         profileScreen: {
             barTitle: "perfil",
@@ -194,6 +241,8 @@ const uiText = {
             title: "новый аккаунт sendr.",
             nicknamePlaceholder: "никнейм",
             emailPlaceholder: "email",
+            disclaimer:
+                "(не волнуйся - мы не будем тебе спамить и/или продавать твои данные рекламщикам 👌)",
             passwordPlaceholder: "пароль",
             // pfpPlaceholder: "url картинки на профиль (необязательно)",
             signUpButton: "создать 👉",
@@ -217,6 +266,19 @@ const uiText = {
             wipText:
                 "\nой. прости пожалуйста, настройки пока еще не закончены. мы очень усердно над ними работаем!\n\n- команда sendr",
             revealInfoButton: "показать инфо о профиле для разрабов 👀",
+            pfp: "картинка профиля",
+            username: "никнейм",
+            password: "пароль",
+            logOutButton: "выйти 🚪",
+            deleteAccountButton: "удалить аккаунт 🗑",
+            logOutConfirm:
+                "ты уверен, что хочешь выйти? (нажми еще раз, чтобы подтвердить)",
+            deleteAccountConfirm:
+                "ты уверен, что хочешь удалить аккаунт? (нажми еще раз, чтобы подтвердить)",
+            incomplete: ":(\nпрости, эта функция пока еще не закончена.",
+            changeUsername: "изменить никнейм на",
+            changePassword: "изменить пароль",
+            alreadyNamed: "тебя уже зовут",
         },
         profileScreen: {
             barTitle: "профиль",
@@ -232,7 +294,7 @@ const uiText = {
             serverBody: "наш сервер обиделся. прости пожалуйста.",
             serverOk: "ок",
             noChats:
-                "ой. похоже, что наш сервер обиделся и не может загрузить твои чаты.",
+                "ой. похоже, наш сервер обиделся, и не может загрузить твои чаты.",
             serverMoreInfo: "подробнее",
         },
     },
@@ -241,6 +303,7 @@ const uiText = {
             barTitle: "登录",
             title: "sendr.",
             emailPlaceholder: "电子邮件",
+
             passwordPlaceholder: "密码",
             passwordError: "密码错误",
             loginButton: "登录 👉",
@@ -251,6 +314,8 @@ const uiText = {
             title: "创建新的sendr.账户",
             nicknamePlaceholder: "昵称",
             emailPlaceholder: "电子邮件",
+            disclaimer:
+                "(别担心--我们不会向你发送垃圾邮件和/或将你的数据卖给广告商 👌)",
             passwordPlaceholder: "密码",
             // pfpPlaceholder: "头像网址 (可选的)",
             signUpButton: "报名 👉",
@@ -272,6 +337,18 @@ const uiText = {
             barTitle: "设置",
             wipText:
                 "\n哎呀。 非常抱歉，这些设置尚不可用。 不过，我正在努力研究它们!\n\n- sendr的海利",
+            revealInfoButton: "显示个人信息 👀",
+            pfp: "头像",
+            username: "用户名",
+            password: "密码",
+            logOutButton: "登出 🚪",
+            deleteAccountButton: "删除账户 🗑",
+            logOutConfirm: "你确定要登出吗? (点击一次确认)",
+            deleteAccountConfirm: "你确定要删除账户吗? (点击一次确认)",
+            incomplete: ":(\n这个功能还没有完成.",
+            changeUsername: "改变用户名为",
+            changePassword: "改变密码",
+            alreadyNamed: "你已经叫",
         },
         profileScreen: {
             barTitle: "个人资料",
@@ -307,6 +384,8 @@ const uiText = {
             title: "新しいセーンダアカウントを作成",
             nicknamePlaceholder: "ニックネーム",
             emailPlaceholder: "メールアドレス",
+            disclaimer:
+                "(ご心配なく - メールスパムや広告主にお客様のデータを販売することはありません 👌)",
             passwordPlaceholder: "パスワード",
             // pfpPlaceholder: "プロフィール写真のurl (随意)",
             signUpButton: "サインアップ 👉",
@@ -328,6 +407,19 @@ const uiText = {
             barTitle: "設定",
             wipText:
                 "\nええとああ。 設定はまだ利用できません。 頑張っています！\n\n- セーンダのヘイリー",
+            revealInfoButton: "プロフィールを表示 👀",
+            pfp: "プロフィール写真",
+            username: "ユーザー名",
+            password: "パスワード",
+            logOutButton: "ログアウト 🚪",
+            deleteAccountButton: "アカウントを削除 🗑",
+            logOutConfirm: "ログアウトしますか？ (一度クリックして確認)",
+            deleteAccountConfirm:
+                "アカウントを削除しますか？ (一度クリックして確認)",
+            incomplete: ":(\nこの機能はまだ完成していません.",
+            changeUsername: "ユーザー名を変更する",
+            changePassword: "パスワードを変更する",
+            alreadyNamed: "あなたは",
         },
         profileScreen: {
             barTitle: "プロフィール",

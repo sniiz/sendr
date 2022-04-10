@@ -1,8 +1,9 @@
 {
   "name": "sendr",
-  "version": "0.1.71",
+  "version": "0.1.8-stable",
   "description": "a minimalist messaging app",
   "author": "sniiz-haley",
+  "license": "MIT",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -22,6 +23,7 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "browserslist": "^4.20.2",
+    "color-scheme": "^1.0.1",
     "expo": "~44.0.0",
     "expo-device": "^4.1.1",
     "expo-font": "~10.0.4",
@@ -46,7 +48,9 @@
     "react-native-components": "^0.0.1",
     "react-native-elements": "^3.4.2",
     "react-native-firebase": "^5.6.0",
+    "react-native-image-crop-picker": "^0.37.3",
     "react-native-ios-kit": "^0.0.22",
+    "react-native-loading-spinner-overlay": "^3.0.0",
     "react-native-localize": "^2.2.1",
     "react-native-popup-menu": "^0.15.12",
     "react-native-safe-area-context": "3.3.2",
