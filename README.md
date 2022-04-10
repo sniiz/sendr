@@ -7,6 +7,7 @@ a minimalist messaging app
 -   [x] basic chat rendering
 -   [x] message input system
 -   [x] GETTING FIREBASE TO WORK SOMEHOW
+-   [ ] light mode (WIP)
 -   [ ] dms (WIP)
 -   [ ] pfp picker
 -   [ ] comfort features (reactions, typing indicators etc)
