@@ -9,6 +9,7 @@ import {
     ScrollView,
     Alert,
     TouchableOpacity,
+    Linking,
     Platform,
 } from "react-native";
 import { Avatar } from "react-native-elements";
@@ -22,6 +23,8 @@ import {
 } from "../firebase";
 // sorry firebase is gitignored im scared of .envs
 import UIText from "../components/LocalizedText";
+
+const version = require("../assets/version-info.json");
 
 const HomeScreen = ({ navigation }) => {
     const [chats, setChats] = useState([]);
@@ -48,8 +51,6 @@ const HomeScreen = ({ navigation }) => {
                         }))
                     );
                 },
-                // wow this code below looks awful
-                // but it works
                 (error) => {
                     setError(true);
                 }
@@ -63,15 +64,53 @@ const HomeScreen = ({ navigation }) => {
             headerStyle: { backgroundColor: "white" },
             headerTitleStyle: { color: "black" },
             headerTintColor: "black",
+            headerTitleAlign: "center",
             headerLeft: () => (
-                <View style={{ marginLeft: 20 }}>
-                    <TouchableOpacity activeOpacity={0.5}>
+                <TouchableOpacity
+                    style={{
+                        marginLeft: 20,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "row",
+                    }}
+                    onPress={() => {
+                        if (Platform.OS === "web") {
+                            window.open(
+                                "https://github.com/sniiz/sendr",
+                                "_blank"
+                            );
+                        } else {
+                            Linking.openURL("https://github.com/sniiz/sendr");
+                        }
+                    }}
+                >
+                    {/* <TouchableOpacity activeOpacity={0.5}>
                         <Avatar
                             rounded
                             source={{ uri: auth?.currentUser?.photoURL }}
                         />
-                    </TouchableOpacity>
-                </View>
+                    </TouchableOpacity> */}
+                    <SimpleLineIcons
+                        name="social-github"
+                        size={10}
+                        color="gray"
+                        style={{ marginLeft: 10 }}
+                    />
+                    <Text
+                        style={{
+                            fontSize: 10,
+                            fontStyle: "italic",
+                            fontFamily:
+                                Platform.OS === "ios"
+                                    ? "Courier New"
+                                    : "monospace",
+                            color: "gray",
+                            marginLeft: 5,
+                        }}
+                    >
+                        {version["number"]}
+                    </Text>
+                </TouchableOpacity>
             ),
             headerRight: () => (
                 <View
@@ -92,7 +131,7 @@ const HomeScreen = ({ navigation }) => {
                         }
                     >
                         <SimpleLineIcons
-                            name="speech"
+                            name="pencil"
                             size={18}
                             color="black"
                         />
@@ -102,11 +141,15 @@ const HomeScreen = ({ navigation }) => {
                         activeOpacity={0.5}
                         onPress={() =>
                             navigation.navigate(
-                                UIText["profileScreen"]["barTitle"]
+                                UIText["settingsScreen"]["barTitle"]
                             )
                         }
                     >
-                        <SimpleLineIcons name="user" size={18} color="black" />
+                        <SimpleLineIcons
+                            name="settings"
+                            size={18}
+                            color="black"
+                        />
                     </TouchableOpacity>
 
                     {/* <TouchableOpacity
@@ -124,13 +167,13 @@ const HomeScreen = ({ navigation }) => {
                         />
                     </TouchableOpacity> */}
 
-                    <TouchableOpacity activeOpacity={0.5} onPress={signOutUser}>
+                    {/* <TouchableOpacity activeOpacity={0.5} onPress={signOutUser}>
                         <SimpleLineIcons
                             name="logout"
                             size={18}
                             color="black"
                         />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             ),
         });
@@ -147,41 +190,47 @@ const HomeScreen = ({ navigation }) => {
         <SafeAreaView style={styles.main}>
             <StatusBar style="light" />
 
-            {!Error || chats.length > 1 ? (
-                <ScrollView style={styles.container}>
-                    {chats.map(({ id, chatName }) => (
-                        <CustomListItem
-                            key={id}
-                            id={id}
-                            chatName={chatName}
-                            enterChat={enterChat}
-                        />
-                    ))}
-                </ScrollView>
-            ) : (
-                <View style={styles.containerStatic}>
-                    <Text
-                        style={{
-                            fontSize: 40,
-                            color: "gray",
-                            textAlign: "center",
-                        }}
-                    >
-                        {"(×﹏×)"}
-                    </Text>
-                    <Text
-                        style={{
-                            fontSize: 20,
-                            color: "gray",
-                            textAlign: "center",
-                            fontFamily:
-                                Platform.OS === "ios" ? "Courier" : "monospace",
-                        }}
-                    >
-                        {UIText["errors"]["noChats"]}
-                    </Text>
-                </View>
-            )}
+            {
+                // oh no what a mess
+                !Error || chats.length > 1 ? (
+                    <ScrollView style={styles.container}>
+                        {chats.map(({ id, chatName }) => (
+                            <CustomListItem
+                                key={id}
+                                id={id}
+                                chatName={chatName}
+                                enterChat={enterChat}
+                            />
+                        ))}
+                    </ScrollView>
+                ) : (
+                    <View style={styles.containerStatic}>
+                        <Text
+                            style={{
+                                fontSize: 40,
+                                color: "gray",
+                                textAlign: "center",
+                            }}
+                        >
+                            {"( ´•̥×•̥` )"}
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: 15,
+                                color: "gray",
+                                textAlign: "center",
+                                fontFamily:
+                                    Platform.OS === "ios"
+                                        ? "Courier"
+                                        : "monospace",
+                                fontStyle: "italic",
+                            }}
+                        >
+                            {UIText["errors"]["noChats"]}
+                        </Text>
+                    </View>
+                )
+            }
         </SafeAreaView>
     );
 };

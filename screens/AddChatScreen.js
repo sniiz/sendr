@@ -31,6 +31,10 @@ const AddChatScreen = ({ navigation }) => {
         navigation.setOptions({
             title: UIText["newChatScreen"]["barTitle"],
             headerBackTitle: "back to chats",
+            headerStyle: { backgroundColor: "white" },
+            headerTitleStyle: { color: "black" },
+            headerTintColor: "black",
+            headerTitleAlign: "center",
         });
     }, [navigation]);
 

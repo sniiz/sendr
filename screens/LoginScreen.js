@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
     StyleSheet,
     View,
@@ -34,6 +34,15 @@ const LoginScreen = ({ navigation }) => {
         []
     );
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerStyle: { backgroundColor: "white" },
+            headerTitleStyle: { color: "black" },
+            headerTintColor: "black",
+            headerTitleAlign: "center",
+        });
+    }, [navigation]);
+
     const signIn = () => {
         signInWithEmailAndPassword(auth, email, password).catch((error) => {
             if (error.message.includes("password")) {
@@ -49,7 +58,7 @@ const LoginScreen = ({ navigation }) => {
         >
             <StatusBar style="light" />
             <Text style={styles.version}>
-                v{version.number}
+                {version.number}
                 {"\n"}✨ {version.name} ✨
             </Text>
             <Text style={styles.title}>{UIText["loginScreen"]["title"]}</Text>
