@@ -24,6 +24,7 @@ import {
     deleteUser,
     onAuthStateChanged,
     EmailAuthProvider,
+    reauthenticateWithCredential,
     updateProfile,
     updatePassword,
 } from "../firebase";
@@ -72,6 +73,8 @@ class BinarySwitch extends React.Component {
         );
     }
 }
+
+const version = require("../assets/version-info.json");
 
 export default function SettingsScreen({ navigation }) {
     // TODO: settings
@@ -221,6 +224,7 @@ export default function SettingsScreen({ navigation }) {
                             onChangeText={(text) => {
                                 setPassword(text);
                             }}
+                            value={password}
                             placeholderTextColor="gray"
                         />
                         {password?.length >= 6 ? (
@@ -252,6 +256,7 @@ export default function SettingsScreen({ navigation }) {
                                     setOldPassword(text);
                                 }}
                                 placeholderTextColor="gray"
+                                value={oldPassword}
                             />
                         ) : null}
                         {oldPassword?.length > 0 && password?.length > 0 ? (
@@ -263,11 +268,13 @@ export default function SettingsScreen({ navigation }) {
                                             user.email,
                                             oldPassword
                                         );
-                                    user.reauthenticateWithCredential(
+
+                                    reauthenticateWithCredential(
+                                        user,
                                         credential
                                     )
                                         .then(() => {
-                                            user.updatePassword(password).then(
+                                            updatePassword(user, password).then(
                                                 () => {
                                                     setIsLoading(false);
                                                     setPassword("");
@@ -433,6 +440,16 @@ export default function SettingsScreen({ navigation }) {
                             github 🙌
                         </Text>
                     </TouchableOpacity>
+                    <View
+                        style={{
+                            height: "5%",
+                            width: "100%",
+                        }}
+                    ></View>
+                    <Text style={styles.version}>
+                        {version.number}
+                        {"\n"}✨ {version.name} ✨
+                    </Text>
                 </>
             </ScrollView>
         );
@@ -492,6 +509,14 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 0,
         textAlign: "left",
+    },
+    version: {
+        color: "gray",
+        fontSize: 10,
+        textAlign: "center",
+        fontStyle: "italic",
+        marginBottom: 20,
+        fontFamily: Platform.OS === "ios" ? "Arial" : "monospace",
     },
     settingText: {
         color: "gray",

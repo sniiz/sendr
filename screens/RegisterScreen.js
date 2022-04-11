@@ -26,7 +26,6 @@ const RegisterScreen = ({ navigation }) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerStyle: { backgroundColor: "black" },
-
             headerTintColor: "white",
             headerTitleAlign: "center",
         });
