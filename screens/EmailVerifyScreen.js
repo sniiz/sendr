@@ -32,9 +32,9 @@ export default function EmailVerifyScreen({ navigation }) {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerStyle: { backgroundColor: "white" },
-            headerTitleStyle: { color: "black" },
-            headerTintColor: "black",
+            headerStyle: { backgroundColor: "black" },
+
+            headerTintColor: "white",
             headerTitleAlign: "center",
         });
     }, [navigation]);

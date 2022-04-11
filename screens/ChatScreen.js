@@ -113,10 +113,10 @@ const ChatScreen = ({ navigation, route }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerStyle: { backgroundColor: "white" },
+            headerStyle: { backgroundColor: "black" },
             headerTitle: route.params.chatName,
-            headerTitleStyle: { color: "black" },
-            headerTintColor: "black",
+
+            headerTintColor: "white",
             headerTitleAlign: "center",
         });
     }, [navigation]);
@@ -139,64 +139,62 @@ const ChatScreen = ({ navigation, route }) => {
             .catch((error) => alert(error.message));
     };
 
-    useEffect(() => {
-        onSnapshot(
-            query(
-                collection(db, `chats/${route.params.id}`, "messages"),
-                orderBy("timestamp", "desc")
-            ),
-            (snapshot) => {
-                setMessages(
-                    snapshot.docs.reverse().map((doc) => ({
-                        id: doc.id,
-                        ...doc.data(),
-                    }))
-                );
-                // if (lastSnapshot !== snapshot) {
-                //     sendPushNotification(
-                //         expoPushToken,
-                //         snapshot.docs[0].data().message,
-                //         snapshot.docs[0].data().displayName,
-                //         route.params.name,
-                //         route.params.id
-                //     );
-                // }
-                // lastSnapshot = snapshot;
-                // TODO notifications ffs D:<
-            },
-            (error) => {
-                Alert.alert(
-                    UIText["errors"]["serverTitle"],
-                    UIText["errors"]["serverBody"],
-                    [
-                        {
-                            text: UIText["errors"]["serverOk"],
-                            onPress: () => navigation.goBack(),
+    onSnapshot(
+        query(
+            collection(db, `chats/${route.params.id}`, "messages"),
+            orderBy("timestamp", "desc")
+        ),
+        (snapshot) => {
+            setMessages(
+                snapshot.docs.reverse().map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }))
+            );
+            // if (lastSnapshot !== snapshot) {
+            //     sendPushNotification(
+            //         expoPushToken,
+            //         snapshot.docs[0].data().message,
+            //         snapshot.docs[0].data().displayName,
+            //         route.params.name,
+            //         route.params.id
+            //     );
+            // }
+            // lastSnapshot = snapshot;
+            // TODO notifications ffs D:<
+        },
+        (error) => {
+            Alert.alert(
+                UIText["errors"]["serverTitle"],
+                UIText["errors"]["serverBody"],
+                [
+                    {
+                        text: UIText["errors"]["serverOk"],
+                        onPress: () => navigation.goBack(),
+                    },
+                    {
+                        text: `${UIText["errors"]["serverMoreInfo"]}...`,
+                        onPress: () => {
+                            Alert.alert(
+                                UIText["errors"]["serverMoreInfo"],
+                                error
+                                    .toString()
+                                    .split("\n")
+                                    .map((line) => `${line}\n`)
+                                    .join("")
+                            );
                         },
-                        {
-                            text: `${UIText["errors"]["serverMoreInfo"]}...`,
-                            onPress: () => {
-                                Alert.alert(
-                                    UIText["errors"]["serverMoreInfo"],
-                                    error
-                                        .toString()
-                                        .split("\n")
-                                        .map((line) => `${line}\n`)
-                                        .join("")
-                                );
-                            },
-                        },
-                    ]
-                );
-            }
-        )[route];
-    });
+                    },
+                ]
+            );
+        }
+    )[route];
 
     useLayoutEffect(() => {
         navigation.setOptions({
             title: "sendr chat",
             headerBackTitleVisible: false,
-            headerTitleAlign: "left",
+            headerTitleAlign: "center",
             headerTitle: () => (
                 <View
                     style={{
@@ -214,7 +212,7 @@ const ChatScreen = ({ navigation, route }) => {
                         style={{
                             color: "black",
                             // marginLeft: 10,
-                            fontWeight: "bold",
+                            fontWeight: "normal",
                         }}
                     >
                         {route.params.chatName}
@@ -269,7 +267,7 @@ const ChatScreen = ({ navigation, route }) => {
                 backgroundColor: "black",
             }}
         >
-            <StatusBar style="light" />
+            <StatusBar style="dark" />
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"} // confused haley noises
                 style={styles.container}
@@ -430,7 +428,7 @@ const styles = StyleSheet.create({
         marginRight: 15,
         padding: 10,
         color: "white",
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: "white",
     },
     receiverText: {
@@ -440,7 +438,7 @@ const styles = StyleSheet.create({
     },
     createdText: {
         color: "grey",
-        fontWeight: "bold",
+        fontWeight: "light",
         textAlign: "center",
         marginVertical: 15,
         alignSelf: "center",
@@ -467,7 +465,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         padding: 10,
         borderColor: "white",
-        // borderWidth: 2,
+        // borderWidth: 1,
         alignItems: "flex-start",
         width: "100%",
         position: "relative",

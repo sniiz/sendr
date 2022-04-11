@@ -1,6 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, {
+    useEffect,
+    useLayoutEffect,
+    useState,
+    componentWillUnmount,
+} from "react";
 import {
     StyleSheet,
     Text,
@@ -32,38 +37,34 @@ const HomeScreen = ({ navigation }) => {
     const auth = getAuth();
     const db = getFirestore();
 
-    const signOutUser = () => {
-        signOut(auth).then(() =>
-            navigation.replace(UIText["loginScreen"]["barTitle"])
-        );
-    };
+    // const signOutUser = () => {
+    //     signOut(auth).then(() =>
+    //         navigation.replace(UIText["loginScreen"]["barTitle"])
+    //     );
+    // };
 
-    useEffect(
-        () =>
-            onSnapshot(
-                collection(db, "chats"),
-                (snapshot) => {
-                    setChats(
-                        snapshot.docs.map((doc) => ({
-                            id: doc.id,
-                            name: doc.chatName,
-                            ...doc.data(),
-                        }))
-                    );
-                },
-                (error) => {
-                    setError(true);
-                }
-            ),
-        []
+    const unsubscribe = onSnapshot(
+        collection(db, "chats"),
+        (snapshot) => {
+            setChats(
+                snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    name: doc.chatName,
+                    ...doc.data(),
+                }))
+            );
+        },
+        (error) => {
+            setError(true);
+        }
     );
 
     useLayoutEffect(() => {
         navigation.setOptions({
             title: "sendr",
-            headerStyle: { backgroundColor: "white" },
-            headerTitleStyle: { color: "black" },
-            headerTintColor: "black",
+            headerStyle: { backgroundColor: "black" },
+
+            headerTintColor: "white",
             headerTitleAlign: "center",
             headerLeft: () => (
                 <TouchableOpacity
@@ -119,7 +120,6 @@ const HomeScreen = ({ navigation }) => {
                         width: 120,
                         flexDirection: "row",
                         justifyContent: "space-evenly",
-                        backgroundColor: "white",
                     }}
                 >
                     <TouchableOpacity
@@ -133,7 +133,7 @@ const HomeScreen = ({ navigation }) => {
                         <SimpleLineIcons
                             name="pencil"
                             size={18}
-                            color="black"
+                            color="white"
                         />
                     </TouchableOpacity>
 
@@ -148,7 +148,7 @@ const HomeScreen = ({ navigation }) => {
                         <SimpleLineIcons
                             name="settings"
                             size={18}
-                            color="black"
+                            color="white"
                         />
                     </TouchableOpacity>
 
@@ -180,6 +180,7 @@ const HomeScreen = ({ navigation }) => {
     }, [navigation]);
 
     const enterChat = (id, chatName) => {
+        unsubscribe();
         navigation.navigate("chat", {
             id,
             chatName,
@@ -212,7 +213,7 @@ const HomeScreen = ({ navigation }) => {
                                 textAlign: "center",
                             }}
                         >
-                            {"( ´•̥×•̥` )"}
+                            {"(・_・ヾ"}
                         </Text>
                         <Text
                             style={{

@@ -25,8 +25,8 @@ import * as firebase from "./firebase";
 
 const Stack = createNativeStackNavigator();
 const globalScreenOptions = {
-    headerStyle: { backgroundColor: "white" },
-    headerTitleStyle: { color: "black", fontWeight: "bold" },
+    headerStyle: { backgroundColor: "black" },
+    headerTitleStyle: { color: "white", fontWeight: "light" },
     headerTintColor: "white",
     contentStyle: { backgroundColor: "black" },
 };
