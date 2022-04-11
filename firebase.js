@@ -18,6 +18,7 @@ import {
     updateProfile,
     updatePassword,
     sendEmailVerification,
+    EmailAuthProvider,
     deleteUser,
     signOut,
 } from "firebase/auth";
@@ -48,6 +49,7 @@ export {
     onSnapshot,
     serverTimestamp,
     query,
+    EmailAuthProvider,
     orderBy,
     getDatabase,
     ref,

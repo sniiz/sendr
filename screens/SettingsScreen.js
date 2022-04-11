@@ -23,6 +23,7 @@ import {
     signOut,
     deleteUser,
     onAuthStateChanged,
+    EmailAuthProvider,
     updateProfile,
     updatePassword,
 } from "../firebase";
@@ -258,7 +259,7 @@ export default function SettingsScreen({ navigation }) {
                                 onPress={() => {
                                     setIsLoading(true);
                                     var credential =
-                                        firebase.auth.EmailAuthProvider.credential(
+                                        EmailAuthProvider.credential(
                                             user.email,
                                             oldPassword
                                         );
