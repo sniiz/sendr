@@ -152,7 +152,6 @@ export default function SettingsScreen({ navigation }) {
                             marginBottom: 20,
                         }}
                         onPress={() => {
-                            // let user pick an image from their gallery and update their profile picture in firebase
                             // ImageCropPicker.openPicker({
                             //     width: 300,
                             //     height: 300,
