@@ -33,7 +33,6 @@ import UIText from "../components/LocalizedText";
 // import Spinner from "react-native-ios-kit";
 // import database from "@react-native-firebase/database";
 
-// // set notification handler
 // Notifications.setNotificationHandler({
 //     handleNotification: async () => ({
 //         shouldShowAlert: true,
