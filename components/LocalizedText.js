@@ -57,6 +57,8 @@ const uiText = {
             changeUsername: "change username to",
             changePassword: "change password",
             alreadyNamed: "you're already named",
+            oldPassword: "enter your old password",
+            wrongPassword: "wrong password, please try again",
             // TODO: settings text
         },
         profileScreen: {
@@ -74,7 +76,7 @@ const uiText = {
             serverBody: "our server is unhappy for some reason. we're sorry.",
             serverOk: "ok",
             noChats:
-                "oh no! it looks like our server is having some trouble loading your chats. please try again later.",
+                "oh no! it looks like our server is having some trouble loading your chats. please try again later.\n\n(it will most likely be back at 00:00 PST)",
             serverMoreInfo: "more info",
         },
     },
@@ -133,6 +135,8 @@ const uiText = {
             changeUsername: "changer le pseudo à",
             changePassword: "changer le mot de passe",
             alreadyNamed: "tu es déjà nommé",
+            oldPassword: "entre ton ancien mot de passe",
+            wrongPassword: "mauvais mot de passe, essaie à nouveau",
         },
         profileScreen: {
             barTitle: "profil",
@@ -206,6 +210,8 @@ const uiText = {
             changeUsername: "cambiar el apodo a",
             changePassword: "cambiar la contraseña",
             alreadyNamed: "ya estás nombreado",
+            oldPassword: "escriba tu antigua contraseña",
+            wrongPassword: "contraseña incorrecta, escriba de nuevo",
         },
         profileScreen: {
             barTitle: "perfil",
@@ -279,6 +285,8 @@ const uiText = {
             changeUsername: "изменить никнейм на",
             changePassword: "изменить пароль",
             alreadyNamed: "тебя уже зовут",
+            oldPassword: "введи свой старый пароль",
+            wrongPassword: "неверный пароль, попробуй еще раз",
         },
         profileScreen: {
             barTitle: "профиль",
@@ -349,6 +357,8 @@ const uiText = {
             changeUsername: "改变用户名为",
             changePassword: "改变密码",
             alreadyNamed: "你已经叫",
+            oldPassword: "输入你的旧密码",
+            wrongPassword: "密码错误，请再试一次",
         },
         profileScreen: {
             barTitle: "个人资料",
@@ -420,6 +430,8 @@ const uiText = {
             changeUsername: "ユーザー名を変更する",
             changePassword: "パスワードを変更する",
             alreadyNamed: "あなたは",
+            oldPassword: "旧パスワードを入力してください",
+            wrongPassword: "パスワードが間違っています。 再度お試しください",
         },
         profileScreen: {
             barTitle: "プロフィール",

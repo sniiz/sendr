@@ -36,9 +36,10 @@ const LoginScreen = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerStyle: { backgroundColor: "white" },
-            headerTitleStyle: { color: "black" },
-            headerTintColor: "black",
+            headerStyle: { backgroundColor: "black" },
+
+            headerTintColor: "white",
+            headerLeft: () => null,
             headerTitleAlign: "center",
         });
     }, [navigation]);
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
     title: {
         color: "white",
         fontSize: 40,
-        fontWeight: "bold",
+        fontWeight: "normal",
         textAlign: "center",
         overflow: "visible",
     },
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
     },
     input: {
         color: "white",
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: "white",
         padding: 10,
         marginTop: 0,

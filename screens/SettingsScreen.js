@@ -12,6 +12,8 @@ import {
     // Input,
     ScrollView,
     Switch,
+    Platform,
+    Linking,
 } from "react-native";
 import { Avatar, Input } from "react-native-elements";
 // import ImageCropPicker from "react-native-image-crop-picker";
@@ -25,6 +27,7 @@ import {
     updatePassword,
 } from "../firebase";
 import Spinner from "react-native-loading-spinner-overlay";
+import { SimpleLineIcons } from "@expo/vector-icons";
 // import { Storage } from "expo-storage";
 
 // const storage = new MMKVStorage().Loader().initialize();
@@ -76,14 +79,15 @@ export default function SettingsScreen({ navigation }) {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState("");
+    const [oldPassword, setOldPassword] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerStyle: { backgroundColor: "white" },
-            headerTitleStyle: { color: "black" },
-            headerTintColor: "black",
+            headerStyle: { backgroundColor: "black" },
+
+            headerTintColor: "white",
             headerTitleAlign: "center",
         });
     }, [navigation]);
@@ -113,7 +117,7 @@ export default function SettingsScreen({ navigation }) {
                             borderColor: "gray",
                             justifyContent: "center",
                             alignItems: "center",
-                            borderWidth: 2,
+                            borderWidth: 1,
                         }}
                     >
                         <Text style={styles.settingText}>
@@ -220,13 +224,65 @@ export default function SettingsScreen({ navigation }) {
                             placeholderTextColor="gray"
                         />
                         {password?.length >= 6 ? (
+                            // <TouchableOpacity
+                            //     onPress={() => {
+                            //         setIsLoading(true);
+                            //         updatePassword(user, password).then(() => {
+                            //             setIsLoading(false);
+                            //             setPassword("");
+                            //         });
+                            //     }}
+                            // >
+                            //     <Text
+                            //         style={[
+                            //             styles.settingHeader,
+                            //             { marginLeft: 10, marginBottom: 10 },
+                            //         ]}
+                            //     >
+                            //         change password 🔐
+                            //     </Text>
+                            // </TouchableOpacity>
+                            <Input
+                                style={styles.input}
+                                placeholder={
+                                    UIText["settingsScreen"]["oldPassword"]
+                                }
+                                secureTextEntry
+                                onChangeText={(text) => {
+                                    setOldPassword(text);
+                                }}
+                                placeholderTextColor="gray"
+                            />
+                        ) : null}
+                        {oldPassword?.length > 0 && password?.length > 0 ? (
                             <TouchableOpacity
                                 onPress={() => {
                                     setIsLoading(true);
-                                    updatePassword(user, password).then(() => {
-                                        setIsLoading(false);
-                                        setPassword("");
-                                    });
+                                    var credential =
+                                        firebase.auth.EmailAuthProvider.credential(
+                                            user.email,
+                                            oldPassword
+                                        );
+                                    user.reauthenticateWithCredential(
+                                        credential
+                                    )
+                                        .then(() => {
+                                            user.updatePassword(password).then(
+                                                () => {
+                                                    setIsLoading(false);
+                                                    setPassword("");
+                                                    setOldPassword("");
+                                                }
+                                            );
+                                        })
+                                        .catch(() => {
+                                            setIsLoading(false);
+                                            alert(
+                                                UIText["settingsScreen"][
+                                                    "wrongPassword"
+                                                ]
+                                            );
+                                        });
                                 }}
                             >
                                 <Text
@@ -235,14 +291,15 @@ export default function SettingsScreen({ navigation }) {
                                         { marginLeft: 10, marginBottom: 10 },
                                     ]}
                                 >
-                                    change password 🔐
+                                    {UIText["settingsScreen"]["changePassword"]}{" "}
+                                    🔐
                                 </Text>
                             </TouchableOpacity>
                         ) : null}
                     </View>
                     <View
                         style={{
-                            height: "10%",
+                            height: "5%",
                             width: "100%",
                         }}
                     ></View>
@@ -330,6 +387,52 @@ export default function SettingsScreen({ navigation }) {
                             {UIText["settingsScreen"]["deleteAccountConfirm"]}
                         </Text>
                     ) : null}
+                    <View
+                        style={{
+                            height: "5%",
+                            width: "100%",
+                        }}
+                    ></View>
+                    <TouchableOpacity
+                        onPress={() => {
+                            if (Platform.OS === "web") {
+                                window.open(
+                                    "https://github.com/sniiz/sendr/issues",
+                                    "_blank"
+                                );
+                            } else {
+                                Linking.openURL(
+                                    "https://github.com/sniiz/sendr/issues"
+                                );
+                            }
+                        }}
+                    >
+                        <Text
+                            style={{
+                                color: "gray",
+                                fontSize: 10,
+                                fontFamily:
+                                    Platform.OS === "ios"
+                                        ? "Courier"
+                                        : "monospace",
+                                marginHorizontal: 30,
+                                textAlign: "center",
+                            }}
+                        >
+                            having trouble with sendr? have a suggestion to make
+                            the app better? open an issue on{" "}
+                            <SimpleLineIcons
+                                name="social-github"
+                                size="7"
+                                color="gray"
+                                style={{
+                                    margin: 5,
+                                    paddingTop: 10,
+                                }}
+                            />
+                            github 🙌
+                        </Text>
+                    </TouchableOpacity>
                 </>
             </ScrollView>
         );
@@ -383,7 +486,7 @@ const styles = StyleSheet.create({
     },
     input: {
         color: "white",
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: "white",
         width: "100%",
         padding: 10,
@@ -392,7 +495,7 @@ const styles = StyleSheet.create({
     },
     settingText: {
         color: "gray",
-        fontSize: 19,
+        fontSize: 17,
         textAlign: "center",
         marginBottom: 10,
         marginLeft: 10,

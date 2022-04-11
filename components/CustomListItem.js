@@ -14,18 +14,16 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
     const [chatMessages, setChatMessages] = useState([]);
     const db = getFirestore();
 
-    useEffect(() =>
-        onSnapshot(
-            query(
-                collection(db, `chats/${id}`, "messages"),
-                orderBy("timestamp", "desc")
-            ),
-            (snapshot) => {
-                setChatMessages(
-                    snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-                );
-            }
-        )
+    onSnapshot(
+        query(
+            collection(db, `chats/${id}`, "messages"),
+            orderBy("timestamp", "desc")
+        ),
+        (snapshot) => {
+            setChatMessages(
+                snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+            );
+        }
     );
 
     return (
@@ -44,7 +42,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
                 }}
             />
             <ListItem.Content>
-                <ListItem.Title style={{ fontWeight: "bold" }}>
+                <ListItem.Title style={{ fontWeight: "normal" }}>
                     {chatName}
                 </ListItem.Title>
                 <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">

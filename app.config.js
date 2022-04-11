@@ -36,7 +36,7 @@ export default {
             },
         },
         web: {
-            favicon: "./assets/adaptive-icon.png",
+            favicon: "./assets/favicon.png",
         },
     },
 };

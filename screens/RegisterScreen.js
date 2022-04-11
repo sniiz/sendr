@@ -25,9 +25,9 @@ const RegisterScreen = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerStyle: { backgroundColor: "white" },
-            headerTitleStyle: { color: "black" },
-            headerTintColor: "black",
+            headerStyle: { backgroundColor: "black" },
+
+            headerTintColor: "white",
             headerTitleAlign: "center",
         });
     }, [navigation]);
@@ -69,7 +69,7 @@ const RegisterScreen = ({ navigation }) => {
                 style={{
                     color: "white",
                     fontSize: 40,
-                    fontWeight: "bold",
+                    fontWeight: "normal",
                     textAlign: "center",
                     overflow: "visible",
                     marginBottom: 25,
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     },
     input: {
         color: "white",
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: "white",
         padding: 10,
         marginTop: Platform.OS === "web" ? 0 : -10,

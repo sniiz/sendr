@@ -18,6 +18,8 @@ site/
 .DS_Store
 .gitignore
 
+.VSCodeCounter/
+
 # @generated: @expo/electron-adapter@0.0.55
 /.expo/*
 # Expo Web
