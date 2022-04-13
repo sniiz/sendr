@@ -121,21 +121,23 @@ const ChatScreen = ({ navigation, route }) => {
     }, [navigation]);
 
     const sendMsg = async () => {
-        Keyboard.dismiss();
-        setSending(true);
+        if (msgInput.length > 0) {
+            Keyboard.dismiss();
+            setSending(true);
 
-        addDoc(collection(db, `chats/${route.params.id}`, "messages"), {
-            timestamp: serverTimestamp(),
-            message: msgInput,
-            displayName: auth.currentUser.displayName,
-            email: auth.currentUser.email,
-            photoURL: auth.currentUser.photoURL,
-        })
-            .then(() => {
-                setMsgInput("");
-                setSending(false);
+            addDoc(collection(db, `chats/${route.params.id}`, "messages"), {
+                timestamp: serverTimestamp(),
+                message: msgInput,
+                displayName: auth.currentUser.displayName,
+                email: auth.currentUser.email,
+                photoURL: auth.currentUser.photoURL,
             })
-            .catch((error) => alert(error.message));
+                .then(() => {
+                    setMsgInput("");
+                    setSending(false);
+                })
+                .catch((error) => alert(error.message));
+        }
     };
 
     onSnapshot(
@@ -191,33 +193,10 @@ const ChatScreen = ({ navigation, route }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: "sendr chat",
+            title: route.params.chatName,
             headerBackTitleVisible: false,
+            headerTitleColor: "white",
             headerTitleAlign: "center",
-            headerTitle: () => (
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-evenly",
-                    }}
-                >
-                    {messages[0]?.photoURL != null ? (
-                        <Avatar
-                            rounded
-                            source={{ uri: messages[0]?.photoURL }}
-                        />
-                    ) : null}
-                    <Text
-                        style={{
-                            color: "black",
-                            // marginLeft: 10,
-                            fontWeight: "normal",
-                        }}
-                    >
-                        {route.params.chatName}
-                    </Text>
-                </View>
-            ),
             headerRight: () => (
                 <View
                     style={{
@@ -307,12 +286,12 @@ const ChatScreen = ({ navigation, route }) => {
                                                         source={{
                                                             uri: message.photoURL,
                                                         }}
-                                                        // style={{
-                                                        //     marginRight: 10,
-                                                        // }}
+                                                        style={{
+                                                            margin: 10,
+                                                        }}
                                                         size={30}
                                                         // bottom={10}
-                                                        position="absolute"
+                                                        // position="absolute"
                                                     />
                                                 ) : null}
                                             </View>
@@ -350,8 +329,8 @@ const ChatScreen = ({ navigation, route }) => {
                                                     }}
                                                     size={30}
                                                     position="absolute"
-                                                    // bottom={-15}
-                                                    // right={-5}
+                                                    bottom={-15}
+                                                    right={-5}
                                                     // containerStyle={{
                                                     //     position: "absolute",
                                                     //     bottom: -15,
@@ -362,7 +341,7 @@ const ChatScreen = ({ navigation, route }) => {
                                             <View
                                                 style={{
                                                     marginLeft: message.photoURL
-                                                        ? 30
+                                                        ? 50
                                                         : 0,
                                                 }}
                                             >

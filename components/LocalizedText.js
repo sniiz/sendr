@@ -13,6 +13,7 @@ const uiText = {
             passwordError: "wrong password, please try again",
             loginButton: "log in 👉",
             signUpButton: "no account? sign up 👋",
+            loading: "loading...",
         },
         signUpScreen: {
             barTitle: "sign up",
@@ -89,6 +90,7 @@ const uiText = {
             passwordError: "mot de passe incorrect",
             loginButton: "se connecter 👉",
             signUpButton: "pas encore inscrit? inscrivez-vous 👋",
+            loading: "chargement...",
         },
         signUpScreen: {
             barTitle: "inscription",
@@ -166,6 +168,7 @@ const uiText = {
             passwordError: "contraseña incorrecta",
             loginButton: "iniciar sesión 👉",
             signUpButton: "¿no tienes cuenta? ¡regístrate 👋",
+            loading: "cargando...",
         },
         signUpScreen: {
             barTitle: "registro",
@@ -241,6 +244,7 @@ const uiText = {
             passwordError: "неверный пароль, попробуй еще раз",
             loginButton: "войти 👉",
             signUpButton: "нет аккаунта? зарегистрируйся 👋",
+            loading: "загрузка...",
         },
         signUpScreen: {
             barTitle: "создать аккаунт",
@@ -316,6 +320,7 @@ const uiText = {
             passwordError: "密码错误",
             loginButton: "登录 👉",
             signUpButton: "没有账户? 创建新的 👋",
+            loading: "加载中...",
         },
         signUpScreen: {
             barTitle: "报名",
@@ -388,6 +393,7 @@ const uiText = {
             passwordError: "パスワードが間違っています",
             loginButton: "ログイン 👉",
             signUpButton: "アカウントがありませんか？ サインアップ 👋",
+            loading: "ロード中...",
         },
         signUpScreen: {
             barTitle: "サインアップ",
