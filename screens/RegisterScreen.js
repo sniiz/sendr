@@ -5,6 +5,7 @@ import {
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
     Platform,
+    ActivityIndicator,
 } from "react-native";
 import { CoolButton, Header, Loading } from "../components/CustomUi";
 import { Button, Input, Text } from "react-native-elements";
@@ -23,6 +24,8 @@ const RegisterScreen = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [imgurl, setImgurl] = useState("");
 
+    const [loading, setLoading] = useState(false);
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerStyle: { backgroundColor: "black" },
@@ -32,6 +35,7 @@ const RegisterScreen = ({ navigation }) => {
     }, [navigation]);
 
     const register = () => {
+        setLoading(true);
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
             .then((authUser) => {
@@ -41,17 +45,19 @@ const RegisterScreen = ({ navigation }) => {
                     // photoURL: imgurl,
                 })
                     .then(() => {
-                        console.log("profile updated");
-                        // navigation.navigate(
-                        //     UIText["emailVerifyScreen"]["barTitle"]
-                        // );
+                        setLoading(false);
+                        navigation.navigate("home");
                         // TODO email verification
                     })
                     .catch((error) => {
+                        setLoading(false);
                         console.log(error.message);
                     });
             })
-            .catch((error) => alert(error.message));
+            .catch((error) => {
+                setLoading(false);
+                alert(error.message);
+            });
     };
 
     return (
@@ -125,11 +131,22 @@ const RegisterScreen = ({ navigation }) => {
                 {UIText["signUpScreen"]["disclaimer"]}
             </Text>
 
-            <TouchableWithoutFeedback onPress={register}>
-                <Text style={styles.login}>
-                    {UIText["signUpScreen"]["signUpButton"]}
-                </Text>
-            </TouchableWithoutFeedback>
+            {loading ? (
+                <ActivityIndicator
+                    size="large"
+                    color="white"
+                    style={{
+                        marginTop: -10,
+                        marginBottom: 20,
+                    }}
+                />
+            ) : (
+                <TouchableWithoutFeedback onPress={register}>
+                    <Text style={styles.login}>
+                        {UIText["signUpScreen"]["signUpButton"]}
+                    </Text>
+                </TouchableWithoutFeedback>
+            )}
             {/* <View style={{ height: 1 }} /> */}
         </KeyboardAvoidingView>
     );

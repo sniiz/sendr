@@ -64,6 +64,8 @@ export default CustomListItem;
 const styles = StyleSheet.create({
     listItem: {
         marginVertical: 10,
-        backgroundColor: "black",
+        color: "black",
+        borderTopWidth: 1,
+        borderTopColor: "gray",
     },
 });

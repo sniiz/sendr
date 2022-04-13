@@ -16,6 +16,8 @@ import {
     signInWithEmailAndPassword,
 } from "../firebase";
 import UIText from "../components/LocalizedText";
+import Spinner from "react-native-loading-spinner-overlay";
+import { ActivityIndicator } from "react-native-web";
 
 // const logo = require("../assets/wip_logo_white.png");
 const version = require("../assets/version-info.json");
@@ -24,15 +26,16 @@ const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordCorrect, setPasswordCorrect] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [loggingIn, setLoggingIn] = useState(false);
     const auth = getAuth();
 
-    useEffect(
-        () =>
-            onAuthStateChanged(auth, (user) => {
-                if (user) navigation.replace("home");
-            }),
-        []
-    );
+    onAuthStateChanged(auth, (user) => {
+        setLoading(false);
+        if (user) {
+            navigation.replace("home");
+        }
+    });
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -45,69 +48,113 @@ const LoginScreen = ({ navigation }) => {
     }, [navigation]);
 
     const signIn = () => {
-        signInWithEmailAndPassword(auth, email, password).catch((error) => {
-            if (error.message.includes("password")) {
-                setPasswordCorrect(false);
-            }
-        });
+        setLoggingIn(true);
+        signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                setLoggingIn(false);
+                navigation.replace("home");
+            })
+            .catch((error) => {
+                setLoggingIn(false);
+                if (error.message.includes("password")) {
+                    setPasswordCorrect(false);
+                }
+            });
     };
 
-    return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"} // FIXME occasionally glitches out on android
-            style={styles.container}
-        >
-            <StatusBar style="light" />
-            <Text style={styles.version}>
-                {version.number}
-                {"\n"}✨ {version.name} ✨
-            </Text>
-            <Text style={styles.title}>{UIText["loginScreen"]["title"]}</Text>
-            <View style={styles.inputContainer}>
-                <Input
-                    placeholder={UIText["loginScreen"]["emailPlaceholder"]}
-                    style={styles.input}
-                    autoFocus
-                    type="email"
-                    placeholderTextColor="gray"
-                    value={email}
-                    onChangeText={(text) => setEmail(text)}
-                />
-                <Input
-                    placeholder={UIText["loginScreen"]["passwordPlaceholder"]}
-                    secureTextEntry
-                    type="password"
-                    style={styles.input}
-                    value={password}
-                    placeholderTextColor="gray"
-                    onChangeText={(text) => setPassword(text)}
-                    onSubmitEditing={signIn}
-                />
-                <Text style={styles.errorText}>
-                    {passwordCorrect
-                        ? ""
-                        : UIText["loginScreen"]["passwordError"]}
-                </Text>
-            </View>
-
-            <View style={styles.elbutton}>
-                <TouchableWithoutFeedback onPress={signIn}>
-                    <Text style={styles.login}>
-                        {UIText["loginScreen"]["loginButton"]}
-                    </Text>
-                </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback
-                    onPress={() =>
-                        navigation.navigate(UIText["signUpScreen"]["barTitle"])
-                    }
+    if (loading) {
+        return (
+            <Spinner
+                visible={loading}
+                // textContent={UIText["loginScreen"]["loading"]}
+                // textContent={""}
+                textStyle={{
+                    color: "white",
+                    fontSize: 20,
+                    // fontWeight: "bold",
+                }}
+                overlayColor="rgba(0, 0, 0, 1)"
+            />
+        );
+    } else {
+        return (
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"} // FIXME occasionally glitches out on android
+                style={styles.container}
+            >
+                <StatusBar style="light" />
+                <Text
+                    style={[
+                        styles.version,
+                        { marginBottom: loading ? "70%" : 20 },
+                    ]}
                 >
-                    <Text style={styles.noacc}>
-                        {UIText["loginScreen"]["signUpButton"]}
+                    {version.number}
+                    {"\n"}✨ {version.name} ✨
+                </Text>
+                <Text style={styles.title}>
+                    {UIText["loginScreen"]["title"]}
+                </Text>
+                <View style={styles.inputContainer}>
+                    <Input
+                        placeholder={UIText["loginScreen"]["emailPlaceholder"]}
+                        style={styles.input}
+                        autoFocus
+                        type="email"
+                        placeholderTextColor="gray"
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
+                    />
+                    <Input
+                        placeholder={
+                            UIText["loginScreen"]["passwordPlaceholder"]
+                        }
+                        secureTextEntry
+                        type="password"
+                        style={styles.input}
+                        value={password}
+                        placeholderTextColor="gray"
+                        onChangeText={(text) => setPassword(text)}
+                        onSubmitEditing={signIn}
+                    />
+                    <Text style={styles.errorText}>
+                        {passwordCorrect
+                            ? ""
+                            : UIText["loginScreen"]["passwordError"]}
                     </Text>
-                </TouchableWithoutFeedback>
-            </View>
-        </KeyboardAvoidingView>
-    );
+                </View>
+
+                <View style={styles.elbutton}>
+                    {loggingIn ? (
+                        <ActivityIndicator
+                            size="small"
+                            color="white"
+                            style={{
+                                marginBottom: 20,
+                            }}
+                        />
+                    ) : (
+                        <TouchableWithoutFeedback onPress={signIn}>
+                            <Text style={styles.login}>
+                                {UIText["loginScreen"]["loginButton"]}
+                            </Text>
+                        </TouchableWithoutFeedback>
+                    )}
+                    <TouchableWithoutFeedback
+                        onPress={() =>
+                            navigation.navigate(
+                                UIText["signUpScreen"]["barTitle"]
+                            )
+                        }
+                    >
+                        <Text style={styles.noacc}>
+                            {UIText["loginScreen"]["signUpButton"]}
+                        </Text>
+                    </TouchableWithoutFeedback>
+                </View>
+            </KeyboardAvoidingView>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
