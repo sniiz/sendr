@@ -14,17 +14,20 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
     const [chatMessages, setChatMessages] = useState([]);
     const db = getFirestore();
 
-    onSnapshot(
-        query(
-            collection(db, `chats/${id}`, "messages"),
-            orderBy("timestamp", "desc")
-        ),
-        (snapshot) => {
-            setChatMessages(
-                snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-            );
-        }
-    );
+    useEffect(() => {
+        const unsubscribe = onSnapshot(
+            query(
+                collection(db, `chats/${id}`, "messages"),
+                orderBy("timestamp", "desc")
+            ),
+            (snapshot) => {
+                setChatMessages(
+                    snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+                );
+            }
+        );
+        return () => unsubscribe();
+    }, []);
 
     return (
         <ListItem
@@ -63,7 +66,7 @@ export default CustomListItem;
 
 const styles = StyleSheet.create({
     listItem: {
-        marginVertical: 10,
+        // marginVertical: 10,
         color: "black",
         borderTopWidth: 1,
         borderTopColor: "gray",
