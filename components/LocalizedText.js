@@ -67,7 +67,9 @@ const uiText = {
             wipText:
                 "\nthis section is still under construction. we're working hard on it!\n\n- yours truly",
         },
-
+        chatScreen: {
+            inputPlaceholder: "say something...",
+        },
         errors: {
             title: "uh oh 😯",
             body: "please forgive me. an error occured",
@@ -145,6 +147,9 @@ const uiText = {
             wipText:
                 "\ncette section est encore en construction. j'y travaille dur!\n\n- equipe de sendr",
         },
+        chatScreen: {
+            inputPlaceholder: "dis quelque chose...",
+        },
         errors: {
             title: "ah non 😯",
             body: "cette erreur est survenue",
@@ -220,6 +225,9 @@ const uiText = {
             barTitle: "perfil",
             wipText:
                 "\nesta sección está aún en construcción. ¡estoy trabajando duro en ello!\n\n- equipo de sendr",
+        },
+        chatScreen: {
+            inputPlaceholder: "escribe algo...",
         },
         errors: {
             title: "ah no 😯",
@@ -297,6 +305,9 @@ const uiText = {
             wipText:
                 "\nой. эти настройки пока еще не зкончены. мы очень усердно над ними работаем!\n\n- команда sendr",
         },
+        chatScreen: {
+            inputPlaceholder: "напиши что-нибудь...",
+        },
         errors: {
             title: "о нет 😯",
             body: "какая досада, произошла ошибка:",
@@ -371,6 +382,9 @@ const uiText = {
                 "\n哎呀。 这些设置尚不可用。 不过，我正在努力研究它们!\n\n- sendr的海利",
             revealInfoButton: "显示个人资料给开发者 👀",
         },
+        chatScreen: {
+            inputPlaceholder: "输入消息...",
+        },
         errors: {
             title: "哎呀 😯",
             body: "哎呀，出错了:",
@@ -444,6 +458,9 @@ const uiText = {
             wipText:
                 "\nええとああ。 設定はまだ利用できません。 頑張っています！\n\n- セーンダのヘイリー",
             revealInfoButton: "開示するプロフィール経歴を開示する 👀",
+        },
+        chatScreen: {
+            inputPlaceholder: "メッセージを入力...",
         },
         errors: {
             title: "ああ (つω`｡)",
