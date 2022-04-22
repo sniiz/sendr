@@ -27,6 +27,8 @@ import {
 } from "../firebase";
 import EmojiPicker from "rn-emoji-keyboard";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import * as Localization from "expo-localization";
+import UIText from "../components/LocalizedText";
 // import * as Device from "expo-device";
 // import Spinner from "react-native-ios-kit";
 // import database from "@react-native-firebase/database";
@@ -133,6 +135,9 @@ const ChatScreen = ({ navigation, route }) => {
                     });
                 });
                 setMessages(messages.reverse());
+                flatListRef.current.scrollToEnd({
+                    animated: true,
+                });
             }
         );
         return () => {
@@ -165,7 +170,9 @@ const ChatScreen = ({ navigation, route }) => {
             })
                 .then(() => {
                     setSending(false);
-                    flatListRef.current.scrollToEnd();
+                    flatListRef.current.scrollToEnd({
+                        animated: false,
+                    });
                 })
                 .catch((error) => alert(error.message));
         }
@@ -220,12 +227,12 @@ const ChatScreen = ({ navigation, route }) => {
                             // data={[...messages].reverse()}
                             data={messages}
                             ref={flatListRef}
-                            onContentSizeChange={() =>
+                            onLayout={() =>
                                 flatListRef.current.scrollToEnd({
                                     animated: true,
                                 })
                             }
-                            onLayout={() =>
+                            onContentSizeChange={() =>
                                 flatListRef.current.scrollToEnd({
                                     animated: true,
                                 })
@@ -237,14 +244,14 @@ const ChatScreen = ({ navigation, route }) => {
                                     <View
                                         key={item.id}
                                         style={{
-                                            alignItems: "flex-start",
+                                            alignItems: "center",
                                             flexDirection: "row",
                                             borderBottomColor: "#aaa",
                                             borderBottomWidth: 1,
                                         }}
                                     >
                                         <View style={styles.receiver}>
-                                            <View
+                                            {/* <View
                                                 style={{
                                                     flexDirection: "row",
                                                 }}
@@ -263,7 +270,7 @@ const ChatScreen = ({ navigation, route }) => {
                                                         // position="absolute"
                                                     />
                                                 ) : null}
-                                            </View>
+                                            </View> */}
                                             <View
                                                 style={{
                                                     marginLeft: item.photoURL
@@ -275,6 +282,21 @@ const ChatScreen = ({ navigation, route }) => {
                                                     style={styles.receiverName}
                                                 >
                                                     {item.displayName}
+                                                    {" · "}
+                                                    {new Date(
+                                                        item?.timestamp
+                                                            ?.seconds * 1000
+                                                    ).toLocaleDateString(
+                                                        Localization.locale,
+                                                        {
+                                                            // weekday: "short",
+                                                            // year: "numeric",
+                                                            month: "short",
+                                                            day: "numeric",
+                                                            hour: "numeric",
+                                                            minute: "numeric",
+                                                        }
+                                                    )}
                                                 </Text>
                                                 <Text
                                                     style={styles.receiverText}
@@ -288,13 +310,13 @@ const ChatScreen = ({ navigation, route }) => {
                                     <View
                                         key={item.id}
                                         style={{
-                                            alignItems: "flex-start",
+                                            alignItems: "center",
                                             borderBottomColor: "#333",
                                             borderBottomWidth: 1,
                                         }}
                                     >
                                         <View style={styles.sender}>
-                                            {item.photoURL ? (
+                                            {/* {item.photoURL ? (
                                                 <Avatar
                                                     rounded
                                                     source={{
@@ -310,16 +332,31 @@ const ChatScreen = ({ navigation, route }) => {
                                                     //     right: -5,
                                                     // }}
                                                 />
-                                            ) : null}
+                                            ) : null} */}
                                             <View
                                                 style={{
                                                     marginLeft: item.photoURL
-                                                        ? 50
+                                                        ? 30
                                                         : 0,
                                                 }}
                                             >
                                                 <Text style={styles.senderName}>
                                                     {item.displayName}
+                                                    {" · "}
+                                                    {new Date(
+                                                        item.timestamp.seconds *
+                                                            1000
+                                                    ).toLocaleDateString(
+                                                        Localization.locale,
+                                                        {
+                                                            // weekday: "short",
+                                                            // year: "numeric",
+                                                            month: "short",
+                                                            day: "numeric",
+                                                            hour: "numeric",
+                                                            minute: "numeric",
+                                                        }
+                                                    )}
                                                 </Text>
                                                 <Text style={styles.senderText}>
                                                     {item.message}
@@ -349,7 +386,9 @@ const ChatScreen = ({ navigation, route }) => {
                             <TextInput // occasinally layers behind keyboard on android
                                 // (why is android so jank)
                                 // FIXME chat footer on android
-                                placeholder="type something..."
+                                placeholder={
+                                    UIText["chatScreen"]["inputPlaceholder"]
+                                }
                                 placeholderTextColor="grey"
                                 style={styles.textInput}
                                 value={msgInput}
@@ -358,14 +397,20 @@ const ChatScreen = ({ navigation, route }) => {
                             />
                             {sending ? (
                                 <ActivityIndicator size="small" color="white" />
-                            ) : (
+                            ) : msgInput !== "" ? (
                                 <TouchableOpacity
                                     onPress={sendMsg}
                                     activeOpacity={0.5}
                                 >
-                                    <Text style={styles.sendbutton}>send</Text>
+                                    {/* <Text style={styles.sendbutton}>send</Text>
+                                     */}
+                                    <SimpleLineIcons
+                                        name="paper-plane"
+                                        size={20}
+                                        color="white"
+                                    />
                                 </TouchableOpacity>
-                            )}
+                            ) : null}
                         </View>
                         <EmojiPicker
                             onEmojiSelected={(emoji) => {
@@ -426,7 +471,7 @@ const styles = StyleSheet.create({
     receiverText: {
         color: "black",
         fontWeight: "normal",
-        marginLeft: 10,
+        // marginLeft: 10,
     },
     createdText: {
         color: "grey",
@@ -441,12 +486,12 @@ const styles = StyleSheet.create({
     senderText: {
         color: "white",
         fontWeight: "normal",
-        marginLeft: 10,
-        marginBottom: 15,
+        // marginLeft: 10,
+        // marginBottom: 15,
     },
     receiver: {
-        padding: 10,
-        paddingVertical: 7,
+        padding: 15,
+        paddingLeft: 30,
         backgroundColor: "white",
         alignItems: "flex-start",
         width: "100%",
@@ -454,23 +499,24 @@ const styles = StyleSheet.create({
         position: "relative",
     },
     sender: {
-        paddingVertical: 5,
-        padding: 10,
-        borderColor: "white",
-        // borderWidth: 1,
+        padding: 15,
+        paddingLeft: 30,
         alignItems: "flex-start",
         width: "100%",
+        marginVertical: 0,
         position: "relative",
     },
     senderName: {
-        left: 10,
-        paddingRight: 10,
+        // left: 10,
+        // paddingRight: 10,
+        marginLeft: -5,
         fontSize: 10,
         color: "grey",
     },
     receiverName: {
-        left: 10,
-        paddingRight: 10,
+        // left: 10,
+        // paddingRight: 10,
+        marginLeft: -5,
         fontSize: 10,
         color: "grey",
     },
