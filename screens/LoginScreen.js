@@ -30,12 +30,14 @@ const LoginScreen = ({ navigation }) => {
     const [loggingIn, setLoggingIn] = useState(false);
     const auth = getAuth();
 
-    onAuthStateChanged(auth, (user) => {
-        setLoading(false);
-        if (user) {
-            navigation.replace("home");
-        }
-    });
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            setLoading(false);
+            if (user) {
+                navigation.replace("home");
+            }
+        });
+    }, []);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -64,17 +66,29 @@ const LoginScreen = ({ navigation }) => {
 
     if (loading) {
         return (
-            <Spinner
-                visible={loading}
-                // textContent={UIText["loginScreen"]["loading"]}
-                // textContent={""}
-                textStyle={{
-                    color: "white",
-                    fontSize: 20,
-                    // fontWeight: "bold",
-                }}
-                overlayColor="rgba(0, 0, 0, 1)"
-            />
+            <View style={styles.container}>
+                <Spinner
+                    visible={loading}
+                    // textContent={UIText["loginScreen"]["loading"]}
+                    // textContent={""}
+                    textStyle={{
+                        color: "white",
+                        fontSize: 20,
+                        // fontWeight: "bold",
+                    }}
+                    overlayColor="rgba(0, 0, 0, 0)"
+                />
+                {/* <Text
+                    style={[
+                        styles.login,
+                        {
+                            marginTop: 20,
+                        },
+                    ]}
+                >
+                    {UIText["loginScreen"]["loading"]}
+                </Text> */}
+            </View>
         );
     } else {
         return (

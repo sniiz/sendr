@@ -1,35 +1,33 @@
-import React, { useEffect, useLayoutEffect, useState, useRef } from "react";
+import { StatusBar } from "expo-status-bar";
+import { useEffect, useLayoutEffect, useState, useRef } from "react";
 import {
+    ActivityIndicator,
+    FlatList,
+    Keyboard,
     KeyboardAvoidingView,
     Platform,
     SafeAreaView,
-    ScrollView,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
-    View,
-    Alert,
-    Keyboard,
     TouchableWithoutFeedback,
-    ActivityIndicator,
+    View,
 } from "react-native";
 import { Avatar } from "react-native-elements";
-import { StatusBar } from "expo-status-bar";
 import {
-    collection,
     addDoc,
-    getFirestore,
-    serverTimestamp,
-    onSnapshot,
+    collection,
     getAuth,
-    query,
+    getFirestore,
+    onSnapshot,
     orderBy,
+    query,
+    serverTimestamp,
 } from "../firebase";
+import EmojiPicker from "rn-emoji-keyboard";
+import { SimpleLineIcons } from "@expo/vector-icons";
 // import * as Device from "expo-device";
-// import * as Notifications from "expo-notifications";
-// import * as Permissions from "expo-permissions";
-import UIText from "../components/LocalizedText";
 // import Spinner from "react-native-ios-kit";
 // import database from "@react-native-firebase/database";
 
@@ -100,15 +98,15 @@ const ChatScreen = ({ navigation, route }) => {
     const [msgInput, setMsgInput] = useState("");
     const [messages, setMessages] = useState([]);
     const [sending, setSending] = useState(false);
+    const [emojiPicker, setEmojiPicker] = useState(false);
     const [usersOnline, setUsersOnline] = useState([]);
+    const flatListRef = useRef(null);
     // const [expoPushToken, setExpoPushToken] = useState("");
     // const [notification, setNotification] = useState(false);
     // const notificationListener = useRef();
     // const responseListener = useRef();
     const auth = getAuth();
     const db = getFirestore();
-
-    var lastSnapshot = null;
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -120,124 +118,88 @@ const ChatScreen = ({ navigation, route }) => {
         });
     }, [navigation]);
 
-    const sendMsg = async () => {
+    useEffect(() => {
+        const unsubscribe = onSnapshot(
+            query(
+                collection(db, `chats/${route.params.id}`, "messages"),
+                orderBy("timestamp", "desc")
+            ),
+            (snapshot) => {
+                const messages = [];
+                snapshot.forEach((doc) => {
+                    messages.push({
+                        id: doc.id,
+                        ...doc.data(),
+                    });
+                });
+                setMessages(messages.reverse());
+            }
+        );
+        return () => {
+            unsubscribe();
+        };
+    }, [route]);
+
+    const sendMsg = () => {
         if (msgInput.length > 0) {
             Keyboard.dismiss();
             setSending(true);
 
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                {
+                    id: Date.now().toString(),
+                    timestamp: serverTimestamp(),
+                    message: msgInput,
+                    displayName: auth.currentUser.displayName,
+                    email: auth.currentUser.email,
+                },
+            ]);
+            setMsgInput("");
             addDoc(collection(db, `chats/${route.params.id}`, "messages"), {
                 timestamp: serverTimestamp(),
                 message: msgInput,
                 displayName: auth.currentUser.displayName,
                 email: auth.currentUser.email,
-                photoURL: auth.currentUser.photoURL,
+                // photoURL: auth.currentUser.photoURL,
             })
                 .then(() => {
-                    setMsgInput("");
                     setSending(false);
+                    flatListRef.current.scrollToEnd();
                 })
                 .catch((error) => alert(error.message));
         }
     };
 
-    onSnapshot(
-        query(
-            collection(db, `chats/${route.params.id}`, "messages"),
-            orderBy("timestamp", "desc")
-        ),
-        (snapshot) => {
-            setMessages(
-                snapshot.docs.reverse().map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }))
-            );
-            // if (lastSnapshot !== snapshot) {
-            //     sendPushNotification(
-            //         expoPushToken,
-            //         snapshot.docs[0].data().message,
-            //         snapshot.docs[0].data().displayName,
-            //         route.params.name,
-            //         route.params.id
-            //     );
-            // }
-            // lastSnapshot = snapshot;
-            // TODO notifications ffs D:<
-        },
-        (error) => {
-            Alert.alert(
-                UIText["errors"]["serverTitle"],
-                UIText["errors"]["serverBody"],
-                [
-                    {
-                        text: UIText["errors"]["serverOk"],
-                        onPress: () => navigation.goBack(),
-                    },
-                    {
-                        text: `${UIText["errors"]["serverMoreInfo"]}...`,
-                        onPress: () => {
-                            Alert.alert(
-                                UIText["errors"]["serverMoreInfo"],
-                                error
-                                    .toString()
-                                    .split("\n")
-                                    .map((line) => `${line}\n`)
-                                    .join("")
-                            );
-                        },
-                    },
-                ]
-            );
-        }
-    )[route];
+    // const unsub = onSnapshot(
+    //     query(
+    //         collection(db, `chats/${route.params.id}`, "messages"),
+    //         orderBy("timestamp", "desc")
+    //     ),
+    //     (snapshot) => {
+    //         setMessages(
+    //             snapshot.docs.reverse().map((doc) => ({
+    //                 id: doc.id,
+    //                 ...doc.data(),
+    //             }))
+    //         );
+    //         // if (lastSnapshot !== snapshot) {
+    //         //     sendPushNotification(
+    //         //         expoPushToken,
+    //         //         snapshot.docs[0].data().message,
+    //         //         snapshot.docs[0].data().displayName,
+    //         //         route.params.name,
+    //         //         route.params.id
+    //         //     );
+    //         // }
+    //         // lastSnapshot = snapshot;
+    //         // TODO notifications ffs D:<
+    //     },
+    //     (error) => {
+    //         alert(`${UIText["errors"]["serverBody"]}, ${error.message}`);
+    //     }
+    // )[route];
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: route.params.chatName,
-            headerBackTitleVisible: false,
-            headerTitleColor: "white",
-            headerTitleAlign: "center",
-            headerRight: () => (
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        width: 80,
-                        marginRight: 20,
-                    }}
-                >
-                    {/* <TouchableOpacity
-                        onPress={Alert.alert( 
-                            "sendr",
-                            "message attachements are not yet available."
-                        )}
-                    >
-                        <FontAwesome
-                            name="video-camera"
-                            size="24"
-                            color="red"
-                        />
-                    </TouchableOpacity> */}
-
-                    {/* <TouchableOpacity
-                        onPress={Alert.alert(
-                            "sendr",
-                            "calls are not yet available."
-                        )}
-                    >
-                        <Ionicons name="call" size="24" color="red" />
-                    </TouchableOpacity> */}
-                    {/* 👀 idk if firebase can actually handle calls */}
-                    {/* TODO research firebase calls */}
-                </View>
-            ),
-        });
-    }, [navigation, messages]);
-
-    const scrollViewRef = useRef();
-    const theme = {
-        primaryColor: "white",
-    };
     return (
         <SafeAreaView
             style={{
@@ -253,25 +215,32 @@ const ChatScreen = ({ navigation, route }) => {
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <>
-                        <ScrollView
-                            contentContainerStyle={{}}
-                            ref={scrollViewRef}
+                        <FlatList
+                            // inverted
+                            // data={[...messages].reverse()}
+                            data={messages}
+                            ref={flatListRef}
                             onContentSizeChange={() =>
-                                scrollViewRef.current.scrollToEnd({
+                                flatListRef.current.scrollToEnd({
                                     animated: true,
                                 })
                             }
-                        >
-                            <Text style={styles.createdText}>
-                                {`${route.params.chatName} ${UIText["newChatScreen"]["created"]}!`}
-                            </Text>
-                            {messages.map((message) =>
-                                message.email === auth.currentUser.email ? (
+                            onLayout={() =>
+                                flatListRef.current.scrollToEnd({
+                                    animated: true,
+                                })
+                            }
+                            // initialScrollIndex={messages.length - 1}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => {
+                                return item.email === auth.currentUser.email ? (
                                     <View
-                                        key={message.id}
+                                        key={item.id}
                                         style={{
                                             alignItems: "flex-start",
                                             flexDirection: "row",
+                                            borderBottomColor: "#aaa",
+                                            borderBottomWidth: 1,
                                         }}
                                     >
                                         <View style={styles.receiver}>
@@ -280,11 +249,11 @@ const ChatScreen = ({ navigation, route }) => {
                                                     flexDirection: "row",
                                                 }}
                                             >
-                                                {message.photoURL ? (
+                                                {item.photoURL ? (
                                                     <Avatar
                                                         rounded
                                                         source={{
-                                                            uri: message.photoURL,
+                                                            uri: item.photoURL,
                                                         }}
                                                         style={{
                                                             margin: 10,
@@ -297,7 +266,7 @@ const ChatScreen = ({ navigation, route }) => {
                                             </View>
                                             <View
                                                 style={{
-                                                    marginLeft: message.photoURL
+                                                    marginLeft: item.photoURL
                                                         ? 30
                                                         : 0,
                                                 }}
@@ -305,27 +274,31 @@ const ChatScreen = ({ navigation, route }) => {
                                                 <Text
                                                     style={styles.receiverName}
                                                 >
-                                                    {message.displayName}
+                                                    {item.displayName}
                                                 </Text>
                                                 <Text
                                                     style={styles.receiverText}
                                                 >
-                                                    {message.message}
+                                                    {item.message}
                                                 </Text>
                                             </View>
                                         </View>
                                     </View>
                                 ) : (
                                     <View
-                                        key={message.id}
-                                        style={{ alignItems: "flex-start" }}
+                                        key={item.id}
+                                        style={{
+                                            alignItems: "flex-start",
+                                            borderBottomColor: "#333",
+                                            borderBottomWidth: 1,
+                                        }}
                                     >
                                         <View style={styles.sender}>
-                                            {message.photoURL ? (
+                                            {item.photoURL ? (
                                                 <Avatar
                                                     rounded
                                                     source={{
-                                                        uri: message.photoURL,
+                                                        uri: item.photoURL,
                                                     }}
                                                     size={30}
                                                     position="absolute"
@@ -340,24 +313,39 @@ const ChatScreen = ({ navigation, route }) => {
                                             ) : null}
                                             <View
                                                 style={{
-                                                    marginLeft: message.photoURL
+                                                    marginLeft: item.photoURL
                                                         ? 50
                                                         : 0,
                                                 }}
                                             >
                                                 <Text style={styles.senderName}>
-                                                    {message.displayName}
+                                                    {item.displayName}
                                                 </Text>
                                                 <Text style={styles.senderText}>
-                                                    {message.message}
+                                                    {item.message}
                                                 </Text>
                                             </View>
                                         </View>
                                     </View>
-                                )
-                            )}
-                        </ScrollView>
+                                );
+                            }}
+                        />
                         <View style={styles.footer}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setEmojiPicker(!emojiPicker);
+                                }}
+                                activeOpacity={0.8}
+                            >
+                                <SimpleLineIcons
+                                    name="emotsmile"
+                                    size={20}
+                                    color="white"
+                                    style={{
+                                        marginRight: 15,
+                                    }}
+                                />
+                            </TouchableOpacity>
                             <TextInput // occasinally layers behind keyboard on android
                                 // (why is android so jank)
                                 // FIXME chat footer on android
@@ -379,6 +367,32 @@ const ChatScreen = ({ navigation, route }) => {
                                 </TouchableOpacity>
                             )}
                         </View>
+                        <EmojiPicker
+                            onEmojiSelected={(emoji) => {
+                                setMsgInput(msgInput + emoji["emoji"]);
+                                console.log(JSON.stringify(emoji));
+                            }}
+                            showSearchBar={false}
+                            showHistory={false}
+                            showTabs={false}
+                            open={emojiPicker}
+                            onClose={() => setEmojiPicker(false)}
+                            // backdropColor="black"
+                            categoryColor="white"
+                            categoryContainerColor="black"
+                            activeCategoryColor="black"
+                            searchBarPlaceholderColor="grey"
+                            searchBarContainerStyle={{
+                                backgroundColor: "black",
+                            }}
+                            containerStyles={{
+                                backgroundColor: "black",
+                            }}
+                            headerStyles={{
+                                color: "white",
+                                fontWeight: "bold",
+                            }}
+                        />
                     </>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
@@ -416,7 +430,7 @@ const styles = StyleSheet.create({
     },
     createdText: {
         color: "grey",
-        fontWeight: "light",
+        // fontWeight: "light",
         textAlign: "center",
         marginVertical: 15,
         alignSelf: "center",

@@ -13,7 +13,7 @@ const uiText = {
             passwordError: "wrong password, please try again",
             loginButton: "log in 👉",
             signUpButton: "no account? sign up 👋",
-            loading: "loading...",
+            loading: "attempting to log you in...",
         },
         signUpScreen: {
             barTitle: "sign up",

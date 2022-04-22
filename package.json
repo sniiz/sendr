@@ -1,6 +1,6 @@
 {
   "name": "sendr",
-  "version": "0.1.82-stable",
+  "version": "0.1.84-stable",
   "description": "a minimalist messaging app",
   "author": "sniiz-haley",
   "license": "MIT",
@@ -45,14 +45,18 @@
     "react-native": "0.64.3",
     "react-native-components": "^0.0.1",
     "react-native-elements": "^3.4.2",
+    "react-native-emoji-modal": "^0.2.2",
     "react-native-image-crop-picker": "^0.37.3",
     "react-native-ios-kit": "^0.0.22",
     "react-native-loading-spinner-overlay": "^3.0.0",
     "react-native-localize": "^2.2.1",
     "react-native-popup-menu": "^0.15.12",
+    "react-native-reanimated": "~2.3.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
+    "react-native-svg": "^12.3.0",
     "react-native-web": "0.17.1",
+    "rn-emoji-keyboard": "^0.7.1",
     "xmldom": "^0.6.0"
   },
   "devDependencies": {

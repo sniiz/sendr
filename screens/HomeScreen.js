@@ -43,21 +43,24 @@ const HomeScreen = ({ navigation }) => {
     //     );
     // };
 
-    const unsubscribe = onSnapshot(
-        collection(db, "chats"),
-        (snapshot) => {
-            setChats(
-                snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    name: doc.chatName,
-                    ...doc.data(),
-                }))
-            );
-        },
-        (error) => {
-            setError(true);
-        }
-    );
+    useEffect(() => {
+        const unsubscribe = onSnapshot(
+            collection(db, "chats"),
+            (snapshot) => {
+                setChats(
+                    snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        name: doc.chatName,
+                        ...doc.data(),
+                    }))
+                );
+            },
+            (error) => {
+                setError(true);
+            }
+        );
+        return () => unsubscribe();
+    }, []);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -124,6 +127,16 @@ const HomeScreen = ({ navigation }) => {
                 >
                     <TouchableOpacity
                         activeOpacity={0.5}
+                        onPress={() => {
+                            alert(
+                                "👀 friends and direct messages are coming soon! (i know we've been saying this forever but just trust us)"
+                            );
+                        }}
+                    >
+                        <SimpleLineIcons name="user" size={18} color="white" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        activeOpacity={0.5}
                         onPress={() =>
                             navigation.navigate(
                                 UIText["newChatScreen"]["barTitle"]
@@ -180,7 +193,7 @@ const HomeScreen = ({ navigation }) => {
     }, [navigation]);
 
     const enterChat = (id, chatName) => {
-        unsubscribe();
+        // unsubscribe();
         navigation.navigate("chat", {
             id,
             chatName,
