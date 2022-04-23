@@ -60,7 +60,6 @@ const uiText = {
             alreadyNamed: "you're already named",
             oldPassword: "enter your old password",
             wrongPassword: "wrong password, please try again",
-            // TODO: settings text
         },
         profileScreen: {
             barTitle: "profile",
@@ -478,32 +477,6 @@ const uiText = {
 };
 
 const supported = ["en", "es", "fr", "de", "it", "pt", "ru", "zh", "ja"]; // terrible way to do this but nothing else worked
-
-// wowee what a mess
-
-// if (RNLocalize.getLocales()[0].languageCode in uiText) {
-//     export default uiText[RNLocalize.getLocales()[0].languageCode];
-// } else {
-//     export default uiText.en;
-
-// if (Platform.OS === "ios") {
-//     var lang =
-//         NativeModules.SettingsManager.settings.AppleLocale ||
-//         NativeModules.SettingsManager.settings.AppleLanguages[0];
-//     lang = lang.slice(0, 2);
-//     // console.log("ios lang: " + lang);
-//     if (!supported.includes(lang)) {
-//         lang = "en";
-//     }
-// } else if (Platform.OS === "android") {
-//     var lang = NativeModules.SettingsManager.settings.language;
-//     lang = lang.slice(0, 2);
-//     if (!supported.includes(lang)) {
-//         lang = "en";
-//     }
-// } else {
-//     var lang = "en";
-// }
 
 var lang = Localization.locale.substring(0, 2);
 if (!supported.includes(lang)) {

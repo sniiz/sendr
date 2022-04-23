@@ -6,6 +6,7 @@ import {
     TouchableWithoutFeedback,
     TouchableHighlight,
     Platform,
+    ActivityIndicator,
     Text,
 } from "react-native";
 import { Button, Input, Image } from "react-native-elements";
@@ -17,7 +18,6 @@ import {
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 import Spinner from "react-native-loading-spinner-overlay";
-import { ActivityIndicator } from "react-native-web";
 
 // const logo = require("../assets/wip_logo_white.png");
 const version = require("../assets/version-info.json");
@@ -31,10 +31,11 @@ const LoginScreen = ({ navigation }) => {
     const auth = getAuth();
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            setLoading(false);
+        onAuthStateChanged(getAuth(), (user) => {
             if (user) {
                 navigation.replace("home");
+            } else {
+                setLoading(false);
             }
         });
     }, []);

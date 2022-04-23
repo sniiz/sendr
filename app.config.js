@@ -6,7 +6,7 @@ export default {
         slug: "sendr",
         version: "v0.1.85-stable",
         orientation: "portrait",
-        icon: "./assets/icon.png", // TODO make an actual icon
+        icon: "./assets/icon.png",
         splash: {
             image: "./assets/splash.png",
             resizeMode: "contain",

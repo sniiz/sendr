@@ -30,11 +30,6 @@ import {
 } from "../firebase";
 import Spinner from "react-native-loading-spinner-overlay";
 import { SimpleLineIcons } from "@expo/vector-icons";
-// import { Storage } from "expo-storage";
-
-// const storage = new MMKVStorage().Loader().initialize();
-// TODO: find a way to store things
-
 const asyncSleep = (sec) =>
     new Promise((resolve) => setTimeout(resolve, sec * 1000));
 
@@ -77,7 +72,6 @@ class BinarySwitch extends React.Component {
 const version = require("../assets/version-info.json");
 
 export default function SettingsScreen({ navigation }) {
-    // TODO: settings
     const [logOutCount, setLogOutCount] = useState(0);
     const [deleteCount, setDeleteCount] = useState(0);
 
