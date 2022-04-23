@@ -10,7 +10,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "preview": "node scripts/build.js",
+    "deploy": "node scripts/build.js --production"
   },
   "build": {
     "appId": "com.sniiz.sendr"
@@ -38,6 +40,7 @@
     "minimist": "1.2.6",
     "node-fetch": "^3.2.3",
     "node-forge": "^1.3.1",
+    "node-notifier": "^10.0.1",
     "nth-check": "^2.0.1",
     "plist": "3.0.5",
     "react": "17.0.1",
