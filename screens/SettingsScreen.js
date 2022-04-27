@@ -30,11 +30,6 @@ import {
 } from "../firebase";
 import Spinner from "react-native-loading-spinner-overlay";
 import { SimpleLineIcons } from "@expo/vector-icons";
-// import { Storage } from "expo-storage";
-
-// const storage = new MMKVStorage().Loader().initialize();
-// TODO: find a way to store things
-
 const asyncSleep = (sec) =>
     new Promise((resolve) => setTimeout(resolve, sec * 1000));
 
@@ -77,7 +72,6 @@ class BinarySwitch extends React.Component {
 const version = require("../assets/version-info.json");
 
 export default function SettingsScreen({ navigation }) {
-    // TODO: settings
     const [logOutCount, setLogOutCount] = useState(0);
     const [deleteCount, setDeleteCount] = useState(0);
 
@@ -110,24 +104,6 @@ export default function SettingsScreen({ navigation }) {
                 style={{ backgroundColor: "black", paddingVertical: 30 }}
             >
                 <>
-                    {/* <View
-                        style={{
-                            height: "30%",
-                            width: "80%",
-                            margin: 20,
-                            marginTop: 50,
-                            minHeight: 200,
-                            padding: "auto",
-                            borderColor: "gray",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderWidth: 1,
-                        }}
-                    >
-                        <Text style={styles.settingText}>
-                            profile settings placeholder
-                        </Text>
-                    </View> */}
                     <Spinner
                         visible={isLoading}
                         textContent={null}
@@ -156,19 +132,6 @@ export default function SettingsScreen({ navigation }) {
                             marginBottom: 20,
                         }}
                         onPress={() => {
-                            // ImageCropPicker.openPicker({
-                            //     width: 300,
-                            //     height: 300,
-                            //     cropping,
-                            //     includeBase64,
-                            //     // includeExif: true,
-                            // })
-                            //     .then((image) => {
-                            //         console.log(image);
-                            //     })
-                            //     .catch((err) => {
-                            //         console.log(err);
-                            //     });
                             alert(UIText["settingsScreen"]["incomplete"]);
                         }}
                     />
@@ -188,7 +151,7 @@ export default function SettingsScreen({ navigation }) {
                                 username !== null ? username : user?.displayName
                             }
                         />
-                        {username?.length >= 3 ? (
+                        {username?.length >= 3 && username.length < 15 ? (
                             <TouchableOpacity
                                 onPress={() => {
                                     if (username !== user?.displayName) {
@@ -201,25 +164,34 @@ export default function SettingsScreen({ navigation }) {
                                         });
                                     }
                                 }}
+                                style={{
+                                    borderRadius: 100,
+                                    borderWidth: 1,
+                                    borderColor: "white",
+                                    padding: 8,
+                                    paddingHorizontal: 20,
+                                    marginLeft: 10,
+                                    marginBottom: 10,
+                                }}
                             >
-                                <Text
-                                    style={[
-                                        styles.settingHeader,
-                                        { marginLeft: 10, marginBottom: 10 },
-                                    ]}
-                                >
+                                <Text style={styles.settingHeader}>
                                     {username === user.displayName
                                         ? `${UIText["settingsScreen"]["alreadyNamed"]} ${username}!`
                                         : `${UIText["settingsScreen"]["changeUsername"]} ${username} 🤙`}
                                 </Text>
                             </TouchableOpacity>
+                        ) : username?.length >= 15 ? (
+                            <Text style={styles.settingHeader}>
+                                {username}{" "}
+                                {UIText["settingsScreen"]["usernameTooLong"]}
+                            </Text>
                         ) : null}
                         <Text style={styles.settingText}>
                             {UIText["settingsScreen"]["password"]}
                         </Text>
                         <Input
                             style={styles.input}
-                            placeholder={"********"}
+                            placeholder={"**********"}
                             secureTextEntry
                             onChangeText={(text) => {
                                 setPassword(text);
@@ -228,24 +200,6 @@ export default function SettingsScreen({ navigation }) {
                             placeholderTextColor="gray"
                         />
                         {password?.length >= 6 ? (
-                            // <TouchableOpacity
-                            //     onPress={() => {
-                            //         setIsLoading(true);
-                            //         updatePassword(user, password).then(() => {
-                            //             setIsLoading(false);
-                            //             setPassword("");
-                            //         });
-                            //     }}
-                            // >
-                            //     <Text
-                            //         style={[
-                            //             styles.settingHeader,
-                            //             { marginLeft: 10, marginBottom: 10 },
-                            //         ]}
-                            //     >
-                            //         change password 🔐
-                            //     </Text>
-                            // </TouchableOpacity>
                             <Input
                                 style={styles.input}
                                 placeholder={
@@ -291,13 +245,17 @@ export default function SettingsScreen({ navigation }) {
                                             );
                                         });
                                 }}
+                                style={{
+                                    borderRadius: 100,
+                                    borderWidth: 1,
+                                    borderColor: "white",
+                                    padding: 8,
+                                    paddingHorizontal: 20,
+                                    marginLeft: 10,
+                                    marginBottom: 10,
+                                }}
                             >
-                                <Text
-                                    style={[
-                                        styles.settingHeader,
-                                        { marginLeft: 10, marginBottom: 10 },
-                                    ]}
-                                >
+                                <Text style={[styles.settingHeader]}>
                                     {UIText["settingsScreen"]["changePassword"]}{" "}
                                     🔐
                                 </Text>
@@ -312,32 +270,6 @@ export default function SettingsScreen({ navigation }) {
                     ></View>
                     <TouchableOpacity
                         onPress={() => {
-                            //Alert.alert(
-                            //    "are you sure you want to log out?",
-                            //    "you will have to enter your details again if you want to use sendr",
-                            //    [
-                            //        {
-                            //            text: "no, nevermind",
-                            //            onPress: () => {},
-                            //        },
-                            //        {
-                            //            text: "yes, log me out",
-                            //            onPress: () => {
-                            //                signOut(getAuth())
-                            //                    .then(() => {
-                            //                        navigation.navigate(
-                            //                            UIText[
-                            //                                "loginScreen"
-                            //                            ]["barTitle"]
-                            //                        );
-                            //                    })
-                            //                    .catch((error) => {å
-                            //                        console.log(error);
-                            //                    });
-                            //            },
-                            //        },
-                            //    ]
-                            //);
                             setLogOutCount(logOutCount + 1);
                             setDeleteCount(0);
                             if (logOutCount === 1) {
@@ -356,6 +288,13 @@ export default function SettingsScreen({ navigation }) {
                                 setLogOutCount(0);
                             });
                         }}
+                        style={{
+                            borderRadius: 100,
+                            borderWidth: 1,
+                            borderColor: "red",
+                            padding: 10,
+                            paddingHorizontal: 20,
+                        }}
                     >
                         <Text style={styles.dangerButton}>
                             {UIText["settingsScreen"]["logOutButton"]}
@@ -372,17 +311,29 @@ export default function SettingsScreen({ navigation }) {
                     <TouchableOpacity
                         onPress={() => {
                             setDeleteCount(deleteCount + 1);
+                            setLogOutCount(0);
                             if (deleteCount === 1) {
-                                deleteUser(user).then(() => {
-                                    navigation.navigate(
-                                        UIText["loginScreen"]["barTitle"]
-                                    );
-                                    setDeleteCount(0);
-                                });
+                                deleteUser(user)
+                                    .then(() => {
+                                        navigation.navigate(
+                                            UIText["loginScreen"]["barTitle"]
+                                        );
+                                        setDeleteCount(0);
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
                             }
                             asyncSleep(7).then(() => {
                                 setDeleteCount(0);
                             });
+                        }}
+                        style={{
+                            borderRadius: 100,
+                            borderWidth: 1,
+                            borderColor: "red",
+                            padding: 10,
+                            paddingHorizontal: 20,
                         }}
                     >
                         <Text style={styles.dangerButton}>
@@ -427,17 +378,12 @@ export default function SettingsScreen({ navigation }) {
                             }}
                         >
                             having trouble with sendr? have a suggestion to make
-                            the app better? open an issue on{" "}
+                            the app better? open an issue on github!!{" "}
                             <SimpleLineIcons
-                                name="social-github"
-                                size="7"
+                                name="share-alt"
+                                size={10}
                                 color="gray"
-                                style={{
-                                    margin: 5,
-                                    paddingTop: 10,
-                                }}
                             />
-                            github 🙌
                         </Text>
                     </TouchableOpacity>
                     <View

@@ -1,5 +1,7 @@
+import { SimpleLineIcons } from "@expo/vector-icons";
+import * as Localization from "expo-localization";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useLayoutEffect, useState, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
     ActivityIndicator,
     FlatList,
@@ -14,7 +16,8 @@ import {
     TouchableWithoutFeedback,
     View,
 } from "react-native";
-import { Avatar } from "react-native-elements";
+import EmojiPicker from "rn-emoji-keyboard";
+import UIText from "../components/LocalizedText";
 import {
     addDoc,
     collection,
@@ -22,91 +25,27 @@ import {
     getFirestore,
     onSnapshot,
     orderBy,
+    onAuthStateChanged,
+    sendEmailVerification,
     query,
     serverTimestamp,
 } from "../firebase";
-import EmojiPicker from "rn-emoji-keyboard";
-import { SimpleLineIcons } from "@expo/vector-icons";
-import * as Localization from "expo-localization";
-import UIText from "../components/LocalizedText";
-// import * as Device from "expo-device";
-// import Spinner from "react-native-ios-kit";
-// import database from "@react-native-firebase/database";
-
-// Notifications.setNotificationHandler({
-//     handleNotification: async () => ({
-//         shouldShowAlert: true,
-//         shouldPlaySound: true,
-//         shouldSetBadge: true,
-//     }),
-// });
-
-// registerForPushNotificationsAsync = async () => {
-//     if (Device.isDevice) {
-//         const { status: existingStatus } =
-//             await Notifications.getPermissionsAsync();
-//         let finalStatus = existingStatus;
-//         if (existingStatus !== "granted") {
-//             const { status } = await Notifications.requestPermissionsAsync();
-//             finalStatus = status;
-//         }
-//         if (finalStatus !== "granted") {
-//             alert("Failed to get push token for push notification!");
-//             return;
-//         }
-//         const token = (await Notifications.getExpoPushTokenAsync()).data;
-//         console.log(token);
-//         this.setState({ expoPushToken: token });
-//     } else {
-//         alert("Must use physical device for Push Notifications");
-//     }
-
-//     if (Platform.OS === "android") {
-//         Notifications.setNotificationChannelAsync("default", {
-//             name: "default",
-//             importance: Notifications.AndroidImportance.MAX,
-//             vibrationPattern: [0, 250, 250, 250],
-//             lightColor: "#FF231F7C",
-//         });
-//     }
-// };
-
-// async function sendPushNotification(
-//     expoPushToken,
-//     messageContent,
-//     author,
-//     chatName,
-//     chatId
-// ) {
-//     const message = {
-//         to: expoPushToken,
-//         sound: "default",
-//         title: chatName,
-//         body: `${author}: ${messageContent}`,
-//     };
-
-//     await fetch("https://exp.host/--/api/v2/push/send", {
-//         method: "POST",
-//         headers: {
-//             Accept: "application/json",
-//             "Accept-encoding": "gzip, deflate",
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(message),
-//     });
-// }
 
 const ChatScreen = ({ navigation, route }) => {
     const [msgInput, setMsgInput] = useState("");
+
     const [messages, setMessages] = useState([]);
+    const [usersOnline, setUsersOnline] = useState([]);
+
     const [sending, setSending] = useState(false);
     const [emojiPicker, setEmojiPicker] = useState(false);
-    const [usersOnline, setUsersOnline] = useState([]);
-    const flatListRef = useRef(null);
-    // const [expoPushToken, setExpoPushToken] = useState("");
-    // const [notification, setNotification] = useState(false);
-    // const notificationListener = useRef();
-    // const responseListener = useRef();
+    const [emailVerified, setEmailVerified] = useState(false);
+
+    const [repliedId, setRepliedId] = useState(null);
+    const [editingId, setEditingId] = useState(null);
+
+    const flatListRef = useRef();
+
     const auth = getAuth();
     const db = getFirestore();
 
@@ -135,18 +74,19 @@ const ChatScreen = ({ navigation, route }) => {
                     });
                 });
                 setMessages(messages.reverse());
-                flatListRef.current.scrollToEnd({
-                    animated: true,
-                });
+                // flatListRef.scrollToEnd({
+                //     animated: false,
+                // });
             }
         );
+
         return () => {
             unsubscribe();
         };
     }, [route]);
 
     const sendMsg = () => {
-        if (msgInput.length > 0) {
+        if (!editingId) {
             Keyboard.dismiss();
             setSending(true);
 
@@ -158,54 +98,31 @@ const ChatScreen = ({ navigation, route }) => {
                     message: msgInput,
                     displayName: auth.currentUser.displayName,
                     email: auth.currentUser.email,
+                    referenceId: repliedId,
                 },
             ]);
             setMsgInput("");
+            setEditingId(null);
             addDoc(collection(db, `chats/${route.params.id}`, "messages"), {
                 timestamp: serverTimestamp(),
                 message: msgInput,
                 displayName: auth.currentUser.displayName,
                 email: auth.currentUser.email,
+                referenceId: repliedId,
                 // photoURL: auth.currentUser.photoURL,
             })
                 .then(() => {
                     setSending(false);
+                    setRepliedId(null);
                     flatListRef.current.scrollToEnd({
                         animated: false,
                     });
                 })
                 .catch((error) => alert(error.message));
+        } else {
+            // wip
         }
     };
-
-    // const unsub = onSnapshot(
-    //     query(
-    //         collection(db, `chats/${route.params.id}`, "messages"),
-    //         orderBy("timestamp", "desc")
-    //     ),
-    //     (snapshot) => {
-    //         setMessages(
-    //             snapshot.docs.reverse().map((doc) => ({
-    //                 id: doc.id,
-    //                 ...doc.data(),
-    //             }))
-    //         );
-    //         // if (lastSnapshot !== snapshot) {
-    //         //     sendPushNotification(
-    //         //         expoPushToken,
-    //         //         snapshot.docs[0].data().message,
-    //         //         snapshot.docs[0].data().displayName,
-    //         //         route.params.name,
-    //         //         route.params.id
-    //         //     );
-    //         // }
-    //         // lastSnapshot = snapshot;
-    //         // TODO notifications ffs D:<
-    //     },
-    //     (error) => {
-    //         alert(`${UIText["errors"]["serverBody"]}, ${error.message}`);
-    //     }
-    // )[route];
 
     return (
         <SafeAreaView
@@ -216,61 +133,55 @@ const ChatScreen = ({ navigation, route }) => {
         >
             <StatusBar style="dark" />
             <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"} // confused haley noises
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.container}
                 keyboardVerticalOffset={90}
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <>
                         <FlatList
-                            // inverted
-                            // data={[...messages].reverse()}
                             data={messages}
                             ref={flatListRef}
-                            onLayout={() =>
-                                flatListRef.current.scrollToEnd({
-                                    animated: true,
-                                })
-                            }
+                            // onLayout={() =>
+                            //     flatListRef.current.scrollToEnd({
+                            //         animated: true,
+                            //     })
+                            // }
                             onContentSizeChange={() =>
                                 flatListRef.current.scrollToEnd({
                                     animated: true,
                                 })
                             }
-                            // initialScrollIndex={messages.length - 1}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) => {
-                                return item.email === auth.currentUser.email ? (
+                                const main =
+                                    item.email === auth.currentUser.email
+                                        ? "white"
+                                        : "black";
+                                const second =
+                                    item.email === auth.currentUser.email
+                                        ? "black"
+                                        : "white";
+                                const bottomBorder =
+                                    item.email === auth.currentUser.email
+                                        ? "#aaa"
+                                        : "#333";
+                                return (
                                     <View
                                         key={item.id}
                                         style={{
                                             alignItems: "center",
                                             flexDirection: "row",
-                                            borderBottomColor: "#aaa",
+                                            borderBottomColor: bottomBorder,
                                             borderBottomWidth: 1,
                                         }}
                                     >
-                                        <View style={styles.receiver}>
-                                            {/* <View
-                                                style={{
-                                                    flexDirection: "row",
-                                                }}
-                                            >
-                                                {item.photoURL ? (
-                                                    <Avatar
-                                                        rounded
-                                                        source={{
-                                                            uri: item.photoURL,
-                                                        }}
-                                                        style={{
-                                                            margin: 10,
-                                                        }}
-                                                        size={30}
-                                                        // bottom={10}
-                                                        // position="absolute"
-                                                    />
-                                                ) : null}
-                                            </View> */}
+                                        <View
+                                            style={[
+                                                styles.messageView,
+                                                { backgroundColor: main },
+                                            ]}
+                                        >
                                             <View
                                                 style={{
                                                     marginLeft: item.photoURL
@@ -278,9 +189,41 @@ const ChatScreen = ({ navigation, route }) => {
                                                         : 0,
                                                 }}
                                             >
-                                                <Text
-                                                    style={styles.receiverName}
-                                                >
+                                                {/* {item.referenceId ? (
+                                                    <TouchableOpacity
+                                                        onPress={() =>
+                                                            flatListRef.current.scrollToIndex(
+                                                                {
+                                                                    index: item.referenceId,
+                                                                    animated: true,
+                                                                }
+                                                            )
+                                                        }
+                                                    >
+                                                        <Text
+                                                            style={[
+                                                                styles.senderName,
+                                                            ]}
+                                                        >
+                                                            <SimpleLineIcons
+                                                                name="arrow-up"
+                                                                size={5}
+                                                                color="gray"
+                                                            />{" "}
+                                                            {
+                                                                messages.find(
+                                                                    (
+                                                                        message
+                                                                    ) => {
+                                                                        message.id ===
+                                                                            item.referenceId;
+                                                                    }
+                                                                )?.displayName
+                                                            }
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                ) : null} */}
+                                                <Text style={styles.senderName}>
                                                     {item.displayName}
                                                     {" · "}
                                                     {new Date(
@@ -289,8 +232,6 @@ const ChatScreen = ({ navigation, route }) => {
                                                     ).toLocaleDateString(
                                                         Localization.locale,
                                                         {
-                                                            // weekday: "short",
-                                                            // year: "numeric",
                                                             month: "short",
                                                             day: "numeric",
                                                             hour: "numeric",
@@ -299,76 +240,88 @@ const ChatScreen = ({ navigation, route }) => {
                                                     )}
                                                 </Text>
                                                 <Text
-                                                    style={styles.receiverText}
+                                                    style={[
+                                                        styles.receiverText,
+                                                        { color: second },
+                                                    ]}
                                                 >
                                                     {item.message}
                                                 </Text>
                                             </View>
-                                        </View>
-                                    </View>
-                                ) : (
-                                    <View
-                                        key={item.id}
-                                        style={{
-                                            alignItems: "center",
-                                            borderBottomColor: "#333",
-                                            borderBottomWidth: 1,
-                                        }}
-                                    >
-                                        <View style={styles.sender}>
-                                            {/* {item.photoURL ? (
-                                                <Avatar
-                                                    rounded
-                                                    source={{
-                                                        uri: item.photoURL,
-                                                    }}
-                                                    size={30}
-                                                    position="absolute"
-                                                    bottom={-15}
-                                                    right={-5}
-                                                    // containerStyle={{
-                                                    //     position: "absolute",
-                                                    //     bottom: -15,
-                                                    //     right: -5,
-                                                    // }}
-                                                />
-                                            ) : null} */}
-                                            <View
+                                            {/* <TouchableOpacity
                                                 style={{
-                                                    marginLeft: item.photoURL
-                                                        ? 30
-                                                        : 0,
+                                                    alignSelf: "flex-end",
+                                                    // position: "absolute",
+                                                }}
+                                                onPress={() => {
+                                                    setRepliedId(item.id);
+                                                    setEditingId(item.id);
                                                 }}
                                             >
-                                                <Text style={styles.senderName}>
-                                                    {item.displayName}
-                                                    {" · "}
-                                                    {new Date(
-                                                        item.timestamp.seconds *
-                                                            1000
-                                                    ).toLocaleDateString(
-                                                        Localization.locale,
-                                                        {
-                                                            // weekday: "short",
-                                                            // year: "numeric",
-                                                            month: "short",
-                                                            day: "numeric",
-                                                            hour: "numeric",
-                                                            minute: "numeric",
-                                                        }
-                                                    )}
-                                                </Text>
-                                                <Text style={styles.senderText}>
-                                                    {item.message}
-                                                </Text>
-                                            </View>
+                                                <SimpleLineIcons
+                                                    name="options-vertical"
+                                                    size={10}
+                                                    color="gray"
+                                                />
+                                            </TouchableOpacity> */}
                                         </View>
                                     </View>
                                 );
                             }}
                         />
+                        {/* {repliedId ?  // wip replies 👀
+                            <View
+                                style={[
+                                    styles.replyFooter,
+                                    {
+                                        backgroundColor:
+                                            messages.find(
+                                                (message) =>
+                                                    message.id === repliedId
+                                            )?.email === auth.currentUser.email
+                                                ? "white"
+                                                : "black",
+                                    },
+                                ]}
+                            >
+                                <TouchableOpacity
+                                    onPress={() => setRepliedId(null)}
+                                >
+                                    <SimpleLineIcons
+                                        name="arrow-down"
+                                        size={15}
+                                        color="gray"
+                                        style={{ marginRight: 10 }}
+                                    />
+                                </TouchableOpacity>
+                                <Text
+                                    style={{
+                                        fontSize: 15,
+                                        color: "gray",
+                                    }}
+                                >
+                                    replying to{" "}
+                                    {messages.find(
+                                        (message) => message.id === repliedId
+                                    )?.displayName ===
+                                    auth.currentUser.displayName
+                                        ? "yourself"
+                                        : messages.find(
+                                              (message) =>
+                                                  message.id === repliedId
+                                          )?.displayName}
+                                    :{" "}
+                                    <Text style={{ color: "gray" }}>
+                                        {messages.find(
+                                            (message) =>
+                                                message.id === repliedId
+                                        )?.message ?? "_"}
+                                    </Text>
+                                </Text>
+                            </View>
+                        ) : null} */}
                         <View style={styles.footer}>
-                            <TouchableOpacity
+                            {/* <TouchableOpacity
                                 onPress={() => {
                                     setEmojiPicker(!emojiPicker);
                                 }}
@@ -382,13 +335,12 @@ const ChatScreen = ({ navigation, route }) => {
                                         marginRight: 15,
                                     }}
                                 />
-                            </TouchableOpacity>
-                            <TextInput // occasinally layers behind keyboard on android
-                                // (why is android so jank)
-                                // FIXME chat footer on android
+                            </TouchableOpacity> */}
+                            <TextInput
                                 placeholder={
                                     UIText["chatScreen"]["inputPlaceholder"]
                                 }
+                                textContentType="none"
                                 placeholderTextColor="grey"
                                 style={styles.textInput}
                                 value={msgInput}
@@ -402,8 +354,6 @@ const ChatScreen = ({ navigation, route }) => {
                                     onPress={sendMsg}
                                     activeOpacity={0.5}
                                 >
-                                    {/* <Text style={styles.sendbutton}>send</Text>
-                                     */}
                                     <SimpleLineIcons
                                         name="paper-plane"
                                         size={20}
@@ -412,7 +362,7 @@ const ChatScreen = ({ navigation, route }) => {
                                 </TouchableOpacity>
                             ) : null}
                         </View>
-                        <EmojiPicker
+                        {/* <EmojiPicker
                             onEmojiSelected={(emoji) => {
                                 setMsgInput(msgInput + emoji["emoji"]);
                                 console.log(JSON.stringify(emoji));
@@ -422,7 +372,6 @@ const ChatScreen = ({ navigation, route }) => {
                             showTabs={false}
                             open={emojiPicker}
                             onClose={() => setEmojiPicker(false)}
-                            // backdropColor="black"
                             categoryColor="white"
                             categoryContainerColor="black"
                             activeCategoryColor="black"
@@ -437,7 +386,9 @@ const ChatScreen = ({ navigation, route }) => {
                                 color: "white",
                                 fontWeight: "bold",
                             }}
-                        />
+                        /> 
+                            it was buggy and took up too much space so it had to go
+                        */}
                     </>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
@@ -457,6 +408,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
         padding: 15,
+    },
+    replyFooter: {
+        flexDirection: "row",
+        alignItems: "center",
+        width: "100%",
+        padding: 15,
+        paddingVertical: 10,
     },
     textInput: {
         bottom: 0,
@@ -489,31 +447,16 @@ const styles = StyleSheet.create({
         // marginLeft: 10,
         // marginBottom: 15,
     },
-    receiver: {
+    messageView: {
         padding: 15,
         paddingLeft: 30,
-        backgroundColor: "white",
-        alignItems: "flex-start",
-        width: "100%",
-        marginVertical: 0,
-        position: "relative",
-    },
-    sender: {
-        padding: 15,
-        paddingLeft: 30,
+        // backgroundColor: "white",
         alignItems: "flex-start",
         width: "100%",
         marginVertical: 0,
         position: "relative",
     },
     senderName: {
-        // left: 10,
-        // paddingRight: 10,
-        marginLeft: -5,
-        fontSize: 10,
-        color: "grey",
-    },
-    receiverName: {
         // left: 10,
         // paddingRight: 10,
         marginLeft: -5,

@@ -6,6 +6,7 @@ import {
     TouchableWithoutFeedback,
     TouchableHighlight,
     Platform,
+    ActivityIndicator,
     Text,
 } from "react-native";
 import { Button, Input, Image } from "react-native-elements";
@@ -17,7 +18,7 @@ import {
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 import Spinner from "react-native-loading-spinner-overlay";
-import { ActivityIndicator } from "react-native-web";
+import { TouchableOpacity } from "react-native-web";
 
 // const logo = require("../assets/wip_logo_white.png");
 const version = require("../assets/version-info.json");
@@ -31,10 +32,11 @@ const LoginScreen = ({ navigation }) => {
     const auth = getAuth();
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            setLoading(false);
+        onAuthStateChanged(getAuth(), (user) => {
             if (user) {
                 navigation.replace("home");
+            } else {
+                setLoading(false);
             }
         });
     }, []);
@@ -42,7 +44,6 @@ const LoginScreen = ({ navigation }) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerStyle: { backgroundColor: "black" },
-
             headerTintColor: "white",
             headerLeft: () => null,
             headerTitleAlign: "center",
@@ -54,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
         signInWithEmailAndPassword(auth, email, password)
             .then(() => {
                 setLoggingIn(false);
-                navigation.replace("home");
+                navigation.navigate("");
             })
             .catch((error) => {
                 setLoggingIn(false);
@@ -148,23 +149,43 @@ const LoginScreen = ({ navigation }) => {
                             }}
                         />
                     ) : (
-                        <TouchableWithoutFeedback onPress={signIn}>
+                        <TouchableOpacity
+                            onPress={signIn}
+                            style={{
+                                borderRadius: 100,
+                                borderWidth: 1,
+                                borderColor: "white",
+                                padding: 8,
+                                paddingHorizontal: 20,
+                                marginBottom: 20,
+                                marginTop: -10,
+                            }}
+                        >
                             <Text style={styles.login}>
                                 {UIText["loginScreen"]["loginButton"]}
                             </Text>
-                        </TouchableWithoutFeedback>
+                        </TouchableOpacity>
                     )}
-                    <TouchableWithoutFeedback
+                    <TouchableOpacity
                         onPress={() =>
                             navigation.navigate(
                                 UIText["signUpScreen"]["barTitle"]
                             )
                         }
+                        style={{
+                            // backgroundColor: "white",
+                            borderRadius: 100,
+                            borderWidth: 1,
+                            borderColor: "white",
+                            padding: 8,
+                            paddingHorizontal: 20,
+                            marginBottom: 20,
+                        }}
                     >
                         <Text style={styles.noacc}>
                             {UIText["loginScreen"]["signUpButton"]}
                         </Text>
-                    </TouchableWithoutFeedback>
+                    </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
         );
@@ -197,7 +218,6 @@ const styles = StyleSheet.create({
     noacc: {
         color: "#f0f0f0",
         fontSize: 17,
-        marginBottom: 20,
         fontWeight: "bold",
         textAlign: "right",
         overflow: "visible",
@@ -209,8 +229,6 @@ const styles = StyleSheet.create({
     login: {
         color: "white",
         fontSize: 25,
-        marginBottom: 20,
-        marginTop: -10,
         fontWeight: "bold",
         textAlign: "center",
         overflow: "visible",

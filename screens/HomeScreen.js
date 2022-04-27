@@ -23,6 +23,8 @@ import {
     getAuth,
     signOut,
     collection,
+    orderBy,
+    query,
     getFirestore,
     onSnapshot,
 } from "../firebase";
@@ -45,7 +47,7 @@ const HomeScreen = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
-            collection(db, "chats"),
+            query(collection(db, "chats"), orderBy("chatName")),
             (snapshot) => {
                 setChats(
                     snapshot.docs.map((doc) => ({
@@ -61,6 +63,12 @@ const HomeScreen = ({ navigation }) => {
         );
         return () => unsubscribe();
     }, []);
+
+    useEffect(() => {
+        if (!getAuth().currentUser.emailVerified) {
+            navigation.navigate(UIText["emailVerifyScreen"]["barTitle"]);
+        }
+    });
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -94,12 +102,7 @@ const HomeScreen = ({ navigation }) => {
                             source={{ uri: auth?.currentUser?.photoURL }}
                         />
                     </TouchableOpacity> */}
-                    <SimpleLineIcons
-                        name="social-github"
-                        size={10}
-                        color="gray"
-                        style={{ marginLeft: 10 }}
-                    />
+
                     <Text
                         style={{
                             fontSize: 10,
@@ -112,7 +115,18 @@ const HomeScreen = ({ navigation }) => {
                             marginLeft: 5,
                         }}
                     >
-                        {version["number"]}
+                        <SimpleLineIcons
+                            name="social-github"
+                            size={10}
+                            color="gray"
+                            style={{ marginLeft: 10 }}
+                        />{" "}
+                        {version["number"]}{" "}
+                        <SimpleLineIcons
+                            name="share-alt"
+                            size={10}
+                            color="gray"
+                        />
                     </Text>
                 </TouchableOpacity>
             ),
@@ -206,7 +220,7 @@ const HomeScreen = ({ navigation }) => {
 
             {
                 // oh no what a mess
-                !Error || chats.length > 1 ? (
+                !Error && chats.length > 0 ? (
                     <ScrollView style={styles.container}>
                         {chats.map(({ id, chatName }) => (
                             <CustomListItem
@@ -217,7 +231,7 @@ const HomeScreen = ({ navigation }) => {
                             />
                         ))}
                     </ScrollView>
-                ) : (
+                ) : Error ? (
                     <View style={styles.containerStatic}>
                         <Text
                             style={{
@@ -241,6 +255,36 @@ const HomeScreen = ({ navigation }) => {
                             }}
                         >
                             {UIText["errors"]["noChats"]}
+                        </Text>
+                    </View>
+                ) : (
+                    <View style={styles.containerStatic}>
+                        <Text
+                            style={{
+                                fontSize: 40,
+                                color: "gray",
+                                textAlign: "center",
+                            }}
+                        >
+                            {"_(-ω-`_)"}
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: 15,
+                                color: "gray",
+                                textAlign: "center",
+                                fontFamily:
+                                    Platform.OS === "ios"
+                                        ? "Courier"
+                                        : "monospace",
+                                fontStyle: "italic",
+                            }}
+                        >
+                            {
+                                UIText["homeScreen"][
+                                    `lonely${Math.floor(Math.random() * 6) + 1}`
+                                ]
+                            }
                         </Text>
                     </View>
                 )
