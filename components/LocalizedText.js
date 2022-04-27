@@ -3,6 +3,9 @@ import * as Localization from "expo-localization";
 
 // this is a clunky way to localize but while the app is small its not a huge deal
 // i think
+
+// (0.1.9) nevermind
+// TODO better localization
 const uiText = {
     en: {
         loginScreen: {
@@ -30,8 +33,10 @@ const uiText = {
             barTitle: "email verification",
             title: "we need to confirm that this email is yours.",
             verifyButton: "send verification email 📨",
+            sentButton: "sent! check your inbox 📧",
+            errorButton: "email verification failed, please try again",
             didNotReceiveEmail:
-                "did not receive email? tap the button again to resend ✌️",
+                "did not receive the email? tap the button again to resend ✌️",
         },
         newChatScreen: {
             barTitle: "new chat",
@@ -48,7 +53,7 @@ const uiText = {
             pfp: "profile picture",
             username: "username",
             password: "password",
-            logOutButton: "log out 🚪",
+            logOutButton: "log out 👉🚪",
             deleteAccountButton: "delete account 🗑",
             logOutConfirm:
                 "are you sure you want to log out? (press again to confirm)",
@@ -58,9 +63,9 @@ const uiText = {
             changeUsername: "change username to",
             changePassword: "change password",
             alreadyNamed: "you're already named",
+            usernameTooLong: "is too long! please keep it under 15 characters.",
             oldPassword: "enter your old password",
             wrongPassword: "wrong password, please try again",
-            // TODO: settings text
         },
         profileScreen: {
             barTitle: "profile",
@@ -69,6 +74,15 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "say something...",
+        },
+        homeScreen: {
+            lonely1: "so lonely here...",
+            lonely2: "so silent...",
+            lonely3: "so quiet...",
+            lonely4: "there's nothing here...",
+            lonely5: "so empty...",
+            lonely6: "where did everyone go?",
+            lonely7: "there's only you here...",
         },
         errors: {
             title: "uh oh 😯",
@@ -109,6 +123,8 @@ const uiText = {
             barTitle: "vérification email",
             title: "il faut confirmer que c'est vraiment votre email.",
             verifyButton: "envoyer un email de vérification 📨",
+            sentButton: "envoyé! regarde dans ton boîte mail 📧",
+            errorButton: "erreur de vérification email, veuillez réessayer",
             didNotReceiveEmail:
                 "n'avez-vous pas reçu d'email? cliquez ici pour réenvoyer ✌️",
         },
@@ -128,7 +144,7 @@ const uiText = {
             pfp: "photo de profil",
             username: "pseudo",
             password: "mot de passe",
-            logOutButton: "se déconnecter 🚪",
+            logOutButton: "se déconnecter 👉🚪",
             deleteAccountButton: "supprimer le compte 🗑",
             logOutConfirm:
                 "es-tu sûre de vouloir te déconnecter? (appuie encore pour confirmer)",
@@ -139,6 +155,8 @@ const uiText = {
             changeUsername: "changer le pseudo à",
             changePassword: "changer le mot de passe",
             alreadyNamed: "tu es déjà nommé",
+            usernameTooLong:
+                "est trop long! veuilles garder-le sous 15 lettres.",
             oldPassword: "entre ton ancien mot de passe",
             wrongPassword: "mauvais mot de passe, essaie à nouveau",
         },
@@ -149,6 +167,15 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "dis quelque chose...",
+        },
+        homeScreen: {
+            lonely1: "ça y est tout seul ici...",
+            lonely2: "ça y est tout seul...",
+            lonely3: "il n'y a pas un son...",
+            lonely4: "il n'y a rien ici...",
+            lonely5: "ça y est tout seul...",
+            lonely6: "où est-ce que tout le monde est parti?",
+            lonely7: "il n'y a que toi ici...",
         },
         errors: {
             title: "ah non 😯",
@@ -190,6 +217,8 @@ const uiText = {
             barTitle: "verificación de email",
             title: "necesitamos confirmar que ese email es tuyo.",
             verifyButton: "enviar email de verificación 📨",
+            sentButton: "enviado! revisa tu bandeja de entrada 📧",
+            errorButton: "error de verificación de email, intenta de nuevo",
             didNotReceiveEmail:
                 "¿no has recibido el email? haz click de nuevo para reenviar ✌️",
         },
@@ -208,7 +237,7 @@ const uiText = {
             pfp: "foto de perfil",
             username: "apodo",
             password: "contraseña",
-            logOutButton: "cerrar sesión 🚪",
+            logOutButton: "cerrar sesión 👉🚪",
             deleteAccountButton: "borrar cuenta 🗑",
             logOutConfirm:
                 "¿estás seguro de que quieres cerrar sesión? (presiona de nuevo para confirmar)",
@@ -218,6 +247,7 @@ const uiText = {
             changeUsername: "cambiar el apodo a",
             changePassword: "cambiar la contraseña",
             alreadyNamed: "ya estás nombreado",
+            usernameTooLong: "es muy largo! manténlo bajo 15 letras.",
             oldPassword: "escriba tu antigua contraseña",
             wrongPassword: "contraseña incorrecta, escriba de nuevo",
         },
@@ -228,6 +258,15 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "escribe algo...",
+        },
+        homeScreen: {
+            lonely1: "se está tan solo aquí...",
+            lonely2: "es tan silencioso aquí...",
+            lonely3: "no hay sonido...",
+            lonely4: "tan vacío...",
+            lonely5: "es tan solo aquí...",
+            lonely6: "¿dónde está todo el mundo?",
+            lonely7: "es tan solo aquí...",
         },
         errors: {
             title: "ah no 😯",
@@ -269,6 +308,9 @@ const uiText = {
             barTitle: "подтверждение почты",
             title: "нам нужно подтвердить, что это почта принадлежит тебе.",
             verifyButton: "отправить письмо подтверждения 📨",
+            sentButton: "отправлено! проверь свою почту 📧",
+            errorButton: "ошибка подтверждения почты, попробуй еще раз",
+            // damn copilot is good at translating
             didNotReceiveEmail:
                 "не получили письмо? нажми еще раз, чтобы отправить заново ✌️",
         },
@@ -287,7 +329,7 @@ const uiText = {
             pfp: "картинка профиля",
             username: "никнейм",
             password: "пароль",
-            logOutButton: "выйти 🚪",
+            logOutButton: "выйти 👉🚪",
             deleteAccountButton: "удалить аккаунт 🗑",
             logOutConfirm:
                 "ты уверен, что хочешь выйти? (нажми еще раз, чтобы подтвердить)",
@@ -297,6 +339,7 @@ const uiText = {
             changeUsername: "изменить никнейм на",
             changePassword: "изменить пароль",
             alreadyNamed: "тебя уже зовут",
+            usernameTooLong: "слишком длинно! пожалуйста сделай его покороче.",
             oldPassword: "введи свой старый пароль",
             wrongPassword: "неверный пароль, попробуй еще раз",
         },
@@ -307,6 +350,15 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "напиши что-нибудь...",
+        },
+        homeScreen: {
+            lonely1: "здесь так одиноко...",
+            lonely2: "так тихо...",
+            lonely3: "здесь ни звука...",
+            lonely4: "здесь пусто...",
+            lonely5: "здесь ничего нет...",
+            lonely6: "куда все делись..?",
+            lonely7: "здесь только ты...",
         },
         errors: {
             title: "о нет 😯",
@@ -365,7 +417,7 @@ const uiText = {
             pfp: "头像",
             username: "用户名",
             password: "密码",
-            logOutButton: "登出 🚪",
+            logOutButton: "登出 👉🚪",
             deleteAccountButton: "删除账户 🗑",
             logOutConfirm: "你确定要登出吗? (点击一次确认)",
             deleteAccountConfirm: "你确定要删除账户吗? (点击一次确认)",
@@ -373,6 +425,7 @@ const uiText = {
             changeUsername: "改变用户名为",
             changePassword: "改变密码",
             alreadyNamed: "你已经叫",
+            usernameTooLong: "太长了！ 请将你的名字缩短",
             oldPassword: "输入你的旧密码",
             wrongPassword: "密码错误，请再试一次",
         },
@@ -384,6 +437,15 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "输入消息...",
+        },
+        homeScreen: {
+            lonely1: "这里什么都没有...",
+            lonely2: "这里什么都没有...",
+            lonely3: "这里什么都没有...",
+            lonely4: "这里什么都没有...",
+            lonely5: "这里什么都没有...",
+            lonely6: "这里什么都没有...",
+            lonely7: "这里什么都没有...",
         },
         errors: {
             title: "哎呀 😯",
@@ -441,7 +503,7 @@ const uiText = {
             pfp: "プロフィール写真",
             username: "ユーザー名",
             password: "パスワード",
-            logOutButton: "ログアウト 🚪",
+            logOutButton: "ログアウト 👉🚪",
             deleteAccountButton: "アカウントを削除 🗑",
             logOutConfirm: "ログアウトしますか？ (一度クリックして確認)",
             deleteAccountConfirm:
@@ -450,6 +512,7 @@ const uiText = {
             changeUsername: "ユーザー名を変更する",
             changePassword: "パスワードを変更する",
             alreadyNamed: "あなたは",
+            usernameTooLong: "長すぎます！ ユーザー名を短くしてください",
             oldPassword: "旧パスワードを入力してください",
             wrongPassword: "パスワードが間違っています。 再度お試しください",
         },
@@ -461,6 +524,15 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "メッセージを入力...",
+        },
+        homeScreen: {
+            lonely1: "ここに何もない...",
+            lonely2: "ここに何もない...",
+            lonely3: "ここに何もない...",
+            lonely4: "ここに何もない...",
+            lonely5: "ここに何もない...",
+            lonely6: "ここに何もない...",
+            lonely7: "ここに何もない...",
         },
         errors: {
             title: "ああ (つω`｡)",
@@ -478,32 +550,6 @@ const uiText = {
 };
 
 const supported = ["en", "es", "fr", "de", "it", "pt", "ru", "zh", "ja"]; // terrible way to do this but nothing else worked
-
-// wowee what a mess
-
-// if (RNLocalize.getLocales()[0].languageCode in uiText) {
-//     export default uiText[RNLocalize.getLocales()[0].languageCode];
-// } else {
-//     export default uiText.en;
-
-// if (Platform.OS === "ios") {
-//     var lang =
-//         NativeModules.SettingsManager.settings.AppleLocale ||
-//         NativeModules.SettingsManager.settings.AppleLanguages[0];
-//     lang = lang.slice(0, 2);
-//     // console.log("ios lang: " + lang);
-//     if (!supported.includes(lang)) {
-//         lang = "en";
-//     }
-// } else if (Platform.OS === "android") {
-//     var lang = NativeModules.SettingsManager.settings.language;
-//     lang = lang.slice(0, 2);
-//     if (!supported.includes(lang)) {
-//         lang = "en";
-//     }
-// } else {
-//     var lang = "en";
-// }
 
 var lang = Localization.locale.substring(0, 2);
 if (!supported.includes(lang)) {
