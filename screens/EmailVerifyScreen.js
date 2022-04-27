@@ -10,31 +10,32 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
     updateProfile,
+    signOut,
 } from "../firebase";
 import { onAuthStateChanged, sendEmailVerification } from "../firebase";
 import UIText from "../components/LocalizedText";
-import { useEffect } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 
 const version = require("../assets/version-info.json");
 
-export default function EmailVerifyScreen({ navigation }) {
+export default function EmailVerifyScreen({ navigation, route }) {
     // TODO email verification
     const auth = getAuth();
+    const [sent, setSent] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (auth.currentUser) {
-            if (auth.currentUser.emailVerified) {
-                navigation.navigate(UIText["homeScreen"]["barTitle"]);
-            }
+        if (getAuth().currentUser.emailVerified) {
+            navigation.navigate("home");
         }
-    });
+    }, [getAuth().currentUser.emailVerified]);
 
     useLayoutEffect(() => {
         navigation.setOptions({
             headerStyle: { backgroundColor: "black" },
-
             headerTintColor: "white",
+            headerLeft: () => null,
             headerTitleAlign: "center",
         });
     }, [navigation]);
@@ -49,23 +50,74 @@ export default function EmailVerifyScreen({ navigation }) {
                 {"\n"}✨ {version.name} ✨
             </Text>
             <Text style={styles.title}>
-                {UIText["emailVerifyScreen"]["title"]}
+                {UIText["emailVerifyScreen"]["title"]}{" "}
+                <Text
+                    style={{
+                        color: "gray",
+                        fontSize: 12,
+                        // marginVertical: "50%",
+                        textAlign: "center",
+                        textAlignVertical: "center",
+                    }}
+                >{`(${auth.currentUser.email})`}</Text>
             </Text>
             <TouchableOpacity
                 onPress={async () => {
-                    await sendEmailVerification(auth.currentUser).then(() => {
-                        // navigation.navigate("home");
-                        console.log("sent");
-                    });
+                    await sendEmailVerification(auth.currentUser)
+                        .then(() => {
+                            setSent(true);
+                        })
+                        .catch((error) => {
+                            alert(error.message);
+                        });
+                }}
+                style={{
+                    // backgroundColor: "white",
+                    borderRadius: 100,
+                    borderWidth: 1,
+                    borderColor: "white",
+                    padding: 10,
+                    paddingHorizontal: 20,
+                    marginBottom: 10,
                 }}
             >
                 <Text style={styles.text}>
-                    {UIText["emailVerifyScreen"]["verifyButton"]}
+                    {sent
+                        ? UIText["emailVerifyScreen"]["sentButton"]
+                        : UIText["emailVerifyScreen"]["verifyButton"]}
                 </Text>
             </TouchableOpacity>
             <Text style={styles.subtitle}>
                 {UIText["emailVerifyScreen"]["didNotReceiveEmail"]}
             </Text>
+            <TouchableOpacity
+                onPress={() => {
+                    signOut(auth).then(() => {
+                        navigation.navigate("login");
+                    });
+                }}
+                style={{
+                    borderRadius: 100,
+                    borderWidth: 1,
+                    borderColor: "red",
+                    marginTop: 100,
+                    padding: 10,
+                    paddingHorizontal: 20,
+                }}
+            >
+                <Text
+                    style={[
+                        styles.text,
+                        {
+                            color: "red",
+                            // marginTop: 20,
+                            fontWeight: "normal",
+                        },
+                    ]}
+                >
+                    {UIText["settingsScreen"]["logOutButton"]}
+                </Text>
+            </TouchableOpacity>
         </KeyboardAvoidingView>
     );
 }
@@ -76,6 +128,7 @@ const styles = StyleSheet.create({
         backgroundColor: "black",
         alignItems: "center",
         justifyContent: "center",
+        paddingTop: 100,
     },
     version: {
         color: "gray",
@@ -93,6 +146,7 @@ const styles = StyleSheet.create({
     title: {
         color: "white",
         fontSize: 40,
+        marginBottom: 20,
         fontWeight: "bold",
         textAlign: "center",
         overflow: "visible",
@@ -101,7 +155,8 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 20,
         textAlign: "center",
-        fontFamily: Platform.OS === "ios" ? "Arial" : "monospace",
+        // fontFamily: Platform.OS === "ios" ? "Arial" : "monospace",
+        fontWeight: "bold",
         textAlign: "center",
     },
 });
