@@ -25,6 +25,7 @@ import {
     collection,
     orderBy,
     query,
+    onAuthStateChanged,
     getFirestore,
     onSnapshot,
 } from "../firebase";
@@ -59,13 +60,24 @@ const HomeScreen = ({ navigation }) => {
             },
             (error) => {
                 setError(true);
+                console.log(error);
             }
         );
-        return () => unsubscribe();
+        const unsubAuth = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigation.replace(UIText["loginScreen"]["barTitle"]);
+            } else if (!user.emailVerified) {
+                navigation.replace(UIText["emailVerifyScreen"]["barTitle"]);
+            }
+        });
+        return () => {
+            unsubscribe();
+            unsubAuth();
+        };
     }, []);
 
     useEffect(() => {
-        if (!getAuth().currentUser.emailVerified) {
+        if (!auth.currentUser.emailVerified) {
             navigation.navigate(UIText["emailVerifyScreen"]["barTitle"]);
         }
     });

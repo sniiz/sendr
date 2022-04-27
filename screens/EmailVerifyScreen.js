@@ -20,16 +20,17 @@ import { NavigationContainer } from "@react-navigation/native";
 const version = require("../assets/version-info.json");
 
 export default function EmailVerifyScreen({ navigation, route }) {
-    // TODO email verification
     const auth = getAuth();
     const [sent, setSent] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (getAuth().currentUser.emailVerified) {
-            navigation.navigate("home");
-        }
-    }, [getAuth().currentUser.emailVerified]);
+        onAuthStateChanged(auth, (user) => {
+            if (user && user?.emailVerified) {
+                navigation.replace("home");
+            }
+        });
+    }, []);
 
     useLayoutEffect(() => {
         navigation.setOptions({

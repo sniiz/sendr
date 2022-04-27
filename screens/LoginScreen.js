@@ -32,13 +32,16 @@ const LoginScreen = ({ navigation }) => {
     const auth = getAuth();
 
     useEffect(() => {
-        onAuthStateChanged(getAuth(), (user) => {
+        const unsub = onAuthStateChanged(getAuth(), (user) => {
             if (user) {
                 navigation.replace("home");
             } else {
                 setLoading(false);
             }
         });
+        return () => {
+            unsub();
+        };
     }, []);
 
     useLayoutEffect(() => {

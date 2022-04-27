@@ -93,10 +93,6 @@ export default function SettingsScreen({ navigation }) {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    async () => {
-        user.reload();
-    };
-
     if (true) {
         return (
             <ScrollView

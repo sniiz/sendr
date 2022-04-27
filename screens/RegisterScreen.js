@@ -50,7 +50,9 @@ const RegisterScreen = ({ navigation }) => {
                 })
                     .then(() => {
                         setLoading(false);
-                        navigation.navigate("home");
+                        navigation.navigate(
+                            UIText["emailVerifyScreen"]["barTitle"]
+                        );
                     })
                     .catch((error) => {
                         setLoading(false);
