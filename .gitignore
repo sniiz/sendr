@@ -27,3 +27,5 @@ site/
 # electron-webpack
 /dist
 # @end @expo/electron-adapter
+
+.vercel
