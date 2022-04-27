@@ -3,6 +3,7 @@ import {
     StyleSheet,
     View,
     KeyboardAvoidingView,
+    TouchableOpacity,
     TouchableWithoutFeedback,
     Platform,
     ActivityIndicator,
@@ -37,6 +38,9 @@ const RegisterScreen = ({ navigation }) => {
     const register = () => {
         setLoading(true);
         const auth = getAuth();
+        setEmail(email.trim());
+        setPassword(password.trim());
+        setFullname(fullname.trim());
         createUserWithEmailAndPassword(auth, email, password)
             .then((authUser) => {
                 const user = authUser.user;
@@ -47,7 +51,6 @@ const RegisterScreen = ({ navigation }) => {
                     .then(() => {
                         setLoading(false);
                         navigation.navigate("home");
-                        // TODO email verification
                     })
                     .catch((error) => {
                         setLoading(false);
@@ -141,11 +144,24 @@ const RegisterScreen = ({ navigation }) => {
                     }}
                 />
             ) : (
-                <TouchableWithoutFeedback onPress={register}>
+                <TouchableOpacity
+                    onPress={register}
+                    style={{
+                        // backgroundColor: "white",
+                        borderRadius: 100,
+                        borderWidth: 1,
+                        borderColor: "white",
+                        padding: 8,
+                        paddingHorizontal: 20,
+                        marginBottom: 20,
+                        marginTop: -10,
+                        marginBottom: 20,
+                    }}
+                >
                     <Text style={styles.login}>
                         {UIText["signUpScreen"]["signUpButton"]}
                     </Text>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
             )}
             {/* <View style={{ height: 1 }} /> */}
         </KeyboardAvoidingView>
@@ -183,9 +199,7 @@ const styles = StyleSheet.create({
     },
     login: {
         color: "white",
-        fontSize: 30,
-        marginTop: -10,
-        marginBottom: 20,
+        fontSize: 25,
         fontWeight: "bold",
         textAlign: "center",
         overflow: "visible",

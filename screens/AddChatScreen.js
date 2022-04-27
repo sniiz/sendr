@@ -5,6 +5,7 @@ import {
     Platform,
     View,
     TouchableWithoutFeedback,
+    TouchableOpacity,
 } from "react-native";
 import { Button, Input, Text } from "react-native-elements";
 import { CoolButton } from "../components/CustomUi";
@@ -53,11 +54,21 @@ const AddChatScreen = ({ navigation }) => {
                     onSubmitEditing={createChat}
                 />
             </View>
-            <TouchableWithoutFeedback onPress={createChat}>
+            <TouchableOpacity
+                onPress={createChat}
+                style={{
+                    borderRadius: 100,
+                    borderWidth: 1,
+                    borderColor: "white",
+                    padding: 8,
+                    paddingHorizontal: 20,
+                    marginBottom: 20,
+                }}
+            >
                 <Text style={styles.button}>
                     {UIText["newChatScreen"]["create"]} ✍️
                 </Text>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
         </KeyboardAvoidingView>
     );
 };
@@ -91,7 +102,6 @@ const styles = StyleSheet.create({
     button: {
         color: "white",
         fontSize: 25,
-        marginBottom: 20,
         // marginTop: -10,
         fontWeight: "bold",
         textAlign: "center",
