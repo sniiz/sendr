@@ -15,11 +15,10 @@ import {
 import { onAuthStateChanged, sendEmailVerification } from "../firebase";
 import UIText from "../components/LocalizedText";
 import { useEffect, useState, useLayoutEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
 
 const version = require("../assets/version-info.json");
 
-export default function EmailVerifyScreen({ navigation, route }) {
+export default function EmailVerifyScreen({ navigation }) {
     // TODO email verification
     const auth = getAuth();
     const [sent, setSent] = useState(false);
@@ -29,7 +28,7 @@ export default function EmailVerifyScreen({ navigation, route }) {
         if (getAuth().currentUser.emailVerified) {
             navigation.navigate("home");
         }
-    }, [getAuth().currentUser.emailVerified]);
+    });
 
     useLayoutEffect(() => {
         navigation.setOptions({

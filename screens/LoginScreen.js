@@ -5,6 +5,7 @@ import {
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
     TouchableHighlight,
+    TouchableOpacity,
     Platform,
     ActivityIndicator,
     Text,
@@ -18,7 +19,6 @@ import {
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 import Spinner from "react-native-loading-spinner-overlay";
-import { TouchableOpacity } from "react-native-web";
 
 // const logo = require("../assets/wip_logo_white.png");
 const version = require("../assets/version-info.json");
@@ -61,6 +61,8 @@ const LoginScreen = ({ navigation }) => {
                 setLoggingIn(false);
                 if (error.message.includes("password")) {
                     setPasswordCorrect(false);
+                } else {
+                    alert(error.message);
                 }
             });
     };

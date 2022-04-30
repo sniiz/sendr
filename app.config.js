@@ -4,7 +4,7 @@ export default {
     expo: {
         name: "sendr",
         slug: "sendr",
-        version: "v0.1.9-stable",
+        version: "v0.1.91-wip",
         orientation: "portrait",
         icon: "./assets/icon.png", // TODO make an actual icon
         splash: {
