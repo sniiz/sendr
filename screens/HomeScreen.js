@@ -157,7 +157,7 @@ const HomeScreen = ({ navigation }) => {
                             );
                         }}
                     >
-                        <SimpleLineIcons name="user" size={18} color="white" />
+                        <SimpleLineIcons name="user" size={18} color="gray" />
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.5}
@@ -167,11 +167,7 @@ const HomeScreen = ({ navigation }) => {
                             )
                         }
                     >
-                        <SimpleLineIcons
-                            name="pencil"
-                            size={18}
-                            color="white"
-                        />
+                        <SimpleLineIcons name="pencil" size={18} color="gray" />
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -185,7 +181,7 @@ const HomeScreen = ({ navigation }) => {
                         <SimpleLineIcons
                             name="settings"
                             size={18}
-                            color="white"
+                            color="gray"
                         />
                     </TouchableOpacity>
 
