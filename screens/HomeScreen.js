@@ -110,8 +110,7 @@ const HomeScreen = ({ navigation }) => {
                             source={{ uri: auth?.currentUser?.photoURL }}
                         />
                     </TouchableOpacity> */}
-
-                        {/* <Text
+                        <Text
                             style={{
                                 fontSize: 10,
                                 fontStyle: "italic",
@@ -135,9 +134,10 @@ const HomeScreen = ({ navigation }) => {
                                 size={10}
                                 color="gray"
                             />
-                            {"   "}
-                            {verified ? "verified" : "not verified"}
-                        </Text> testing thing pls ignore */}
+                            {/* {"   "}
+                            {verified ? "verified" : "not verified"} */}
+                        </Text>{" "}
+                        testing thing pls ignore
                     </TouchableOpacity>
                 </>
             ),
