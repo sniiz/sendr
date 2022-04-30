@@ -17,6 +17,7 @@ site/
 # macOS
 .DS_Store
 .gitignore
+.vercel/
 
 .VSCodeCounter/
 

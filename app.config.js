@@ -4,7 +4,7 @@ export default {
     expo: {
         name: "sendr",
         slug: "sendr",
-        version: "v0.1.91-wip",
+        version: "v0.1.91-stable",
         orientation: "portrait",
         icon: "./assets/icon.png", // TODO make an actual icon
         splash: {
@@ -24,9 +24,9 @@ export default {
         },
         assetBundlePatterns: ["**/*"],
         ios: {
-            supportsTablet: false,
+            supportsTablet: true,
             bundleIdentifier: "com.sniiz.sendr",
-            buildNumber: "0.1.9",
+            buildNumber: "0.1.91",
         },
         android: {
             package: "com.sniiz.sendr_alpha",
