@@ -136,8 +136,7 @@ const HomeScreen = ({ navigation }) => {
                             />
                             {/* {"   "}
                             {verified ? "verified" : "not verified"} */}
-                        </Text>{" "}
-                        testing thing pls ignore
+                        </Text>
                     </TouchableOpacity>
                 </>
             ),
