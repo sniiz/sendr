@@ -51,11 +51,8 @@ const ChatScreen = ({ navigation, route }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerStyle: { backgroundColor: "black" },
             headerTitle: route.params.chatName,
-
             headerTintColor: "white",
-            headerTitleAlign: "center",
         });
     }, [navigation]);
 
@@ -344,6 +341,7 @@ const ChatScreen = ({ navigation, route }) => {
                                 placeholderTextColor="grey"
                                 style={styles.textInput}
                                 value={msgInput}
+                                autoFocus
                                 onChangeText={(text) => setMsgInput(text)}
                                 onSubmitEditing={sendMsg}
                             />

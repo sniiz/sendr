@@ -29,6 +29,7 @@ const globalScreenOptions = {
     headerTitleStyle: { color: "white", fontWeight: "light" },
     headerTintColor: "white",
     contentStyle: { backgroundColor: "black" },
+    headerTitleAlign: "center",
 };
 
 export default function App() {
@@ -46,7 +47,6 @@ export default function App() {
     }, []);
     return (
         <NavigationContainer style={styles.container}>
-            {/* TODO add some cool transition between screens on android */}
             <Stack.Navigator screenOptions={globalScreenOptions}>
                 <Stack.Screen
                     name={UIText["loginScreen"]["barTitle"]}
