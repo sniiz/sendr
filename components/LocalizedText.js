@@ -74,6 +74,10 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "say something...",
+            send: "send",
+            sending: "sending...",
+            showUid: "show uid",
+            hideUid: "hide uid",
         },
         homeScreen: {
             lonely1: "so lonely here...",
@@ -83,6 +87,10 @@ const uiText = {
             lonely5: "so empty...",
             lonely6: "where did everyone go?",
             lonely7: "there's only you here...",
+            github: "sendr on github!",
+            friends: "friends",
+            newChat: "create chat",
+            settings: "settings",
         },
         errors: {
             title: "uh oh 😯",
@@ -167,6 +175,10 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "dis quelque chose...",
+            send: "envoyer",
+            sending: "envoi...",
+            showUid: "montrer l'uid",
+            hideUid: "cacher l'uid",
         },
         homeScreen: {
             lonely1: "ça y est tout seul ici...",
@@ -176,6 +188,10 @@ const uiText = {
             lonely5: "ça y est tout seul...",
             lonely6: "où est-ce que tout le monde est parti?",
             lonely7: "il n'y a que toi ici...",
+            github: "sendr sur github!",
+            friends: "amis",
+            newChat: "créer chat",
+            settings: "paramètres",
         },
         errors: {
             title: "ah non 😯",
@@ -258,6 +274,10 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "escribe algo...",
+            send: "enviar",
+            sending: "enviando...",
+            showUid: "mostrar uid",
+            hideUid: "ocultar uid",
         },
         homeScreen: {
             lonely1: "se está tan solo aquí...",
@@ -267,6 +287,10 @@ const uiText = {
             lonely5: "es tan solo aquí...",
             lonely6: "¿dónde está todo el mundo?",
             lonely7: "es tan solo aquí...",
+            github: "sendr en github!",
+            friends: "amigos",
+            newChat: "crear chat",
+            settings: "ajustes",
         },
         errors: {
             title: "ah no 😯",
@@ -301,7 +325,6 @@ const uiText = {
             disclaimer:
                 "(не волнуйся - мы не будем тебе спамить и/или продавать твои данные рекламщикам 👌)",
             passwordPlaceholder: "пароль",
-            // pfpPlaceholder: "url картинки на профиль (необязательно)",
             signUpButton: "создать 👉",
         },
         emailVerifyScreen: {
@@ -310,7 +333,6 @@ const uiText = {
             verifyButton: "отправить письмо подтверждения 📨",
             sentButton: "отправлено! проверь свою почту 📧",
             errorButton: "ошибка подтверждения почты, попробуй еще раз",
-            // damn copilot is good at translating
             didNotReceiveEmail:
                 "не получили письмо? нажми еще раз, чтобы отправить заново ✌️",
         },
@@ -350,6 +372,10 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "напиши что-нибудь...",
+            send: "отправить",
+            sending: "отправляется...",
+            showUid: "показать uid",
+            hideUid: "скрыть uid",
         },
         homeScreen: {
             lonely1: "здесь так одиноко...",
@@ -359,6 +385,10 @@ const uiText = {
             lonely5: "здесь ничего нет...",
             lonely6: "куда все делись..?",
             lonely7: "здесь только ты...",
+            github: "sendr на github'е!",
+            friends: "друзья",
+            newChat: "новый чат",
+            settings: "настройки",
         },
         errors: {
             title: "о нет 😯",
@@ -437,6 +467,10 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "输入消息...",
+            send: "发送",
+            sending: "发送中...",
+            showUid: "显示 UID",
+            hideUid: "隐藏 UID",
         },
         homeScreen: {
             lonely1: "这里什么都没有...",
@@ -446,6 +480,10 @@ const uiText = {
             lonely5: "这里什么都没有...",
             lonely6: "这里什么都没有...",
             lonely7: "这里什么都没有...",
+            github: "sendr on github!",
+            friends: "好友",
+            newChat: "新建聊天",
+            settings: "设置",
         },
         errors: {
             title: "哎呀 😯",
@@ -524,6 +562,10 @@ const uiText = {
         },
         chatScreen: {
             inputPlaceholder: "メッセージを入力...",
+            send: "おくる",
+            sending: "送信...",
+            showUid: "UIDを表示する",
+            hideUid: "UIDを隠す",
         },
         homeScreen: {
             lonely1: "ここに何もない...",
@@ -533,6 +575,10 @@ const uiText = {
             lonely5: "ここに何もない...",
             lonely6: "ここに何もない...",
             lonely7: "ここに何もない...",
+            github: "sendr on github!",
+            friends: "友達",
+            newChat: "新しいチャット",
+            settings: "設定",
         },
         errors: {
             title: "ああ (つω`｡)",

@@ -4,16 +4,19 @@ a minimalist messaging app
 
 # roadmap!
 
--   [x] basic chat rendering
--   [x] message input system
--   [x] GETTING FIREBASE TO WORK SOMEHOW
--   [ ] light mode (WIP)
 -   [ ] dms (WIP)
+-   [ ] replies (WIP)
+
+-   [ ] light mode
 -   [ ] pfp picker
 -   [ ] comfort features (reactions, typing indicators etc)
--   [x] ui overhaul if needed (because lets be honest GiftedChat is pretty stinky)
--   [ ] usability things (settings and such) (WIP)
 -   [ ] proper desktop client
 -   [ ] presences
+
+-   [x] basic chat rendering
+-   [x] usability things (settings and such)
+-   [x] ui overhaul if needed (because lets be honest GiftedChat is pretty stinky)
+-   [x] message input system
+-   [x] GETTING FIREBASE TO WORK SOMEHOW
 
 -   [ ] ~~custom server perhaps (oh god no)~~

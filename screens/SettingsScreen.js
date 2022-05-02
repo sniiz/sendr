@@ -23,51 +23,29 @@ import {
     signOut,
     deleteUser,
     onAuthStateChanged,
+    getFirestore,
     EmailAuthProvider,
     reauthenticateWithCredential,
+    getDocs,
+    collection,
     updateProfile,
     updatePassword,
 } from "../firebase";
 import Spinner from "react-native-loading-spinner-overlay";
 import { SimpleLineIcons } from "@expo/vector-icons";
+
 const asyncSleep = (sec) =>
     new Promise((resolve) => setTimeout(resolve, sec * 1000));
 
-class BinarySwitch extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: this.props.value,
-        };
-    }
+const applyNickname = (db, uid, nickname) => {
+    new Promise((resolve, reject) => {
+        // getDocs(collection(db, "chats")).then(
 
-    componentDidMount() {
-        this.setState({ value: this.props.value });
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.value !== this.props.value) {
-            this.setState({ value: this.props.value });
-        }
-    }
-
-    render() {
-        return (
-            <View style={styles.settingContainer}>
-                <Text style={styles.settingHeader}>{this.props.title}</Text>
-                <Switch
-                    trackColor={{ false: "#080808", true: "white" }}
-                    thumbColor={this.state.value ? "black" : "white"}
-                    ios_backgroundColor="#080808"
-                    onValueChange={(value) => {
-                        this.setState({ value });
-                    }}
-                    value={this.state.value}
-                />
-            </View>
-        );
-    }
-}
+        // )
+        // TODO apply new nickname to all messages
+        resolve();
+    });
+};
 
 const version = require("../assets/version-info.json");
 
@@ -84,7 +62,6 @@ export default function SettingsScreen({ navigation }) {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerStyle: { backgroundColor: "black" },
-
             headerTintColor: "white",
             headerTitleAlign: "center",
         });
@@ -146,6 +123,23 @@ export default function SettingsScreen({ navigation }) {
                             value={
                                 username !== null ? username : user?.displayName
                             }
+                            onSubmitEditing={() => {
+                                if (username >= 3 && username < 15) {
+                                    setIsLoading(true);
+                                    updateProfile({
+                                        displayName: username,
+                                    }).then(() => {
+                                        setUsername(null);
+                                        applyNickname(
+                                            getFirestore(),
+                                            user.uid,
+                                            username
+                                        ).then(() => {
+                                            setIsLoading(false);
+                                        });
+                                    });
+                                }
+                            }}
                         />
                         {username?.length >= 3 && username.length < 15 ? (
                             <TouchableOpacity
@@ -156,7 +150,13 @@ export default function SettingsScreen({ navigation }) {
                                             displayName: username,
                                         }).then(() => {
                                             setUsername(null);
-                                            setIsLoading(false);
+                                            applyNickname(
+                                                getFirestore(),
+                                                user.uid,
+                                                username
+                                            ).then(() => {
+                                                setIsLoading(false);
+                                            });
                                         });
                                     }
                                 }}

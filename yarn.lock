@@ -11090,6 +11090,13 @@ react-dev-utils@~11.0.1:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
+react-device-detect@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-2.2.2.tgz#dbabbce798ec359c83f574c3edb24cf1cca641a5"
+  integrity sha512-zSN1gIAztUekp5qUT/ybHwQ9fmOqVT1psxpSlTn1pe0CO+fnJHKRLOWWac5nKxOxvOpD/w84hk1I+EydrJp7SA==
+  dependencies:
+    ua-parser-js "^1.0.2"
+
 react-devtools-core@^4.23.0:
   version "4.24.4"
   resolved "https://registry.yarnpkg.com/react-devtools-core/-/react-devtools-core-4.24.4.tgz#adaa54569f87ce7c08384d12e0b35122a755cbae"
@@ -11212,6 +11219,11 @@ react-native-localize@^2.2.1:
   version "2.2.1"
   resolved "https://registry.npmjs.org/react-native-localize/-/react-native-localize-2.2.1.tgz"
   integrity sha512-BuPaQWvxLZG1NrCDGqgAnecDrNQu3LED9/Pyl4H2LwTMHcEngXpE5PfVntW2GiLumdr6nUOkWmMnh8PynZqrsw==
+
+react-native-popable@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-popable/-/react-native-popable-0.4.3.tgz#6e08678d5768f1d2b4a0dd60604d6f7fdef31fde"
+  integrity sha512-khoK9TVLfJV+mBO5FTRx0eZip7djYVDfjaTRDhFPgVq2Exq9X6139Rfjg1sWHPvAQ2VCszTuC45o6iT373kFPw==
 
 react-native-popup-menu@^0.15.12:
   version "0.15.12"
@@ -13003,6 +13015,11 @@ ua-parser-js@^0.7.19, ua-parser-js@^0.7.30:
   version "0.7.31"
   resolved "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.31.tgz"
   integrity sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==
+
+ua-parser-js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.2.tgz#e2976c34dbfb30b15d2c300b2a53eac87c57a775"
+  integrity sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==
 
 uglify-es@^3.1.9:
   version "3.3.9"

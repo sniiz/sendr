@@ -31,6 +31,7 @@ import {
 } from "../firebase";
 // sorry firebase is gitignored im scared of .envs
 import UIText from "../components/LocalizedText";
+import { Popable } from "react-native-popable";
 
 const version = require("../assets/version-info.json");
 
@@ -90,57 +91,72 @@ const HomeScreen = ({ navigation }) => {
             headerTintColor: "white",
             headerTitleAlign: "center",
             headerLeft: () => (
-                <TouchableOpacity
-                    style={{
-                        marginLeft: 20,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flexDirection: "row",
-                    }}
-                    onPress={() => {
-                        if (Platform.OS === "web") {
-                            window.open(
-                                "https://github.com/sniiz/sendr",
-                                "_blank"
-                            );
-                        } else {
-                            Linking.openURL("https://github.com/sniiz/sendr");
-                        }
-                    }}
+                <Popable
+                    content={
+                        <View style={styles.popupContainer}>
+                            <Text style={styles.popupText}>
+                                {UIText["homeScreen"]["github"]}
+                            </Text>
+                        </View>
+                    }
+                    action="hover"
+                    style={{ opacity: 0.8 }}
+                    position="bottom"
                 >
-                    {/* <TouchableOpacity activeOpacity={0.5}>
+                    <TouchableOpacity
+                        style={{
+                            marginLeft: 20,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "row",
+                        }}
+                        onPress={() => {
+                            if (Platform.OS === "web") {
+                                window.open(
+                                    "https://github.com/sniiz/sendr",
+                                    "_blank"
+                                );
+                            } else {
+                                Linking.openURL(
+                                    "https://github.com/sniiz/sendr"
+                                );
+                            }
+                        }}
+                    >
+                        {/* <TouchableOpacity activeOpacity={0.5}>
                         <Avatar
                             rounded
                             source={{ uri: auth?.currentUser?.photoURL }}
                         />
                     </TouchableOpacity> */}
 
-                    <Text
-                        style={{
-                            fontSize: 10,
-                            fontStyle: "italic",
-                            fontFamily:
-                                Platform.OS === "ios"
-                                    ? "Courier New"
-                                    : "monospace",
-                            color: "gray",
-                            marginLeft: 5,
-                        }}
-                    >
-                        <SimpleLineIcons
-                            name="social-github"
-                            size={10}
-                            color="gray"
-                            style={{ marginLeft: 10 }}
-                        />{" "}
-                        {version["number"]}{" "}
-                        <SimpleLineIcons
-                            name="share-alt"
-                            size={10}
-                            color="gray"
-                        />
-                    </Text>
-                </TouchableOpacity>
+                        <Text
+                            style={{
+                                fontSize: 10,
+                                fontStyle: "italic",
+                                fontFamily:
+                                    Platform.OS === "ios"
+                                        ? "Courier New"
+                                        : "monospace",
+                                color: "gray",
+                                marginLeft: 5,
+                            }}
+                        >
+                            <SimpleLineIcons
+                                name="social-github"
+                                size={10}
+                                color="gray"
+                                style={{ marginLeft: 10 }}
+                            />{" "}
+                            {version["number"]}{" "}
+                            <SimpleLineIcons
+                                name="share-alt"
+                                size={10}
+                                color="gray"
+                            />
+                        </Text>
+                    </TouchableOpacity>
+                </Popable>
             ),
             headerRight: () => (
                 <View
@@ -151,45 +167,89 @@ const HomeScreen = ({ navigation }) => {
                         justifyContent: "space-evenly",
                     }}
                 >
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        onPress={() => {
-                            alert(
-                                "👀 friends and direct messages are coming soon! (i know we've been saying this forever but just trust us)"
-                            );
-                        }}
-                    >
-                        <SimpleLineIcons name="user" size={18} color="white" />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        onPress={() =>
-                            navigation.navigate(
-                                UIText["newChatScreen"]["barTitle"]
-                            )
+                    <Popable
+                        content={
+                            <View style={styles.popupContainer}>
+                                <Text style={styles.popupText}>
+                                    {UIText["homeScreen"]["friends"]}
+                                </Text>
+                            </View>
                         }
+                        action="hover"
+                        style={{ opacity: 0.8 }}
+                        position="bottom"
                     >
-                        <SimpleLineIcons
-                            name="pencil"
-                            size={18}
-                            color="white"
-                        />
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={0.5}
+                            onPress={() => {
+                                alert(
+                                    "👀 friends and direct messages are coming soon! (i know we've been saying this forever but just trust us)"
+                                );
+                            }}
+                        >
+                            <SimpleLineIcons
+                                name="user"
+                                size={18}
+                                color="white"
+                            />
+                        </TouchableOpacity>
+                    </Popable>
 
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        onPress={() =>
-                            navigation.navigate(
-                                UIText["settingsScreen"]["barTitle"]
-                            )
+                    <Popable
+                        content={
+                            <View style={styles.popupContainer}>
+                                <Text style={styles.popupText}>
+                                    {UIText["homeScreen"]["newChat"]}
+                                </Text>
+                            </View>
                         }
+                        action="hover"
+                        style={{ opacity: 0.8 }}
+                        position="bottom"
                     >
-                        <SimpleLineIcons
-                            name="settings"
-                            size={18}
-                            color="white"
-                        />
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={0.5}
+                            onPress={() =>
+                                navigation.navigate(
+                                    UIText["newChatScreen"]["barTitle"]
+                                )
+                            }
+                        >
+                            <SimpleLineIcons
+                                name="pencil"
+                                size={18}
+                                color="white"
+                            />
+                        </TouchableOpacity>
+                    </Popable>
+
+                    <Popable
+                        content={
+                            <View style={styles.popupContainer}>
+                                <Text style={styles.popupText}>
+                                    {UIText["homeScreen"]["settings"]}
+                                </Text>
+                            </View>
+                        }
+                        action="hover"
+                        style={{ opacity: 0.8 }}
+                        position="bottom"
+                    >
+                        <TouchableOpacity
+                            activeOpacity={0.5}
+                            onPress={() =>
+                                navigation.navigate(
+                                    UIText["settingsScreen"]["barTitle"]
+                                )
+                            }
+                        >
+                            <SimpleLineIcons
+                                name="settings"
+                                size={18}
+                                color="white"
+                            />
+                        </TouchableOpacity>
+                    </Popable>
 
                     {/* <TouchableOpacity
                         activeOpacity={0.5}
@@ -319,6 +379,16 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         paddingVertical: "15%",
         paddingHorizontal: "10%",
+    },
+    popupContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "black",
+        paddingVertical: "10%",
+    },
+    popupText: {
+        color: "white",
+        fontSize: 12,
     },
     main: {
         flex: 1,

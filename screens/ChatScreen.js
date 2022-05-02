@@ -30,6 +30,9 @@ import {
     query,
     serverTimestamp,
 } from "../firebase";
+import isMobile from "react-device-detect";
+import { Popable, Popover } from "react-native-popable";
+import { ScrollView } from "react-native-web";
 
 const ChatScreen = ({ navigation, route }) => {
     const [msgInput, setMsgInput] = useState("");
@@ -41,13 +44,21 @@ const ChatScreen = ({ navigation, route }) => {
     const [emojiPicker, setEmojiPicker] = useState(false);
     const [emailVerified, setEmailVerified] = useState(false);
 
+    const [idExpanded, setIdExpanded] = useState(false);
+
     const [repliedId, setRepliedId] = useState(null);
     const [editingId, setEditingId] = useState(null);
+
+    const [loaded, setLoaded] = useState(false);
 
     const flatListRef = useRef();
 
     const auth = getAuth();
     const db = getFirestore();
+
+    const removeId = (id, ids) => {
+        ids.filter((i) => i !== id);
+    };
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -71,9 +82,11 @@ const ChatScreen = ({ navigation, route }) => {
                     });
                 });
                 setMessages(messages.reverse());
-                // flatListRef.scrollToEnd({
+                setLoaded(true);
+                // flatListRef?.scrollToEnd({
                 //     animated: false,
                 // });
+                // flatListRef?.current?.scrollToEnd();
             }
         );
 
@@ -94,7 +107,8 @@ const ChatScreen = ({ navigation, route }) => {
                     timestamp: serverTimestamp(),
                     message: msgInput,
                     displayName: auth.currentUser.displayName,
-                    email: auth.currentUser.email,
+                    // email: auth.currentUser.email,
+                    uid: auth.currentUser.uid,
                     referenceId: repliedId,
                 },
             ]);
@@ -104,7 +118,8 @@ const ChatScreen = ({ navigation, route }) => {
                 timestamp: serverTimestamp(),
                 message: msgInput,
                 displayName: auth.currentUser.displayName,
-                email: auth.currentUser.email,
+                // email: auth.currentUser.email,
+                uid: auth.currentUser.uid,
                 referenceId: repliedId,
                 // photoURL: auth.currentUser.photoURL,
             })
@@ -112,7 +127,7 @@ const ChatScreen = ({ navigation, route }) => {
                     setSending(false);
                     setRepliedId(null);
                     flatListRef.current.scrollToEnd({
-                        animated: false,
+                        animated: true,
                     });
                 })
                 .catch((error) => alert(error.message));
@@ -136,57 +151,60 @@ const ChatScreen = ({ navigation, route }) => {
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <>
-                        <FlatList
-                            data={messages}
-                            ref={flatListRef}
-                            // onLayout={() =>
-                            //     flatListRef.current.scrollToEnd({
-                            //         animated: true,
-                            //     })
-                            // }
-                            onContentSizeChange={() =>
-                                flatListRef.current.scrollToEnd({
-                                    animated: true,
-                                })
-                            }
-                            keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => {
-                                const main =
-                                    item.email === auth.currentUser.email
-                                        ? "white"
-                                        : "black";
-                                const second =
-                                    item.email === auth.currentUser.email
-                                        ? "black"
-                                        : "white";
-                                const bottomBorder =
-                                    item.email === auth.currentUser.email
-                                        ? "#aaa"
-                                        : "#333";
-                                return (
-                                    <View
-                                        key={item.id}
-                                        style={{
-                                            alignItems: "center",
-                                            flexDirection: "row",
-                                            borderBottomColor: bottomBorder,
-                                            borderBottomWidth: 1,
-                                        }}
-                                    >
+                        {loaded ? (
+                            <FlatList
+                                data={messages}
+                                ref={flatListRef}
+                                // onLayout={() =>
+                                //     flatListRef.current.scrollToEnd({
+                                //         animating: true,
+                                //     })
+                                // }
+                                onContentSizeChange={() =>
+                                    flatListRef.current.scrollToEnd({
+                                        animating: false,
+                                    })
+                                }
+                                initialScrollIndex={0}
+                                keyExtractor={(item) => item.id}
+                                // contentContainerStyle={{
+                                //     flexGrow: 1,
+                                //     justifyContent: "flex-start",
+                                // }}
+                                // inverted
+                                // style={{ flexDirection: "column-reverse" }}
+                                renderItem={({ item }) => {
+                                    const isUser =
+                                        item.uid === auth.currentUser.uid ||
+                                        item.email === auth.currentUser.email;
+                                    const main = isUser ? "white" : "black";
+                                    const second = isUser ? "black" : "white";
+                                    const third = isUser ? "#999" : "#555";
+                                    return (
                                         <View
-                                            style={[
-                                                styles.messageView,
-                                                { backgroundColor: main },
-                                            ]}
+                                            key={item.id}
+                                            style={{
+                                                alignItems: "center",
+                                                flexDirection: "row",
+                                                borderBottomColor: third,
+                                                borderBottomWidth: 1,
+                                            }}
                                         >
                                             <View
-                                                style={{
-                                                    marginLeft: item.photoURL
-                                                        ? 30
-                                                        : 0,
-                                                }}
+                                                style={[
+                                                    styles.messageView,
+                                                    { backgroundColor: main },
+                                                ]}
                                             >
-                                                {/* {item.referenceId ? (
+                                                <View
+                                                    style={{
+                                                        marginLeft:
+                                                            item.photoURL
+                                                                ? 30
+                                                                : 0,
+                                                    }}
+                                                >
+                                                    {/* {item.referenceId ? (
                                                     <TouchableOpacity
                                                         onPress={() =>
                                                             flatListRef.current.scrollToIndex(
@@ -220,32 +238,69 @@ const ChatScreen = ({ navigation, route }) => {
                                                         </Text>
                                                     </TouchableOpacity>
                                                 ) : null} */}
-                                                <Text style={styles.senderName}>
-                                                    {item.displayName}
-                                                    {" · "}
-                                                    {new Date(
-                                                        item?.timestamp
-                                                            ?.seconds * 1000
-                                                    ).toLocaleDateString(
-                                                        Localization.locale,
-                                                        {
-                                                            month: "short",
-                                                            day: "numeric",
-                                                            hour: "numeric",
-                                                            minute: "numeric",
+                                                    <Text
+                                                        style={[
+                                                            styles.senderName,
+                                                        ]}
+                                                    >
+                                                        {item.displayName}
+                                                        {idExpanded
+                                                            ? ` (uid: ${item.uid})`
+                                                            : null}
+                                                        {" · "}
+                                                        {new Date(
+                                                            item?.timestamp
+                                                                ?.seconds * 1000
+                                                        ).toLocaleDateString(
+                                                            Localization.locale,
+                                                            {
+                                                                month: "short",
+                                                                day: "numeric",
+                                                                hour: "numeric",
+                                                                minute: "numeric",
+                                                            }
+                                                        )}
+                                                        {/* {" · "}
+                                                    <TouchableOpacity
+                                                        onPress={() =>
+                                                            setIdExpanded(
+                                                                !idExpanded
+                                                            )
                                                         }
-                                                    )}
-                                                </Text>
-                                                <Text
-                                                    style={[
-                                                        styles.receiverText,
-                                                        { color: second },
-                                                    ]}
-                                                >
-                                                    {item.message}
-                                                </Text>
-                                            </View>
-                                            {/* <TouchableOpacity
+                                                        style={{
+                                                            marginLeft: 5,
+                                                        }}
+                                                    >
+                                                        <Text
+                                                            style={[
+                                                                styles.senderName,
+                                                                {
+                                                                    textDecorationLine:
+                                                                        "underline",
+                                                                    color: third,
+                                                                },
+                                                            ]}
+                                                        >
+                                                            {idExpanded
+                                                                ? UIText[
+                                                                      "chatScreen"
+                                                                  ]["hideUid"]
+                                                                : UIText[
+                                                                      "chatScreen"
+                                                                  ]["showUid"]}
+                                                        </Text>
+                                                    </TouchableOpacity> */}
+                                                    </Text>
+                                                    <Text
+                                                        style={[
+                                                            styles.receiverText,
+                                                            { color: second },
+                                                        ]}
+                                                    >
+                                                        {item.message}
+                                                    </Text>
+                                                </View>
+                                                {/* <TouchableOpacity
                                                 style={{
                                                     alignSelf: "flex-end",
                                                     // position: "absolute",
@@ -261,11 +316,22 @@ const ChatScreen = ({ navigation, route }) => {
                                                     color="gray"
                                                 />
                                             </TouchableOpacity> */}
+                                            </View>
                                         </View>
-                                    </View>
-                                );
-                            }}
-                        />
+                                    );
+                                }}
+                            />
+                        ) : (
+                            <ActivityIndicator
+                                size="large"
+                                color="gray"
+                                style={{
+                                    flex: 1,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                            />
+                        )}
                         {/* {repliedId ?  // wip replies 👀
                             <View
                                 style={[
@@ -346,18 +412,51 @@ const ChatScreen = ({ navigation, route }) => {
                                 onSubmitEditing={sendMsg}
                             />
                             {sending ? (
-                                <ActivityIndicator size="small" color="white" />
-                            ) : msgInput !== "" ? (
-                                <TouchableOpacity
-                                    onPress={sendMsg}
-                                    activeOpacity={0.5}
+                                <Popable
+                                    content={
+                                        <View style={styles.popupContainer}>
+                                            <Text style={styles.popupText}>
+                                                {
+                                                    UIText["chatScreen"][
+                                                        "sending"
+                                                    ]
+                                                }
+                                            </Text>
+                                        </View>
+                                    }
+                                    action="hover"
+                                    style={{ opacity: 0.8 }}
+                                    position="left"
                                 >
-                                    <SimpleLineIcons
-                                        name="paper-plane"
-                                        size={20}
+                                    <ActivityIndicator
+                                        size="small"
                                         color="white"
                                     />
-                                </TouchableOpacity>
+                                </Popable>
+                            ) : msgInput !== "" ? (
+                                <Popable
+                                    content={
+                                        <View style={styles.popupContainer}>
+                                            <Text style={styles.popupText}>
+                                                {UIText["chatScreen"]["send"]}
+                                            </Text>
+                                        </View>
+                                    }
+                                    action="hover"
+                                    style={{ opacity: 0.8 }}
+                                    position="left"
+                                >
+                                    <TouchableOpacity
+                                        onPress={sendMsg}
+                                        activeOpacity={0.5}
+                                    >
+                                        <SimpleLineIcons
+                                            name="paper-plane"
+                                            size={20}
+                                            color="white"
+                                        />
+                                    </TouchableOpacity>
+                                </Popable>
                             ) : null}
                         </View>
                         {/* <EmojiPicker
@@ -460,5 +559,17 @@ const styles = StyleSheet.create({
         marginLeft: -5,
         fontSize: 10,
         color: "grey",
+    },
+    popupContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
+        backgroundColor: "black",
+        paddingVertical: "10%",
+        paddingHorizontal: "5%",
+    },
+    popupText: {
+        color: "white",
+        fontSize: 12,
     },
 });
