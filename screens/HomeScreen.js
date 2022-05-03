@@ -32,6 +32,7 @@ import {
 // sorry firebase is gitignored im scared of .envs
 import UIText from "../components/LocalizedText";
 import { Popable } from "react-native-popable";
+import { ActivityIndicator } from "react-native-web";
 
 const version = require("../assets/version-info.json");
 
@@ -190,7 +191,7 @@ const HomeScreen = ({ navigation }) => {
                             <SimpleLineIcons
                                 name="user"
                                 size={18}
-                                color="white"
+                                color="#555"
                             />
                         </TouchableOpacity>
                     </Popable>
@@ -331,7 +332,7 @@ const HomeScreen = ({ navigation }) => {
                     </View>
                 ) : (
                     <View style={styles.containerStatic}>
-                        <Text
+                        {/* <Text
                             style={{
                                 fontSize: 40,
                                 color: "gray",
@@ -357,7 +358,8 @@ const HomeScreen = ({ navigation }) => {
                                     `lonely${Math.floor(Math.random() * 6) + 1}`
                                 ]
                             }
-                        </Text>
+                        </Text> */}
+                        <ActivityIndicator size="large" color="gray" />
                     </View>
                 )
             }

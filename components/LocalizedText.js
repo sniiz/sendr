@@ -88,7 +88,7 @@ const uiText = {
             lonely6: "where did everyone go?",
             lonely7: "there's only you here...",
             github: "sendr on github!",
-            friends: "friends",
+            friends: "friends (wip)",
             newChat: "create chat",
             settings: "settings",
         },

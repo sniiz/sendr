@@ -1,5 +1,6 @@
 const notifier = require("node-notifier");
 const exec = require("child_process").exec;
+const ora = require("ora");
 
 function execShellCommand(cmd) {
     return new Promise((resolve, reject) => {
@@ -25,6 +26,11 @@ const webOnly = true;
 // if you're wondering why is this hardcoded, we have some weird issue with native clients at the moment
 
 // web build
+const spinner = ora("running expo buid:web...", {
+    color: "cyan",
+    spinner: "dots",
+}).start();
+
 execShellCommand("expo build:web")
     .then(() => {
         notifier.notify({
@@ -34,7 +40,9 @@ execShellCommand("expo build:web")
             } web build complete`,
             icon: "./assets/icon.png",
         });
-        console.log("web build complete");
+        // console.log("web build complete");
+        spinner.text = "deploying...";
+        // spinner.color = "purple";
         execShellCommand(
             `cp -R ./.vercel ./web-build && vercel ./web-build ${
                 production ? "--prod" : ""
@@ -47,7 +55,12 @@ execShellCommand("expo build:web")
                 } deployed`,
                 icon: "./assets/icon.png",
             });
-            console.log("web build published");
+            spinner.stopAndPersist({
+                symbol: "🎉",
+                text: "deployed",
+            });
+
+            // console.log("web build published");
         });
     })
     .catch((error) => {
@@ -58,7 +71,8 @@ execShellCommand("expo build:web")
             } web build failed`,
             icon: "./assets/icon.png",
         });
-        console.log(error);
+        // console.log(error);
+        spinner.fail("web build failed :(\nerror: " + error);
     });
 
 if (!webOnly) {

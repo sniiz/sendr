@@ -37,6 +37,13 @@ const LoginScreen = ({ navigation }) => {
                 navigation.replace("home");
             } else {
                 setLoading(false);
+                navigation.setOptions({
+                    headerStyle: { backgroundColor: "black" },
+                    headerTintColor: "white",
+                    headerLeft: () => null,
+                    headerShown: true,
+                    headerTitleAlign: "center",
+                });
             }
         });
         return () => {
@@ -49,6 +56,7 @@ const LoginScreen = ({ navigation }) => {
             headerStyle: { backgroundColor: "black" },
             headerTintColor: "white",
             headerLeft: () => null,
+            headerShown: false,
             headerTitleAlign: "center",
         });
     }, [navigation]);
@@ -76,10 +84,11 @@ const LoginScreen = ({ navigation }) => {
                     // textContent={UIText["loginScreen"]["loading"]}
                     // textContent={""}
                     textStyle={{
-                        color: "white",
+                        color: "gray",
                         fontSize: 20,
                         // fontWeight: "bold",
                     }}
+                    color="gray"
                     overlayColor="rgba(0, 0, 0, 0)"
                 />
                 {/* <Text
@@ -146,7 +155,7 @@ const LoginScreen = ({ navigation }) => {
                     {loggingIn ? (
                         <ActivityIndicator
                             size="small"
-                            color="white"
+                            color="gray"
                             style={{
                                 marginBottom: 20,
                             }}

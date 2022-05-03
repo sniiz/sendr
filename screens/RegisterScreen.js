@@ -139,7 +139,7 @@ const RegisterScreen = ({ navigation }) => {
             {loading ? (
                 <ActivityIndicator
                     size="large"
-                    color="white"
+                    color="gray"
                     style={{
                         marginTop: -10,
                         marginBottom: 20,

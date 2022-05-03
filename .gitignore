@@ -9,7 +9,7 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 # web-build/
-firebase.js
+# firebase.js
 electron-webpack.js
 released-apps/
 site/
@@ -28,4 +28,4 @@ site/
 /dist
 # @end @expo/electron-adapter
 
-.vercel
+.vercel/

@@ -65,7 +65,7 @@ const ChatScreen = ({ navigation, route }) => {
             headerTitle: route.params.chatName,
             headerTintColor: "white",
         });
-    }, [navigation]);
+    }, []);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -430,7 +430,7 @@ const ChatScreen = ({ navigation, route }) => {
                                 >
                                     <ActivityIndicator
                                         size="small"
-                                        color="white"
+                                        color="gray"
                                     />
                                 </Popable>
                             ) : msgInput !== "" ? (

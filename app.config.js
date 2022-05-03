@@ -4,7 +4,7 @@ export default {
     expo: {
         name: "sendr",
         slug: "sendr",
-        version: "v0.1.91-stable",
+        version: "v0.1.92-stable",
         orientation: "portrait",
         icon: "./assets/icon.png",
         splash: {
@@ -24,12 +24,12 @@ export default {
         },
         assetBundlePatterns: ["**/*"],
         ios: {
-            supportsTablet: false,
+            supportsTablet: true,
             bundleIdentifier: "com.sniiz.sendr",
-            buildNumber: "0.1.91",
+            buildNumber: "0.1.92",
         },
         android: {
-            package: "com.sniiz.sendr_alpha",
+            package: "com.sniiz.sendr",
             adaptiveIcon: {
                 foregroundImage: "./assets/adaptive-icon.png",
                 backgroundColor: "#000000",
