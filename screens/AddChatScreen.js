@@ -5,16 +5,21 @@ import {
     Platform,
     View,
     TouchableWithoutFeedback,
+    TouchableOpacity,
 } from "react-native";
 import { Button, Input, Text } from "react-native-elements";
 import { CoolButton } from "../components/CustomUi";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { collection, addDoc, getFirestore, getAuth } from "../firebase";
 import UIText from "../components/LocalizedText";
-import { TouchableOpacity } from "react-native-web";
+import { useFonts } from "expo-font";
 
 const AddChatScreen = ({ navigation }) => {
     const [chat, setChat] = useState("");
+    const [loaded] = useFonts({
+        regular: require("../assets/fonts/NotoSans-Regular.ttf"),
+        bold: require("../assets/fonts/OktaNeue-Black.ttf"),
+    });
 
     const createChat = async () => {
         const db = getFirestore();
@@ -39,6 +44,9 @@ const AddChatScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
+    if (!loaded) {
+        return null;
+    }
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -94,6 +102,7 @@ const styles = StyleSheet.create({
         marginTop: 0,
         alignSelf: "center",
         textAlign: "left",
+        fontFamily: "regular",
     },
     inputContainer: {
         width: 320,
@@ -103,7 +112,8 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 25,
         // marginTop: -10,
-        fontWeight: "bold",
+        // fontWeight: "bold",
+        fontFamily: "bold",
         textAlign: "center",
         overflow: "visible",
     },

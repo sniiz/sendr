@@ -60,11 +60,11 @@ export default function EmailVerifyScreen({ navigation, route }) {
                         textAlign: "center",
                         textAlignVertical: "center",
                     }}
-                >{`(${auth.currentUser.email})`}</Text>
+                >{`(${auth?.currentUser?.email})`}</Text>
             </Text>
             <TouchableOpacity
                 onPress={async () => {
-                    await sendEmailVerification(auth.currentUser)
+                    await sendEmailVerification(auth?.currentUser)
                         .then(() => {
                             setSent(true);
                         })

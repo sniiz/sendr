@@ -9,9 +9,15 @@ import {
     getAuth,
     orderBy,
 } from "../firebase";
+import { useFonts } from "expo-font";
 
 const CustomListItem = ({ id, chatName, enterChat }) => {
     const [chatMessages, setChatMessages] = useState([]);
+
+    const [loaded] = useFonts({
+        bold: require("../assets/fonts/OktaNeue-Black.ttf"),
+    });
+
     const db = getFirestore();
 
     useEffect(() => {
@@ -45,7 +51,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
                 }}
             />
             <ListItem.Content>
-                <ListItem.Title style={{ fontWeight: "normal" }}>
+                <ListItem.Title style={{ fontFamily: "bold" }}>
                     {chatName}
                 </ListItem.Title>
                 <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">

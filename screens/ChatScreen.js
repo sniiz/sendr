@@ -31,8 +31,8 @@ import {
     serverTimestamp,
 } from "../firebase";
 import isMobile from "react-device-detect";
+import { useKeyboard } from "@react-native-community/hooks";
 import { Popable, Popover } from "react-native-popable";
-import { ScrollView } from "react-native-web";
 
 const ChatScreen = ({ navigation, route }) => {
     const [msgInput, setMsgInput] = useState("");
@@ -53,6 +53,8 @@ const ChatScreen = ({ navigation, route }) => {
 
     const flatListRef = useRef();
 
+    const kb = useKeyboard();
+
     const auth = getAuth();
     const db = getFirestore();
 
@@ -65,7 +67,7 @@ const ChatScreen = ({ navigation, route }) => {
             headerTitle: route.params.chatName,
             headerTintColor: "white",
         });
-    }, []);
+    }, [navigation]);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -145,7 +147,7 @@ const ChatScreen = ({ navigation, route }) => {
         >
             <StatusBar style="dark" />
             <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                behavior="padding"
                 style={styles.container}
                 keyboardVerticalOffset={90}
             >
@@ -175,8 +177,8 @@ const ChatScreen = ({ navigation, route }) => {
                                 // style={{ flexDirection: "column-reverse" }}
                                 renderItem={({ item }) => {
                                     const isUser =
-                                        item.uid === auth.currentUser.uid ||
-                                        item.email === auth.currentUser.email;
+                                        item.uid === auth?.currentUser?.uid ||
+                                        item.email === auth?.currentUser?.email;
                                     const main = isUser ? "white" : "black";
                                     const second = isUser ? "black" : "white";
                                     const third = isUser ? "#999" : "#555";
@@ -407,7 +409,7 @@ const ChatScreen = ({ navigation, route }) => {
                                 placeholderTextColor="grey"
                                 style={styles.textInput}
                                 value={msgInput}
-                                autoFocus
+                                // autoFocus
                                 onChangeText={(text) => setMsgInput(text)}
                                 onSubmitEditing={sendMsg}
                             />

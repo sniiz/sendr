@@ -16,6 +16,7 @@ import {
     TouchableOpacity,
     Linking,
     Platform,
+    ActivityIndicator,
 } from "react-native";
 import { Avatar } from "react-native-elements";
 import CustomListItem from "../components/CustomListItem";
@@ -32,13 +33,13 @@ import {
 // sorry firebase is gitignored im scared of .envs
 import UIText from "../components/LocalizedText";
 import { Popable } from "react-native-popable";
-import { ActivityIndicator } from "react-native-web";
 
 const version = require("../assets/version-info.json");
 
 const HomeScreen = ({ navigation }) => {
     const [chats, setChats] = useState([]);
     const [Error, setError] = useState(false);
+
     const auth = getAuth();
     const db = getFirestore();
 
@@ -79,7 +80,7 @@ const HomeScreen = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
-        if (!auth.currentUser.emailVerified) {
+        if (!auth?.currentUser?.emailVerified) {
             navigation.navigate(UIText["emailVerifyScreen"]["barTitle"]);
         }
     });
@@ -88,7 +89,6 @@ const HomeScreen = ({ navigation }) => {
         navigation.setOptions({
             title: "sendr",
             headerStyle: { backgroundColor: "black" },
-
             headerTintColor: "white",
             headerTitleAlign: "center",
             headerLeft: () => (

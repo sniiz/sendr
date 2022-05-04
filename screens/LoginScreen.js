@@ -6,6 +6,7 @@ import {
     TouchableWithoutFeedback,
     TouchableHighlight,
     Platform,
+    TouchableOpacity,
     ActivityIndicator,
     Text,
 } from "react-native";
@@ -18,7 +19,6 @@ import {
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 import Spinner from "react-native-loading-spinner-overlay";
-import { TouchableOpacity } from "react-native-web";
 
 // const logo = require("../assets/wip_logo_white.png");
 const version = require("../assets/version-info.json");
@@ -106,8 +106,11 @@ const LoginScreen = ({ navigation }) => {
     } else {
         return (
             <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"} // FIXME occasionally glitches out on android
+                // behavior={Platform.OS === "ios" ? "padding" : "height"}
+                // FIXME occasionally glitches out on android
+                behavior="height"
                 style={styles.container}
+                keyboardVerticalOffset={30}
             >
                 <StatusBar style="light" />
                 <Text
@@ -205,10 +208,6 @@ const LoginScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    ImageDimension: {
-        width: 200,
-        height: 200,
-    },
     inputContainer: {
         width: 320,
         marginVertical: 10,
