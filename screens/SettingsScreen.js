@@ -29,6 +29,10 @@ import {
     EmailAuthProvider,
     reauthenticateWithCredential,
     getDocs,
+    updateDoc,
+    getDoc,
+    setDoc,
+    doc,
     collection,
     updateProfile,
     updatePassword,
@@ -40,12 +44,16 @@ const asyncSleep = (sec) =>
     new Promise((resolve) => setTimeout(resolve, sec * 1000));
 
 const applyNickname = (db, uid, nickname) => {
-    new Promise((resolve, reject) => {
-        // getDocs(collection(db, "chats")).then(
-
-        // )
-        // TODO apply new nickname to all messages
-        resolve();
+    return new Promise((resolve, reject) => {
+        updateDoc(doc(collection(db, "users"), uid), {
+            name: nickname,
+        })
+            .then(() => {
+                resolve();
+            })
+            .catch((err) => {
+                reject(err);
+            });
     });
 };
 
@@ -62,6 +70,8 @@ export default function SettingsScreen({ navigation }) {
     const [isLoading, setIsLoading] = useState(false);
 
     const kb = useKeyboard();
+    const auth = getAuth();
+    const user = auth.currentUser;
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -71,8 +81,18 @@ export default function SettingsScreen({ navigation }) {
         });
     }, [navigation]);
 
-    const auth = getAuth();
-    const user = auth.currentUser;
+    useEffect(() => {
+        const unsub = onAuthStateChanged(getAuth(), (user) => {
+            if (user) {
+                setUsername(null);
+            } else {
+                setUsername("undefined");
+            }
+        });
+        return () => {
+            unsub();
+        };
+    }, []);
 
     if (true) {
         return (
@@ -149,13 +169,13 @@ export default function SettingsScreen({ navigation }) {
                                         updateProfile({
                                             displayName: username,
                                         }).then(() => {
-                                            setUsername(null);
                                             applyNickname(
                                                 getFirestore(),
                                                 user.uid,
                                                 username
                                             ).then(() => {
                                                 setIsLoading(false);
+                                                setUsername(null);
                                             });
                                         });
                                     }
@@ -300,7 +320,7 @@ export default function SettingsScreen({ navigation }) {
                                 if (logOutCount === 1) {
                                     signOut(getAuth())
                                         .then(() => {
-                                            navigation.navigate(
+                                            navigation.replace(
                                                 UIText["loginScreen"][
                                                     "barTitle"
                                                 ]
@@ -342,7 +362,7 @@ export default function SettingsScreen({ navigation }) {
                                 if (deleteCount === 1) {
                                     deleteUser(user)
                                         .then(() => {
-                                            navigation.navigate(
+                                            navigation.replace(
                                                 UIText["loginScreen"][
                                                     "barTitle"
                                                 ]

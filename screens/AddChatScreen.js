@@ -12,14 +12,9 @@ import { CoolButton } from "../components/CustomUi";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { collection, addDoc, getFirestore, getAuth } from "../firebase";
 import UIText from "../components/LocalizedText";
-import { useFonts } from "expo-font";
 
 const AddChatScreen = ({ navigation }) => {
     const [chat, setChat] = useState("");
-    const [loaded] = useFonts({
-        regular: require("../assets/fonts/NotoSans-Regular.ttf"),
-        bold: require("../assets/fonts/OktaNeue-Black.ttf"),
-    });
 
     const createChat = async () => {
         const db = getFirestore();
@@ -27,7 +22,7 @@ const AddChatScreen = ({ navigation }) => {
         await addDoc(collection(db, "chats"), {
             // chat info
             chatName: chat,
-            // createdBy: auth.currentUser.fullname,
+            author: auth.currentUser.displayName,
         })
             .then(() => navigation.goBack())
             .catch((error) => alert(error.message));
@@ -36,17 +31,12 @@ const AddChatScreen = ({ navigation }) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             title: UIText["newChatScreen"]["barTitle"],
-            headerBackTitle: "back to chats",
             headerStyle: { backgroundColor: "black" },
-
             headerTintColor: "white",
             headerTitleAlign: "center",
         });
     }, [navigation]);
 
-    if (!loaded) {
-        return null;
-    }
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -102,7 +92,7 @@ const styles = StyleSheet.create({
         marginTop: 0,
         alignSelf: "center",
         textAlign: "left",
-        fontFamily: "regular",
+        // fontFamily: "regular",
     },
     inputContainer: {
         width: 320,
@@ -112,8 +102,8 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 25,
         // marginTop: -10,
-        // fontWeight: "bold",
-        fontFamily: "bold",
+        fontWeight: "bold",
+        // fontFamily: "bold",
         textAlign: "center",
         overflow: "visible",
     },

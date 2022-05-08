@@ -9,14 +9,9 @@ import {
     getAuth,
     orderBy,
 } from "../firebase";
-import { useFonts } from "expo-font";
 
 const CustomListItem = ({ id, chatName, enterChat }) => {
     const [chatMessages, setChatMessages] = useState([]);
-
-    const [loaded] = useFonts({
-        bold: require("../assets/fonts/OktaNeue-Black.ttf"),
-    });
 
     const db = getFirestore();
 
@@ -35,6 +30,9 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
         return () => unsubscribe();
     }, []);
 
+    // if (!loaded) {
+    //     return null;
+    // }
     return (
         <ListItem
             onPress={() => enterChat(id, chatName)}
@@ -51,17 +49,23 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
                 }}
             />
             <ListItem.Content>
-                <ListItem.Title style={{ fontFamily: "bold" }}>
+                {/* <ListItem.Title style={{ fontFamily: "bold" }}>
+                 */}
+                <ListItem.Title
+                    style={{
+                        fontWeight: "bold",
+                    }}
+                >
                     {chatName}
                 </ListItem.Title>
                 <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-                    {chatMessages != null
-                        ? chatMessages?.[0]?.displayName
-                        : "nobody"}
+                    {chatMessages[0]?.displayName
+                        ? chatMessages[0]?.displayName
+                        : "no one"}
                     :{" "}
-                    {chatMessages != null
-                        ? chatMessages?.[0]?.message
-                        : "nothing"}
+                    {chatMessages[0]?.message
+                        ? chatMessages[0]?.message
+                        : "* empty *"}
                 </ListItem.Subtitle>
             </ListItem.Content>
         </ListItem>

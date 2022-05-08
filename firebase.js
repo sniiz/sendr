@@ -4,11 +4,16 @@ import {
     collection,
     addDoc,
     setDoc,
+    deleteDoc,
+    getDocs,
     doc,
     onSnapshot,
     serverTimestamp,
+    updateDoc,
     query,
     orderBy,
+    getDoc,
+    where,
 } from "firebase/firestore";
 import {
     getAuth,
@@ -60,4 +65,9 @@ export {
     setDoc,
     doc,
     deleteUser,
+    deleteDoc,
+    where,
+    getDocs,
+    updateDoc,
+    getDoc,
 };

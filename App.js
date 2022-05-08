@@ -11,6 +11,7 @@ import EmailVerifyScreen from "./screens/EmailVerifyScreen";
 import SettingsScreen from "./screens/SettingsScreen"; // wip screen
 import UIText from "./components/LocalizedText";
 import ProfileScreen from "./screens/ProfileScreen";
+import FriendsScreen from "./screens/FriendsScreen";
 import { LogBox, AppState } from "react-native";
 import _ from "lodash";
 import * as firebase from "./firebase";
@@ -25,28 +26,51 @@ import * as firebase from "./firebase";
 
 const Stack = createNativeStackNavigator();
 const globalScreenOptions = {
-    headerStyle: { backgroundColor: "black" },
+    headerStyle: {
+        backgroundColor: "black",
+        borderBottomWidth: 1,
+        borderBottomColor: "white",
+    },
     headerTitleStyle: { color: "white", fontWeight: "light" },
     headerTintColor: "white",
-    contentStyle: { backgroundColor: "black" },
     headerTitleAlign: "center",
+};
+const linking = {
+    prefixes: [
+        "localhost:19006",
+        "https://sendrapp.vercel.app",
+        "https://sendr-sniiz.vercel.app",
+    ],
+    config: {
+        screens: {
+            Login: "login",
+            Register: "register",
+            Home: "home",
+            AddChat: "add-chat",
+            Chat: "chat",
+            EmailVerify: "email-verify",
+            Settings: "settings",
+            Profile: "profile",
+            Friends: "friends",
+        },
+    },
 };
 
 export default function App() {
-    useEffect(() => {
-        var auth = firebase.getAuth();
-        if (auth.currentUser != null) {
-            const db = firebase.getFirestore();
-            async () => {
-                await firebase.setDoc(
-                    doc(db, "usersOnline", auth.currentUser.uid),
-                    "yep"
-                );
-            };
-        }
-    }, []);
+    // useEffect(() => {
+    //     var auth = firebase.getAuth();
+    //     if (auth.currentUser != null) {
+    //         const db = firebase.getFirestore();
+    //         async () => {
+    //             await firebase.setDoc(
+    //                 doc(db, "usersOnline", auth.currentUser.uid),
+    //                 "yep"
+    //             );
+    //         };
+    //     }
+    // }, []);
     return (
-        <NavigationContainer style={styles.container}>
+        <NavigationContainer style={styles.container} linking={linking}>
             <Stack.Navigator screenOptions={globalScreenOptions}>
                 <Stack.Screen
                     name={UIText["loginScreen"]["barTitle"]}
@@ -73,6 +97,10 @@ export default function App() {
                 <Stack.Screen
                     name={UIText["emailVerifyScreen"]["barTitle"]}
                     component={EmailVerifyScreen}
+                />
+                <Stack.Screen
+                    name={UIText["friendsScreen"]["barTitle"]}
+                    component={FriendsScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>

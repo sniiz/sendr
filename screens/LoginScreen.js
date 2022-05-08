@@ -16,6 +16,12 @@ import {
     getAuth,
     onAuthStateChanged,
     signInWithEmailAndPassword,
+    getFirestore,
+    collection,
+    addDoc,
+    setDoc,
+    getDoc,
+    doc,
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -29,18 +35,40 @@ const LoginScreen = ({ navigation }) => {
     const [passwordCorrect, setPasswordCorrect] = useState(true);
     const [loading, setLoading] = useState(true);
     const [loggingIn, setLoggingIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const auth = getAuth();
 
     useEffect(() => {
         const unsub = onAuthStateChanged(getAuth(), (user) => {
-            if (user) {
-                navigation.replace("home");
+            if (user !== null) {
+                setIsLoggedIn(true);
+                getDoc(doc(collection(getFirestore(), "users"), user.uid)).then(
+                    (user) => {
+                        if (!user.exists()) {
+                            setDoc(doc(db, "users", user.id), {
+                                friendRequests: {},
+                                friends: [],
+                                name: user.displayName,
+                                pfp: user.photoURL ? user.photoURL : null,
+                            }).then(() => {
+                                navigation.replace("home");
+                            });
+                        } else {
+                            navigation.replace("home");
+                        }
+                    },
+                    (error) => {
+                        alert(error);
+                        navigation.replace("home");
+                    }
+                );
             } else {
                 setLoading(false);
                 navigation.setOptions({
                     headerStyle: { backgroundColor: "black" },
                     headerTintColor: "white",
                     headerLeft: () => null,
+                    gesturesEnabled: false,
                     headerShown: true,
                     headerTitleAlign: "center",
                 });

@@ -57,6 +57,7 @@ const HomeScreen = ({ navigation }) => {
                     snapshot.docs.map((doc) => ({
                         id: doc.id,
                         name: doc.chatName,
+                        author: doc.author,
                         ...doc.data(),
                     }))
                 );
@@ -69,7 +70,7 @@ const HomeScreen = ({ navigation }) => {
         const unsubAuth = onAuthStateChanged(auth, (user) => {
             if (!user) {
                 navigation.replace(UIText["loginScreen"]["barTitle"]);
-            } else if (!user.emailVerified) {
+            } else if (!user?.emailVerified) {
                 navigation.replace(UIText["emailVerifyScreen"]["barTitle"]);
             }
         });
@@ -78,12 +79,6 @@ const HomeScreen = ({ navigation }) => {
             unsubAuth();
         };
     }, []);
-
-    useEffect(() => {
-        if (!auth?.currentUser?.emailVerified) {
-            navigation.navigate(UIText["emailVerifyScreen"]["barTitle"]);
-        }
-    });
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -183,15 +178,15 @@ const HomeScreen = ({ navigation }) => {
                         <TouchableOpacity
                             activeOpacity={0.5}
                             onPress={() => {
-                                alert(
-                                    "👀 friends and direct messages are coming soon! (i know we've been saying this forever but just trust us)"
+                                navigation.navigate(
+                                    UIText["friendsScreen"]["barTitle"]
                                 );
                             }}
                         >
                             <SimpleLineIcons
                                 name="user"
                                 size={18}
-                                color="#555"
+                                color="white"
                             />
                         </TouchableOpacity>
                     </Popable>
@@ -279,11 +274,12 @@ const HomeScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
-    const enterChat = (id, chatName) => {
+    const enterChat = (id, chatName, author) => {
         // unsubscribe();
         navigation.navigate("chat", {
             id,
             chatName,
+            author,
         });
     };
 
@@ -295,12 +291,13 @@ const HomeScreen = ({ navigation }) => {
                 // oh no what a mess
                 !Error && chats.length > 0 ? (
                     <ScrollView style={styles.container}>
-                        {chats.map(({ id, chatName }) => (
+                        {chats.map(({ id, chatName, author }) => (
                             <CustomListItem
                                 key={id}
                                 id={id}
                                 chatName={chatName}
                                 enterChat={enterChat}
+                                author={author}
                             />
                         ))}
                     </ScrollView>
@@ -313,7 +310,8 @@ const HomeScreen = ({ navigation }) => {
                                 textAlign: "center",
                             }}
                         >
-                            {"(・_・ヾ"}
+                            {/* {"(・_・ヾ"} */}
+                            {"(ノ‥)ノ"}
                         </Text>
                         <Text
                             style={{

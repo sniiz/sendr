@@ -14,6 +14,9 @@ import { StatusBar } from "expo-status-bar";
 import {
     getAuth,
     createUserWithEmailAndPassword,
+    setDoc,
+    doc,
+    getFirestore,
     updateProfile,
 } from "../firebase";
 import UIText from "../components/LocalizedText";
@@ -26,6 +29,7 @@ const RegisterScreen = ({ navigation }) => {
     const [imgurl, setImgurl] = useState("");
 
     const [loading, setLoading] = useState(false);
+    const db = getFirestore();
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -49,10 +53,17 @@ const RegisterScreen = ({ navigation }) => {
                     // photoURL: imgurl,
                 })
                     .then(() => {
-                        setLoading(false);
-                        navigation.navigate(
-                            UIText["emailVerifyScreen"]["barTitle"]
-                        );
+                        setDoc(doc(db, "users", user.uid), {
+                            friendRequests: {},
+                            friends: [],
+                            name: fullname,
+                            pfp: imgurl ? imgurl : null,
+                        }).then(() => {
+                            setLoading(false);
+                            navigation.navigate(
+                                UIText["emailVerifyScreen"]["barTitle"]
+                            );
+                        });
                     })
                     .catch((error) => {
                         setLoading(false);
@@ -114,6 +125,7 @@ const RegisterScreen = ({ navigation }) => {
                     placeholderTextColor="gray"
                     value={password}
                     onChangeText={(text) => setPassword(text)}
+                    onSubmitEditing={register}
                 />
                 {/* <Input // TODO add image picker bc urls suck
                     placeholder={UIText["signUpScreen"]["pfpPlaceholder"]}

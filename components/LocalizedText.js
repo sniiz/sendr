@@ -78,6 +78,7 @@ const uiText = {
             sending: "sending...",
             showUid: "show uid",
             hideUid: "hide uid",
+            created: " created ",
         },
         homeScreen: {
             lonely1: "so lonely here...",
@@ -88,9 +89,12 @@ const uiText = {
             lonely6: "where did everyone go?",
             lonely7: "there's only you here...",
             github: "sendr on github!",
-            friends: "friends (wip)",
+            friends: "friends",
             newChat: "create chat",
             settings: "settings",
+        },
+        friendsScreen: {
+            barTitle: "friends",
         },
         errors: {
             title: "uh oh 😯",
@@ -179,6 +183,7 @@ const uiText = {
             sending: "envoi...",
             showUid: "montrer l'uid",
             hideUid: "cacher l'uid",
+            created: " a créé ",
         },
         homeScreen: {
             lonely1: "ça y est tout seul ici...",
@@ -192,6 +197,9 @@ const uiText = {
             friends: "amis",
             newChat: "créer chat",
             settings: "paramètres",
+        },
+        friendsScreen: {
+            barTitle: "amis",
         },
         errors: {
             title: "ah non 😯",
@@ -278,6 +286,7 @@ const uiText = {
             sending: "enviando...",
             showUid: "mostrar uid",
             hideUid: "ocultar uid",
+            created: " creó ",
         },
         homeScreen: {
             lonely1: "se está tan solo aquí...",
@@ -291,6 +300,9 @@ const uiText = {
             friends: "amigos",
             newChat: "crear chat",
             settings: "ajustes",
+        },
+        friendsScreen: {
+            barTitle: "amigos",
         },
         errors: {
             title: "ah no 😯",
@@ -376,6 +388,7 @@ const uiText = {
             sending: "отправляется...",
             showUid: "показать uid",
             hideUid: "скрыть uid",
+            created: " создал(а) ",
         },
         homeScreen: {
             lonely1: "здесь так одиноко...",
@@ -389,6 +402,9 @@ const uiText = {
             friends: "друзья",
             newChat: "новый чат",
             settings: "настройки",
+        },
+        friendsScreen: {
+            barTitle: "друзья",
         },
         errors: {
             title: "о нет 😯",
@@ -471,6 +487,7 @@ const uiText = {
             sending: "发送中...",
             showUid: "显示 UID",
             hideUid: "隐藏 UID",
+            created: "创建了",
         },
         homeScreen: {
             lonely1: "这里什么都没有...",
@@ -484,6 +501,9 @@ const uiText = {
             friends: "好友",
             newChat: "新建聊天",
             settings: "设置",
+        },
+        friendsScreen: {
+            barTitle: "好友",
         },
         errors: {
             title: "哎呀 😯",
@@ -566,6 +586,7 @@ const uiText = {
             sending: "送信...",
             showUid: "UIDを表示する",
             hideUid: "UIDを隠す",
+            created: " created ",
         },
         homeScreen: {
             lonely1: "ここに何もない...",
@@ -579,6 +600,9 @@ const uiText = {
             friends: "友達",
             newChat: "新しいチャット",
             settings: "設定",
+        },
+        friendsScreen: {
+            barTitle: "友達",
         },
         errors: {
             title: "ああ (つω`｡)",

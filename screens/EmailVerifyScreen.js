@@ -32,6 +32,15 @@ export default function EmailVerifyScreen({ navigation, route }) {
         });
     }, []);
 
+    useEffect(() => {
+        var user = getAuth().currentUser;
+        if (user) {
+            if (user?.emailVerified) {
+                navigation.replace("home");
+            }
+        }
+    }, [getAuth()]);
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerStyle: { backgroundColor: "black" },
@@ -94,7 +103,7 @@ export default function EmailVerifyScreen({ navigation, route }) {
             <TouchableOpacity
                 onPress={() => {
                     signOut(auth).then(() => {
-                        navigation.navigate("login");
+                        navigation.replace("login");
                     });
                 }}
                 style={{

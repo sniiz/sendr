@@ -27,8 +27,10 @@ import {
     orderBy,
     onAuthStateChanged,
     sendEmailVerification,
+    getDoc,
     query,
     serverTimestamp,
+    doc,
 } from "../firebase";
 import isMobile from "react-device-detect";
 import { useKeyboard } from "@react-native-community/hooks";
@@ -36,6 +38,7 @@ import { Popable, Popover } from "react-native-popable";
 
 const ChatScreen = ({ navigation, route }) => {
     const [msgInput, setMsgInput] = useState("");
+    const [author, setAuthor] = useState("");
 
     const [messages, setMessages] = useState([]);
     const [usersOnline, setUsersOnline] = useState([]);
@@ -65,7 +68,14 @@ const ChatScreen = ({ navigation, route }) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerTitle: route.params.chatName,
+            headerStyle: {
+                backgroundColor: "black",
+                borderBottomWidth: 1,
+                borderBottomColor: "white",
+            },
+            headerTitleStyle: { color: "white", fontWeight: "light" },
             headerTintColor: "white",
+            headerTitleAlign: "center",
         });
     }, [navigation]);
 
@@ -73,7 +83,7 @@ const ChatScreen = ({ navigation, route }) => {
         const unsubscribe = onSnapshot(
             query(
                 collection(db, `chats/${route.params.id}`, "messages"),
-                orderBy("timestamp", "desc")
+                orderBy("timestamp", "asc")
             ),
             (snapshot) => {
                 const messages = [];
@@ -83,7 +93,7 @@ const ChatScreen = ({ navigation, route }) => {
                         ...doc.data(),
                     });
                 });
-                setMessages(messages.reverse());
+                setMessages(messages);
                 setLoaded(true);
                 // flatListRef?.scrollToEnd({
                 //     animated: false,
@@ -91,48 +101,56 @@ const ChatScreen = ({ navigation, route }) => {
                 // flatListRef?.current?.scrollToEnd();
             }
         );
-
+        getDoc(doc(db, `chats`, route.params.id)).then((chat) => {
+            setAuthor(chat.data().author);
+        });
         return () => {
             unsubscribe();
         };
     }, [route]);
 
     const sendMsg = () => {
+        // check if message is empty (or just spaces)
         if (!editingId) {
             Keyboard.dismiss();
             setSending(true);
 
-            setMessages((prevMessages) => [
-                ...prevMessages,
-                {
-                    id: Date.now().toString(),
+            if (msgInput.trim().length > 0) {
+                setMessages((prevMessages) => [
+                    ...prevMessages,
+                    {
+                        id: Date.now().toString(),
+                        timestamp: serverTimestamp(),
+                        message: msgInput,
+                        displayName: auth.currentUser.displayName,
+                        // email: auth.currentUser.email,
+                        uid: auth.currentUser.uid,
+                        // referenceId: repliedId,
+                    },
+                ]);
+                setMsgInput("");
+                setEditingId(null);
+                addDoc(collection(db, `chats/${route.params.id}`, "messages"), {
                     timestamp: serverTimestamp(),
                     message: msgInput,
                     displayName: auth.currentUser.displayName,
                     // email: auth.currentUser.email,
                     uid: auth.currentUser.uid,
-                    referenceId: repliedId,
-                },
-            ]);
-            setMsgInput("");
-            setEditingId(null);
-            addDoc(collection(db, `chats/${route.params.id}`, "messages"), {
-                timestamp: serverTimestamp(),
-                message: msgInput,
-                displayName: auth.currentUser.displayName,
-                // email: auth.currentUser.email,
-                uid: auth.currentUser.uid,
-                referenceId: repliedId,
-                // photoURL: auth.currentUser.photoURL,
-            })
-                .then(() => {
-                    setSending(false);
-                    setRepliedId(null);
-                    flatListRef.current.scrollToEnd({
-                        animated: true,
-                    });
+                    // referenceId: repliedId,
+                    // photoURL: auth.currentUser.photoURL,
                 })
-                .catch((error) => alert(error.message));
+                    .then(() => {
+                        setSending(false);
+                        setRepliedId(null);
+                        // flatListRef.current.scrollToEnd({
+                        //     animated: true,
+                        // });
+                    })
+                    .catch((error) => alert(error.message));
+            } else {
+                setSending(false);
+                setRepliedId(null);
+            }
         } else {
             // wip
         }
@@ -169,6 +187,21 @@ const ChatScreen = ({ navigation, route }) => {
                                 }
                                 initialScrollIndex={0}
                                 keyExtractor={(item) => item.id}
+                                ListHeaderComponent={
+                                    <Text
+                                        style={{
+                                            fontSize: 15,
+                                            fontWeight: "bold",
+                                            color: "gray",
+                                            textAlign: "center",
+                                            marginVertical: 10,
+                                        }}
+                                    >
+                                        {author}
+                                        {UIText["chatScreen"]["created"]}
+                                        {route.params.chatName}
+                                    </Text>
+                                }
                                 // contentContainerStyle={{
                                 //     flexGrow: 1,
                                 //     justifyContent: "flex-start",
@@ -182,14 +215,17 @@ const ChatScreen = ({ navigation, route }) => {
                                     const main = isUser ? "white" : "black";
                                     const second = isUser ? "black" : "white";
                                     const third = isUser ? "#999" : "#555";
+                                    if (item.message.trim() === "") {
+                                        return null;
+                                    }
                                     return (
                                         <View
                                             key={item.id}
                                             style={{
                                                 alignItems: "center",
                                                 flexDirection: "row",
-                                                borderBottomColor: third,
-                                                borderBottomWidth: 1,
+                                                borderTopColor: third,
+                                                borderTopWidth: 1,
                                             }}
                                         >
                                             <View
@@ -206,40 +242,6 @@ const ChatScreen = ({ navigation, route }) => {
                                                                 : 0,
                                                     }}
                                                 >
-                                                    {/* {item.referenceId ? (
-                                                    <TouchableOpacity
-                                                        onPress={() =>
-                                                            flatListRef.current.scrollToIndex(
-                                                                {
-                                                                    index: item.referenceId,
-                                                                    animated: true,
-                                                                }
-                                                            )
-                                                        }
-                                                    >
-                                                        <Text
-                                                            style={[
-                                                                styles.senderName,
-                                                            ]}
-                                                        >
-                                                            <SimpleLineIcons
-                                                                name="arrow-up"
-                                                                size={5}
-                                                                color="gray"
-                                                            />{" "}
-                                                            {
-                                                                messages.find(
-                                                                    (
-                                                                        message
-                                                                    ) => {
-                                                                        message.id ===
-                                                                            item.referenceId;
-                                                                    }
-                                                                )?.displayName
-                                                            }
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                ) : null} */}
                                                     <Text
                                                         style={[
                                                             styles.senderName,
@@ -262,36 +264,6 @@ const ChatScreen = ({ navigation, route }) => {
                                                                 minute: "numeric",
                                                             }
                                                         )}
-                                                        {/* {" · "}
-                                                    <TouchableOpacity
-                                                        onPress={() =>
-                                                            setIdExpanded(
-                                                                !idExpanded
-                                                            )
-                                                        }
-                                                        style={{
-                                                            marginLeft: 5,
-                                                        }}
-                                                    >
-                                                        <Text
-                                                            style={[
-                                                                styles.senderName,
-                                                                {
-                                                                    textDecorationLine:
-                                                                        "underline",
-                                                                    color: third,
-                                                                },
-                                                            ]}
-                                                        >
-                                                            {idExpanded
-                                                                ? UIText[
-                                                                      "chatScreen"
-                                                                  ]["hideUid"]
-                                                                : UIText[
-                                                                      "chatScreen"
-                                                                  ]["showUid"]}
-                                                        </Text>
-                                                    </TouchableOpacity> */}
                                                     </Text>
                                                     <Text
                                                         style={[
@@ -302,22 +274,6 @@ const ChatScreen = ({ navigation, route }) => {
                                                         {item.message}
                                                     </Text>
                                                 </View>
-                                                {/* <TouchableOpacity
-                                                style={{
-                                                    alignSelf: "flex-end",
-                                                    // position: "absolute",
-                                                }}
-                                                onPress={() => {
-                                                    setRepliedId(item.id);
-                                                    setEditingId(item.id);
-                                                }}
-                                            >
-                                                <SimpleLineIcons
-                                                    name="options-vertical"
-                                                    size={10}
-                                                    color="gray"
-                                                />
-                                            </TouchableOpacity> */}
                                             </View>
                                         </View>
                                     );
@@ -449,8 +405,8 @@ const ChatScreen = ({ navigation, route }) => {
                                     position="left"
                                 >
                                     <TouchableOpacity
-                                        onPress={sendMsg}
                                         activeOpacity={0.5}
+                                        style={{ marginLeft: 15 }}
                                     >
                                         <SimpleLineIcons
                                             name="paper-plane"
@@ -459,35 +415,33 @@ const ChatScreen = ({ navigation, route }) => {
                                         />
                                     </TouchableOpacity>
                                 </Popable>
-                            ) : null}
+                            ) : (
+                                <Popable
+                                    content={
+                                        <View style={styles.popupContainer}>
+                                            <Text style={styles.popupText}>
+                                                {UIText["chatScreen"]["send"]}
+                                            </Text>
+                                        </View>
+                                    }
+                                    action="hover"
+                                    style={{ opacity: 0.8 }}
+                                    position="left"
+                                >
+                                    <TouchableOpacity
+                                        onPress={sendMsg}
+                                        activeOpacity={0.5}
+                                        style={{ marginLeft: 15 }}
+                                    >
+                                        <SimpleLineIcons
+                                            name="paper-plane"
+                                            size={20}
+                                            color="#444"
+                                        />
+                                    </TouchableOpacity>
+                                </Popable>
+                            )}
                         </View>
-                        {/* <EmojiPicker
-                            onEmojiSelected={(emoji) => {
-                                setMsgInput(msgInput + emoji["emoji"]);
-                                console.log(JSON.stringify(emoji));
-                            }}
-                            showSearchBar={false}
-                            showHistory={false}
-                            showTabs={false}
-                            open={emojiPicker}
-                            onClose={() => setEmojiPicker(false)}
-                            categoryColor="white"
-                            categoryContainerColor="black"
-                            activeCategoryColor="black"
-                            searchBarPlaceholderColor="grey"
-                            searchBarContainerStyle={{
-                                backgroundColor: "black",
-                            }}
-                            containerStyles={{
-                                backgroundColor: "black",
-                            }}
-                            headerStyles={{
-                                color: "white",
-                                fontWeight: "bold",
-                            }}
-                        /> 
-                            it was buggy and took up too much space so it had to go
-                        */}
                     </>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
@@ -516,10 +470,10 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     textInput: {
-        bottom: 0,
+        // bottom: 0,
         height: 40,
         flex: 1,
-        marginRight: 15,
+        // marginRight: 15,
         padding: 10,
         color: "white",
         borderWidth: 1,
@@ -539,6 +493,7 @@ const styles = StyleSheet.create({
     },
     sendbutton: {
         color: "white",
+        marginLeft: 15,
     },
     senderText: {
         color: "white",

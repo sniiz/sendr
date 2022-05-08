@@ -1,6 +1,6 @@
 {
   "name": "sendr",
-  "version": "0.1.92-stable",
+  "version": "0.2.0-wip",
   "description": "a minimalist messaging app",
   "author": "sniiz-haley",
   "license": "MIT",
@@ -12,7 +12,9 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "preview": "node scripts/build.js",
-    "deploy": "node scripts/build.js --production"
+    "deploy": "node scripts/build.js --production",
+    "firestore-cleanup": "node scripts/CLEANUP.js",
+    "tauri": "tauri"
   },
   "build": {
     "appId": "com.sniiz.sendr"
@@ -64,6 +66,7 @@
     "react-native-svg": "^12.3.0",
     "react-native-web": "0.17.1",
     "rn-emoji-keyboard": "^0.7.1",
+    "tauri": "^0.14.1",
     "xmldom": "^0.6.0"
   },
   "devDependencies": {
