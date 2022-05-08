@@ -52,31 +52,35 @@ const FriendsScreen = ({ navigation, route }) => {
             doc(db, "users", auth.currentUser.uid),
             (friends) => {
                 var friendList = [];
-                for (var friend in friends.data().friends) {
-                    getDoc(
-                        doc(db, "users", friends.data().friends[friend])
-                    ).then((userInfo) => {
-                        friendList.push({
-                            id: friends.data().friends[friend],
-                            name: userInfo.data().name,
-                            pfp: userInfo.data().pfp,
+                if (friends.data().friends.length > 0) {
+                    for (var friend in friends.data().friends) {
+                        getDoc(
+                            doc(db, "users", friends.data().friends[friend])
+                        ).then((userInfo) => {
+                            friendList.push({
+                                id: friends.data().friends[friend],
+                                name: userInfo.data().name,
+                                pfp: userInfo.data().pfp,
+                            });
+                            setFriends(friendList);
+                            setLoading(false);
                         });
-                        setFriends(friendList);
-                        setLoading(false);
-                    });
+                    }
+                } else {
+                    setFriends([]);
+                    setLoading(false);
                 }
                 // setRequests(friends.data().friendRequests);
             },
             (error) => {
-                setTimeout(() => {
-                    setLoading(false);
-                }, 1234);
+                console.log(error);
+                setLoading(false);
             }
         );
         return () => {
             unsubscribe();
         };
-    }, []);
+    }, [route]);
 
     if (loading) {
         return (
@@ -94,22 +98,51 @@ const FriendsScreen = ({ navigation, route }) => {
         );
     } else {
         if (friends.length === 0) {
-            return (
-                <View
-                    style={{
-                        flex: 1,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "black",
-                    }}
-                >
-                    <Avatar
-                        source={require("../assets/nofriends.jpg")}
-                        style={{ width: 300, height: 222 }}
-                        rounded={false}
-                    />
-                </View>
-            );
+            // 0.1% chance of getting megamind'd
+            if (Math.floor(Math.random() * 1000) === 420) {
+                return (
+                    <View
+                        style={{
+                            flex: 1,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "black",
+                        }}
+                    >
+                        {/* <Image /> doesnt work here for some reason hmmmm */}
+                        <Avatar
+                            source={require("../assets/nofriends.jpg")}
+                            style={{ width: 300, height: 222 }}
+                            rounded={false}
+                        />
+                    </View>
+                );
+            } else {
+                return (
+                    <View
+                        style={{
+                            flex: 1,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "black",
+                        }}
+                    >
+                        <Text
+                            style={{
+                                fontSize: 30,
+                                fontFamily: "monospace",
+                                color: "gray",
+                                textAlign: "center",
+                            }}
+                        >
+                            {"( ･ᴗ･̥̥̥ )\n\n"}
+                            <Text style={{ fontSize: 20 }}>
+                                no friends, sadly
+                            </Text>
+                        </Text>
+                    </View>
+                );
+            }
         } else {
             return (
                 <View style={styles.container}>
