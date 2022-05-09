@@ -52,6 +52,7 @@ const linking = {
             Settings: "settings",
             Profile: "profile",
             Friends: "friends",
+            NotFound: "*",
         },
     },
 };

@@ -28,6 +28,7 @@ const uiText = {
             passwordPlaceholder: "password",
             // pfpPlaceholder: "profile picture url (optional)",
             signUpButton: "sign up 👉",
+            taken: "this nickname is already taken. please think of something else",
         },
         emailVerifyScreen: {
             barTitle: "email verification",
@@ -130,6 +131,7 @@ const uiText = {
             passwordPlaceholder: "mot de passe",
             // pfpPlaceholder: "url de la photo de profil (optionnel)",
             signUpButton: "inscrivez-vous 👉",
+            taken: "ce pseudo est déjà pris. essaye un autre",
         },
         emailVerifyScreen: {
             barTitle: "vérification email",
@@ -236,6 +238,7 @@ const uiText = {
             passwordPlaceholder: "contraseña",
             // pfpPlaceholder: "url de la imagenn de perfil (opcional)",
             signUpButton: "regístrate 👉",
+            taken: "ese apodo ya está en uso. prueba otro",
         },
         emailVerifyScreen: {
             barTitle: "verificación de email",
@@ -338,6 +341,7 @@ const uiText = {
                 "(не волнуйся - мы не будем тебе спамить и/или продавать твои данные рекламщикам 👌)",
             passwordPlaceholder: "пароль",
             signUpButton: "создать 👉",
+            taken: "этот никнейм уже занят. придумай какой-нибудь еще",
         },
         emailVerifyScreen: {
             barTitle: "подтверждение почты",
@@ -441,6 +445,7 @@ const uiText = {
             passwordPlaceholder: "密码",
             // pfpPlaceholder: "头像网址 (可选的)",
             signUpButton: "报名 👉",
+            taken: "这个昵称已经被使用了",
         },
         emailVerifyScreen: {
             barTitle: "邮箱验证",
@@ -539,6 +544,7 @@ const uiText = {
             passwordPlaceholder: "パスワード",
             // pfpPlaceholder: "プロフィール写真のurl (随意)",
             signUpButton: "サインアップ 👉",
+            taken: "このユーザーネームはすでに使用されていますので、他のユーザーネームを考えてください。",
         },
         emailVerifyScreen: {
             barTitle: "メール確認",

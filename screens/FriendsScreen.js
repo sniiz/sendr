@@ -28,8 +28,9 @@ import {
 } from "../firebase";
 import { Avatar } from "react-native-elements";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-const FriendsScreen = ({ navigation, route }) => {
+const FriendsTab = ({ navigation, route }) => {
     const [friends, setFriends] = useState([]);
     const [requests, setRequests] = useState([]);
 
@@ -38,14 +39,14 @@ const FriendsScreen = ({ navigation, route }) => {
     const auth = getAuth();
     const db = getFirestore();
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: "friends",
-            headerStyle: { backgroundColor: "black" },
-            headerTintColor: "white",
-            headerTitleAlign: "center",
-        });
-    }, [navigation]);
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //         title: "friends",
+    //         headerStyle: { backgroundColor: "black" },
+    //         headerTintColor: "white",
+    //         headerTitleAlign: "center",
+    //     });
+    // }, [navigation]);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -81,6 +82,55 @@ const FriendsScreen = ({ navigation, route }) => {
             unsubscribe();
         };
     }, [route]);
+
+    const friendItem = ({ item }) => (
+        <TouchableOpacity
+            onPress={() => alert(`wowee you pressed ${item.name}`)}
+            activeOpacity={0.8}
+        >
+            <View style={styles.friendContainer}>
+                <Avatar
+                    rounded
+                    size={35}
+                    source={{
+                        uri: item.pfp
+                            ? item.pfp
+                            : "https://i.imgur.com/dA9mtkT.png",
+                    }}
+                    containerStyle={{ marginLeft: 10 }}
+                />
+                <Text style={styles.friendName}>{item.name}</Text>
+                <TouchableOpacity
+                    onPress={() => {
+                        updateDoc(doc(db, "users", auth.currentUser.uid), {
+                            friends: [
+                                ...friends.filter(
+                                    (friend) => friend.id !== item.id
+                                ),
+                            ],
+                        });
+                        updateDoc(doc(db, "users", item.id), {
+                            friends: [
+                                ...friends.filter(
+                                    (friend) =>
+                                        friend.id !== auth.currentUser.uid
+                                ),
+                            ],
+                        });
+                    }}
+                >
+                    <SimpleLineIcons
+                        name="user-unfollow"
+                        size={20}
+                        color="gray"
+                        style={{
+                            marginLeft: 10,
+                        }}
+                    />
+                </TouchableOpacity>
+            </View>
+        </TouchableOpacity>
+    );
 
     if (loading) {
         return (
@@ -137,7 +187,7 @@ const FriendsScreen = ({ navigation, route }) => {
                         >
                             {"( ･ᴗ･̥̥̥ )\n\n"}
                             <Text style={{ fontSize: 20 }}>
-                                no friends, sadly
+                                no friends.. so far
                             </Text>
                         </Text>
                     </View>
@@ -148,68 +198,71 @@ const FriendsScreen = ({ navigation, route }) => {
                 <View style={styles.container}>
                     <FlatList
                         data={friends}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() =>
-                                    alert(`wowee you pressed ${item.name}`)
-                                }
-                                activeOpacity={0.8}
-                            >
-                                <View style={styles.friendContainer}>
-                                    <Avatar
-                                        rounded
-                                        size={35}
-                                        source={{
-                                            uri: item.pfp
-                                                ? item.pfp
-                                                : "https://i.imgur.com/dA9mtkT.png",
-                                        }}
-                                        containerStyle={{ marginLeft: 10 }}
-                                    />
-                                    <Text style={styles.friendName}>
-                                        {item.name}
-                                    </Text>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            alert(
-                                                `you unfriended ${item.name} :(`
-                                            );
-                                            updateDoc(
-                                                doc(
-                                                    db,
-                                                    "users",
-                                                    auth.currentUser.uid
-                                                ),
-                                                {
-                                                    friends: [
-                                                        ...friends.filter(
-                                                            (friend) =>
-                                                                friend.id !==
-                                                                item.id
-                                                        ),
-                                                    ],
-                                                }
-                                            );
-                                        }}
-                                    >
-                                        <SimpleLineIcons
-                                            name="user-unfollow"
-                                            size={20}
-                                            color="gray"
-                                            style={{
-                                                marginLeft: 10,
-                                            }}
-                                        />
-                                    </TouchableOpacity>
-                                </View>
-                            </TouchableOpacity>
-                        )}
+                        renderItem={friendItem}
                         keyExtractor={(item) => item.id}
                     />
                 </View>
             );
         }
     }
+};
+
+const RequestsTab = ({ navigation, route }) => {
+    return (
+        <View
+            style={[
+                styles.container,
+                {
+                    justifyContent: "center",
+                },
+            ]}
+        >
+            <Text
+                style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    color: "gray",
+                    marginHorizontal: 20,
+                    textAlign: "center",
+                }}
+            >
+                this tab is under construction. please go away for now
+            </Text>
+        </View>
+    );
+};
+
+const Tab = createBottomTabNavigator();
+
+const FriendsScreen = () => {
+    return (
+        <Tab.Navigator
+            screenOptions={{
+                headerShown: false,
+                tabBarStyle: {
+                    backgroundColor: "black",
+                },
+                tabBarIcon: () => {
+                    return null;
+                },
+                tabBarLabelStyle: {
+                    fontSize: 15,
+                    marginTop: -10,
+                },
+            }}
+            tabBarOptions={{
+                activeTintColor: "white",
+                inactiveTintColor: "gray",
+                backgroundColor: "black",
+                style: {
+                    height: Platform.OS === "ios" ? 60 : 100,
+                },
+            }}
+        >
+            <Tab.Screen name="friends" component={FriendsTab} />
+            <Tab.Screen name="requests" component={RequestsTab} />
+        </Tab.Navigator>
+    );
 };
 
 export default FriendsScreen;

@@ -58,7 +58,11 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
                 >
                     {chatName}
                 </ListItem.Title>
-                <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
+                <ListItem.Subtitle
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    style={{ color: "gray" }}
+                >
                     {chatMessages[0]?.displayName
                         ? chatMessages[0]?.displayName
                         : "no one"}

@@ -55,7 +55,7 @@ const AddChatScreen = ({ navigation }) => {
             <TouchableOpacity
                 onPress={createChat}
                 style={{
-                    borderRadius: 100,
+                    borderRadius: 5,
                     borderWidth: 1,
                     borderColor: "white",
                     padding: 8,

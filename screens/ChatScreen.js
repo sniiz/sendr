@@ -47,23 +47,24 @@ const ChatScreen = ({ navigation, route }) => {
     const [emojiPicker, setEmojiPicker] = useState(false);
     const [emailVerified, setEmailVerified] = useState(false);
 
-    const [idExpanded, setIdExpanded] = useState(false);
-
     const [repliedId, setRepliedId] = useState(null);
     const [editingId, setEditingId] = useState(null);
 
     const [loaded, setLoaded] = useState(false);
 
-    const flatListRef = useRef();
+    const devs = [
+        "d3XhkXMMTEc9ZauD3csbFi5MCdv1",
+        "jqAuLWkimlQduWJpSqgymWTWeDA2",
+        "q2muRmv5Muf36PePwxi83sePfOB3",
+        "mCyhZYeWyyeM7Kxh7e4r5hSIdiU2",
+    ];
+
+    const flatListRef = useRef(null);
 
     const kb = useKeyboard();
 
     const auth = getAuth();
     const db = getFirestore();
-
-    const removeId = (id, ids) => {
-        ids.filter((i) => i !== id);
-    };
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -94,8 +95,7 @@ const ChatScreen = ({ navigation, route }) => {
                     });
                 });
                 setMessages(messages);
-                setLoaded(true);
-                // flatListRef?.scrollToEnd({
+                // flatListRef?.current?.scrollToEnd({
                 //     animated: false,
                 // });
                 // flatListRef?.current?.scrollToEnd();
@@ -103,6 +103,7 @@ const ChatScreen = ({ navigation, route }) => {
         );
         getDoc(doc(db, `chats`, route.params.id)).then((chat) => {
             setAuthor(chat.data().author);
+            setLoaded(true);
         });
         return () => {
             unsubscribe();
@@ -110,7 +111,6 @@ const ChatScreen = ({ navigation, route }) => {
     }, [route]);
 
     const sendMsg = () => {
-        // check if message is empty (or just spaces)
         if (!editingId) {
             Keyboard.dismiss();
             setSending(true);
@@ -156,6 +156,89 @@ const ChatScreen = ({ navigation, route }) => {
         }
     };
 
+    const messageItem = ({ item }) => {
+        const isUser =
+            item.uid === auth?.currentUser?.uid ||
+            item.email === auth?.currentUser?.email;
+        const main = isUser ? "white" : "black";
+        const second = isUser ? "black" : "white";
+        const third = isUser ? "#999" : "#555";
+        if (item.message.trim() === "") {
+            return null;
+        }
+        return (
+            <View
+                key={item.id}
+                style={{
+                    alignItems: "center",
+                    flexDirection: "row",
+                    borderTopColor: third,
+                    borderTopWidth: 1,
+                }}
+            >
+                <View style={[styles.messageView, { backgroundColor: main }]}>
+                    <View
+                        style={{
+                            marginLeft: item.photoURL ? 30 : 0,
+                        }}
+                    >
+                        <Text style={[styles.senderName]}>
+                            {item.displayName}
+                            {" · "}
+                            {devs.includes(item.uid) && (
+                                <View
+                                    style={{
+                                        backgroundColor: "blue",
+                                        height: "100%",
+                                        width: "auto",
+                                        padding: 2,
+                                    }}
+                                >
+                                    <Text style={{ color: "white" }}>dev</Text>
+                                </View>
+                            )}
+                            {new Date(
+                                item?.timestamp?.seconds * 1000
+                            ).toLocaleDateString(Localization.locale, {
+                                month: "short",
+                                day: "numeric",
+                                hour: "numeric",
+                                minute: "numeric",
+                            })}
+                        </Text>
+                        <Text style={[styles.receiverText, { color: second }]}>
+                            {item.message}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+        );
+    };
+
+    const keyExtractor = (item) => item.id;
+
+    const createdHeader = (
+        <Text
+            style={{
+                fontSize: 15,
+                fontWeight: "bold",
+                color: "gray",
+                textAlign: "center",
+                marginVertical: 10,
+            }}
+        >
+            {author}
+            {UIText["chatScreen"]["created"]}
+            {route.params.chatName}
+        </Text>
+    );
+
+    const scrollToEnd = () => {
+        flatListRef.current.scrollToEnd({
+            animated: true,
+        });
+    };
+
     return (
         <SafeAreaView
             style={{
@@ -175,109 +258,11 @@ const ChatScreen = ({ navigation, route }) => {
                             <FlatList
                                 data={messages}
                                 ref={flatListRef}
-                                // onLayout={() =>
-                                //     flatListRef.current.scrollToEnd({
-                                //         animating: true,
-                                //     })
-                                // }
-                                onContentSizeChange={() =>
-                                    flatListRef.current.scrollToEnd({
-                                        animating: false,
-                                    })
-                                }
-                                initialScrollIndex={0}
-                                keyExtractor={(item) => item.id}
-                                ListHeaderComponent={
-                                    <Text
-                                        style={{
-                                            fontSize: 15,
-                                            fontWeight: "bold",
-                                            color: "gray",
-                                            textAlign: "center",
-                                            marginVertical: 10,
-                                        }}
-                                    >
-                                        {author}
-                                        {UIText["chatScreen"]["created"]}
-                                        {route.params.chatName}
-                                    </Text>
-                                }
-                                // contentContainerStyle={{
-                                //     flexGrow: 1,
-                                //     justifyContent: "flex-start",
-                                // }}
-                                // inverted
-                                // style={{ flexDirection: "column-reverse" }}
-                                renderItem={({ item }) => {
-                                    const isUser =
-                                        item.uid === auth?.currentUser?.uid ||
-                                        item.email === auth?.currentUser?.email;
-                                    const main = isUser ? "white" : "black";
-                                    const second = isUser ? "black" : "white";
-                                    const third = isUser ? "#999" : "#555";
-                                    if (item.message.trim() === "") {
-                                        return null;
-                                    }
-                                    return (
-                                        <View
-                                            key={item.id}
-                                            style={{
-                                                alignItems: "center",
-                                                flexDirection: "row",
-                                                borderTopColor: third,
-                                                borderTopWidth: 1,
-                                            }}
-                                        >
-                                            <View
-                                                style={[
-                                                    styles.messageView,
-                                                    { backgroundColor: main },
-                                                ]}
-                                            >
-                                                <View
-                                                    style={{
-                                                        marginLeft:
-                                                            item.photoURL
-                                                                ? 30
-                                                                : 0,
-                                                    }}
-                                                >
-                                                    <Text
-                                                        style={[
-                                                            styles.senderName,
-                                                        ]}
-                                                    >
-                                                        {item.displayName}
-                                                        {idExpanded
-                                                            ? ` (uid: ${item.uid})`
-                                                            : null}
-                                                        {" · "}
-                                                        {new Date(
-                                                            item?.timestamp
-                                                                ?.seconds * 1000
-                                                        ).toLocaleDateString(
-                                                            Localization.locale,
-                                                            {
-                                                                month: "short",
-                                                                day: "numeric",
-                                                                hour: "numeric",
-                                                                minute: "numeric",
-                                                            }
-                                                        )}
-                                                    </Text>
-                                                    <Text
-                                                        style={[
-                                                            styles.receiverText,
-                                                            { color: second },
-                                                        ]}
-                                                    >
-                                                        {item.message}
-                                                    </Text>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    );
-                                }}
+                                keyExtractor={keyExtractor}
+                                ListHeaderComponent={createdHeader}
+                                onContentSizeChange={scrollToEnd}
+                                windowSize={11}
+                                renderItem={messageItem}
                             />
                         ) : (
                             <ActivityIndicator

@@ -83,7 +83,7 @@ export default function EmailVerifyScreen({ navigation, route }) {
                 }}
                 style={{
                     // backgroundColor: "white",
-                    borderRadius: 100,
+                    borderRadius: 5,
                     borderWidth: 1,
                     borderColor: "white",
                     padding: 10,
@@ -107,7 +107,7 @@ export default function EmailVerifyScreen({ navigation, route }) {
                     });
                 }}
                 style={{
-                    borderRadius: 100,
+                    borderRadius: 5,
                     borderWidth: 1,
                     borderColor: "red",
                     marginTop: 100,

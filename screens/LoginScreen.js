@@ -195,7 +195,7 @@ const LoginScreen = ({ navigation }) => {
                         <TouchableOpacity
                             onPress={signIn}
                             style={{
-                                borderRadius: 100,
+                                borderRadius: 5,
                                 borderWidth: 1,
                                 borderColor: "white",
                                 padding: 8,
@@ -217,7 +217,7 @@ const LoginScreen = ({ navigation }) => {
                         }
                         style={{
                             // backgroundColor: "white",
-                            borderRadius: 100,
+                            borderRadius: 5,
                             borderWidth: 1,
                             borderColor: "white",
                             padding: 8,

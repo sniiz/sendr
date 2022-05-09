@@ -17,7 +17,10 @@ import {
     setDoc,
     doc,
     getFirestore,
+    getDocs,
+    query,
     updateProfile,
+    where,
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 
@@ -48,27 +51,40 @@ const RegisterScreen = ({ navigation }) => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((authUser) => {
                 const user = authUser.user;
-                updateProfile(user, {
-                    displayName: fullname,
-                    // photoURL: imgurl,
-                })
-                    .then(() => {
-                        setDoc(doc(db, "users", user.uid), {
-                            friendRequests: {},
-                            friends: [],
-                            name: fullname,
-                            pfp: imgurl ? imgurl : null,
-                        }).then(() => {
-                            setLoading(false);
-                            navigation.navigate(
-                                UIText["emailVerifyScreen"]["barTitle"]
-                            );
-                        });
-                    })
-                    .catch((error) => {
+                getDocs(
+                    query(
+                        collection(db, "users"),
+                        where("name", "==", fullname)
+                    )
+                ).then((users) => {
+                    if (users.length > 0) {
                         setLoading(false);
-                        console.log(error.message);
-                    });
+                        alert(UIText["signUpScreen"]["taken"]);
+                        return;
+                    } else {
+                        updateProfile(user, {
+                            displayName: fullname,
+                            // photoURL: imgurl,
+                        })
+                            .then(() => {
+                                setDoc(doc(db, "users", user.uid), {
+                                    friendRequests: {},
+                                    friends: [],
+                                    name: fullname,
+                                    pfp: imgurl ? imgurl : null,
+                                }).then(() => {
+                                    setLoading(false);
+                                    navigation.navigate(
+                                        UIText["emailVerifyScreen"]["barTitle"]
+                                    );
+                                });
+                            })
+                            .catch((error) => {
+                                setLoading(false);
+                                console.log(error.message);
+                            });
+                    }
+                });
             })
             .catch((error) => {
                 setLoading(false);
@@ -162,7 +178,7 @@ const RegisterScreen = ({ navigation }) => {
                     onPress={register}
                     style={{
                         // backgroundColor: "white",
-                        borderRadius: 100,
+                        borderRadius: 5,
                         borderWidth: 1,
                         borderColor: "white",
                         padding: 8,
