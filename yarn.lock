@@ -6887,7 +6887,7 @@ expo-status-bar@~1.2.0:
 
 expo-storage@^44.0.0:
   version "44.0.0"
-  resolved "https://registry.npmjs.org/expo-storage/-/expo-storage-44.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/expo-storage/-/expo-storage-44.0.0.tgz#37062781015255a9a9840a26dc61b4829064061e"
   integrity sha512-XobKkeT/eEOoTXYlG9I7PR6zfB4R373G7VXYUGxVDFEhNdfTYWZMqOtpqQ3vqQpg1Y9eDBmb/PR4sYnf9fLTPw==
 
 expo@~44.0.0:
