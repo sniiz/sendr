@@ -18,7 +18,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
     useEffect(() => {
         const unsubscribe = onSnapshot(
             query(
-                collection(db, `chats/${id}`, "messages"),
+                collection(db, `privateChats/${id}`, "messages"),
                 orderBy("timestamp", "desc")
             ),
             (snapshot) => {

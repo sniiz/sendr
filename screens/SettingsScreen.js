@@ -99,6 +99,10 @@ export default function SettingsScreen({ navigation }) {
     }, [navigation]);
 
     useEffect(() => {
+        if (!auth?.currentUser?.uid) {
+            navigation.replace("login");
+            return;
+        }
         const unsub = onAuthStateChanged(getAuth(), (user) => {
             if (user) {
                 setUsername(null);
@@ -437,11 +441,12 @@ export default function SettingsScreen({ navigation }) {
                     ></View>
                     <Text style={styles.version}>
                         info:{"\n"} app version: {version.number} · ✨{" "}
-                        {version.name} ✨{"\n\n"}email: {auth.currentUser.email}
+                        {version.name} ✨{"\n\n"}email:{" "}
+                        {auth?.currentUser?.email}
                         {"\n"}verified:{" "}
-                        {auth.currentUser.emailVerified.toString()}
+                        {auth?.currentUser?.emailVerified?.toString()}
                         {"\n\n"}
-                        user id: {auth.currentUser.uid}
+                        user id: {auth?.currentUser?.uid}
                     </Text>
                     <View
                         style={{

@@ -78,6 +78,7 @@ const uiText = {
             sending: "sending...",
             showUid: "show uid",
             hideUid: "hide uid",
+            saysth: "there are no messages yet. say hi!",
             created: " created ",
         },
         homeScreen: {
@@ -184,6 +185,7 @@ const uiText = {
             showUid: "montrer l'uid",
             hideUid: "cacher l'uid",
             created: " a créé ",
+            saysth: "il n'y a pas encore de messages. dis bonjour!",
         },
         homeScreen: {
             lonely1: "ça y est tout seul ici...",
@@ -287,6 +289,7 @@ const uiText = {
             showUid: "mostrar uid",
             hideUid: "ocultar uid",
             created: " creó ",
+            saysth: "no hay mensajes todavía. ¡di hola!",
         },
         homeScreen: {
             lonely1: "se está tan solo aquí...",
@@ -390,6 +393,7 @@ const uiText = {
             showUid: "показать uid",
             hideUid: "скрыть uid",
             created: " создал(а) ",
+            saysth: "здесь пока тихо. скажи привет!",
         },
         homeScreen: {
             lonely1: "здесь так одиноко...",
@@ -489,6 +493,7 @@ const uiText = {
             showUid: "显示 UID",
             hideUid: "隐藏 UID",
             created: "创建了",
+            saysth: "这里没有留言。说你好吧!",
         },
         homeScreen: {
             lonely1: "这里什么都没有...",
@@ -588,6 +593,7 @@ const uiText = {
             showUid: "UIDを表示する",
             hideUid: "UIDを隠す",
             created: " created ",
+            saysth: "ここにメッセージはありません。",
         },
         homeScreen: {
             lonely1: "ここに何もない...",

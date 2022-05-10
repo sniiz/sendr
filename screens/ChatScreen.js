@@ -83,7 +83,7 @@ const ChatScreen = ({ navigation, route }) => {
     useEffect(() => {
         const unsubscribe = onSnapshot(
             query(
-                collection(db, `chats/${route.params.id}`, "messages"),
+                collection(db, `privateChats/${route.params.id}`, "messages"),
                 orderBy("timestamp", "asc")
             ),
             (snapshot) => {
@@ -101,12 +101,20 @@ const ChatScreen = ({ navigation, route }) => {
                 // flatListRef?.current?.scrollToEnd();
             }
         );
-        getDoc(doc(db, `chats`, route.params.id)).then((chat) => {
+        const unsubAuth = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigation.replace("login");
+            } else if (!user?.emailVerified) {
+                navigation.replace("verifyEmail");
+            }
+        });
+        getDoc(doc(db, `privateChats`, route.params.id)).then((chat) => {
             setAuthor(chat.data().author);
             setLoaded(true);
         });
         return () => {
             unsubscribe();
+            unsubAuth();
         };
     }, [route]);
 
@@ -130,15 +138,22 @@ const ChatScreen = ({ navigation, route }) => {
                 ]);
                 setMsgInput("");
                 setEditingId(null);
-                addDoc(collection(db, `chats/${route.params.id}`, "messages"), {
-                    timestamp: serverTimestamp(),
-                    message: msgInput,
-                    displayName: auth.currentUser.displayName,
-                    // email: auth.currentUser.email,
-                    uid: auth.currentUser.uid,
-                    // referenceId: repliedId,
-                    // photoURL: auth.currentUser.photoURL,
-                })
+                addDoc(
+                    collection(
+                        db,
+                        `privateChats/${route.params.id}`,
+                        "messages"
+                    ),
+                    {
+                        timestamp: serverTimestamp(),
+                        message: msgInput,
+                        displayName: auth.currentUser.displayName,
+                        // email: auth.currentUser.email,
+                        uid: auth.currentUser.uid,
+                        // referenceId: repliedId,
+                        // photoURL: auth.currentUser.photoURL,
+                    }
+                )
                     .then(() => {
                         setSending(false);
                         setRepliedId(null);
@@ -188,18 +203,21 @@ const ChatScreen = ({ navigation, route }) => {
                                 <View
                                     style={{
                                         backgroundColor: "#55f",
-                                        height: "100%",
-                                        width: "auto",
+                                        // // width: "auto",
                                         padding: 5,
                                         paddingVertical: 3,
                                         borderRadius: 7,
                                         marginLeft: 3,
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        alignSelf: "center",
                                     }}
                                 >
                                     <Text
                                         style={{
                                             color: "white",
                                             fontWeight: "bold",
+                                            fontSize: 7,
                                         }}
                                     >
                                         DEV
@@ -252,6 +270,20 @@ const ChatScreen = ({ navigation, route }) => {
         });
     };
 
+    if (!loaded) {
+        return (
+            <View
+                style={{
+                    backgroundColor: "black",
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <ActivityIndicator size="large" color="gray" />
+            </View>
+        );
+    }
     return (
         <SafeAreaView
             style={{
@@ -259,7 +291,6 @@ const ChatScreen = ({ navigation, route }) => {
                 backgroundColor: "black",
             }}
         >
-            <StatusBar style="dark" />
             <KeyboardAvoidingView
                 behavior="padding"
                 style={styles.container}
@@ -267,7 +298,7 @@ const ChatScreen = ({ navigation, route }) => {
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <>
-                        {loaded ? (
+                        {messages.length !== 0 ? (
                             <FlatList
                                 data={messages}
                                 ref={flatListRef}
@@ -278,15 +309,33 @@ const ChatScreen = ({ navigation, route }) => {
                                 renderItem={messageItem}
                             />
                         ) : (
-                            <ActivityIndicator
-                                size="large"
-                                color="gray"
+                            <View
                                 style={{
-                                    flex: 1,
-                                    justifyContent: "center",
                                     alignItems: "center",
+                                    justifyContent: "center",
+                                    flex: 1,
+                                    backgroundColor: "black",
                                 }}
-                            />
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 15,
+                                        // fontWeight: "bold",
+                                        color: "gray",
+                                        textAlign: "center",
+                                        marginVertical: 10,
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 30,
+                                        }}
+                                    >
+                                        {"|^・ω・)/\n\n"}
+                                    </Text>
+                                    {UIText["chatScreen"]["saysth"]}
+                                </Text>
+                            </View>
                         )}
                         {/* {repliedId ?  // wip replies 👀
                             <View
@@ -387,6 +436,7 @@ const ChatScreen = ({ navigation, route }) => {
                                     <ActivityIndicator
                                         size="small"
                                         color="gray"
+                                        style={{ marginLeft: 15 }}
                                     />
                                 </Popable>
                             ) : msgInput !== "" ? (
@@ -405,6 +455,7 @@ const ChatScreen = ({ navigation, route }) => {
                                     <TouchableOpacity
                                         activeOpacity={0.5}
                                         style={{ marginLeft: 15 }}
+                                        onPress={sendMsg}
                                     >
                                         <SimpleLineIcons
                                             name="paper-plane"
@@ -426,17 +477,12 @@ const ChatScreen = ({ navigation, route }) => {
                                     style={{ opacity: 0.8 }}
                                     position="left"
                                 >
-                                    <TouchableOpacity
-                                        onPress={sendMsg}
-                                        activeOpacity={0.5}
+                                    <SimpleLineIcons
+                                        name="paper-plane"
+                                        size={20}
+                                        color="#444"
                                         style={{ marginLeft: 15 }}
-                                    >
-                                        <SimpleLineIcons
-                                            name="paper-plane"
-                                            size={20}
-                                            color="#444"
-                                        />
-                                    </TouchableOpacity>
+                                    />
                                 </Popable>
                             )}
                         </View>
@@ -514,6 +560,7 @@ const styles = StyleSheet.create({
         marginLeft: -5,
         fontSize: 10,
         color: "grey",
+        alignItems: "center",
     },
     popupContainer: {
         alignItems: "center",

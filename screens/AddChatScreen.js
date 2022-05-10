@@ -19,9 +19,10 @@ const AddChatScreen = ({ navigation }) => {
     const createChat = async () => {
         const db = getFirestore();
         const auth = getAuth();
-        await addDoc(collection(db, "chats"), {
+        await addDoc(collection(db, "privateChats"), {
             chatName: chat,
             author: auth.currentUser.displayName,
+            members: [auth.currentUser.uid],
         })
             .then(() => navigation.goBack())
             .catch((error) => alert(error.message));

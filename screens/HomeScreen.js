@@ -27,6 +27,7 @@ import {
     orderBy,
     query,
     onAuthStateChanged,
+    where,
     getFirestore,
     onSnapshot,
 } from "../firebase";
@@ -40,6 +41,8 @@ const HomeScreen = ({ navigation }) => {
     const [chats, setChats] = useState([]);
     const [Error, setError] = useState(false);
 
+    const [loading, setLoading] = useState(true);
+
     const auth = getAuth();
     const db = getFirestore();
 
@@ -50,8 +53,15 @@ const HomeScreen = ({ navigation }) => {
     // };
 
     useEffect(() => {
+        if (!auth?.currentUser?.uid) {
+            navigation.replace("login");
+            return;
+        }
         const unsubscribe = onSnapshot(
-            query(collection(db, "chats"), orderBy("chatName")),
+            query(
+                collection(db, "privateChats"),
+                where("members", "array-contains", getAuth().currentUser.uid)
+            ),
             (snapshot) => {
                 setChats(
                     snapshot.docs.map((doc) => ({
@@ -61,10 +71,12 @@ const HomeScreen = ({ navigation }) => {
                         ...doc.data(),
                     }))
                 );
+                setLoading(false);
             },
             (error) => {
                 setError(true);
                 console.log(error);
+                setLoading(false);
             }
         );
         const unsubAuth = onAuthStateChanged(auth, (user) => {
@@ -273,87 +285,102 @@ const HomeScreen = ({ navigation }) => {
         });
     };
 
-    return (
-        <SafeAreaView style={styles.main}>
-            <StatusBar style="light" />
-
-            {
-                // oh no what a mess
-                !Error && chats.length > 0 ? (
-                    <ScrollView style={styles.container}>
-                        {chats.map(({ id, chatName, author }) => (
-                            <CustomListItem
-                                key={id}
-                                id={id}
-                                chatName={chatName}
-                                enterChat={enterChat}
-                                author={author}
-                            />
-                        ))}
-                    </ScrollView>
-                ) : Error ? (
-                    <View style={styles.containerStatic}>
-                        <Text
-                            style={{
-                                fontSize: 40,
-                                color: "gray",
-                                textAlign: "center",
-                            }}
-                        >
-                            {"(・_・ヾ"}
-                            {/* {"(ノ‥)ノ"} */}
-                            {/* {" ( . ︿ . ) "} */}
-                        </Text>
-                        <Text
-                            style={{
-                                fontSize: 15,
-                                color: "gray",
-                                textAlign: "center",
-                                fontFamily:
-                                    Platform.OS === "ios"
-                                        ? "Courier"
-                                        : "monospace",
-                                fontStyle: "italic",
-                            }}
-                        >
-                            {UIText["errors"]["noChats"]}
-                        </Text>
-                    </View>
-                ) : (
-                    <View style={styles.containerStatic}>
-                        {/* <Text
-                            style={{
-                                fontSize: 40,
-                                color: "gray",
-                                textAlign: "center",
-                            }}
-                        >
-                            {"_(-ω-`_)"}
-                        </Text>
-                        <Text
-                            style={{
-                                fontSize: 15,
-                                color: "gray",
-                                textAlign: "center",
-                                fontFamily:
-                                    Platform.OS === "ios"
-                                        ? "Courier"
-                                        : "monospace",
-                                fontStyle: "italic",
-                            }}
-                        >
-                            {
-                                UIText["homeScreen"][
-                                    `lonely${Math.floor(Math.random() * 6) + 1}`
-                                ]
-                            }
-                        </Text> */}
-                        <ActivityIndicator size="large" color="gray" />
-                    </View>
-                )
-            }
-        </SafeAreaView>
-    );
+    if (loading) {
+        return (
+            <SafeAreaView
+                style={[
+                    styles.main,
+                    {
+                        alignItems: "center",
+                        justifyContent: "center",
+                    },
+                ]}
+            >
+                <ActivityIndicator size="large" color="gray" />
+            </SafeAreaView>
+        );
+    } else {
+        return (
+            <SafeAreaView style={styles.main}>
+                {
+                    // oh no what a mess
+                    !Error && chats.length > 0 ? (
+                        <ScrollView style={styles.container}>
+                            {chats.map(({ id, chatName, author }) => (
+                                <CustomListItem
+                                    key={id}
+                                    id={id}
+                                    chatName={chatName}
+                                    enterChat={enterChat}
+                                    author={author}
+                                />
+                            ))}
+                        </ScrollView>
+                    ) : Error ? (
+                        <View style={styles.containerStatic}>
+                            <Text
+                                style={{
+                                    fontSize: 40,
+                                    color: "gray",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {"(・_・ヾ"}
+                                {/* {"(ノ‥)ノ"} */}
+                                {/* {" ( . ︿ . ) "} */}
+                            </Text>
+                            <Text
+                                style={{
+                                    fontSize: 15,
+                                    color: "gray",
+                                    textAlign: "center",
+                                    fontFamily:
+                                        Platform.OS === "ios"
+                                            ? "Courier"
+                                            : "monospace",
+                                    fontStyle: "italic",
+                                }}
+                            >
+                                {UIText["errors"]["noChats"]}
+                            </Text>
+                        </View>
+                    ) : (
+                        <View style={styles.containerStatic}>
+                            <Text
+                                style={{
+                                    fontSize: 40,
+                                    color: "gray",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {"_(-ω-`_)"}
+                            </Text>
+                            <Text
+                                style={{
+                                    fontSize: 15,
+                                    color: "gray",
+                                    textAlign: "center",
+                                    fontFamily:
+                                        Platform.OS === "ios"
+                                            ? "Courier"
+                                            : "monospace",
+                                    fontStyle: "italic",
+                                }}
+                            >
+                                {
+                                    UIText["homeScreen"][
+                                        `lonely${
+                                            Math.floor(Math.random() * 6) + 1
+                                        }`
+                                    ]
+                                }
+                            </Text>
+                        </View>
+                    )
+                }
+            </SafeAreaView>
+        );
+    }
 };
 
 export default HomeScreen;
