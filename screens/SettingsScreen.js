@@ -322,9 +322,7 @@ export default function SettingsScreen({ navigation }) {
                             if (logOutCount === 1) {
                                 signOut(getAuth())
                                     .then(() => {
-                                        navigation.replace(
-                                            UIText["loginScreen"]["barTitle"]
-                                        );
+                                        navigation.replace("login");
                                         setLogOutCount(0);
                                     })
                                     .catch((error) => {
@@ -362,9 +360,7 @@ export default function SettingsScreen({ navigation }) {
                             if (deleteCount === 1) {
                                 deleteUser(user)
                                     .then(() => {
-                                        navigation.replace(
-                                            UIText["loginScreen"]["barTitle"]
-                                        );
+                                        navigation.replace("login");
                                         setDeleteCount(0);
                                     })
                                     .catch((error) => {

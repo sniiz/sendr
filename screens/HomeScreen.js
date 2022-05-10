@@ -69,9 +69,9 @@ const HomeScreen = ({ navigation }) => {
         );
         const unsubAuth = onAuthStateChanged(auth, (user) => {
             if (!user) {
-                navigation.replace(UIText["loginScreen"]["barTitle"]);
+                navigation.replace("login");
             } else if (!user?.emailVerified) {
-                navigation.replace(UIText["emailVerifyScreen"]["barTitle"]);
+                navigation.replace("verifyEmail");
             }
         });
         return () => {
@@ -178,9 +178,7 @@ const HomeScreen = ({ navigation }) => {
                         <TouchableOpacity
                             activeOpacity={0.5}
                             onPress={() => {
-                                navigation.navigate(
-                                    UIText["friendsScreen"]["barTitle"]
-                                );
+                                navigation.navigate("friends");
                             }}
                         >
                             <SimpleLineIcons
@@ -205,11 +203,7 @@ const HomeScreen = ({ navigation }) => {
                     >
                         <TouchableOpacity
                             activeOpacity={0.5}
-                            onPress={() =>
-                                navigation.navigate(
-                                    UIText["newChatScreen"]["barTitle"]
-                                )
-                            }
+                            onPress={() => navigation.navigate("newChat")}
                         >
                             <SimpleLineIcons
                                 name="pencil"
@@ -233,11 +227,7 @@ const HomeScreen = ({ navigation }) => {
                     >
                         <TouchableOpacity
                             activeOpacity={0.5}
-                            onPress={() =>
-                                navigation.navigate(
-                                    UIText["settingsScreen"]["barTitle"]
-                                )
-                            }
+                            onPress={() => navigation.navigate("settings")}
                         >
                             <SimpleLineIcons
                                 name="settings"
@@ -310,8 +300,9 @@ const HomeScreen = ({ navigation }) => {
                                 textAlign: "center",
                             }}
                         >
-                            {/* {"(・_・ヾ"} */}
-                            {"(ノ‥)ノ"}
+                            {"(・_・ヾ"}
+                            {/* {"(ノ‥)ノ"} */}
+                            {/* {" ( . ︿ . ) "} */}
                         </Text>
                         <Text
                             style={{

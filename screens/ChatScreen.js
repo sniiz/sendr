@@ -184,19 +184,32 @@ const ChatScreen = ({ navigation, route }) => {
                     >
                         <Text style={[styles.senderName]}>
                             {item.displayName}
-                            {" · "}
                             {devs.includes(item.uid) && (
                                 <View
                                     style={{
-                                        backgroundColor: "blue",
+                                        backgroundColor: "#55f",
                                         height: "100%",
                                         width: "auto",
-                                        padding: 2,
+                                        padding: 5,
+                                        paddingVertical: 3,
+                                        borderRadius: 7,
+                                        marginLeft: 3,
                                     }}
                                 >
-                                    <Text style={{ color: "white" }}>dev</Text>
+                                    <Text
+                                        style={{
+                                            color: "white",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        DEV
+                                    </Text>
                                 </View>
                             )}
+                            {/* {
+                                devs.includes(item.uid) && " · " // garbo
+                            } */}
+                            {" · "}
                             {new Date(
                                 item?.timestamp?.seconds * 1000
                             ).toLocaleDateString(Localization.locale, {

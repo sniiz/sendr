@@ -210,11 +210,7 @@ const LoginScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     )}
                     <TouchableOpacity
-                        onPress={() =>
-                            navigation.navigate(
-                                UIText["signUpScreen"]["barTitle"]
-                            )
-                        }
+                        onPress={() => navigation.navigate("signUp")}
                         style={{
                             // backgroundColor: "white",
                             borderRadius: 5,

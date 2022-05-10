@@ -26,7 +26,6 @@ const uiText = {
             disclaimer:
                 "(don't worry - we won't spam you and/or sell your data 👌)",
             passwordPlaceholder: "password",
-            // pfpPlaceholder: "profile picture url (optional)",
             signUpButton: "sign up 👉",
             taken: "this nickname is already taken. please think of something else",
         },
@@ -129,7 +128,6 @@ const uiText = {
             disclaimer:
                 "(ne t'inquiète pas - nous ne te spammerons pas et/ou ne vendrons pas tes données 👌)",
             passwordPlaceholder: "mot de passe",
-            // pfpPlaceholder: "url de la photo de profil (optionnel)",
             signUpButton: "inscrivez-vous 👉",
             taken: "ce pseudo est déjà pris. essaye un autre",
         },
@@ -236,7 +234,6 @@ const uiText = {
             disclaimer:
                 "(no te preocupes - no te enviaremos spam ni venderemos tus datos 👌)",
             passwordPlaceholder: "contraseña",
-            // pfpPlaceholder: "url de la imagenn de perfil (opcional)",
             signUpButton: "regístrate 👉",
             taken: "ese apodo ya está en uso. prueba otro",
         },
@@ -443,7 +440,6 @@ const uiText = {
             disclaimer:
                 "(别担心--我们不会向你发送垃圾邮件和/或将你的数据卖给广告商 👌)",
             passwordPlaceholder: "密码",
-            // pfpPlaceholder: "头像网址 (可选的)",
             signUpButton: "报名 👉",
             taken: "这个昵称已经被使用了",
         },
@@ -542,7 +538,6 @@ const uiText = {
             disclaimer:
                 "(ご心配なく - メールスパムや広告主にお客様のデータを販売することはありません 👌)",
             passwordPlaceholder: "パスワード",
-            // pfpPlaceholder: "プロフィール写真のurl (随意)",
             signUpButton: "サインアップ 👉",
             taken: "このユーザーネームはすでに使用されていますので、他のユーザーネームを考えてください。",
         },
@@ -628,7 +623,7 @@ const uiText = {
 const supported = ["en", "es", "fr", "de", "it", "pt", "ru", "zh", "ja"]; // terrible way to do this but nothing else worked
 
 var lang = Localization.locale.substring(0, 2);
-if (!supported.includes(lang)) {
+if (!uiText.hasOwnProperty(lang)) {
     lang = "en";
 }
 

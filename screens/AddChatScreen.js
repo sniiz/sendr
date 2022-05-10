@@ -20,7 +20,6 @@ const AddChatScreen = ({ navigation }) => {
         const db = getFirestore();
         const auth = getAuth();
         await addDoc(collection(db, "chats"), {
-            // chat info
             chatName: chat,
             author: auth.currentUser.displayName,
         })

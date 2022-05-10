@@ -74,9 +74,7 @@ const RegisterScreen = ({ navigation }) => {
                                     pfp: imgurl ? imgurl : null,
                                 }).then(() => {
                                     setLoading(false);
-                                    navigation.navigate(
-                                        UIText["emailVerifyScreen"]["barTitle"]
-                                    );
+                                    navigation.navigate("verifyEmail");
                                 });
                             })
                             .catch((error) => {

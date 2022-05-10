@@ -1,15 +1,15 @@
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
-    StyleSheet,
-    View,
     KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    TouchableHighlight,
-    Text,
     Platform,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TouchableWithoutFeedback,
+    View,
 } from "react-native";
-import { Button, Input, Image } from "react-native-elements";
-import { StatusBar } from "expo-status-bar";
+import { Button, Image, Input } from "react-native-elements";
 import ThemedListItem from "react-native-elements/dist/list/ListItem";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -44,19 +44,6 @@ export class Header extends React.Component {
         );
     }
 }
-
-// export class Loading extends React.Component {
-//     render() {
-//         return (
-//             <SafeAreaView style={styles.container}>
-//                 <AnimatedLottieView
-//                     source={require("../assets/loading.json")}
-//                     style={styles.ImageDimension}
-//                 />
-//             </SafeAreaView>
-//         );
-//     }
-// }
 
 const styles = StyleSheet.create({
     ImageDimension: {

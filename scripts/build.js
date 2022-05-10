@@ -26,7 +26,7 @@ const webOnly = true;
 // if you're wondering why is this hardcoded, we have some weird issue with native clients at the moment
 
 // web build
-const spinner = ora("running expo buid:web...", {
+const spinner = ora("running expo build:web...", {
     color: "cyan",
     spinner: "dots",
 }).start();
