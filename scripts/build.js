@@ -44,7 +44,7 @@ execShellCommand("expo build:web")
         spinner.text = "deploying...";
         // spinner.color = "purple";
         execShellCommand(
-            `cp -R ./.vercel ./web-build && vercel ./web-build ${
+            `cp -R ./.vercel ./web-build && cp -r ./html/404.html ./web-build && vercel ./web-build ${
                 production ? "--prod" : ""
             }`
         ).then(() => {
