@@ -1,6 +1,7 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, AppState } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useEffect } from "react";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -11,6 +12,7 @@ import SettingsScreen from "./screens/SettingsScreen"; // wip screen
 import UIText from "./components/LocalizedText";
 import FriendsScreen from "./screens/FriendsScreen";
 import * as Linking from "expo-linking";
+import { getFirestore, setDoc, updateDoc, doc, getAuth } from "./firebase";
 
 const Stack = createNativeStackNavigator();
 const globalScreenOptions = {
@@ -45,6 +47,19 @@ const linking = {
 };
 
 export default function App() {
+    useEffect(() => {
+        AppState.addEventListener("change", handleAppStateChange);
+        return () => {
+            AppState.removeEventListener("change", handleAppStateChange);
+        };
+    }, []);
+    const handleAppStateChange = (nextAppState) => {
+        if (nextAppState === "inactive" && getAuth().currentUser) {
+            updateDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
+                online: false,
+            });
+        }
+    };
     return (
         <NavigationContainer style={styles.container} linking={linking}>
             <Stack.Navigator screenOptions={globalScreenOptions}>

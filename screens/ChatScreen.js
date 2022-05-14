@@ -35,6 +35,7 @@ import {
 import isMobile from "react-device-detect";
 import { useKeyboard } from "@react-native-community/hooks";
 import { Popable, Popover } from "react-native-popable";
+import FastList from "../components/FastList";
 
 const ChatScreen = ({ navigation, route }) => {
     const [msgInput, setMsgInput] = useState("");

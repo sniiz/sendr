@@ -194,7 +194,7 @@ const HomeScreen = ({ navigation }) => {
                             }}
                         >
                             <SimpleLineIcons
-                                name="user"
+                                name="people"
                                 size={18}
                                 color="white"
                             />
@@ -218,7 +218,7 @@ const HomeScreen = ({ navigation }) => {
                             onPress={() => navigation.navigate("newChat")}
                         >
                             <SimpleLineIcons
-                                name="pencil"
+                                name="speech"
                                 size={18}
                                 color="white"
                             />
@@ -248,29 +248,6 @@ const HomeScreen = ({ navigation }) => {
                             />
                         </TouchableOpacity>
                     </Popable>
-
-                    {/* <TouchableOpacity
-                        activeOpacity={0.5}
-                        onPress={() =>
-                            navigation.navigate(
-                                UIText["settingsScreen"]["barTitle"]
-                            )
-                        }
-                    >
-                        <SimpleLineIcons
-                            name="settings"
-                            size={18}
-                            color="black"
-                        />
-                    </TouchableOpacity> */}
-
-                    {/* <TouchableOpacity activeOpacity={0.5} onPress={signOutUser}>
-                        <SimpleLineIcons
-                            name="logout"
-                            size={18}
-                            color="black"
-                        />
-                    </TouchableOpacity> */}
                 </View>
             ),
         });

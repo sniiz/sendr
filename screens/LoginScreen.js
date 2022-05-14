@@ -50,6 +50,7 @@ const LoginScreen = ({ navigation }) => {
                                 friends: [],
                                 name: user.displayName,
                                 pfp: user.photoURL ? user.photoURL : null,
+                                online: true,
                             }).then(() => {
                                 navigation.replace("home");
                             });

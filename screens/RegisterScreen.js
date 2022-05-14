@@ -72,6 +72,7 @@ const RegisterScreen = ({ navigation }) => {
                                     friends: [],
                                     name: fullname,
                                     pfp: imgurl ? imgurl : null,
+                                    online: true,
                                 }).then(() => {
                                     setLoading(false);
                                     navigation.navigate("verifyEmail");
