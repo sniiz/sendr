@@ -28,7 +28,7 @@ import {
     deleteUser,
     signOut,
 } from "firebase/auth";
-import { getDatabase, ref, onValue, set } from "firebase/database";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // import { getDoc } from 'firebase/firestore'
 const firebaseConfig = {
     apiKey: "AIzaSyD2c5D7MtdLHYcTQpm2GJsDb2PY36lGmss",
@@ -58,10 +58,6 @@ export {
     query,
     EmailAuthProvider,
     orderBy,
-    getDatabase,
-    ref,
-    onValue,
-    set,
     setDoc,
     doc,
     deleteUser,
@@ -70,4 +66,8 @@ export {
     getDocs,
     updateDoc,
     getDoc,
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
 };

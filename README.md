@@ -1,3 +1,5 @@
+![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white) ![Mac OS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0) ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white) ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+
 # sendr
 
 a minimalist messaging app
@@ -5,12 +7,14 @@ a minimalist messaging app
 # roadmap!
 
 -   [ ] dms (WIP)
--   [ ] replies (WIP)
+-   [ ] friends (WIP)
+-   [ ] groups (WIP)
+-   [ ] pfp picker (WIP)
+-   [ ] proper desktop client (WIP)
 
 -   [ ] light mode
--   [ ] pfp picker
 -   [ ] comfort features (reactions, typing indicators etc)
--   [ ] proper desktop client
+-   [ ] replies
 -   [ ] presences
 
 -   [x] basic chat rendering

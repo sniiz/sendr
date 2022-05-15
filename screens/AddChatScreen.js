@@ -15,6 +15,8 @@ import UIText from "../components/LocalizedText";
 
 const AddChatScreen = ({ navigation }) => {
     const [chat, setChat] = useState("");
+    const [chatId, setChatId] = useState("");
+    const [makeNewChat, setMakeNewChat] = useState(false);
 
     const createChat = async () => {
         const db = getFirestore();
