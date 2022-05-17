@@ -72,8 +72,8 @@ export default function EmailVerifyScreen({ navigation, route }) {
         >{`(${auth?.currentUser?.email})`}</Text>
       </Text>
       <TouchableOpacity
-        onPress={async () => {
-          await sendEmailVerification(auth?.currentUser)
+        onPress={() => {
+          sendEmailVerification(auth?.currentUser)
             .then(() => {
               setSent(true);
             })

@@ -297,7 +297,9 @@ export default function SettingsScreen({ navigation }) {
         <Popable
           content={
             <View style={styles.popupContainer}>
-              <Text style={styles.popupText}>click to change</Text>
+              <Text style={styles.popupText}>
+                {UIText["settingsScreen"]["pfpChange"]}
+              </Text>
             </View>
           }
           action="hover"

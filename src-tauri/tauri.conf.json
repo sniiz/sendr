@@ -1,7 +1,7 @@
 {
   "build": {
     "distDir": "../web-build",
-    "devPath": "http://192.168.1.11:19006",
+    "devPath": "http://127.0.0.1:19006",
     "beforeDevCommand": "",
     "beforeBuildCommand": ""
   },
@@ -39,15 +39,12 @@
       "exceptionDomain": ""
     },
     "allowlist": {
-      "all": true,
-      "dialog": true
+      "all": true
     },
     "window": {
       "title": "sendr",
       "width": 1000,
-      "height": 800,
-      "resizable": false,
-      "fullscreen": false
+      "height": 800
     },
     "security": {
       "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline'"

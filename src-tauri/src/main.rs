@@ -5,13 +5,6 @@
 
 mod cmd;
 
-use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
-
-let menu = Menu::new();
-menu.add_item(MenuItem::new("Quit", "quit"));
-
-menu.add_item(MenuItem::new("About", "about"));
-
 fn main() {
   tauri::AppBuilder::new()
     .invoke_handler(|_webview, arg| {

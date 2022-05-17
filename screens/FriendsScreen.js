@@ -54,19 +54,31 @@ const FriendsTab = ({ navigation, route }) => {
       (friends) => {
         var friendList = [];
         if (friends.data().friends.length > 0) {
-          for (var friend in friends.data().friends) {
-            getDoc(doc(db, "users", friends.data().friends[friend])).then(
-              (userInfo) => {
-                friendList.push({
-                  id: friends.data().friends[friend],
-                  name: userInfo.data().name,
-                  pfp: userInfo.data().pfp,
-                });
-                setFriends(friendList);
-                setLoading(false);
-              }
-            );
-          }
+          // for (var friend in friends.data().friends) {
+          //   getDoc(doc(db, "users", friends.data().friends[friend])).then(
+          //     (userInfo) => {
+          //       friendList.push({
+          //         id: friends.data().friends[friend],
+          //         name: userInfo.data().name,
+          //         pfp: userInfo.data().pfp,
+          //       });
+          //       setFriends(friendList);
+          //       setLoading(false);
+          //     }
+          //   );
+          // }
+          friends.data().friends.forEach((element) => {
+            getDoc(doc(db, "users", element)).then((userInfo) => {
+              console.log(userInfo.data());
+              friendList.push({
+                id: element,
+                name: userInfo.data().name,
+                pfp: userInfo.data().pfp,
+              });
+              setFriends(friendList);
+              setLoading(false);
+            });
+          });
         } else {
           setFriends([]);
           setLoading(false);
@@ -93,7 +105,7 @@ const FriendsTab = ({ navigation, route }) => {
           rounded
           size={35}
           source={{
-            uri: item.pfp ? item.pfp : "https://i.imgur.com/dA9mtkT.png",
+            uri: item.pfp || "https://i.imgur.com/dA9mtkT.png",
           }}
           containerStyle={{ marginLeft: 10 }}
         />
