@@ -13,7 +13,7 @@ function execShellCommand(cmd) {
   });
 }
 
-const message = process.argv.slice(2);
+const message = process.argv.slice(2).join(" ");
 
 const spinner = ora(`creating commit named ${message}`, {
   color: "cyan",
