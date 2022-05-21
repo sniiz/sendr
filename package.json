@@ -14,6 +14,7 @@
     "preview": "node scripts/build.js",
     "deploy": "node scripts/build.js --production",
     "firestore-cleanup": "node scripts/CLEANUP.js",
+    "commit": "node scripts/github.js",
     "tauri": "tauri"
   },
   "build": {
