@@ -26,7 +26,11 @@ execShellCommand(`git add -A && git commit -a -m "${message}"`).then(() => {
     .then(() => {
       spinner.stopAndPersist({
         symbol: "🎉",
-        text: `done, link: https://github.com/sniiz/sendr/commit/${message}`,
+        text: `done, link: https://github.com/sniiz/sendr/tree/${
+          require("../assets/version-info.json").number.includes("wip")
+            ? "wip"
+            : "master"
+        }`,
       });
     })
     .catch((err) => {
