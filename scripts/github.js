@@ -26,7 +26,7 @@ execShellCommand(`git add -A && git commit -a -m "${message}"`).then(() => {
     .then(() => {
       spinner.stopAndPersist({
         symbol: "🎉",
-        text: `done, link: ${process.env.GITHUB_URL}`,
+        text: `done, link: https://github.com/sniiz/sendr/commit/${message}`,
       });
     })
     .catch((err) => {
