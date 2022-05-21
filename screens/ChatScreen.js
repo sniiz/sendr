@@ -44,43 +44,22 @@ const ChatScreen = ({ navigation, route }) => {
 
   const [messages, setMessages] = useState([]);
   const [usersOnline, setUsersOnline] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [devs, setDevs] = useState([]);
 
   const [sending, setSending] = useState(false);
   const [emojiPicker, setEmojiPicker] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const [repliedId, setRepliedId] = useState(null);
   const [editingId, setEditingId] = useState(null);
-
-  const [loaded, setLoaded] = useState(false);
-
-  const devs = [
-    "d3XhkXMMTEc9ZauD3csbFi5MCdv1",
-    "jqAuLWkimlQduWJpSqgymWTWeDA2",
-    "q2muRmv5Muf36PePwxi83sePfOB3",
-    "mCyhZYeWyyeM7Kxh7e4r5hSIdiU2",
-  ];
-
   const flatListRef = useRef(null);
 
   const kb = useKeyboard();
 
   const auth = getAuth();
   const db = getFirestore();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: route.params.chatName,
-      headerStyle: {
-        backgroundColor: "black",
-        borderBottomWidth: 1,
-        borderBottomColor: "white",
-      },
-      headerTitleStyle: { color: "white", fontWeight: "light" },
-      headerTintColor: "white",
-      headerTitleAlign: "center",
-    });
-  }, [navigation]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -108,7 +87,23 @@ const ChatScreen = ({ navigation, route }) => {
     });
     getDoc(doc(db, `privateChats`, route.params.id)).then((chat) => {
       setAuthor(chat.data().author);
+      // load chat members and retrieve their names
+      const members = [];
+      chat.data().members.forEach((member) => {
+        getDoc(doc(db, `users`, member)).then((user) => {
+          members.push({
+            id: member,
+            name: member === auth.currentUser.uid ? "you" : user.data().name,
+          });
+          setMembers(members);
+          console.log(members);
+        });
+      });
       setLoaded(true);
+    });
+    getDoc(doc(db, "otherStuff", "devs")).then((devs) => {
+      setDevs(devs.data().ids);
+      console.log(devs.data().ids);
     });
     return () => {
       unsubscribe();
@@ -116,12 +111,79 @@ const ChatScreen = ({ navigation, route }) => {
     };
   }, [route]);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      // title: route.params.chatName,
+      headerStyle: {
+        backgroundColor: "black",
+        borderBottomWidth: 1,
+        borderBottomColor: "white",
+      },
+      // headerTitleStyle: { color: "white" },
+      headerTintColor: "white",
+      // headerTitleAlign: "center",
+      headerTitle: () => {
+        return (
+          <View
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                color: "white",
+              }}
+            >
+              {route.params.chatName}
+            </Text>
+            {/* <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            > */}
+            <Text
+              style={{
+                fontSize: 12,
+                color: "white",
+              }}
+            >
+              {members.map((member) => member.name).join(", ")}
+            </Text>
+            {/* </View> */}
+          </View>
+        );
+      },
+      headerRight: () => {
+        return (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("chatSettings", {
+                id: route.params.id,
+                chatName: route.params.chatName,
+              });
+            }}
+            style={{
+              padding: 10,
+              marginRight: 5,
+            }}
+          >
+            <SimpleLineIcons name="options-vertical" size={20} color="gray" />
+          </TouchableOpacity>
+        );
+      },
+    });
+  }, [navigation]);
   const sendMsg = () => {
     if (!editingId) {
       Keyboard.dismiss();
       setSending(true);
 
-      if (msgInput.trim().length > 0) {
+      if (msgInput.trim().length > 0 && msgInput.trim().length <= 1000) {
         setMessages((prevMessages) => [
           ...prevMessages,
           {
@@ -196,7 +258,7 @@ const ChatScreen = ({ navigation, route }) => {
         <View style={[styles.messageView, { backgroundColor: main }]}>
           <Text style={[styles.senderName]}>
             {item.displayName}
-            {devs.includes(item.uid) && (
+            {devs?.includes(item.uid) && (
               <View
                 style={{
                   backgroundColor: "#55f",
@@ -344,6 +406,7 @@ const ChatScreen = ({ navigation, route }) => {
                 // autoFocus
                 onChangeText={(text) => setMsgInput(text)}
                 onSubmitEditing={sendMsg}
+                autoCorrect={false}
               />
               {sending ? (
                 <Popable
@@ -364,7 +427,7 @@ const ChatScreen = ({ navigation, route }) => {
                     style={{ marginLeft: 15 }}
                   />
                 </Popable>
-              ) : msgInput !== "" ? (
+              ) : msgInput !== "" && msgInput.length <= 1000 ? (
                 <Popable
                   content={
                     <View style={styles.popupContainer}>
@@ -394,7 +457,8 @@ const ChatScreen = ({ navigation, route }) => {
                   content={
                     <View style={styles.popupContainer}>
                       <Text style={styles.popupText}>
-                        {UIText["chatScreen"]["send"]}
+                        {msgInput.length > 1000 &&
+                          UIText["chatScreen"]["tooLong"]}
                       </Text>
                     </View>
                   }
@@ -451,7 +515,7 @@ const styles = StyleSheet.create({
   receiverText: {
     color: "black",
     fontWeight: "normal",
-    // marginLeft: 10,
+    maxWidth: "95%",
   },
   createdText: {
     color: "grey",

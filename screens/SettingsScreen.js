@@ -37,6 +37,7 @@ import {
   collection,
   query,
   where,
+  deleteDoc,
   updateProfile,
   updatePassword,
   onSnapshot,
@@ -526,14 +527,18 @@ export default function SettingsScreen({ navigation }) {
             setDeleteCount(deleteCount + 1);
             setLogOutCount(0);
             if (deleteCount === 1) {
-              deleteUser(user)
-                .then(() => {
-                  navigation.replace("login");
-                  setDeleteCount(0);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
+              deleteDoc(
+                doc(getFirestore(), `users/${auth.currentUser.uid}`)
+              ).then(() => {
+                deleteUser(user)
+                  .then(() => {
+                    navigation.replace("login");
+                    setDeleteCount(0);
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              });
             }
             asyncSleep(7).then(() => {
               setDeleteCount(0);

@@ -153,8 +153,8 @@ const FriendsTab = ({ navigation, route }) => {
     );
   } else {
     if (friends.length === 0) {
-      // 0.1% chance of getting megamind'd
-      if (Math.floor(Math.random() * 1000) === 420) {
+      // 1% chance of getting megamind'd
+      if (Math.floor(Math.random() * 100) === 69) {
         return (
           <View
             style={{
@@ -190,7 +190,7 @@ const FriendsTab = ({ navigation, route }) => {
                 textAlign: "center",
               }}
             >
-              {"( ･ᴗ･̥̥̥ )\n\n"}
+              {"\\_(-_-)_/\n\n"}
               <Text style={{ fontSize: 20 }}>no friends.. so far</Text>
             </Text>
           </View>
@@ -211,25 +211,32 @@ const FriendsTab = ({ navigation, route }) => {
 };
 
 const RequestsTab = ({ navigation, route }) => {
+  const db = getFirestore();
+  const auth = getAuth();
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      doc(db, "users", auth.currentUser.uid),
+      (reqs) => {
+        setRequests(reqs.data().requests);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, [route]);
+
   return (
     <View
       style={[
         styles.container,
         {
           justifyContent: "center",
+          alignItems: "center",
         },
       ]}
     >
-      <Text
-        style={{
-          fontSize: 20,
-          fontWeight: "bold",
-          color: "gray",
-          marginHorizontal: 20,
-          textAlign: "center",
-        }}
-      >
-        this tab is under construction. please go away for now
+      <Text style={{ fontSize: 30, fontFamily: "monospace", color: "gray" }}>
+        NO
       </Text>
     </View>
   );

@@ -126,13 +126,6 @@ const HomeScreen = ({ navigation }) => {
               }
             }}
           >
-            {/* <TouchableOpacity activeOpacity={0.5}>
-                        <Avatar
-                            rounded
-                            source={{ uri: auth?.currentUser?.photoURL }}
-                        />
-                    </TouchableOpacity> */}
-
             <Text
               style={{
                 fontSize: 10,
@@ -268,6 +261,15 @@ const HomeScreen = ({ navigation }) => {
                   author={author}
                 />
               ))}
+              <TouchableOpacity
+                onPress={() => navigation.navigate("newChat")}
+                style={{
+                  margin: 10,
+                  marginLeft: 17,
+                }}
+              >
+                <SimpleLineIcons name="plus" size={30} color="gray" />
+              </TouchableOpacity>
             </ScrollView>
           ) : Error ? (
             <View style={styles.containerStatic}>
@@ -279,8 +281,6 @@ const HomeScreen = ({ navigation }) => {
                 }}
               >
                 {"(・_・ヾ"}
-                {/* {"(ノ‥)ノ"} */}
-                {/* {" ( . ︿ . ) "} */}
               </Text>
               <Text
                 style={{

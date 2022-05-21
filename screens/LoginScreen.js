@@ -37,14 +37,15 @@ const LoginScreen = ({ navigation }) => {
   const [loggingIn, setLoggingIn] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const auth = getAuth();
+  const db = getFirestore();
 
   useEffect(() => {
     const unsub = onAuthStateChanged(getAuth(), (user) => {
       if (user !== null) {
         setIsLoggedIn(true);
         getDoc(doc(collection(getFirestore(), "users"), user.uid)).then(
-          (user) => {
-            if (!user.exists()) {
+          (userdoc) => {
+            if (!userdoc.exists()) {
               setDoc(doc(db, "users", user.id), {
                 friendRequests: {},
                 friends: [],

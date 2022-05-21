@@ -21,6 +21,7 @@ import {
   query,
   updateProfile,
   where,
+  collection,
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 
@@ -43,6 +44,12 @@ const RegisterScreen = ({ navigation }) => {
   }, [navigation]);
 
   const register = () => {
+    if (fullname === "<SYSTEM>") {
+      alert(
+        "that username is reserved for system messages. please choose another"
+      );
+      return;
+    }
     setLoading(true);
     const auth = getAuth();
     setEmail(email.trim());
@@ -139,14 +146,6 @@ const RegisterScreen = ({ navigation }) => {
           onChangeText={(text) => setPassword(text)}
           onSubmitEditing={register}
         />
-        {/* <Input // TODO add image picker bc urls suck
-                    placeholder={UIText["signUpScreen"]["pfpPlaceholder"]}
-                    style={styles.input}
-                    type="text"
-                    placeholderTextColor="gray"
-                    value={imgurl}
-                    onChangeText={(text) => setImgurl(text)}
-                /> */}
       </View>
       <Text
         style={[
