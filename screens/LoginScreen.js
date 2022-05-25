@@ -36,6 +36,9 @@ const LoginScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [loggingIn, setLoggingIn] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [takingTooLong, setTakingTooLong] = useState(false);
+  const [serverDown, setServerDown] = useState(false);
+
   const auth = getAuth();
   const db = getFirestore();
 
@@ -47,7 +50,7 @@ const LoginScreen = ({ navigation }) => {
           (userdoc) => {
             if (!userdoc.exists()) {
               setDoc(doc(db, "users", user.id), {
-                friendRequests: {},
+                friendRequests: [],
                 friends: [],
                 name: user.displayName,
                 pfp: user.photoURL ? user.photoURL : null,
@@ -76,6 +79,12 @@ const LoginScreen = ({ navigation }) => {
         });
       }
     });
+    setTimeout(() => {
+      setTakingTooLong(true);
+      setTimeout(() => {
+        setServerDown(true);
+      }, 15000);
+    }, 10000);
     return () => {
       unsub();
     };
@@ -93,10 +102,11 @@ const LoginScreen = ({ navigation }) => {
 
   const signIn = () => {
     setLoggingIn(true);
+    setPasswordCorrect(true);
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         setLoggingIn(false);
-        navigation.navigate("");
+        navigation.replace("home");
       })
       .catch((error) => {
         setLoggingIn(false);
@@ -109,28 +119,21 @@ const LoginScreen = ({ navigation }) => {
   if (loading) {
     return (
       <View style={styles.container}>
-        <Spinner
-          visible={loading}
-          // textContent={UIText["loginScreen"]["loading"]}
-          // textContent={""}
-          textStyle={{
-            color: "gray",
-            fontSize: 20,
-            // fontWeight: "bold",
-          }}
-          color="gray"
-          overlayColor="rgba(0, 0, 0, 0)"
-        />
-        {/* <Text
-                    style={[
-                        styles.login,
-                        {
-                            marginTop: 20,
-                        },
-                    ]}
-                >
-                    {UIText["loginScreen"]["loading"]}
-                </Text> */}
+        <ActivityIndicator size={20} color="gray" />
+        {takingTooLong && (
+          <Text
+            style={{
+              color: "gray",
+              fontSize: 20,
+              marginTop: 10,
+              textAlign: "center",
+            }}
+          >
+            {serverDown
+              ? "ok, at this point either your wifi is absolute garbo either our server is down. try restarting your router.\nif that doesn't work, you can email the lead dev at haley.sniiz@gmail.com and scream at her all you want."
+              : "this is taking longer than it should... maybe try checking your internet or restarting the app"}
+          </Text>
+        )}
       </View>
     );
   } else {
@@ -162,7 +165,12 @@ const LoginScreen = ({ navigation }) => {
             placeholder={UIText["loginScreen"]["passwordPlaceholder"]}
             secureTextEntry
             type="password"
-            style={styles.input}
+            style={[
+              styles.input,
+              {
+                borderColor: passwordCorrect ? "white" : "red",
+              },
+            ]}
             value={password}
             placeholderTextColor="gray"
             onChangeText={(text) => setPassword(text)}

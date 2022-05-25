@@ -24,66 +24,58 @@ import {
   updateDoc,
   orderBy,
   getDoc,
+  setDoc,
   where,
 } from "../firebase";
 import { Avatar } from "react-native-elements";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Popable } from "react-native-popable";
 
-const FriendsTab = ({ navigation, route }) => {
+const FriendsScreen = ({ navigation, route }) => {
   const [friends, setFriends] = useState([]);
   const [requests, setRequests] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
+  const [uid, setUid] = useState("");
+
+  const [friendId, setFriendId] = useState("");
+
   const auth = getAuth();
   const db = getFirestore();
 
-  // useLayoutEffect(() => {
-  //     navigation.setOptions({
-  //         title: "friends",
-  //         headerStyle: { backgroundColor: "black" },
-  //         headerTintColor: "white",
-  //         headerTitleAlign: "center",
-  //     });
-  // }, [navigation]);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "friend requests",
+    });
+  }, [navigation]);
 
   useEffect(() => {
+    if (!auth?.currentUser?.uid) {
+      navigation.replace("login");
+      return;
+    }
     const unsubscribe = onSnapshot(
       doc(db, "users", auth.currentUser.uid),
-      (friends) => {
-        var friendList = [];
-        if (friends.data().friends.length > 0) {
-          // for (var friend in friends.data().friends) {
-          //   getDoc(doc(db, "users", friends.data().friends[friend])).then(
-          //     (userInfo) => {
-          //       friendList.push({
-          //         id: friends.data().friends[friend],
-          //         name: userInfo.data().name,
-          //         pfp: userInfo.data().pfp,
-          //       });
-          //       setFriends(friendList);
-          //       setLoading(false);
-          //     }
-          //   );
-          // }
-          friends.data().friends.forEach((element) => {
-            getDoc(doc(db, "users", element)).then((userInfo) => {
-              console.log(userInfo.data());
-              friendList.push({
-                id: element,
-                name: userInfo.data().name,
-                pfp: userInfo.data().pfp,
+      (user) => {
+        var requestsList = [];
+        user.data().friendRequests.forEach((request) => {
+          getDoc(doc(db, "users", request)).then((maybeFriend) => {
+            if (maybeFriend.exists()) {
+              requestsList.push({ ...maybeFriend.data(), id: maybeFriend.id });
+              setRequests(requestsList);
+            } else {
+              // user no longer exists, remove their request
+              updateDoc(doc(db, "users", auth.currentUser.uid), {
+                friendRequests: user
+                  .data()
+                  .friendRequests.filter((req) => req !== request),
               });
-              setFriends(friendList);
-              setLoading(false);
-            });
+            }
           });
-        } else {
-          setFriends([]);
-          setLoading(false);
-        }
-        // setRequests(friends.data().friendRequests);
+        });
+        setLoading(false);
       },
       (error) => {
         console.log(error);
@@ -95,47 +87,141 @@ const FriendsTab = ({ navigation, route }) => {
     };
   }, [route]);
 
-  const friendItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => alert(`wowee you pressed ${item.name}`)}
-      activeOpacity={0.8}
-    >
-      <View style={styles.friendContainer}>
-        <Avatar
-          rounded
-          size={35}
-          source={{
-            uri: item.pfp || "https://i.imgur.com/dA9mtkT.png",
-          }}
-          containerStyle={{ marginLeft: 10 }}
-        />
-        <Text style={styles.friendName}>{item.name}</Text>
-        <TouchableOpacity
-          onPress={() => {
-            updateDoc(doc(db, "users", auth.currentUser.uid), {
-              friends: [...friends.filter((friend) => friend.id !== item.id)],
-            });
-            updateDoc(doc(db, "users", item.id), {
-              friends: [
-                ...friends.filter(
-                  (friend) => friend.id !== auth.currentUser.uid
-                ),
-              ],
-            });
-          }}
-        >
-          <SimpleLineIcons
-            name="user-unfollow"
-            size={20}
-            color="gray"
+  const addFriend = (id) => {
+    // jeez look at this mess
+    // you know what this reminds me of?
+    // r a m e n
+    // get it? noodles? hahhahahhahha
+    // im a comedic genius
+    if (id === auth.currentUser.uid) {
+      alert(
+        "you think you're clever huh? you think you outsmarted the system huh? well NO YOU HAVEN'T!!! THE MIGHTY POTAT CAN SEE THROUGH YOUR FUTILE TRICKS AND SHENANIGANS!!!!!"
+      );
+      return;
+    }
+    getDoc(doc(db, "users", id)).then((friend) => {
+      if (friend.data().friendRequests.includes(auth.currentUser.uid)) {
+        alert(`you alredy sent a friend request to ${friend.data().name}`);
+        return;
+      }
+      if (
+        friend.exists() &&
+        friends.filter((item) => item.id === id).length === 0
+      ) {
+        updateDoc(doc(db, "users", id), {
+          friendRequests: [
+            ...friend.data().friendRequests,
+            auth.currentUser.uid,
+          ],
+        }).then(() => {
+          alert(`sent request to ${friend.data().name}`);
+          setFriendId("");
+        });
+      } else {
+        setFriendId("");
+        alert("user does not exist or is already a friend");
+      }
+    });
+  };
+
+  const confirmFriend = (id, name) => {
+    updateDoc(doc(db, "users", auth.currentUser.uid), {
+      friends: [...friends, id],
+      friendRequests: requests.filter((item) => item.id !== id),
+    }).then(() => {
+      setDoc(collection(db, "privateChats", auth.currentUser.uid + id), {
+        chatName: null,
+        members: [auth.currentUser.uid, id],
+        author: null,
+        dm: true,
+      }).then((chat) => {
+        navigation.navigate("chat", {
+          id: chat.id,
+          chatName: name,
+          author: null,
+        });
+      });
+    });
+  };
+
+  const rejectFriend = (id) => {
+    updateDoc(doc(db, "users", auth.currentUser.uid), {
+      friendRequests: requests.filter((item) => item.id !== id),
+    });
+  };
+
+  const friendRequestItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => alert(`wowee you pressed ${item.name}`)}
+        activeOpacity={0.8}
+      >
+        <View style={styles.friendContainer}>
+          <Avatar
+            rounded
+            size={40}
+            source={{
+              uri: item.pfp || "https://i.imgur.com/dA9mtkT.png",
+            }}
+            containerStyle={{ margin: 5 }}
+          />
+          <Text
             style={{
+              fontSize: 20,
+              fontWeight: "bold",
               marginLeft: 10,
             }}
-          />
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
-  );
+          >
+            {item.name}
+          </Text>
+          <View
+            style={{
+              flex: 1,
+              alignContent: "flex-end",
+              justifyContent: "flex-end",
+              flexDirection: "row",
+            }}
+          >
+            <Popable
+              content={
+                <View style={styles.popupContainer}>
+                  <Text style={styles.popupText}>accept request</Text>
+                </View>
+              }
+              action="hover"
+              style={{ opacity: 0.8 }}
+              position="left"
+            >
+              <TouchableOpacity
+                onPress={() => confirmFriend(item.id, item.name)}
+              >
+                <SimpleLineIcons name="check" size={30} color="black" />
+              </TouchableOpacity>
+            </Popable>
+            <Popable
+              content={
+                <View style={styles.popupContainer}>
+                  <Text style={styles.popupText}>dismiss request</Text>
+                </View>
+              }
+              action="hover"
+              style={{ opacity: 0.8 }}
+              position="left"
+            >
+              <TouchableOpacity
+                onPress={() => rejectFriend(item.id)}
+                style={{
+                  marginHorizontal: 10,
+                }}
+              >
+                <SimpleLineIcons name="close" size={30} color="black" />
+              </TouchableOpacity>
+            </Popable>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   if (loading) {
     return (
@@ -148,130 +234,95 @@ const FriendsTab = ({ navigation, route }) => {
           },
         ]}
       >
-        <ActivityIndicator size="large" color="gray" />
+        <ActivityIndicator size={20} color="gray" />
       </View>
     );
-  } else {
-    if (friends.length === 0) {
-      // 1% chance of getting megamind'd
-      if (Math.floor(Math.random() * 100) === 69) {
-        return (
-          <View
+  }
+  return (
+    <View
+      style={{
+        flex: 1,
+        // alignItems: "center",
+        // justifyContent: "center",
+        backgroundColor: "black",
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: friends.length > 0 ? "flex-start" : "center",
+          alignItems: "center",
+          padding: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: "gray",
+        }}
+      >
+        <TextInput
+          style={{
+            width: "100%",
+            fontSize: 15,
+            padding: 10,
+            borderWidth: 1,
+            borderColor: friendId ? "white" : "gray",
+            // marginRight: 10,
+            color: "white",
+          }}
+          placeholder="add friend by uid"
+          placeholderTextColor="gray"
+          value={friendId}
+          onChangeText={(text) => {
+            setFriendId(text);
+          }}
+          onSubmitEditing={() => {
+            addFriend(friendId);
+          }}
+        />
+        {friendId && (
+          <TouchableOpacity
+            onPress={() => {}}
             style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "black",
-            }}
-          >
-            {/* <Image /> doesnt work here for some reason hmmmm */}
-            <Avatar
-              source={require("../assets/nofriends.jpg")}
-              style={{ width: 300, height: 222 }}
-              rounded={false}
-            />
-          </View>
-        );
-      } else {
-        return (
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "black",
+              marginLeft: 10,
+              borderColor: "white",
+              borderRadius: 5,
+              borderWidth: 1,
+              padding: 10,
+              paddingHorizontal: 13,
             }}
           >
             <Text
               style={{
-                fontSize: 30,
-                fontFamily: "monospace",
-                color: "gray",
-                textAlign: "center",
+                color: "white",
+                fontSize: 15,
               }}
             >
-              {"\\_(-_-)_/\n\n"}
-              <Text style={{ fontSize: 20 }}>no friends.. so far</Text>
+              {"add"}
             </Text>
-          </View>
-        );
-      }
-    } else {
-      return (
-        <View style={styles.container}>
-          <FlatList
-            data={friends}
-            renderItem={friendItem}
-            keyExtractor={(item) => item.id}
-          />
-        </View>
-      );
-    }
-  }
-};
-
-const RequestsTab = ({ navigation, route }) => {
-  const db = getFirestore();
-  const auth = getAuth();
-  useEffect(() => {
-    const unsubscribe = onSnapshot(
-      doc(db, "users", auth.currentUser.uid),
-      (reqs) => {
-        setRequests(reqs.data().requests);
-      }
-    );
-    return () => {
-      unsubscribe();
-    };
-  }, [route]);
-
-  return (
-    <View
-      style={[
-        styles.container,
-        {
-          justifyContent: "center",
-          alignItems: "center",
-        },
-      ]}
-    >
-      <Text style={{ fontSize: 30, fontFamily: "monospace", color: "gray" }}>
-        NO
-      </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      <FlatList
+        data={requests}
+        renderItem={friendRequestItem}
+        keyExtractor={(item) => item.id}
+        style={{
+          flex: 1,
+        }}
+        ListEmptyComponent={
+          <Text
+            style={{
+              fontSize: 30,
+              fontFamily: "monospace",
+              color: "gray",
+              textAlign: "center",
+              alignSelf: "center",
+            }}
+          >
+            {"\\_(-_-)_/\n\n"}
+            <Text style={{ fontSize: 15 }}>no friends.. so far</Text>
+          </Text>
+        }
+      />
     </View>
-  );
-};
-
-const Tab = createBottomTabNavigator();
-
-const FriendsScreen = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: "black",
-        },
-        tabBarIcon: () => {
-          return null;
-        },
-        tabBarLabelStyle: {
-          fontSize: 15,
-          marginTop: -10,
-        },
-      }}
-      tabBarOptions={{
-        activeTintColor: "white",
-        inactiveTintColor: "gray",
-        backgroundColor: "black",
-        style: {
-          height: Platform.OS === "ios" ? 60 : 100,
-        },
-      }}
-    >
-      <Tab.Screen name="friends" component={FriendsTab} />
-      <Tab.Screen name="requests" component={RequestsTab} />
-    </Tab.Navigator>
   );
 };
 
@@ -288,7 +339,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: "white",
     padding: 5,
-    paddingVertical: 15,
+    // paddingVertical: 15,
     width: "100%",
     borderTopWidth: 1,
     borderTopColor: "gray",
@@ -298,5 +349,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 10,
     color: "black",
+  },
+  popupContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black",
+    padding: 10,
+    flex: 1,
+  },
+  popupText: {
+    color: "white",
+    fontSize: 12,
   },
 });

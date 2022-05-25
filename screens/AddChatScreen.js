@@ -17,19 +17,24 @@ const AddChatScreen = ({ navigation }) => {
   const [chat, setChat] = useState("");
   const [chatId, setChatId] = useState("");
 
-  const [makeNewChat, setMakeNewChat] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const createChat = async () => {
+  const createChat = () => {
     const db = getFirestore();
     const auth = getAuth();
-    await addDoc(collection(db, "privateChats"), {
+    addDoc(collection(db, "privateChats"), {
       chatName: chat,
       author: auth.currentUser.displayName,
       members: [auth.currentUser.uid],
       dm: false,
     })
-      .then(() => navigation.goBack())
+      .then((ref) =>
+        navigation.navigate("chat", {
+          id: ref.id,
+          chatName: chat,
+          author: auth.currentUser.displayName,
+        })
+      )
       .catch((error) => alert(error.message));
   };
 

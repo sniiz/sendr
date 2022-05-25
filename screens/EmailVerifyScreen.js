@@ -25,11 +25,14 @@ export default function EmailVerifyScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsub = onAuthStateChanged(auth, (user) => {
       if (user && user?.emailVerified) {
         navigation.replace("home");
       }
     });
+    return () => {
+      unsub();
+    };
   }, []);
 
   useEffect(() => {

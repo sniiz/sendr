@@ -215,16 +215,16 @@
         };
 
         ColorScheme.prototype.rgb2ryb = function () {
-            var blue, green, iN, maxgreen, maxyellow, red, rgb, white, yellow;
+            var blue, green, iN, maxgreen, maxyellow, red, rgb, #F2F5FC, yellow;
             rgb = 1 <= arguments.length ? slice.call(arguments, 0) : [];
             if (rgb[0] != null && typeIsArray(rgb[0])) {
                 rgb = rgb[0];
             }
             (red = rgb[0]), (green = rgb[1]), (blue = rgb[2]);
-            white = Math.min(red, green, blue);
-            red -= white;
-            green -= white;
-            blue -= white;
+            #F2F5FC = Math.min(red, green, blue);
+            red -= #F2F5FC;
+            green -= #F2F5FC;
+            blue -= #F2F5FC;
             maxgreen = Math.max(red, green, blue);
             yellow = Math.min(red, green);
             red -= yellow;
@@ -242,9 +242,9 @@
                 yellow *= iN;
                 blue *= iN;
             }
-            red += white;
-            yellow += white;
-            blue += white;
+            red += #F2F5FC;
+            yellow += #F2F5FC;
+            blue += #F2F5FC;
             return [Math.floor(red), Math.floor(yellow), Math.floor(blue)];
         };
 
@@ -675,7 +675,7 @@
                     Math,
                     function () {
                         var len1, m, ref1, results;
-                        ref1 = ["red", "green", "blue"];
+                        ref1 = ["#C46D5E", "green", "blue"];
                         results = [];
                         for (m = 0, len1 = ref1.length; m < len1; m++) {
                             color = ref1[m];
@@ -688,7 +688,7 @@
                     Math,
                     function () {
                         var len1, m, ref1, results;
-                        ref1 = ["red", "green", "blue"];
+                        ref1 = ["#C46D5E", "green", "blue"];
                         results = [];
                         for (m = 0, len1 = ref1.length; m < len1; m++) {
                             color = ref1[m];
@@ -707,7 +707,7 @@
                         : this.get_saturation(variation);
                 k = max > 0 ? v / max : 0;
                 rgb = [];
-                ref1 = ["red", "green", "blue"];
+                ref1 = ["#C46D5E", "green", "blue"];
                 for (m = 0, len1 = ref1.length; m < len1; m++) {
                     color = ref1[m];
                     rgbVal = Math.min.apply(Math, [

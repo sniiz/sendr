@@ -12,6 +12,7 @@ import {
   View,
   SafeAreaView,
   ScrollView,
+  TextInput,
   Alert,
   TouchableOpacity,
   Linking,
@@ -28,7 +29,12 @@ import {
   query,
   onAuthStateChanged,
   where,
+  updateDoc,
+  doc,
+  getDoc,
   getFirestore,
+  addDoc,
+  serverTimestamp,
   onSnapshot,
 } from "../firebase";
 // sorry firebase is gitignored im scared of .envs
@@ -39,9 +45,23 @@ const version = require("../assets/version-info.json");
 
 const HomeScreen = ({ navigation }) => {
   const [chats, setChats] = useState([]);
-  const [Error, setError] = useState(false);
-
   const [loading, setLoading] = useState(true);
+  const [Error, setError] = useState(false);
+  const [textBoxOpen, setTextBoxOpen] = useState(false);
+  const [chatId, setChatId] = useState("");
+
+  const joinMessages = [
+    "joined!",
+    "is here!",
+    "appeared out of thin air!",
+    "has arrived!",
+    "entered!",
+    "came in!",
+    "has joined!",
+    "joined us here on this fine day!",
+    "stopped by!",
+    "came by!",
+  ];
 
   const auth = getAuth();
   const db = getFirestore();
@@ -60,6 +80,7 @@ const HomeScreen = ({ navigation }) => {
     const unsubscribe = onSnapshot(
       query(
         collection(db, "privateChats"),
+        orderBy("chatName", "desc"),
         where("members", "array-contains", getAuth().currentUser.uid)
       ),
       (snapshot) => {
@@ -71,7 +92,9 @@ const HomeScreen = ({ navigation }) => {
             ...doc.data(),
           }))
         );
-        setLoading(false);
+        if (loading) {
+          setLoading(false);
+        }
       },
       (error) => {
         setError(true);
@@ -178,7 +201,7 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity>
           </Popable>
 
-          <Popable
+          {/* <Popable
             content={
               <View style={styles.popupContainer}>
                 <Text style={styles.popupText}>
@@ -196,7 +219,7 @@ const HomeScreen = ({ navigation }) => {
             >
               <SimpleLineIcons name="speech" size={18} color="white" />
             </TouchableOpacity>
-          </Popable>
+          </Popable> */}
 
           <Popable
             content={
@@ -231,6 +254,35 @@ const HomeScreen = ({ navigation }) => {
     });
   };
 
+  const joinChat = (id) => {
+    getDoc(doc(db, "privateChats", id)).then((chatDoc) => {
+      console.log(chatDoc);
+      if (chatDoc.exists()) {
+        const chat = chatDoc.data();
+        if (chat.members.includes(getAuth().currentUser.uid)) {
+          enterChat(id, chat.chatName, chat.author);
+        } else {
+          updateDoc(doc(db, "privateChats", id), {
+            members: [...chat.members, getAuth().currentUser.uid],
+          }).then(() => {
+            addDoc(collection(db, `privateChats/${id}`, "messages"), {
+              timestamp: serverTimestamp(),
+              message: `${getAuth().currentUser.displayName} ${
+                joinMessages[Math.floor(Math.random() * joinMessages.length)]
+              }`,
+              displayName: "potat",
+              uid: "POTATOCAT",
+              photoURL: "https://i.imgur.com/UFr7hCb.png",
+            });
+            enterChat(id, chat.chatName, chat.author);
+          });
+        }
+      } else {
+        alert(`no chat with id "${id}" found`);
+      }
+    });
+  };
+
   if (loading) {
     return (
       <SafeAreaView
@@ -242,87 +294,139 @@ const HomeScreen = ({ navigation }) => {
           },
         ]}
       >
-        <ActivityIndicator size="large" color="gray" />
+        <ActivityIndicator size={20} color="gray" />
       </SafeAreaView>
     );
   } else {
     return (
       <SafeAreaView style={styles.main}>
-        {
-          // oh no what a mess
-          !Error && chats.length > 0 ? (
-            <ScrollView style={styles.container}>
-              {chats.map(({ id, chatName, author }) => (
-                <CustomListItem
-                  key={id}
-                  id={id}
-                  chatName={chatName}
-                  enterChat={enterChat}
-                  author={author}
-                />
-              ))}
-              <TouchableOpacity
-                onPress={() => navigation.navigate("newChat")}
-                style={{
-                  margin: 10,
-                  marginLeft: 17,
-                }}
-              >
-                <SimpleLineIcons name="plus" size={30} color="gray" />
-              </TouchableOpacity>
-            </ScrollView>
-          ) : Error ? (
-            <View style={styles.containerStatic}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 10,
+            borderBottomWidth: 1,
+            borderBottomColor: "gray",
+          }}
+        >
+          <TextInput
+            style={{
+              width: "100%",
+              fontSize: 15,
+              padding: 10,
+              borderWidth: 1,
+              borderColor: chatId ? "white" : "gray",
+              // marginRight: 10,
+              color: "white",
+            }}
+            placeholder="join chat by id"
+            placeholderTextColor="gray"
+            value={chatId}
+            onChangeText={(text) => {
+              setChatId(text);
+            }}
+            onSubmitEditing={() => {
+              joinChat(chatId.trim());
+            }}
+          />
+          {chatId && (
+            <TouchableOpacity
+              onPress={() => {
+                joinChat(chatId.trim());
+              }}
+              style={{
+                marginLeft: 10,
+                borderColor: "white",
+                borderRadius: 5,
+                borderWidth: 1,
+                padding: 10,
+                paddingHorizontal: 13,
+              }}
+            >
               <Text
                 style={{
-                  fontSize: 40,
-                  color: "gray",
-                  textAlign: "center",
-                }}
-              >
-                {"(・_・ヾ"}
-              </Text>
-              <Text
-                style={{
+                  color: "white",
                   fontSize: 15,
-                  color: "gray",
-                  textAlign: "center",
-                  fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
-                  fontStyle: "italic",
                 }}
               >
-                {UIText["errors"]["noChats"]}
+                {"join"}
               </Text>
-            </View>
-          ) : (
-            <View style={styles.containerStatic}>
-              <Text
-                style={{
-                  fontSize: 40,
-                  color: "gray",
-                  textAlign: "center",
-                }}
-              >
-                {"_(-ω-`_)"}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 15,
-                  color: "gray",
-                  textAlign: "center",
-                  fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
-                  fontStyle: "italic",
-                }}
-              >
-                {
-                  UIText["homeScreen"][
-                    `lonely${Math.floor(Math.random() * 6) + 1}`
-                  ]
-                }
-              </Text>
-            </View>
-          )
-        }
+            </TouchableOpacity>
+          )}
+        </View>
+        {!Error && chats.length > 0 ? (
+          <ScrollView style={styles.container}>
+            {chats.map(({ id, chatName, author }) => (
+              <CustomListItem
+                key={id}
+                id={id}
+                chatName={chatName}
+                enterChat={enterChat}
+                author={author}
+              />
+            ))}
+            <TouchableOpacity
+              onPress={() => navigation.navigate("newChat")}
+              style={{
+                margin: 10,
+                marginLeft: 17,
+              }}
+            >
+              <SimpleLineIcons name="plus" size={30} color="gray" />
+            </TouchableOpacity>
+          </ScrollView>
+        ) : Error ? (
+          <View style={styles.containerStatic}>
+            <Text
+              style={{
+                fontSize: 40,
+                color: "gray",
+                textAlign: "center",
+              }}
+            >
+              {"(・_・ヾ"}
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: "gray",
+                textAlign: "center",
+                fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
+                fontStyle: "italic",
+              }}
+            >
+              {UIText["errors"]["noChats"]}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.containerStatic}>
+            <Text
+              style={{
+                fontSize: 40,
+                color: "gray",
+                textAlign: "center",
+              }}
+            >
+              {"_(-ω-`_)"}
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: "gray",
+                textAlign: "center",
+                fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
+                fontStyle: "italic",
+              }}
+            >
+              {
+                UIText["homeScreen"][
+                  `lonely${Math.floor(Math.random() * 6) + 1}`
+                ]
+              }
+            </Text>
+          </View>
+        )}
       </SafeAreaView>
     );
   }

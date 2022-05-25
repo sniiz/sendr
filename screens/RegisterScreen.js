@@ -44,7 +44,7 @@ const RegisterScreen = ({ navigation }) => {
   }, [navigation]);
 
   const register = () => {
-    if (fullname === "<SYSTEM>") {
+    if (fullname === "potat") {
       alert(
         "that username is reserved for system messages. please choose another"
       );
@@ -72,7 +72,7 @@ const RegisterScreen = ({ navigation }) => {
             })
               .then(() => {
                 setDoc(doc(db, "users", user.uid), {
-                  friendRequests: {},
+                  friendRequests: [],
                   friends: [],
                   name: fullname,
                   pfp: imgurl ? imgurl : null,

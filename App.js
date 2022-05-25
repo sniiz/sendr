@@ -22,7 +22,7 @@ const globalScreenOptions = {
     borderBottomWidth: 1,
     borderBottomColor: "white",
   },
-  headerTitleStyle: { color: "white", fontWeight: "normal" },
+  headerTitleStyle: { color: "white", fontWeight: "bold" },
   headerTintColor: "white",
   headerTitleAlign: "center",
 };
@@ -66,7 +66,7 @@ export default function App() {
         online: true,
       });
     }
-    if (nextAppState === "inactive" && getAuth().currentUser) {
+    if (nextAppState === "background" && getAuth().currentUser) {
       updateDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
         online: false,
       });

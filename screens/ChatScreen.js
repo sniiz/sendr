@@ -27,20 +27,24 @@ import {
   onSnapshot,
   orderBy,
   onAuthStateChanged,
+  updateDoc,
   sendEmailVerification,
   getDoc,
   query,
   serverTimestamp,
   doc,
+  deleteDoc,
 } from "../firebase";
 import isMobile from "react-device-detect";
 import { useKeyboard } from "@react-native-community/hooks";
-import { Popable, Popover } from "react-native-popable";
-import FastList from "../components/FastList";
+import { Popable } from "react-native-popable";
+import Clipboard from "@react-native-clipboard/clipboard";
 
 const ChatScreen = ({ navigation, route }) => {
   const [msgInput, setMsgInput] = useState("");
   const [author, setAuthor] = useState("");
+  const [otherUser, setOtherUser] = useState("");
+  const [chatName, setChatName] = useState("");
 
   const [messages, setMessages] = useState([]);
   const [usersOnline, setUsersOnline] = useState([]);
@@ -51,10 +55,20 @@ const ChatScreen = ({ navigation, route }) => {
   const [emojiPicker, setEmojiPicker] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [dm, setDm] = useState(false);
 
   const [repliedId, setRepliedId] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const flatListRef = useRef(null);
+
+  const leaveMessages = [
+    "left :(",
+    "left",
+    "left the chat",
+    "went away :(",
+    "left us",
+    "left us :(",
+  ];
 
   const kb = useKeyboard();
 
@@ -87,6 +101,7 @@ const ChatScreen = ({ navigation, route }) => {
     });
     getDoc(doc(db, `privateChats`, route.params.id)).then((chat) => {
       setAuthor(chat.data().author);
+      setChatName(chat.data().chatName);
       // load chat members and retrieve their names
       const members = [];
       chat.data().members.forEach((member) => {
@@ -99,6 +114,7 @@ const ChatScreen = ({ navigation, route }) => {
           console.log(members);
         });
       });
+      setDm(chat.data().dm);
       setLoaded(true);
     });
     getDoc(doc(db, "otherStuff", "devs")).then((devs) => {
@@ -113,71 +129,163 @@ const ChatScreen = ({ navigation, route }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      // title: route.params.chatName,
+      title: route.params.chatName || "",
       headerStyle: {
         backgroundColor: "black",
         borderBottomWidth: 1,
         borderBottomColor: "white",
       },
-      // headerTitleStyle: { color: "white" },
+      // headerTitleStyle: { color: "white", fontWeight: "bold" },
       headerTintColor: "white",
       // headerTitleAlign: "center",
-      headerTitle: () => {
+      // headerTitle: () => {
+      //   const members = [];
+      //   getDoc(doc(db, `privateChats`, route.params.id)).then((chat) => {
+      //     chat.data().members.forEach((member) => {
+      //       getDoc(doc(db, `users`, member)).then((user) => {
+      //         members.push({
+      //           id: member,
+      //           name:
+      //             member === auth.currentUser.uid ? "you" : user.data().name,
+      //         });
+      //         setMembers(members);
+      //         console.log(members);
+      //       });
+      //     });
+      //     return (
+      //       <View
+      //         style={{
+      //           flexDirection: "column",
+      //           alignItems: "center",
+      //           justifyContent: "center",
+      //         }}
+      //       >
+      //         <Text
+      //           style={{
+      //             fontSize: 20,
+      //             color: "white",
+      //           }}
+      //         >
+      //           {route.params.chatName}
+      //         </Text>
+      //         {/* <View
+      //           style={{
+      //             flexDirection: "row",
+      //             alignItems: "center",
+      //             justifyContent: "center",
+      //           }}
+      //         > */}
+      //         <Text
+      //           style={{
+      //             fontSize: 12,
+      //             color: "white",
+      //           }}
+      //         >
+      //           {members.map((member) => member.name).join(", ")}
+      //         </Text>
+      //         {/* </View> */}
+      //       </View>
+      //     );
+      //   });
+      // },
+      headerRight: () => {
+        if (dm) {
+          return null;
+        }
         return (
           <View
             style={{
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              marginRight: 20,
+              width: 120,
+              flexDirection: "row",
+              justifyContent: "space-evenly",
             }}
           >
-            <Text
-              style={{
-                fontSize: 20,
-                color: "white",
-              }}
+            <Popable
+              content={
+                <View style={styles.popupContainer}>
+                  <Text style={styles.popupText}>{"copy chat id"}</Text>
+                </View>
+              }
+              action="hover"
+              style={{ opacity: 0.8 }}
+              position="bottom"
             >
-              {route.params.chatName}
-            </Text>
-            {/* <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            > */}
-            <Text
-              style={{
-                fontSize: 12,
-                color: "white",
-              }}
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => {
+                  Clipboard.setString(route.params.id);
+                }}
+              >
+                <SimpleLineIcons name="docs" size={18} color="white" />
+              </TouchableOpacity>
+            </Popable>
+            <Popable
+              content={
+                <View style={styles.popupContainer}>
+                  <Text style={styles.popupText}>{"exit chat"}</Text>
+                </View>
+              }
+              action="hover"
+              style={{ opacity: 0.8 }}
+              position="bottom"
             >
-              {members.map((member) => member.name).join(", ")}
-            </Text>
-            {/* </View> */}
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => {
+                  addDoc(
+                    collection(
+                      db,
+                      `privateChats/${route.params.id}`,
+                      "messages"
+                    ),
+                    {
+                      timestamp: serverTimestamp(),
+                      message: `${getAuth().currentUser.displayName} ${
+                        leaveMessages[
+                          Math.floor(Math.random() * leaveMessages.length)
+                        ]
+                      }`,
+                      displayName: "potat",
+                      uid: "POTATOCAT",
+                      photoURL: "https://i.imgur.com/UFr7hCb.png",
+                    }
+                  );
+                  updateDoc(doc(db, `privateChats`, route.params.id), {
+                    members: members.filter(
+                      (member) => member.id !== auth.currentUser.uid
+                    ),
+                  });
+                  if (members.length === 1) {
+                    deleteDoc(doc(db, `privateChats`, route.params.id));
+                  }
+                  navigation.replace("home");
+                }}
+              >
+                <SimpleLineIcons name="logout" size={18} color="white" />
+              </TouchableOpacity>
+            </Popable>
           </View>
         );
       },
-      headerRight: () => {
+      headerLeft: () => {
+        // arrow back home
         return (
           <TouchableOpacity
+            activeOpacity={0.5}
             onPress={() => {
-              navigation.navigate("chatSettings", {
-                id: route.params.id,
-                chatName: route.params.chatName,
-              });
+              navigation.replace("home");
             }}
             style={{
-              padding: 10,
-              marginRight: 5,
+              marginLeft: 20,
             }}
           >
-            <SimpleLineIcons name="options-vertical" size={20} color="gray" />
+            <SimpleLineIcons name="arrow-left" size={18} color="white" />
           </TouchableOpacity>
         );
       },
     });
-  }, [navigation]);
+  }, [navigation, dm]);
   const sendMsg = () => {
     if (!editingId) {
       Keyboard.dismiss();
@@ -189,7 +297,7 @@ const ChatScreen = ({ navigation, route }) => {
           {
             id: Date.now().toString(),
             timestamp: serverTimestamp(),
-            message: msgInput,
+            message: msgInput.trim(),
             displayName: auth.currentUser.displayName,
             // email: auth.currentUser.email,
             uid: auth.currentUser.uid,
@@ -200,7 +308,7 @@ const ChatScreen = ({ navigation, route }) => {
         setEditingId(null);
         addDoc(collection(db, `privateChats/${route.params.id}`, "messages"), {
           timestamp: serverTimestamp(),
-          message: msgInput,
+          message: msgInput.trim(),
           displayName: auth.currentUser.displayName,
           // email: auth.currentUser.email,
           uid: auth.currentUser.uid,
@@ -283,9 +391,31 @@ const ChatScreen = ({ navigation, route }) => {
                 </Text>
               </View>
             )}
-            {/* {
-                                devs.includes(item.uid) && " · " // garbo
-                            } */}
+            {item.uid === "POTATOCAT" && (
+              <View
+                style={{
+                  backgroundColor: "#55f",
+                  // // width: "auto",
+                  padding: 5,
+                  paddingVertical: 3,
+                  borderRadius: 7,
+                  marginLeft: 3,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  alignSelf: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: 7,
+                  }}
+                >
+                  SYSTEM
+                </Text>
+              </View>
+            )}
             {" · "}
             {new Date(item?.timestamp?.seconds * 1000).toLocaleDateString(
               Localization.locale,
@@ -297,8 +427,16 @@ const ChatScreen = ({ navigation, route }) => {
               }
             )}
           </Text>
-          <Text style={[styles.receiverText, { color: second }]}>
-            {item.message}
+          <Text
+            style={[
+              styles.receiverText,
+              {
+                color: second,
+                fontStyle: item.uid === "POTATOCAT" ? "italic" : "normal",
+              },
+            ]}
+          >
+            {item.message.trim()}
           </Text>
         </View>
       </View>
@@ -317,9 +455,9 @@ const ChatScreen = ({ navigation, route }) => {
         marginVertical: 10,
       }}
     >
-      {author}
-      {UIText["chatScreen"]["created"]}
-      {route.params.chatName}
+      {dm
+        ? `${otherUser} and you became friends!`
+        : `${author}${UIText["chatScreen"]["created"]}${chatName}`}
     </Text>
   );
 
@@ -339,7 +477,7 @@ const ChatScreen = ({ navigation, route }) => {
           alignItems: "center",
         }}
       >
-        <ActivityIndicator size="large" color="gray" />
+        <ActivityIndicator size={20} color="gray" />
       </View>
     );
   }

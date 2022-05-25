@@ -142,8 +142,9 @@ export default function SettingsScreen({ navigation }) {
     const unsubPfp = onSnapshot(
       doc(getFirestore(), "users", user.uid),
       (doc) => {
-        if (doc.exists) {
+        if (doc.exists()) {
           setPfp(doc.data().pfp || "https://i.imgur.com/dA9mtkT.png");
+          setUsername(doc.data().username);
         }
       }
     );
@@ -158,13 +159,13 @@ export default function SettingsScreen({ navigation }) {
     new Promise((resolve) => setTimeout(resolve, sec * 1000));
   const applyNickname = (db, uid, nickname) => {
     nickname = nickname.trim();
+
     return new Promise((resolve, reject) => {
       getDocs(
         query(collection(db, "users"), where("name", "==", nickname))
       ).then((users) => {
         console.log(users);
-        if (users.length > 0) {
-          setLoading(false);
+        if (users.docs.length > 0) {
           alert(UIText["signUpScreen"]["taken"]);
           reject("nickname taken");
         } else {
@@ -380,18 +381,14 @@ export default function SettingsScreen({ navigation }) {
           {username?.length >= 3 && username.length < 15 ? (
             <TouchableOpacity
               onPress={() => {
-                if (username !== user?.displayName) {
+                if (username !== user?.displayName && username !== "potat") {
                   setIsLoading(true);
-                  updateProfile(user, {
-                    displayName: username,
-                  }).then(() => {
-                    setUsername(null);
-                    applyNickname(getFirestore(), user.uid, username).then(
-                      () => {
-                        setIsLoading(false);
-                      }
-                    );
-                  });
+                  applyNickname(getFirestore(), user.uid, username).finally(
+                    () => {
+                      setIsLoading(false);
+                      setUsername(null);
+                    }
+                  );
                 }
               }}
               style={{
