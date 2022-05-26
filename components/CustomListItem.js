@@ -8,6 +8,8 @@ import {
   query,
   limit,
   getAuth,
+  getDoc,
+  doc,
   orderBy,
 } from "../firebase";
 import { UIText } from "../components/LocalizedText";
@@ -15,6 +17,8 @@ import { UIText } from "../components/LocalizedText";
 const CustomListItem = ({ id, chatName, enterChat }) => {
   const [chatMessages, setChatMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [dm, setDm] = useState(false);
+  const [otherUser, setOtherUser] = useState({});
 
   const db = getFirestore();
 
@@ -29,7 +33,23 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
         setChatMessages(
           snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
         );
-        setLoading(false);
+        getDoc(doc(db, `privateChats/${id}`)).then((chat) => {
+          setDm(chat.data().dm);
+
+          if (chat.data().dm) {
+            const otherUserId = chat
+              .data()
+              .members.filter((user) => user !== getAuth().currentUser.uid)[0];
+
+            getDoc(doc(db, `users/${otherUserId}`)).then((user) => {
+              setOtherUser(user.data());
+              console.log(user.data());
+              setLoading(false);
+            });
+          } else {
+            setLoading(false);
+          }
+        });
       }
     );
     return () => unsubscribe();
@@ -37,7 +57,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
 
   return (
     <ListItem
-      onPress={() => enterChat(id, chatName)}
+      onPress={() => enterChat(id, chatName ? chatName : otherUser.name)}
       key={id}
       bottomDivider
       style={{
@@ -50,7 +70,9 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
       <Avatar
         rounded
         source={{
-          uri: chatMessages?.[0]?.photoURL || "https://i.imgur.com/dA9mtkT.png",
+          uri:
+            (dm ? otherUser?.pfp : chatMessages?.[0]?.photoURL) ||
+            "https://i.imgur.com/dA9mtkT.png",
         }}
       />
       <ListItem.Content>
@@ -61,7 +83,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
             fontWeight: "bold",
           }}
         >
-          {chatName}
+          {dm ? otherUser.name : chatName}
         </ListItem.Title>
         <ListItem.Subtitle
           numberOfLines={1}
@@ -71,7 +93,11 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
           {loading ? (
             <ActivityIndicator size={10} color="gray" />
           ) : chatMessages[0]?.displayName && chatMessages[0]?.message ? (
-            `${chatMessages[0]?.displayName}: ${chatMessages[0]?.message}`
+            `${
+              chatMessages[0]?.displayName === getAuth().currentUser.displayName
+                ? "you"
+                : chatMessages[0]?.displayName
+            }: ${chatMessages[0]?.message}`
           ) : (
             "it's very empty here"
           )}

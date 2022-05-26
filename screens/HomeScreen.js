@@ -255,6 +255,11 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const joinChat = (id) => {
+    if (id.includes("/")) {
+      setChatId("");
+      alert("chat id cannot contain slashes");
+      return;
+    }
     getDoc(doc(db, "privateChats", id)).then((chatDoc) => {
       console.log(chatDoc);
       if (chatDoc.exists()) {

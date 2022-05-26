@@ -88,6 +88,10 @@ const FriendsScreen = ({ navigation, route }) => {
   }, [route]);
 
   const addFriend = (id) => {
+    if (id.includes("/")) {
+      setFriendId("");
+      return;
+    }
     // jeez look at this mess
     // you know what this reminds me of?
     // r a m e n
@@ -97,17 +101,19 @@ const FriendsScreen = ({ navigation, route }) => {
       alert(
         "you think you're clever huh? you think you outsmarted the system huh? well NO YOU HAVEN'T!!! THE MIGHTY POTAT CAN SEE THROUGH YOUR FUTILE TRICKS AND SHENANIGANS!!!!!"
       );
+      setFriendId("");
       return;
     }
     getDoc(doc(db, "users", id)).then((friend) => {
-      if (friend.data().friendRequests.includes(auth.currentUser.uid)) {
-        alert(`you alredy sent a friend request to ${friend.data().name}`);
-        return;
-      }
       if (
         friend.exists() &&
         friends.filter((item) => item.id === id).length === 0
       ) {
+        if (friend.data()?.friendRequests?.includes(auth.currentUser.uid)) {
+          alert(`you alredy sent a friend request to ${friend.data().name}`);
+          setFriendId("");
+          return;
+        }
         updateDoc(doc(db, "users", id), {
           friendRequests: [
             ...friend.data().friendRequests,
@@ -125,21 +131,22 @@ const FriendsScreen = ({ navigation, route }) => {
   };
 
   const confirmFriend = (id, name) => {
+    getDoc(doc(db, "users", id)).then((friend) => {
+      updateDoc(doc(db, "users", id), {
+        friends: [...friend.data().friends, auth.currentUser.uid],
+      });
+    });
     updateDoc(doc(db, "users", auth.currentUser.uid), {
       friends: [...friends, id],
       friendRequests: requests.filter((item) => item.id !== id),
     }).then(() => {
-      setDoc(collection(db, "privateChats", auth.currentUser.uid + id), {
+      setDoc(doc(db, "privateChats", auth.currentUser.uid + id), {
         chatName: null,
         members: [auth.currentUser.uid, id],
         author: null,
         dm: true,
       }).then((chat) => {
-        navigation.navigate("chat", {
-          id: chat.id,
-          chatName: name,
-          author: null,
-        });
+        navigation.navigate("home");
       });
     });
   };
@@ -152,74 +159,75 @@ const FriendsScreen = ({ navigation, route }) => {
 
   const friendRequestItem = ({ item }) => {
     return (
-      <TouchableOpacity
-        onPress={() => alert(`wowee you pressed ${item.name}`)}
-        activeOpacity={0.8}
-      >
-        <View style={styles.friendContainer}>
-          <Avatar
-            rounded
-            size={40}
-            source={{
-              uri: item.pfp || "https://i.imgur.com/dA9mtkT.png",
-            }}
-            containerStyle={{ margin: 5 }}
-          />
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              marginLeft: 10,
-            }}
-          >
-            {item.name}
-          </Text>
-          <View
-            style={{
-              flex: 1,
-              alignContent: "flex-end",
-              justifyContent: "flex-end",
-              flexDirection: "row",
-            }}
-          >
-            <Popable
-              content={
-                <View style={styles.popupContainer}>
-                  <Text style={styles.popupText}>accept request</Text>
-                </View>
-              }
-              action="hover"
-              style={{ opacity: 0.8 }}
-              position="left"
-            >
-              <TouchableOpacity
-                onPress={() => confirmFriend(item.id, item.name)}
+      <View style={styles.friendContainer}>
+        <Avatar
+          rounded
+          size={40}
+          source={{
+            uri: item.pfp || "https://i.imgur.com/dA9mtkT.png",
+          }}
+          containerStyle={{ margin: 5 }}
+        />
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            marginLeft: 10,
+          }}
+        >
+          {item.name}
+        </Text>
+        <View
+          style={{
+            flex: 1,
+            alignContent: "flex-end",
+            justifyContent: "flex-end",
+            flexDirection: "row",
+          }}
+        >
+          {loading ? (
+            <ActivityIndicator size={30} color="black" />
+          ) : (
+            <>
+              <Popable
+                content={
+                  <View style={styles.popupContainer}>
+                    <Text style={styles.popupText}>accept request</Text>
+                  </View>
+                }
+                action="hover"
+                style={{ opacity: 0.8 }}
+                position="left"
               >
-                <SimpleLineIcons name="check" size={30} color="black" />
-              </TouchableOpacity>
-            </Popable>
-            <Popable
-              content={
-                <View style={styles.popupContainer}>
-                  <Text style={styles.popupText}>dismiss request</Text>
-                </View>
-              }
-              action="hover"
-              style={{ opacity: 0.8 }}
-              position="left"
-            >
-              <TouchableOpacity
-                onPress={() => rejectFriend(item.id)}
-                style={{
-                  marginHorizontal: 10,
-                }}
+                <TouchableOpacity
+                  onPress={() => confirmFriend(item.id, item.name)}
+                >
+                  <SimpleLineIcons name="check" size={30} color="black" />
+                </TouchableOpacity>
+              </Popable>
+              <Popable
+                content={
+                  <View style={styles.popupContainer}>
+                    <Text style={styles.popupText}>dismiss request</Text>
+                  </View>
+                }
+                action="hover"
+                style={{ opacity: 0.8 }}
+                position="left"
               >
-                <SimpleLineIcons name="close" size={30} color="black" />
-              </TouchableOpacity>
-            </Popable>
-          </View>
+                <TouchableOpacity
+                  onPress={() => rejectFriend(item.id)}
+                  style={{
+                    marginHorizontal: 10,
+                  }}
+                >
+                  <SimpleLineIcons name="close" size={30} color="black" />
+                </TouchableOpacity>
+              </Popable>
+            </>
+          )}
         </View>
-      </TouchableOpacity>
+      </View>
     );
   };
 
@@ -263,23 +271,25 @@ const FriendsScreen = ({ navigation, route }) => {
             fontSize: 15,
             padding: 10,
             borderWidth: 1,
-            borderColor: friendId ? "white" : "gray",
+            borderColor: friendId && !friendId.includes("/") ? "white" : "gray",
             // marginRight: 10,
             color: "white",
           }}
-          placeholder="add friend by uid"
+          placeholder="add friend by uid (found in the settings)"
           placeholderTextColor="gray"
           value={friendId}
           onChangeText={(text) => {
             setFriendId(text);
           }}
           onSubmitEditing={() => {
-            addFriend(friendId);
+            addFriend(friendId.trim());
           }}
         />
-        {friendId && (
+        {friendId && !friendId.includes("/") && (
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={() => {
+              addFriend(friendId.trim());
+            }}
             style={{
               marginLeft: 10,
               borderColor: "white",
@@ -318,7 +328,9 @@ const FriendsScreen = ({ navigation, route }) => {
             }}
           >
             {"\\_(-_-)_/\n\n"}
-            <Text style={{ fontSize: 15 }}>no friends.. so far</Text>
+            <Text style={{ fontSize: 15 }}>
+              nobody wants to be friends with you :(
+            </Text>
           </Text>
         }
       />

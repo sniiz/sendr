@@ -1,7 +1,7 @@
 import { SimpleLineIcons } from "@expo/vector-icons";
 import * as Localization from "expo-localization";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -115,6 +115,14 @@ const ChatScreen = ({ navigation, route }) => {
         });
       });
       setDm(chat.data().dm);
+      if (chat.data().dm) {
+        const otherUserId = chat
+          .data()
+          .members.filter((member) => member !== auth.currentUser.uid);
+        getDoc(doc(db, `users`, otherUserId[0])).then((user) => {
+          setOtherUser(user.data().name);
+        });
+      }
       setLoaded(true);
     });
     getDoc(doc(db, "otherStuff", "devs")).then((devs) => {
@@ -129,7 +137,8 @@ const ChatScreen = ({ navigation, route }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: route.params.chatName || "",
+      title:
+        route.params?.chatName !== null ? route.params.chatName : otherUser,
       headerStyle: {
         backgroundColor: "black",
         borderBottomWidth: 1,
@@ -285,7 +294,7 @@ const ChatScreen = ({ navigation, route }) => {
         );
       },
     });
-  }, [navigation, dm]);
+  }, [navigation, dm, otherUser]);
   const sendMsg = () => {
     if (!editingId) {
       Keyboard.dismiss();

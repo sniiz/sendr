@@ -52,6 +52,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import uuid from "uuid";
 import { Popable } from "react-native-popable";
+import Clipboard from "@react-native-clipboard/clipboard";
 
 const version = require("../assets/version-info.json");
 
@@ -481,6 +482,31 @@ export default function SettingsScreen({ navigation }) {
             width: "100%",
           }}
         ></View>
+        <TouchableOpacity
+          onPress={() => {
+            Clipboard.setString(auth.currentUser.uid);
+          }}
+          style={{
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: "white",
+            padding: 10,
+            paddingHorizontal: 20,
+          }}
+        >
+          <Text
+            style={[
+              styles.dangerButton,
+              {
+                color: "white",
+              },
+            ]}
+          >
+            copy uid 📁
+          </Text>
+        </TouchableOpacity>
+        <View style={{ height: 20, width: "100%" }}></View>
+
         <TouchableOpacity
           onPress={() => {
             setLogOutCount(logOutCount + 1);
