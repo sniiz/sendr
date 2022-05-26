@@ -14,7 +14,7 @@ import {
 } from "../firebase";
 import { onAuthStateChanged, sendEmailVerification } from "../firebase";
 import UIText from "../components/LocalizedText";
-import { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 
 const version = require("../assets/version-info.json");

@@ -644,7 +644,7 @@ const uiText = {
   },
 };
 
-const supported = ["en", "es", "fr", "de", "it", "pt", "ru", "zh", "ja"]; // terrible way to do this but nothing else worked
+const supported = ["en", "es", "fr", "ru", "zh", "ja"]; // terrible way to do this but nothing else worked
 
 var lang = Localization.locale.substring(0, 2);
 if (!uiText.hasOwnProperty(lang)) {
