@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import React, {
   useEffect,
@@ -255,6 +254,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const joinChat = (id) => {
+    setChatId("");
     if (id.includes("/")) {
       setChatId("");
       alert("chat id cannot contain slashes");

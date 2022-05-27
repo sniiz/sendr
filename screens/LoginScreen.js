@@ -11,7 +11,6 @@ import {
   Text,
 } from "react-native";
 import { Button, Input, Image } from "react-native-elements";
-import { StatusBar } from "expo-status-bar";
 import {
   getAuth,
   onAuthStateChanged,

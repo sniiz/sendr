@@ -52,7 +52,7 @@ const AddChatScreen = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <View style={styles.inputContainer}>
+      <View style={styles.TextInputContainer}>
         <Input
           placeholder={UIText["newChatScreen"]["chatNamePlaceholder"]}
           value={chat}

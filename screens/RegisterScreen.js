@@ -8,9 +8,8 @@ import {
   Platform,
   ActivityIndicator,
 } from "react-native";
-import { CoolButton, Header, Loading } from "../components/CustomUi";
+import { Header } from "../components/CustomUi";
 import { Button, Input, Text } from "react-native-elements";
-import { StatusBar } from "expo-status-bar";
 import {
   getAuth,
   createUserWithEmailAndPassword,

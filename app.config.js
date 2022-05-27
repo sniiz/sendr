@@ -1,15 +1,13 @@
 // made this a .js so that i can add todos without vscode screaming at me
 
-// read ./assets/version-info.json
-const version = require("./assets/version-info.json");
-
 export default {
   expo: {
-    name: `sendr ${version.name.includes("wip") ? "internal" : "beta"}`,
+    name: `sendr`,
     slug: "sendr",
     version: "v0.2.0-wip",
     orientation: "portrait",
     icon: "./assets/icon.png",
+    runtimeVersion: "eh",
     splash: {
       image: "./assets/splash.png",
       resizeMode: "contain",
@@ -24,6 +22,7 @@ export default {
     // ],
     updates: {
       fallbackToCacheTimeout: 0,
+      url: "https://u.expo.dev/b5016c96-d33a-4893-95e7-9a1781a2f95a",
     },
     assetBundlePatterns: ["**/*"],
     ios: {

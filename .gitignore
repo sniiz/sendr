@@ -8,8 +8,6 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
-# web-build/
-# firebase.js
 electron-webpack.js
 released-apps/
 site/
@@ -25,8 +23,9 @@ site/
 # Expo Web
 /web-build/*
 # electron-webpack
-/dist
+dist/
 # @end @expo/electron-adapter
 
 .vercel/
 html/
+src-tauri/

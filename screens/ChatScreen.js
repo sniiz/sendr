@@ -1,6 +1,5 @@
 import { SimpleLineIcons } from "@expo/vector-icons";
 import * as Localization from "expo-localization";
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -17,7 +16,6 @@ import {
   Image,
   View,
 } from "react-native";
-import EmojiPicker from "rn-emoji-keyboard";
 import UIText from "../components/LocalizedText";
 import {
   addDoc,
@@ -83,12 +81,13 @@ const ChatScreen = ({ navigation, route }) => {
       ),
       (snapshot) => {
         const messages = [];
-        snapshot.forEach((doc) => {
+        const docs = snapshot.docs;
+        for (let i = 0; i < docs.length; i++) {
           messages.push({
-            id: doc.id,
-            ...doc.data(),
+            id: docs[i].id,
+            ...docs[i].data(),
           });
-        });
+        }
         setMessages(messages);
       }
     );
@@ -104,16 +103,18 @@ const ChatScreen = ({ navigation, route }) => {
       setChatName(chat.data().chatName);
       // load chat members and retrieve their names
       const members = [];
-      chat.data().members.forEach((member) => {
-        getDoc(doc(db, `users`, member)).then((user) => {
+      for (let member of chat.data().members) {
+        getDoc(doc(db, `users/${member}`)).then((user) => {
           members.push({
             id: member,
-            name: member === auth.currentUser.uid ? "you" : user.data().name,
+            name:
+              user.data().name === auth.currentUser.displayName
+                ? "you"
+                : user.data().name,
           });
           setMembers(members);
-          console.log(members);
         });
-      });
+      }
       setDm(chat.data().dm);
       if (chat.data().dm) {
         const otherUserId = chat
@@ -275,22 +276,6 @@ const ChatScreen = ({ navigation, route }) => {
               </TouchableOpacity>
             </Popable>
           </View>
-        );
-      },
-      headerLeft: () => {
-        // arrow back home
-        return (
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => {
-              navigation.replace("home");
-            }}
-            style={{
-              marginLeft: 20,
-            }}
-          >
-            <SimpleLineIcons name="arrow-left" size={18} color="white" />
-          </TouchableOpacity>
         );
       },
     });

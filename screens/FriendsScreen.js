@@ -29,7 +29,6 @@ import {
 } from "../firebase";
 import { Avatar } from "react-native-elements";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Popable } from "react-native-popable";
 
 const FriendsScreen = ({ navigation, route }) => {
