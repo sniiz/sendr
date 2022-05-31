@@ -60,11 +60,11 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
       onPress={() => enterChat(id, chatName ? chatName : otherUser.name)}
       key={id}
       bottomDivider
-      style={{
+      containerStyle={{
         backgroundColor:
           chatMessages[0]?.uid === getAuth().currentUser.uid
-            ? "white"
-            : "black",
+            ? "#F2F7F2"
+            : "#0a0a0a",
       }}
     >
       <Avatar
@@ -80,7 +80,11 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
          */}
         <ListItem.Title
           style={{
-            fontWeight: "bold",
+            fontWeight: "800",
+            color:
+              chatMessages[0]?.uid === getAuth().currentUser.uid
+                ? "#0a0a0a"
+                : "#f2f7f2",
           }}
         >
           {dm ? otherUser.name : chatName}
@@ -88,10 +92,10 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
         <ListItem.Subtitle
           numberOfLines={1}
           ellipsizeMode="tail"
-          style={{ color: "gray" }}
+          style={{ color: "#727178" }}
         >
           {loading ? (
-            <ActivityIndicator size={10} color="gray" />
+            <ActivityIndicator size={10} color="#727178" />
           ) : chatMessages[0]?.displayName && chatMessages[0]?.message ? (
             `${
               chatMessages[0]?.displayName === getAuth().currentUser.displayName
@@ -112,7 +116,7 @@ export default CustomListItem;
 const styles = StyleSheet.create({
   listItem: {
     // marginVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: "gray",
+    borderTopWidth: 2,
+    borderTopColor: "#727178",
   },
 });

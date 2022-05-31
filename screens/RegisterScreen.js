@@ -36,8 +36,8 @@ const RegisterScreen = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerStyle: { backgroundColor: "black" },
-      headerTintColor: "white",
+      headerStyle: { backgroundColor: "#0a0a0a" },
+      headerTintColor: "#F2F7F2",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -106,9 +106,9 @@ const RegisterScreen = ({ navigation }) => {
       </Text>
       <Header
         style={{
-          color: "white",
+          color: "#F2F7F2",
           fontSize: 40,
-          fontWeight: "normal",
+          fontWeight: "bold",
           textAlign: "center",
           overflow: "visible",
           marginBottom: 25,
@@ -123,7 +123,7 @@ const RegisterScreen = ({ navigation }) => {
           autoFocus
           style={styles.input}
           type="text"
-          placeholderTextColor="gray"
+          placeholderTextColor="#727178"
           value={fullname}
           onChangeText={(text) => setFullname(text)}
         />
@@ -131,7 +131,7 @@ const RegisterScreen = ({ navigation }) => {
           placeholder={UIText["signUpScreen"]["emailPlaceholder"]}
           style={styles.input}
           type="email"
-          placeholderTextColor="gray"
+          placeholderTextColor="#727178"
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
@@ -140,7 +140,7 @@ const RegisterScreen = ({ navigation }) => {
           secureTextEntry
           style={styles.input}
           type="password"
-          placeholderTextColor="gray"
+          placeholderTextColor="#727178"
           value={password}
           onChangeText={(text) => setPassword(text)}
           onSubmitEditing={register}
@@ -161,7 +161,7 @@ const RegisterScreen = ({ navigation }) => {
       {loading ? (
         <ActivityIndicator
           size="large"
-          color="gray"
+          color="#727178"
           style={{
             marginTop: -10,
             marginBottom: 20,
@@ -171,10 +171,10 @@ const RegisterScreen = ({ navigation }) => {
         <TouchableOpacity
           onPress={register}
           style={{
-            // backgroundColor: "white",
+            // backgroundColor: "#F2F7F2",
             borderRadius: 5,
-            borderWidth: 1,
-            borderColor: "white",
+            borderWidth: 2,
+            borderColor: "#F2F7F2",
             padding: 8,
             paddingHorizontal: 20,
             marginBottom: 20,
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   version: {
-    color: "gray",
+    color: "#727178",
     fontSize: 10,
     textAlign: "center",
     fontStyle: "italic",
@@ -222,16 +222,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   login: {
-    color: "white",
+    color: "#F2F7F2",
     fontSize: 25,
     fontWeight: "bold",
     textAlign: "center",
     overflow: "visible",
   },
   input: {
-    color: "white",
-    borderWidth: 1,
-    borderColor: "white",
+    color: "#F2F7F2",
+    borderWidth: 2,
+    borderColor: "#F2F7F2",
     padding: 10,
     marginTop: Platform.OS === "web" ? 0 : -10,
     textAlign: "left",
@@ -242,6 +242,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     paddingBottom: 10,
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
   },
 });

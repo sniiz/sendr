@@ -39,7 +39,7 @@ const FriendsScreen = ({ navigation, route }) => {
 
   const [uid, setUid] = useState("");
 
-  const [friendId, setFriendId] = useState("");
+  const [friendId, setFriendId] = useState(route.params?.friendId || "");
 
   const auth = getAuth();
   const db = getFirestore();
@@ -74,6 +74,7 @@ const FriendsScreen = ({ navigation, route }) => {
             }
           });
         });
+        setFriends(user.data().friends);
         setLoading(false);
       },
       (error) => {
@@ -87,7 +88,7 @@ const FriendsScreen = ({ navigation, route }) => {
   }, [route]);
 
   const addFriend = (id) => {
-    if (id.includes("/")) {
+    if (id.includes("/") || id.includes(" ")) {
       setFriendId("");
       return;
     }
@@ -104,10 +105,7 @@ const FriendsScreen = ({ navigation, route }) => {
       return;
     }
     getDoc(doc(db, "users", id)).then((friend) => {
-      if (
-        friend.exists() &&
-        friends.filter((item) => item.id === id).length === 0
-      ) {
+      if (friend.exists() && !friends.includes(id)) {
         if (friend.data()?.friendRequests?.includes(auth.currentUser.uid)) {
           alert(`you alredy sent a friend request to ${friend.data().name}`);
           setFriendId("");
@@ -170,7 +168,7 @@ const FriendsScreen = ({ navigation, route }) => {
         <Text
           style={{
             fontSize: 20,
-            fontWeight: "bold",
+            fontWeight: "800",
             marginLeft: 10,
           }}
         >
@@ -185,7 +183,7 @@ const FriendsScreen = ({ navigation, route }) => {
           }}
         >
           {loading ? (
-            <ActivityIndicator size={30} color="black" />
+            <ActivityIndicator size={30} color="#0a0a0a" />
           ) : (
             <>
               <Popable
@@ -201,7 +199,7 @@ const FriendsScreen = ({ navigation, route }) => {
                 <TouchableOpacity
                   onPress={() => confirmFriend(item.id, item.name)}
                 >
-                  <SimpleLineIcons name="check" size={30} color="black" />
+                  <SimpleLineIcons name="check" size={30} color="#0a0a0a" />
                 </TouchableOpacity>
               </Popable>
               <Popable
@@ -220,7 +218,7 @@ const FriendsScreen = ({ navigation, route }) => {
                     marginHorizontal: 10,
                   }}
                 >
-                  <SimpleLineIcons name="close" size={30} color="black" />
+                  <SimpleLineIcons name="close" size={30} color="#0a0a0a" />
                 </TouchableOpacity>
               </Popable>
             </>
@@ -241,7 +239,7 @@ const FriendsScreen = ({ navigation, route }) => {
           },
         ]}
       >
-        <ActivityIndicator size={20} color="gray" />
+        <ActivityIndicator size={20} color="#727178" />
       </View>
     );
   }
@@ -251,7 +249,7 @@ const FriendsScreen = ({ navigation, route }) => {
         flex: 1,
         // alignItems: "center",
         // justifyContent: "center",
-        backgroundColor: "black",
+        backgroundColor: "#0a0a0a",
       }}
     >
       <View
@@ -260,8 +258,8 @@ const FriendsScreen = ({ navigation, route }) => {
           justifyContent: friends.length > 0 ? "flex-start" : "center",
           alignItems: "center",
           padding: 10,
-          borderBottomWidth: 1,
-          borderBottomColor: "gray",
+          borderBottomWidth: 2,
+          borderBottomColor: "#727178",
         }}
       >
         <TextInput
@@ -269,13 +267,15 @@ const FriendsScreen = ({ navigation, route }) => {
             width: "100%",
             fontSize: 15,
             padding: 10,
-            borderWidth: 1,
-            borderColor: friendId && !friendId.includes("/") ? "white" : "gray",
+            borderWidth: 2,
+            borderColor:
+              friendId && !friendId.includes("/") ? "#F2F7F2" : "#727178",
             // marginRight: 10,
-            color: "white",
+            color: "#F2F7F2",
+            fontWeight: "700",
           }}
           placeholder="add friend by uid (found in the settings)"
-          placeholderTextColor="gray"
+          placeholderTextColor="#727178"
           value={friendId}
           onChangeText={(text) => {
             setFriendId(text);
@@ -291,17 +291,18 @@ const FriendsScreen = ({ navigation, route }) => {
             }}
             style={{
               marginLeft: 10,
-              borderColor: "white",
+              borderColor: "#F2F7F2",
               borderRadius: 5,
-              borderWidth: 1,
+              borderWidth: 2,
               padding: 10,
               paddingHorizontal: 13,
             }}
           >
             <Text
               style={{
-                color: "white",
+                color: "#F2F7F2",
                 fontSize: 15,
+                fontWeight: "bold",
               }}
             >
               {"add"}
@@ -321,7 +322,7 @@ const FriendsScreen = ({ navigation, route }) => {
             style={{
               fontSize: 30,
               fontFamily: "monospace",
-              color: "gray",
+              color: "#727178",
               textAlign: "center",
               alignSelf: "center",
             }}
@@ -342,34 +343,35 @@ export default FriendsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
   },
   friendContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: "white",
+    backgroundColor: "#F2F7F2",
     padding: 5,
     // paddingVertical: 15,
     width: "100%",
-    borderTopWidth: 1,
-    borderTopColor: "gray",
+    borderTopWidth: 2,
+    borderTopColor: "#727178",
   },
   friendName: {
     fontSize: 20,
     fontWeight: "bold",
     marginLeft: 10,
-    color: "black",
+    color: "#0a0a0a",
   },
   popupContainer: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
     padding: 10,
     flex: 1,
   },
   popupText: {
-    color: "white",
+    color: "#F2F7F2",
     fontSize: 12,
+    fontWeight: "bold",
   },
 });

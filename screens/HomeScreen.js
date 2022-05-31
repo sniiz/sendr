@@ -117,8 +117,8 @@ const HomeScreen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "sendr",
-      headerStyle: { backgroundColor: "black" },
-      headerTintColor: "white",
+      headerStyle: { backgroundColor: "#0a0a0a" },
+      headerTintColor: "#F2F7F2",
       headerTitleAlign: "center",
       headerLeft: () => (
         <Popable
@@ -153,18 +153,18 @@ const HomeScreen = ({ navigation }) => {
                 fontSize: 10,
                 fontStyle: "italic",
                 fontFamily: Platform.OS === "ios" ? "Courier New" : "monospace",
-                color: "gray",
+                color: "#727178",
                 marginLeft: 5,
               }}
             >
               <SimpleLineIcons
                 name="social-github"
                 size={10}
-                color="gray"
+                color="#727178"
                 style={{ marginLeft: 10 }}
               />{" "}
               {version["number"]}{" "}
-              <SimpleLineIcons name="share-alt" size={10} color="gray" />
+              <SimpleLineIcons name="share-alt" size={10} color="#727178" />
             </Text>
           </TouchableOpacity>
         </Popable>
@@ -196,7 +196,7 @@ const HomeScreen = ({ navigation }) => {
                 navigation.navigate("friends");
               }}
             >
-              <SimpleLineIcons name="people" size={18} color="white" />
+              <SimpleLineIcons name="people" size={18} color="#F2F7F2" />
             </TouchableOpacity>
           </Popable>
 
@@ -216,7 +216,7 @@ const HomeScreen = ({ navigation }) => {
               activeOpacity={0.5}
               onPress={() => navigation.navigate("newChat")}
             >
-              <SimpleLineIcons name="speech" size={18} color="white" />
+              <SimpleLineIcons name="speech" size={18} color="#F2F7F2" />
             </TouchableOpacity>
           </Popable> */}
 
@@ -236,7 +236,7 @@ const HomeScreen = ({ navigation }) => {
               activeOpacity={0.5}
               onPress={() => navigation.navigate("settings")}
             >
-              <SimpleLineIcons name="settings" size={18} color="white" />
+              <SimpleLineIcons name="settings" size={18} color="#F2F7F2" />
             </TouchableOpacity>
           </Popable>
         </View>
@@ -255,9 +255,9 @@ const HomeScreen = ({ navigation }) => {
 
   const joinChat = (id) => {
     setChatId("");
-    if (id.includes("/")) {
+    if (id.includes("/") || id.includes(" ")) {
       setChatId("");
-      alert("chat id cannot contain slashes");
+      alert("chat id cannot contain slashes or spaces");
       return;
     }
     getDoc(doc(db, "privateChats", id)).then((chatDoc) => {
@@ -299,7 +299,7 @@ const HomeScreen = ({ navigation }) => {
           },
         ]}
       >
-        <ActivityIndicator size={20} color="gray" />
+        <ActivityIndicator size={20} color="#727178" />
       </SafeAreaView>
     );
   } else {
@@ -311,8 +311,8 @@ const HomeScreen = ({ navigation }) => {
             justifyContent: "center",
             alignItems: "center",
             padding: 10,
-            borderBottomWidth: 1,
-            borderBottomColor: "gray",
+            borderBottomWidth: 2,
+            borderBottomColor: "#727178",
           }}
         >
           <TextInput
@@ -320,13 +320,14 @@ const HomeScreen = ({ navigation }) => {
               width: "100%",
               fontSize: 15,
               padding: 10,
-              borderWidth: 1,
-              borderColor: chatId ? "white" : "gray",
+              borderWidth: 2,
+              borderColor: chatId ? "#F2F7F2" : "#727178",
               // marginRight: 10,
-              color: "white",
+              fontWeight: "700",
+              color: "#F2F7F2",
             }}
             placeholder="join chat by id"
-            placeholderTextColor="gray"
+            placeholderTextColor="#727178"
             value={chatId}
             onChangeText={(text) => {
               setChatId(text);
@@ -342,17 +343,18 @@ const HomeScreen = ({ navigation }) => {
               }}
               style={{
                 marginLeft: 10,
-                borderColor: "white",
+                borderColor: "#F2F7F2",
                 borderRadius: 5,
-                borderWidth: 1,
+                borderWidth: 2,
                 padding: 10,
                 paddingHorizontal: 13,
               }}
             >
               <Text
                 style={{
-                  color: "white",
+                  color: "#F2F7F2",
                   fontSize: 15,
+                  fontWeight: "bold",
                 }}
               >
                 {"join"}
@@ -378,7 +380,7 @@ const HomeScreen = ({ navigation }) => {
                 marginLeft: 17,
               }}
             >
-              <SimpleLineIcons name="plus" size={30} color="gray" />
+              <SimpleLineIcons name="plus" size={30} color="#727178" />
             </TouchableOpacity>
           </ScrollView>
         ) : Error ? (
@@ -386,7 +388,7 @@ const HomeScreen = ({ navigation }) => {
             <Text
               style={{
                 fontSize: 40,
-                color: "gray",
+                color: "#727178",
                 textAlign: "center",
               }}
             >
@@ -395,7 +397,7 @@ const HomeScreen = ({ navigation }) => {
             <Text
               style={{
                 fontSize: 15,
-                color: "gray",
+                color: "#727178",
                 textAlign: "center",
                 fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
                 fontStyle: "italic",
@@ -409,7 +411,7 @@ const HomeScreen = ({ navigation }) => {
             <Text
               style={{
                 fontSize: 40,
-                color: "gray",
+                color: "#727178",
                 textAlign: "center",
               }}
             >
@@ -418,7 +420,7 @@ const HomeScreen = ({ navigation }) => {
             <Text
               style={{
                 fontSize: 15,
-                color: "gray",
+                color: "#727178",
                 textAlign: "center",
                 fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
                 fontStyle: "italic",
@@ -442,11 +444,11 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    color: "black",
+    color: "#0a0a0a",
   },
   containerStatic: {
     flex: 1,
-    color: "black",
+    color: "#0a0a0a",
     alignItems: "center",
     justifyContent: "space-evenly",
     paddingVertical: "15%",
@@ -455,16 +457,17 @@ const styles = StyleSheet.create({
   popupContainer: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
     paddingVertical: "10%",
   },
   popupText: {
-    color: "white",
+    color: "#F2F7F2",
     fontSize: 12,
+    fontWeight: "bold",
   },
   main: {
     flex: 1,
-    color: "black",
-    backgroundColor: "black",
+    color: "#0a0a0a",
+    backgroundColor: "#0a0a0a",
   },
 });

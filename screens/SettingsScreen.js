@@ -122,8 +122,8 @@ export default function SettingsScreen({ navigation }) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerStyle: { backgroundColor: "black" },
-      headerTintColor: "white",
+      headerStyle: { backgroundColor: "#0a0a0a" },
+      headerTintColor: "#F2F7F2",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -274,7 +274,7 @@ export default function SettingsScreen({ navigation }) {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "black",
+        backgroundColor: "#0a0a0a",
         // paddingBottom: kb.keyboardHeight * 10,
       }}
       behavior="padding"
@@ -282,7 +282,7 @@ export default function SettingsScreen({ navigation }) {
       <ScrollView
         contentContainerStyle={styles.container}
         style={{
-          backgroundColor: "black",
+          backgroundColor: "#0a0a0a",
           // paddingVertical: 30,
           flex: 1,
           width: "100%",
@@ -333,7 +333,7 @@ export default function SettingsScreen({ navigation }) {
                     value={pronoun}
                     placeholder="select your pronouns"
                     placeholderStyle={{
-                        color: "white",
+                        color: "#F2F7F2",
                     }}
                     items={items}
                     setOpen={setPronounPickerOpen}
@@ -342,19 +342,19 @@ export default function SettingsScreen({ navigation }) {
                     containerStyle={{
                         width: "fit-content",
                         padding: 10,
-                        color: "white",
-                        borderColor: "white",
-                        borderWidth: 1,
+                        color: "#F2F7F2",
+                        borderColor: "#F2F7F2",
+                        borderWidth: 2,
                         alignItems: "center",
                         justifyContent: "center",
                     }}
                     labelStyle={{
                         fontWeight: "bold",
                         textAlign: "center",
-                        color: "white",
+                        color: "#F2F7F2",
                     }}
                     listItemContainer={{
-                        backgroundColor: "black",
+                        backgroundColor: "#0a0a0a",
                     }}
                 /> WIP*/}
         <View style={styles.inputContainer}>
@@ -364,7 +364,7 @@ export default function SettingsScreen({ navigation }) {
           <Input
             style={styles.input}
             placeholder={user?.displayName}
-            placeholderTextColor="gray"
+            placeholderTextColor="#727178"
             onChangeText={(text) => {
               setUsername(text);
             }}
@@ -394,8 +394,8 @@ export default function SettingsScreen({ navigation }) {
               }}
               style={{
                 borderRadius: 5,
-                borderWidth: 1,
-                borderColor: "white",
+                borderWidth: 2,
+                borderColor: "#F2F7F2",
                 padding: 8,
                 paddingHorizontal: 20,
                 marginLeft: 10,
@@ -424,7 +424,7 @@ export default function SettingsScreen({ navigation }) {
               setPassword(text);
             }}
             value={password}
-            placeholderTextColor="gray"
+            placeholderTextColor="#727178"
           />
           {password?.length >= 6 ? (
             <Input
@@ -434,7 +434,7 @@ export default function SettingsScreen({ navigation }) {
               onChangeText={(text) => {
                 setOldPassword(text);
               }}
-              placeholderTextColor="gray"
+              placeholderTextColor="#727178"
               value={oldPassword}
             />
           ) : null}
@@ -462,8 +462,8 @@ export default function SettingsScreen({ navigation }) {
               }}
               style={{
                 borderRadius: 5,
-                borderWidth: 1,
-                borderColor: "white",
+                borderWidth: 2,
+                borderColor: "#F2F7F2",
                 padding: 8,
                 paddingHorizontal: 20,
                 marginLeft: 10,
@@ -488,8 +488,8 @@ export default function SettingsScreen({ navigation }) {
           }}
           style={{
             borderRadius: 5,
-            borderWidth: 1,
-            borderColor: "white",
+            borderWidth: 2,
+            borderColor: "#F2F7F2",
             padding: 10,
             paddingHorizontal: 20,
           }}
@@ -498,7 +498,7 @@ export default function SettingsScreen({ navigation }) {
             style={[
               styles.dangerButton,
               {
-                color: "white",
+                color: "#F2F7F2",
               },
             ]}
           >
@@ -527,7 +527,7 @@ export default function SettingsScreen({ navigation }) {
           }}
           style={{
             borderRadius: 5,
-            borderWidth: 1,
+            borderWidth: 2,
             borderColor: "red",
             padding: 10,
             paddingHorizontal: 20,
@@ -569,8 +569,8 @@ export default function SettingsScreen({ navigation }) {
           }}
           style={{
             borderRadius: 5,
-            borderWidth: 1,
-            borderColor: "red",
+            borderWidth: 2,
+            borderColor: "#ff5555",
             padding: 10,
             paddingHorizontal: 20,
           }}
@@ -606,7 +606,7 @@ export default function SettingsScreen({ navigation }) {
                     >
                         <Text
                             style={{
-                                color: "gray",
+                                color: "#727178",
                                 fontSize: 10,
                                 fontFamily:
                                     Platform.OS === "ios"
@@ -621,7 +621,7 @@ export default function SettingsScreen({ navigation }) {
                             <SimpleLineIcons
                                 name="share-alt"
                                 size={10}
-                                color="gray"
+                                color="#727178"
                             />
                         </Text>
                     </TouchableOpacity> */}
@@ -652,7 +652,7 @@ export default function SettingsScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: "#0a0a0a",
     alignItems: "center",
     justifyContent: "flex-start",
   },
@@ -660,8 +660,8 @@ const styles = StyleSheet.create({
   settingContainer: {
     width: "100%",
     height: "20%",
-    borderBottomWidth: 1,
-    borderBottomColor: "gray",
+    borderBottomWidth: 2,
+    borderBottomColor: "#727178",
     padding: 10,
     alignItems: "center",
     justifyContent: "space-evenly",
@@ -670,12 +670,12 @@ const styles = StyleSheet.create({
   settingHeader: {
     color: "#fff",
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "800",
   },
   dangerButton: {
-    color: "#ff3333",
+    color: "#ff5555",
     fontSize: 20,
-    // fontWeight: "bold",
+    fontWeight: "800",
     textAlign: "center",
     overflow: "visible",
   },
@@ -686,16 +686,17 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   input: {
-    color: "white",
-    borderWidth: 1,
-    borderColor: "white",
+    color: "#F2F7F2",
+    borderWidth: 2,
+    borderColor: "#F2F7F2",
     width: "100%",
     padding: 10,
     marginTop: 0,
     textAlign: "left",
+    fontWeight: "bold",
   },
   version: {
-    color: "gray",
+    color: "#727178",
     fontSize: 10,
     textAlign: "center",
     fontStyle: "italic",
@@ -703,7 +704,7 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "ios" ? "Arial" : "monospace",
   },
   settingText: {
-    color: "gray",
+    color: "#727178",
     fontSize: 17,
     textAlign: "center",
     marginLeft: 10,
@@ -713,11 +714,12 @@ const styles = StyleSheet.create({
   popupContainer: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
     paddingVertical: "10%",
   },
   popupText: {
-    color: "white",
+    color: "#F2F7F2",
     fontSize: 12,
+    fontWeight: "bold",
   },
 });

@@ -24,8 +24,9 @@ import {
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Storage } from "expo-storage";
 
-// const logo = require("../assets/wip_logo_white.png");
+// const logo = require("../assets/wip_logo_#F2F7F2.png");
 const version = require("../assets/version-info.json");
 
 const LoginScreen = ({ navigation }) => {
@@ -44,6 +45,7 @@ const LoginScreen = ({ navigation }) => {
   useEffect(() => {
     const unsub = onAuthStateChanged(getAuth(), (user) => {
       if (user !== null) {
+        console.log(user);
         setIsLoggedIn(true);
         getDoc(doc(collection(getFirestore(), "users"), user.uid)).then(
           (userdoc) => {
@@ -69,8 +71,8 @@ const LoginScreen = ({ navigation }) => {
       } else {
         setLoading(false);
         navigation.setOptions({
-          headerStyle: { backgroundColor: "black" },
-          headerTintColor: "white",
+          headerStyle: { backgroundColor: "#0a0a0a" },
+          headerTintColor: "#F2F7F2",
           headerLeft: () => null,
           gesturesEnabled: false,
           headerShown: true,
@@ -78,12 +80,12 @@ const LoginScreen = ({ navigation }) => {
         });
       }
     });
-    setTimeout(() => {
-      setTakingTooLong(true);
-      setTimeout(() => {
-        setServerDown(true);
-      }, 15000);
-    }, 10000);
+    // setTimeout(() => {
+    //   setTakingTooLong(true);
+    //   setTimeout(() => {
+    //     setServerDown(true);
+    //   }, 15000);
+    // }, 10000);
     return () => {
       unsub();
     };
@@ -91,8 +93,8 @@ const LoginScreen = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerStyle: { backgroundColor: "black" },
-      headerTintColor: "white",
+      headerStyle: { backgroundColor: "#0a0a0a" },
+      headerTintColor: "#F2F7F2",
       headerLeft: () => null,
       headerShown: false,
       headerTitleAlign: "center",
@@ -118,11 +120,11 @@ const LoginScreen = ({ navigation }) => {
   if (loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size={20} color="gray" />
+        <ActivityIndicator size={20} color="#727178" />
         {takingTooLong && (
           <Text
             style={{
-              color: "gray",
+              color: "#727178",
               fontSize: 20,
               marginTop: 10,
               textAlign: "center",
@@ -144,7 +146,6 @@ const LoginScreen = ({ navigation }) => {
         style={styles.container}
         keyboardVerticalOffset={30}
       >
-        <StatusBar style="light" />
         <Text style={[styles.version, { marginBottom: loading ? "70%" : 20 }]}>
           {version.number}
           {"\n"}✨ {version.name} ✨
@@ -156,7 +157,7 @@ const LoginScreen = ({ navigation }) => {
             style={styles.input}
             autoFocus
             type="email"
-            placeholderTextColor="gray"
+            placeholderTextColor="#727178"
             value={email}
             onChangeText={(text) => setEmail(text)}
           />
@@ -167,11 +168,11 @@ const LoginScreen = ({ navigation }) => {
             style={[
               styles.input,
               {
-                borderColor: passwordCorrect ? "white" : "red",
+                borderColor: passwordCorrect ? "#F2F7F2" : "red",
               },
             ]}
             value={password}
-            placeholderTextColor="gray"
+            placeholderTextColor="#727178"
             onChangeText={(text) => setPassword(text)}
             onSubmitEditing={signIn}
           />
@@ -184,7 +185,7 @@ const LoginScreen = ({ navigation }) => {
           {loggingIn ? (
             <ActivityIndicator
               size="small"
-              color="gray"
+              color="#727178"
               style={{
                 marginBottom: 20,
               }}
@@ -194,8 +195,9 @@ const LoginScreen = ({ navigation }) => {
               onPress={signIn}
               style={{
                 borderRadius: 5,
-                borderWidth: 1,
-                borderColor: "white",
+                // borderWidth: 2,
+                // borderColor: "#F2F7F2",
+                backgroundColor: "#F2F7F2",
                 padding: 8,
                 paddingHorizontal: 20,
                 marginBottom: 20,
@@ -210,10 +212,10 @@ const LoginScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => navigation.navigate("signUp")}
             style={{
-              // backgroundColor: "white",
+              // backgroundColor: "#F2F7F2",
               borderRadius: 5,
-              borderWidth: 1,
-              borderColor: "white",
+              borderWidth: 2,
+              borderColor: "#F2F7F2",
               padding: 8,
               paddingHorizontal: 20,
               marginBottom: 20,
@@ -237,8 +239,8 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     marginBottom: 10,
-    color: "white",
-    backgroundColor: "black",
+    color: "#F2F7F2",
+    backgroundColor: "#0a0a0a",
     fontWeight: "bold",
   },
   errorText: {
@@ -257,19 +259,20 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
   },
   login: {
-    color: "white",
+    // color: "#F2F7F2",
+    color: "#0a0a0a",
     fontSize: 25,
     fontWeight: "bold",
     textAlign: "center",
     overflow: "visible",
   },
   title: {
-    color: "white",
+    color: "#F2F7F2",
     fontSize: 40,
-    fontWeight: "normal",
+    fontWeight: "800",
     textAlign: "center",
     overflow: "visible",
   },
@@ -278,7 +281,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "web" ? 10 : 0,
   },
   version: {
-    color: "gray",
+    color: "#727178",
     fontSize: 10,
     textAlign: "center",
     fontStyle: "italic",
@@ -286,19 +289,20 @@ const styles = StyleSheet.create({
     fontFamily: "monospace",
   },
   input: {
-    color: "white",
-    borderWidth: 1,
-    borderColor: "white",
+    color: "#F2F7F2",
+    borderWidth: 2,
+    borderColor: "#F2F7F2",
     padding: 10,
     marginTop: 0,
     textAlign: "left",
+    fontWeight: "bold",
   },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     padding: 5,
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
   },
 });
 

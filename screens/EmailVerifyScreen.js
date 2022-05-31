@@ -37,8 +37,8 @@ export default function EmailVerifyScreen({ navigation, route }) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerStyle: { backgroundColor: "black" },
-      headerTintColor: "white",
+      headerStyle: { backgroundColor: "#0a0a0a" },
+      headerTintColor: "#F2F7F2",
       headerLeft: () => null,
       headerTitleAlign: "center",
     });
@@ -57,7 +57,7 @@ export default function EmailVerifyScreen({ navigation, route }) {
         {UIText["emailVerifyScreen"]["title"]}{" "}
         <Text
           style={{
-            color: "gray",
+            color: "#727178",
             fontSize: 12,
             // marginVertical: "50%",
             textAlign: "center",
@@ -76,10 +76,10 @@ export default function EmailVerifyScreen({ navigation, route }) {
             });
         }}
         style={{
-          // backgroundColor: "white",
+          // backgroundColor: "#F2F7F2",
           borderRadius: 5,
-          borderWidth: 1,
-          borderColor: "white",
+          borderWidth: 2,
+          borderColor: "#F2F7F2",
           padding: 10,
           paddingHorizontal: 20,
           marginBottom: 10,
@@ -102,7 +102,7 @@ export default function EmailVerifyScreen({ navigation, route }) {
         }}
         style={{
           borderRadius: 5,
-          borderWidth: 1,
+          borderWidth: 2,
           borderColor: "red",
           marginTop: 100,
           padding: 10,
@@ -129,13 +129,13 @@ export default function EmailVerifyScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 100,
   },
   version: {
-    color: "gray",
+    color: "#727178",
     fontSize: 10,
     textAlign: "center",
     fontStyle: "italic",
@@ -143,12 +143,12 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "ios" ? "Arial" : "monospace",
   },
   subtitle: {
-    color: "gray",
+    color: "#727178",
     fontSize: 15,
     textAlign: "center",
   },
   title: {
-    color: "white",
+    color: "#F2F7F2",
     fontSize: 40,
     marginBottom: 20,
     fontWeight: "bold",
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     overflow: "visible",
   },
   text: {
-    color: "white",
+    color: "#F2F7F2",
     fontSize: 20,
     textAlign: "center",
     // fontFamily: Platform.OS === "ios" ? "Arial" : "monospace",

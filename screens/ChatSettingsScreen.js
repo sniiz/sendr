@@ -57,7 +57,7 @@ const ChatSettingsScreen = ({ navigation, route }) => {
   if (loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size={30} color="gray" />
+        <ActivityIndicator size={30} color="#727178" />
       </View>
     );
   }
@@ -78,7 +78,7 @@ const ChatSettingsScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
     alignItems: "center",
     justifyContent: "center",
   },

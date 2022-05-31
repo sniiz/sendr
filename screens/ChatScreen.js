@@ -37,6 +37,8 @@ import isMobile from "react-device-detect";
 import { useKeyboard } from "@react-native-community/hooks";
 import { Popable } from "react-native-popable";
 import Clipboard from "@react-native-clipboard/clipboard";
+import { TouchableHighlight } from "react-native-gesture-handler";
+import HyperLink from "react-native-hyperlink";
 
 const ChatScreen = ({ navigation, route }) => {
   const [msgInput, setMsgInput] = useState("");
@@ -67,6 +69,8 @@ const ChatScreen = ({ navigation, route }) => {
     "left us",
     "left us :(",
   ];
+
+  const j = "TVeHDZSeiGNVN2gYmvkDDv2uCaN2";
 
   const kb = useKeyboard();
 
@@ -141,12 +145,12 @@ const ChatScreen = ({ navigation, route }) => {
       title:
         route.params?.chatName !== null ? route.params.chatName : otherUser,
       headerStyle: {
-        backgroundColor: "black",
-        borderBottomWidth: 1,
-        borderBottomColor: "white",
+        backgroundColor: "#0a0a0a",
+        borderBottomWidth: 2,
+        borderBottomColor: "#F2F7F2",
       },
-      // headerTitleStyle: { color: "white", fontWeight: "bold" },
-      headerTintColor: "white",
+      // headerTitleStyle: { color: "#F2F7F2", fontWeight: "bold" },
+      headerTintColor: "#F2F7F2",
       // headerTitleAlign: "center",
       // headerTitle: () => {
       //   const members = [];
@@ -173,7 +177,7 @@ const ChatScreen = ({ navigation, route }) => {
       //         <Text
       //           style={{
       //             fontSize: 20,
-      //             color: "white",
+      //             color: "#F2F7F2",
       //           }}
       //         >
       //           {route.params.chatName}
@@ -188,7 +192,7 @@ const ChatScreen = ({ navigation, route }) => {
       //         <Text
       //           style={{
       //             fontSize: 12,
-      //             color: "white",
+      //             color: "#F2F7F2",
       //           }}
       //         >
       //           {members.map((member) => member.name).join(", ")}
@@ -199,7 +203,7 @@ const ChatScreen = ({ navigation, route }) => {
       //   });
       // },
       headerRight: () => {
-        if (dm) {
+        if (dm || !loaded) {
           return null;
         }
         return (
@@ -227,7 +231,7 @@ const ChatScreen = ({ navigation, route }) => {
                   Clipboard.setString(route.params.id);
                 }}
               >
-                <SimpleLineIcons name="docs" size={18} color="white" />
+                <SimpleLineIcons name="docs" size={18} color="#F2F7F2" />
               </TouchableOpacity>
             </Popable>
             <Popable
@@ -272,55 +276,51 @@ const ChatScreen = ({ navigation, route }) => {
                   navigation.replace("home");
                 }}
               >
-                <SimpleLineIcons name="logout" size={18} color="white" />
+                <SimpleLineIcons name="logout" size={18} color="#F2F7F2" />
               </TouchableOpacity>
             </Popable>
           </View>
         );
       },
     });
-  }, [navigation, dm, otherUser]);
+  }, [navigation, dm, otherUser, loaded]);
   const sendMsg = () => {
-    if (!editingId) {
-      Keyboard.dismiss();
-      setSending(true);
+    Keyboard.dismiss();
+    setSending(true);
 
-      if (msgInput.trim().length > 0 && msgInput.trim().length <= 1000) {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            id: Date.now().toString(),
-            timestamp: serverTimestamp(),
-            message: msgInput.trim(),
-            displayName: auth.currentUser.displayName,
-            // email: auth.currentUser.email,
-            uid: auth.currentUser.uid,
-            // referenceId: repliedId,
-          },
-        ]);
-        setMsgInput("");
-        setEditingId(null);
-        addDoc(collection(db, `privateChats/${route.params.id}`, "messages"), {
-          timestamp: serverTimestamp(),
+    if (msgInput.trim().length > 0 && msgInput.trim().length <= 1000) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          id: Date.now().toString(),
+          timestamp: null,
           message: msgInput.trim(),
           displayName: auth.currentUser.displayName,
           // email: auth.currentUser.email,
           uid: auth.currentUser.uid,
           // referenceId: repliedId,
-          photoURL:
-            auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
+        },
+      ]);
+      setMsgInput("");
+      setEditingId(null);
+      addDoc(collection(db, `privateChats/${route.params.id}`, "messages"), {
+        timestamp: serverTimestamp(),
+        message: msgInput.trim(),
+        displayName: auth.currentUser.displayName,
+        // email: auth.currentUser.email,
+        uid: auth.currentUser.uid,
+        // referenceId: repliedId,
+        photoURL:
+          auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
+      })
+        .then(() => {
+          setSending(false);
+          setRepliedId(null);
         })
-          .then(() => {
-            setSending(false);
-            setRepliedId(null);
-          })
-          .catch((error) => alert(error.message));
-      } else {
-        setSending(false);
-        setRepliedId(null);
-      }
+        .catch((error) => alert(error.message));
     } else {
-      // wip
+      setSending(false);
+      setRepliedId(null);
     }
   };
 
@@ -328,8 +328,8 @@ const ChatScreen = ({ navigation, route }) => {
     const isUser =
       item.uid === auth?.currentUser?.uid ||
       item.email === auth?.currentUser?.email;
-    const main = isUser ? "white" : "black";
-    const second = isUser ? "black" : "white";
+    const main = isUser ? "#F2F7F2" : "#0a0a0a";
+    const second = isUser ? "#0a0a0a" : "#F2F7F2";
     const third = isUser ? "#999" : "#555";
     if (item.message.trim() === "") {
       return null;
@@ -345,18 +345,31 @@ const ChatScreen = ({ navigation, route }) => {
           backgroundColor: main,
         }}
       >
-        <Image
-          source={{
-            uri: item.photoURL || "https://i.imgur.com/dA9mtkT.png",
+        <TouchableOpacity
+          onPress={() => {
+            if (item.uid === auth.currentUser.uid) {
+              navigation.navigate("settings");
+            } else {
+              navigation.navigate("friends", {
+                friendId: item.uid,
+              });
+            }
           }}
-          style={{
-            width: 38,
-            height: 38,
-            borderRadius: 20,
-            margin: 5,
-            marginHorizontal: 10,
-          }}
-        />
+        >
+          <Image
+            source={{
+              uri: item.photoURL || "https://i.imgur.com/dA9mtkT.png",
+            }}
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: 20,
+              margin: 5,
+              marginLeft: 10,
+              // marginHorizontal: 10,
+            }}
+          />
+        </TouchableOpacity>
         <View style={[styles.messageView, { backgroundColor: main }]}>
           <Text style={[styles.senderName]}>
             {item.displayName}
@@ -364,7 +377,6 @@ const ChatScreen = ({ navigation, route }) => {
               <View
                 style={{
                   backgroundColor: "#55f",
-                  // // width: "auto",
                   padding: 5,
                   paddingVertical: 3,
                   borderRadius: 7,
@@ -376,8 +388,8 @@ const ChatScreen = ({ navigation, route }) => {
               >
                 <Text
                   style={{
-                    color: "white",
-                    fontWeight: "bold",
+                    color: "#F2F7F2",
+                    fontWeight: "800",
                     fontSize: 7,
                   }}
                 >
@@ -401,8 +413,8 @@ const ChatScreen = ({ navigation, route }) => {
               >
                 <Text
                   style={{
-                    color: "white",
-                    fontWeight: "bold",
+                    color: "#F2F7F2",
+                    fontWeight: "800",
                     fontSize: 7,
                   }}
                 >
@@ -410,28 +422,61 @@ const ChatScreen = ({ navigation, route }) => {
                 </Text>
               </View>
             )}
-            {" · "}
-            {new Date(item?.timestamp?.seconds * 1000).toLocaleDateString(
-              Localization.locale,
-              {
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-              }
+            {item.uid === j && (
+              <View
+                style={{
+                  backgroundColor: "#ffd22e",
+                  // // width: "auto",
+                  padding: 5,
+                  paddingVertical: 3,
+                  borderRadius: 7,
+                  marginLeft: 3,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  alignSelf: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#0a0a0a",
+                    fontWeight: "800",
+                    fontSize: 7,
+                  }}
+                >
+                  doctor sex
+                </Text>
+              </View>
             )}
+            {" · "}
+            {item.timestamp
+              ? new Date(item.timestamp.seconds * 1000).toLocaleDateString(
+                  Localization.locale,
+                  {
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                  }
+                )
+              : "loading..."}
           </Text>
+          {/* <HyperLink
+            onPress={(url, text) => {
+              Linking.openURL(url);
+            }}
+          > */}
           <Text
             style={[
               styles.receiverText,
               {
-                color: second,
+                color: item.timestamp ? second : third,
                 fontStyle: item.uid === "POTATOCAT" ? "italic" : "normal",
               },
             ]}
           >
             {item.message.trim()}
           </Text>
+          {/* </HyperLink> */}
         </View>
       </View>
     );
@@ -444,7 +489,7 @@ const ChatScreen = ({ navigation, route }) => {
       style={{
         fontSize: 15,
         fontWeight: "bold",
-        color: "gray",
+        color: "#727178",
         textAlign: "center",
         marginVertical: 10,
       }}
@@ -465,13 +510,13 @@ const ChatScreen = ({ navigation, route }) => {
     return (
       <View
         style={{
-          backgroundColor: "black",
+          backgroundColor: "#0a0a0a",
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <ActivityIndicator size={20} color="gray" />
+        <ActivityIndicator size={20} color="#727178" />
       </View>
     );
   }
@@ -479,7 +524,7 @@ const ChatScreen = ({ navigation, route }) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: "black",
+        backgroundColor: "#0a0a0a",
       }}
     >
       <KeyboardAvoidingView
@@ -505,14 +550,14 @@ const ChatScreen = ({ navigation, route }) => {
                   alignItems: "center",
                   justifyContent: "center",
                   flex: 1,
-                  backgroundColor: "black",
+                  backgroundColor: "#0a0a0a",
                 }}
               >
                 <Text
                   style={{
                     fontSize: 15,
                     // fontWeight: "bold",
-                    color: "gray",
+                    color: "#727178",
                     textAlign: "center",
                     marginVertical: 10,
                   }}
@@ -522,7 +567,7 @@ const ChatScreen = ({ navigation, route }) => {
                       fontSize: 30,
                     }}
                   >
-                    {"|^・ω・)/\n\n"}
+                    {"|^・w・)/\n\n"}
                   </Text>
                   {UIText["chatScreen"]["saysth"]}
                 </Text>
@@ -532,7 +577,7 @@ const ChatScreen = ({ navigation, route }) => {
               <TextInput
                 placeholder={UIText["chatScreen"]["inputPlaceholder"]}
                 textContentType="none"
-                placeholderTextColor="grey"
+                placeholderTextColor="#727178"
                 style={styles.textInput}
                 value={msgInput}
                 // autoFocus
@@ -555,7 +600,7 @@ const ChatScreen = ({ navigation, route }) => {
                 >
                   <ActivityIndicator
                     size="small"
-                    color="gray"
+                    color="#727178"
                     style={{ marginLeft: 15 }}
                   />
                 </Popable>
@@ -580,7 +625,7 @@ const ChatScreen = ({ navigation, route }) => {
                     <SimpleLineIcons
                       name="paper-plane"
                       size={20}
-                      color="white"
+                      color="#F2F7F2"
                     />
                   </TouchableOpacity>
                 </Popable>
@@ -640,37 +685,31 @@ const styles = StyleSheet.create({
     flex: 1,
     // marginRight: 15,
     padding: 10,
-    color: "white",
-    borderWidth: 1,
-    borderColor: "white",
+    color: "#F2F7F2",
+    borderWidth: 2,
+    borderColor: "#F2F7F2",
+    fontWeight: "bold",
   },
   receiverText: {
-    color: "black",
-    fontWeight: "normal",
-    maxWidth: "95%",
+    fontWeight: "600",
+    maxWidth: "90%",
   },
   createdText: {
-    color: "grey",
+    color: "#727178",
     // fontWeight: "light",
     textAlign: "center",
     marginVertical: 15,
     alignSelf: "center",
   },
   sendbutton: {
-    color: "white",
+    color: "#F2F7F2",
     marginLeft: 15,
-  },
-  senderText: {
-    color: "white",
-    fontWeight: "normal",
-    // marginLeft: 10,
-    // marginBottom: 15,
   },
   messageView: {
     padding: 15,
     paddingLeft: 5,
     // paddingLeft: 30,
-    // backgroundColor: "white",
+    // backgroundColor: "#F2F7F2",
     alignItems: "flex-start",
     width: "100%",
     marginVertical: 0,
@@ -679,21 +718,21 @@ const styles = StyleSheet.create({
   senderName: {
     // left: 10,
     // paddingRight: 10,
-    marginLeft: -5,
+    // marginLeft: -5,
     fontSize: 10,
-    color: "grey",
+    color: "#727178",
     alignItems: "center",
   },
   popupContainer: {
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
     paddingVertical: "10%",
     paddingHorizontal: "5%",
   },
   popupText: {
-    color: "white",
+    color: "#F2F7F2",
     fontSize: 12,
   },
 });

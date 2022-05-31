@@ -18,12 +18,12 @@ import { getFirestore, setDoc, updateDoc, doc, getAuth } from "./firebase";
 const Stack = createNativeStackNavigator();
 const globalScreenOptions = {
   headerStyle: {
-    backgroundColor: "black",
-    borderBottomWidth: 1,
-    borderBottomColor: "white",
+    backgroundColor: "#0a0a0a",
+    borderBottomWidth: 2,
+    borderBottomColor: "#F2F7F2",
   },
-  headerTitleStyle: { color: "white", fontWeight: "bold" },
-  headerTintColor: "white",
+  headerTitleStyle: { color: "#F2F7F2", fontWeight: "900" },
+  headerTintColor: "#F2F7F2",
   headerTitleAlign: "center",
 };
 const linking = {
@@ -49,29 +49,29 @@ const linking = {
 };
 
 export default function App() {
-  useEffect(() => {
-    AppState.addEventListener("change", handleAppStateChange);
-    return () => {
-      AppState.removeEventListener("change", handleAppStateChange);
-    };
-  }, []);
-  const handleAppStateChange = (nextAppState) => {
-    console.log(nextAppState);
-    if (nextAppState === "active") {
-      while (!getAuth().currentUser) {
-        // do nothing
-        // relax for a bit maybe
-      }
-      updateDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
-        online: true,
-      });
-    }
-    if (nextAppState === "background" && getAuth().currentUser) {
-      updateDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
-        online: false,
-      });
-    }
-  };
+  // useEffect(() => {
+  //   AppState.addEventListener("change", handleAppStateChange);
+  //   return () => {
+  //     AppState.removeEventListener("change", handleAppStateChange);
+  //   };
+  // }, []);
+  // const handleAppStateChange = (nextAppState) => {
+  //   console.log(nextAppState);
+  //   if (nextAppState === "active") {
+  //     while (!getAuth().currentUser) {
+  //       // do nothing
+  //       // relax for a bit maybe
+  //     }
+  //     updateDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
+  //       online: true,
+  //     });
+  //   }
+  //   if (nextAppState === "background" && getAuth().currentUser) {
+  //     updateDoc(doc(getFirestore(), "users", getAuth().currentUser.uid), {
+  //       online: false,
+  //     });
+  //   }
+  // };
   return (
     <NavigationContainer style={styles.container} linking={linking}>
       <Stack.Navigator screenOptions={globalScreenOptions}>
@@ -92,7 +92,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
     alignItems: "center",
     justifyContent: "center",
   },

@@ -11,7 +11,7 @@ export default {
     splash: {
       image: "./assets/splash.png",
       resizeMode: "contain",
-      backgroundColor: "#000000",
+      backgroundColor: "#0a0a0a",
     },
     // plugins: [
     //     "expo-image-picker",
@@ -34,7 +34,7 @@ export default {
       package: "com.sniiz.sendr",
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
-        backgroundColor: "#000000",
+        backgroundColor: "#0a0a0a",
       },
     },
     web: {

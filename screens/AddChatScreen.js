@@ -41,8 +41,8 @@ const AddChatScreen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: UIText["newChatScreen"]["barTitle"],
-      headerStyle: { backgroundColor: "black" },
-      headerTintColor: "white",
+      headerStyle: { backgroundColor: "#0a0a0a" },
+      headerTintColor: "#F2F7F2",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -57,7 +57,7 @@ const AddChatScreen = ({ navigation }) => {
           placeholder={UIText["newChatScreen"]["chatNamePlaceholder"]}
           value={chat}
           style={styles.input}
-          placeholderTextColor="gray"
+          placeholderTextColor="#727178"
           onChangeText={(text) => setChat(text)}
           onSubmitEditing={createChat}
         />
@@ -66,8 +66,8 @@ const AddChatScreen = ({ navigation }) => {
         onPress={createChat}
         style={{
           borderRadius: 5,
-          borderWidth: 1,
-          borderColor: "white",
+          borderWidth: 2,
+          borderColor: "#F2F7F2",
           padding: 8,
           paddingHorizontal: 20,
           marginBottom: 20,
@@ -85,7 +85,7 @@ export default AddChatScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
+    backgroundColor: "#0a0a0a",
     padding: 30,
     alignContent: "center",
     justifyContent: "center",
@@ -95,9 +95,9 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   input: {
-    color: "white",
-    borderWidth: 1,
-    borderColor: "white",
+    color: "#F2F7F2",
+    borderWidth: 2,
+    borderColor: "#F2F7F2",
     padding: 10,
     marginTop: 0,
     alignSelf: "center",
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   button: {
-    color: "white",
+    color: "#F2F7F2",
     fontSize: 25,
     // marginTop: -10,
     fontWeight: "bold",
