@@ -6,10 +6,6 @@ a minimalist messaging app
 
 # roadmap!
 
--   [ ] dms (WIP)
--   [ ] friends (WIP)
--   [ ] groups (WIP)
--   [ ] pfp picker (WIP)
 -   [ ] proper desktop client (WIP)
 
 -   [ ] light mode
@@ -22,5 +18,9 @@ a minimalist messaging app
 -   [x] ui overhaul if needed (because lets be honest GiftedChat is pretty stinky)
 -   [x] message input system
 -   [x] GETTING FIREBASE TO WORK SOMEHOW
+-   [x] dms
+-   [x] friends
+-   [x] groups
+-   [x] pfp picker
 
 -   [ ] ~~custom server perhaps (oh god no)~~
