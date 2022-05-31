@@ -82,6 +82,8 @@ const uiText = {
       created: " created ",
       tooLong:
         "your message is very long! please try to make it less than 1000 characters.",
+      you: "you",
+      friends: " and you became friends!"
     },
     homeScreen: {
       lonely1: "so lonely here...",
@@ -154,7 +156,7 @@ const uiText = {
     settingsScreen: {
       barTitle: "paramètres",
       wipText:
-        "\noups. nous sommes désolé, les paramètres ne sont pas encore finís. nous'y travaillons dur!\n\n- equipe de sendr",
+      "\noups. nous sommes désolé, les paramètres ne sont pas encore finís. nous'y travaillons dur!\n\n- equipe de sendr",
       revealInfoButton: "révéler les infos de l'utilisateur pour les devs 👀",
       pfp: "photo de profil",
       username: "pseudo",
@@ -162,11 +164,11 @@ const uiText = {
       logOutButton: "se déconnecter 👉🚪",
       deleteAccountButton: "supprimer le compte 🗑",
       logOutConfirm:
-        "es-tu sûre de vouloir te déconnecter? (appuie encore pour confirmer)",
+      "es-tu sûre de vouloir te déconnecter? (appuie encore pour confirmer)",
       deleteAccountConfirm:
-        "es-tu absolument sûr de vouloir supprimer ton compte? (appuie encore pour confirmer)",
+      "es-tu absolument sûr de vouloir supprimer ton compte? (appuie encore pour confirmer)",
       incomplete:
-        ":(\nmalheureusement, cette fonctionnalité n'est pas encore implémentée.",
+      ":(\nmalheureusement, cette fonctionnalité n'est pas encore implémentée.",
       changeUsername: "changer le pseudo à",
       changePassword: "changer le mot de passe",
       alreadyNamed: "tu es déjà nommé",
@@ -178,7 +180,7 @@ const uiText = {
     profileScreen: {
       barTitle: "profil",
       wipText:
-        "\ncette section est encore en construction. nous'y travaillons dur!\n\n- equipe de sendr",
+      "\ncette section est encore en construction. nous'y travaillons dur!\n\n- equipe de sendr",
     },
     chatScreen: {
       inputPlaceholder: "dis quelque chose...",
@@ -189,7 +191,9 @@ const uiText = {
       created: " a créé ",
       saysth: "il n'y a pas encore de messages. dis bonjour!",
       tooLong:
-        "ton message est trop long! veuilles garder-le sous 1000 lettres.",
+      "ton message est trop long! veuilles garder-le sous 1000 lettres.",
+      you: "toi",
+      friends: " et tu ont devenu amis!"
     },
     homeScreen: {
       lonely1: "ça y est tout seul ici...",
@@ -297,6 +301,8 @@ const uiText = {
       created: " creó ",
       saysth: "no hay mensajes todavía. ¡di hola!",
       tooLong: "tu mensaje es demasiado largo! manténlo bajo 1000 letras.",
+      you: "tú",
+      friends: " y tú han sido amigos!"
     },
     homeScreen: {
       lonely1: "se está tan solo aquí...",
@@ -405,6 +411,8 @@ const uiText = {
       saysth: "здесь пока тихо. скажи привет!",
       tooLong:
         "твое сообщение слишком длинное! пожалуйста сделай его короче 1000 символов.",
+      you: "ты",
+      friends: " и ты теперь друзья!",
     },
     homeScreen: {
       lonely1: "здесь так одиноко...",
@@ -508,6 +516,8 @@ const uiText = {
       created: "创建了",
       saysth: "这里没有留言。说你好吧!",
       tooLong: "太长了！",
+      you: "你",
+      friends: "跟你成为了朋友"
     },
     homeScreen: {
       lonely1: "这里什么都没有...",
@@ -611,6 +621,8 @@ const uiText = {
       created: " created ",
       saysth: "ここにメッセージはありません。",
       tooLong: "あなたのメッセージは長すぎます。",
+      you: "あなた",
+      friends: "" // TODO jp is hard grr >:(
     },
     homeScreen: {
       lonely1: "ここに何もない...",

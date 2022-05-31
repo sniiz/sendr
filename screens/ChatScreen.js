@@ -113,7 +113,7 @@ const ChatScreen = ({ navigation, route }) => {
             id: member,
             name:
               user.data().name === auth.currentUser.displayName
-                ? "you"
+                ? UIText["chatScreen"]["you"]
                 : user.data().name,
           });
           setMembers(members);
@@ -151,57 +151,6 @@ const ChatScreen = ({ navigation, route }) => {
       },
       // headerTitleStyle: { color: "#F2F7F2", fontWeight: "bold" },
       headerTintColor: "#F2F7F2",
-      // headerTitleAlign: "center",
-      // headerTitle: () => {
-      //   const members = [];
-      //   getDoc(doc(db, `privateChats`, route.params.id)).then((chat) => {
-      //     chat.data().members.forEach((member) => {
-      //       getDoc(doc(db, `users`, member)).then((user) => {
-      //         members.push({
-      //           id: member,
-      //           name:
-      //             member === auth.currentUser.uid ? "you" : user.data().name,
-      //         });
-      //         setMembers(members);
-      //         console.log(members);
-      //       });
-      //     });
-      //     return (
-      //       <View
-      //         style={{
-      //           flexDirection: "column",
-      //           alignItems: "center",
-      //           justifyContent: "center",
-      //         }}
-      //       >
-      //         <Text
-      //           style={{
-      //             fontSize: 20,
-      //             color: "#F2F7F2",
-      //           }}
-      //         >
-      //           {route.params.chatName}
-      //         </Text>
-      //         {/* <View
-      //           style={{
-      //             flexDirection: "row",
-      //             alignItems: "center",
-      //             justifyContent: "center",
-      //           }}
-      //         > */}
-      //         <Text
-      //           style={{
-      //             fontSize: 12,
-      //             color: "#F2F7F2",
-      //           }}
-      //         >
-      //           {members.map((member) => member.name).join(", ")}
-      //         </Text>
-      //         {/* </View> */}
-      //       </View>
-      //     );
-      //   });
-      // },
       headerRight: () => {
         if (dm || !loaded) {
           return null;
@@ -366,7 +315,6 @@ const ChatScreen = ({ navigation, route }) => {
               borderRadius: 20,
               margin: 5,
               marginLeft: 10,
-              // marginHorizontal: 10,
             }}
           />
         </TouchableOpacity>
@@ -460,11 +408,6 @@ const ChatScreen = ({ navigation, route }) => {
                 )
               : "loading..."}
           </Text>
-          {/* <HyperLink
-            onPress={(url, text) => {
-              Linking.openURL(url);
-            }}
-          > */}
           <Text
             style={[
               styles.receiverText,
@@ -476,7 +419,6 @@ const ChatScreen = ({ navigation, route }) => {
           >
             {item.message.trim()}
           </Text>
-          {/* </HyperLink> */}
         </View>
       </View>
     );
@@ -495,7 +437,7 @@ const ChatScreen = ({ navigation, route }) => {
       }}
     >
       {dm
-        ? `${otherUser} and you became friends!`
+        ? `${otherUser}${UIText["chatScreen"]["friends"]}`
         : `${author}${UIText["chatScreen"]["created"]}${chatName}`}
     </Text>
   );

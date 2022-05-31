@@ -99,7 +99,6 @@ const RegisterScreen = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <StatusBar />
       <Text style={styles.version}>
         {version.number}
         {"\n"}✨ {version.name} ✨
