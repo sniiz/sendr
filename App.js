@@ -8,7 +8,7 @@ import HomeScreen from "./screens/HomeScreen";
 import AddChatScreen from "./screens/AddChatScreen";
 import ChatScreen from "./screens/ChatScreen";
 import EmailVerifyScreen from "./screens/EmailVerifyScreen";
-import SettingsScreen from "./screens/SettingsScreen"; // wip screen
+import SettingsScreen from "./screens/SettingsScreen";
 import UIText from "./components/LocalizedText";
 import FriendsScreen from "./screens/FriendsScreen";
 import ChatSettingsScreen from "./screens/ChatSettingsScreen";

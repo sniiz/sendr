@@ -4,7 +4,7 @@ export default {
   expo: {
     name: `sendr`,
     slug: "sendr",
-    version: "v0.2.0-wip",
+    version: "v0.2.0-stable",
     orientation: "portrait",
     icon: "./assets/icon.png",
     runtimeVersion: "eh",
