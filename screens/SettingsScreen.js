@@ -550,7 +550,7 @@ function SettingsScreen({ navigation }) {
           style={{
             borderRadius: 5,
             borderWidth: 2,
-            borderColor: "red",
+            borderColor: "#ff5555",
             padding: 10,
             paddingHorizontal: 20,
           }}
