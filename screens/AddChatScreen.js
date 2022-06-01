@@ -1,11 +1,11 @@
 import React, { useLayoutEffect, useState } from "react";
 import {
-    StyleSheet,
-    KeyboardAvoidingView,
-    Platform,
-    View,
-    TouchableWithoutFeedback,
-    TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  View,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from "react-native";
 import { Button, Input, Text } from "react-native-elements";
 import { CoolButton } from "../components/CustomUi";
@@ -14,97 +14,107 @@ import { collection, addDoc, getFirestore, getAuth } from "../firebase";
 import UIText from "../components/LocalizedText";
 
 const AddChatScreen = ({ navigation }) => {
-    const [chat, setChat] = useState("");
+  const [chat, setChat] = useState("");
+  const [chatId, setChatId] = useState("");
 
-    const createChat = async () => {
-        const db = getFirestore();
-        const auth = getAuth();
-        await addDoc(collection(db, "chats"), {
-            // chat info
-            chatName: chat,
-            // createdBy: auth.currentUser.fullname,
+  const [loading, setLoading] = useState(false);
+
+  const createChat = () => {
+    const db = getFirestore();
+    const auth = getAuth();
+    addDoc(collection(db, "privateChats"), {
+      chatName: chat,
+      author: auth.currentUser.displayName,
+      members: [auth.currentUser.uid],
+      dm: false,
+    })
+      .then((ref) =>
+        navigation.navigate("chat", {
+          id: ref.id,
+          chatName: chat,
+          author: auth.currentUser.displayName,
         })
-            .then(() => navigation.goBack())
-            .catch((error) => alert(error.message));
-    };
+      )
+      .catch((error) => alert(error.message));
+  };
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: UIText["newChatScreen"]["barTitle"],
-            headerBackTitle: "back to chats",
-            headerStyle: { backgroundColor: "black" },
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: UIText["newChatScreen"]["barTitle"],
+      headerStyle: { backgroundColor: "#0a0a0a" },
+      headerTintColor: "#F2F7F2",
+      headerTitleAlign: "center",
+    });
+  }, [navigation]);
 
-            headerTintColor: "white",
-            headerTitleAlign: "center",
-        });
-    }, [navigation]);
-
-    return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.container}
-        >
-            <View style={styles.inputContainer}>
-                <Input
-                    placeholder={UIText["newChatScreen"]["chatNamePlaceholder"]}
-                    value={chat}
-                    style={styles.input}
-                    placeholderTextColor="gray"
-                    onChangeText={(text) => setChat(text)}
-                    onSubmitEditing={createChat}
-                />
-            </View>
-            <TouchableOpacity
-                onPress={createChat}
-                style={{
-                    borderRadius: 100,
-                    borderWidth: 1,
-                    borderColor: "white",
-                    padding: 8,
-                    paddingHorizontal: 20,
-                    marginBottom: 20,
-                }}
-            >
-                <Text style={styles.button}>
-                    {UIText["newChatScreen"]["create"]} ✍️
-                </Text>
-            </TouchableOpacity>
-        </KeyboardAvoidingView>
-    );
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <Input
+        placeholder={UIText["newChatScreen"]["chatNamePlaceholder"]}
+        value={chat}
+        style={styles.input}
+        placeholderTextColor="#727178"
+        onChangeText={(text) => setChat(text)}
+        onSubmitEditing={createChat}
+      />
+      <TouchableOpacity
+        onPress={createChat}
+        style={{
+          borderRadius: 5,
+          borderWidth: 2,
+          borderColor: "#F2F7F2",
+          padding: 8,
+          paddingHorizontal: 20,
+          marginBottom: 20,
+        }}
+      >
+        <Text style={styles.button}>
+          {UIText["newChatScreen"]["create"]} ✍️
+        </Text>
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
+  );
 };
 
-export default AddChatScreen;
+export default React.memo(AddChatScreen);
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "black",
-        padding: 30,
-        alignContent: "center",
-        justifyContent: "center",
-        alignItems: "center",
-        paddingBottom: 90,
-        flex: 1,
-        height: "100%",
-    },
-    input: {
-        color: "white",
-        borderWidth: 1,
-        borderColor: "white",
-        padding: 10,
-        marginTop: 0,
-        alignSelf: "center",
-        textAlign: "left",
-    },
-    inputContainer: {
-        width: 320,
-        marginVertical: 10,
-    },
-    button: {
-        color: "white",
-        fontSize: 25,
-        // marginTop: -10,
-        fontWeight: "bold",
-        textAlign: "center",
-        overflow: "visible",
-    },
+  container: {
+    backgroundColor: "#0a0a0a",
+    padding: 30,
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: 90,
+    flex: 1,
+    height: "100%",
+  },
+  input: {
+    color: "#F2F7F2",
+    borderWidth: 2,
+    borderColor: "#F2F7F2",
+    padding: 10,
+    marginTop: 0,
+    // alignSelf: "center",
+    textAlign: "left",
+    width: "60%",
+    // maxWidth: 300,
+    // fontFamily: "regular",
+  },
+  inputContainer: {
+    width: 320,
+    marginVertical: 10,
+  },
+  button: {
+    color: "#F2F7F2",
+    fontSize: 25,
+    // marginTop: -10,
+    fontWeight: "bold",
+    // fontFamily: "bold",
+    textAlign: "center",
+    overflow: "visible",
+  },
 });
