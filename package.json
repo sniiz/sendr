@@ -64,14 +64,11 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
     "react-native-web": "0.17.1",
-    "tauri": "^0.14.1",
     "xmldom": "^0.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@expo/electron-adapter": "^0.0.55",
-    "@expo/webpack-config": "~0.16.2",
-    "electron": "^18.0.1",
-    "electron-builder": "^22.14.13"
+    "@expo/webpack-config": "~0.16.2"
   }
 }
