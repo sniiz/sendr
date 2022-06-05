@@ -32,6 +32,7 @@ import {
   serverTimestamp,
   doc,
   deleteDoc,
+  limit,
 } from "../firebase";
 import isMobile from "react-device-detect";
 import { useKeyboard } from "@react-native-community/hooks";
@@ -46,6 +47,8 @@ const ChatScreen = ({ navigation, route }) => {
   const [author, setAuthor] = useState("");
   const [otherUser, setOtherUser] = useState("");
   const [chatName, setChatName] = useState("");
+
+  // const [messagesToLoad, setMessagesToLoad] = useState(20);
 
   const [messages, setMessages] = useState([]);
   const [usersOnline, setUsersOnline] = useState([]);
@@ -82,7 +85,8 @@ const ChatScreen = ({ navigation, route }) => {
     const unsubscribe = onSnapshot(
       query(
         collection(db, `privateChats/${route.params.id}`, "messages"),
-        orderBy("timestamp", "asc")
+        orderBy("timestamp", "desc")
+        // limit(messagesToLoad)
       ),
       (snapshot) => {
         const messages = [];
@@ -396,7 +400,7 @@ const ChatScreen = ({ navigation, route }) => {
                     fontSize: 7,
                   }}
                 >
-                  doctor sex
+                  lord sex
                 </Text>
               </View>
             ) : null}
@@ -431,6 +435,12 @@ const ChatScreen = ({ navigation, route }) => {
 
   const keyExtractor = (item) => item.id;
 
+  const loadMore = () => {
+    setMessagesToLoad(messagesToLoad + 20);
+    console.log("load more");
+    console.log(messagesToLoad);
+  };
+
   const createdHeader = (
     <Text
       style={{
@@ -447,10 +457,12 @@ const ChatScreen = ({ navigation, route }) => {
     </Text>
   );
 
-  const scrollToEnd = () => {
-    flatListRef.current.scrollToEnd({
-      animated: true,
-    });
+  const scrollToBottom = () => {
+    // flatListRef.current.scrollToOffset({
+    //   animated: true,
+    //   offset: 0,
+    // });
+    flatListRef.current.scrollToEnd({ animated: true });
   };
 
   if (!loaded) {
@@ -486,10 +498,13 @@ const ChatScreen = ({ navigation, route }) => {
                 data={messages}
                 ref={flatListRef}
                 keyExtractor={keyExtractor}
+                // ListFooterComponent={createdHeader}
                 ListHeaderComponent={createdHeader}
-                onContentSizeChange={scrollToEnd}
-                windowSize={11}
+                onContentSizeChange={scrollToBottom}
+                windowSize={21}
                 renderItem={messageItem}
+                // inverted
+                // onEndReached={loadMore}
               />
             ) : (
               <View
