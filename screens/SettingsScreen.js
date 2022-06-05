@@ -48,7 +48,6 @@ import {
   getStorage,
 } from "../firebase";
 import DropDownPicker from "react-native-dropdown-picker";
-import Spinner from "react-native-loading-spinner-overlay";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import uuid from "uuid";

@@ -23,7 +23,6 @@ import {
   doc,
 } from "../firebase";
 import UIText from "../components/LocalizedText";
-import Spinner from "react-native-loading-spinner-overlay";
 import { Storage } from "expo-storage";
 
 // const logo = require("../assets/wip_logo_#F2F7F2.png");

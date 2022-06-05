@@ -37,7 +37,6 @@ export default {
         foregroundImage: "./assets/pride-adaptive-icon.png",
         backgroundColor: "#0a0a0a",
       },
-      sdkVersion: "45.0.0",
     },
     web: {
       // favicon: "./assets/favicon.png",
