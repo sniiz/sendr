@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { Button, Input, Text } from "react-native-elements";
 import { CoolButton } from "../components/CustomUi";
-import Icon from "react-native-vector-icons/FontAwesome";
 import { collection, addDoc, getFirestore, getAuth } from "../firebase";
 import UIText from "../components/LocalizedText";
 
