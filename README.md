@@ -17,7 +17,6 @@ sendr
 - [ ] comfort features (reactions, typing indicators etc)
 - [ ] replies
 - [ ] presences
-- [ ]
 
 - [x] basic chat rendering
 - [x] usability things (settings and such)
