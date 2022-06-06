@@ -130,9 +130,11 @@ const LoginScreen = ({ navigation }) => {
               textAlign: "center",
             }}
           >
-            {serverDown
-              ? "ok, at this point either your wifi is absolute garbo either our server is down. try restarting your router.\nif that doesn't work, you can email the lead dev at haley.sniiz@gmail.com and scream at her all you want."
-              : "this is taking longer than it should... maybe try checking your internet or restarting the app"}
+            {/* {serverDown
+              ? "ok, at this point either your wifi is absolute garbo either our server is down. try restarting your router.\nif that doesn't work, you can email the lead dev at haley.sniiz@gmail.com and scream at her all you want." */}
+            {
+              "this is taking longer than it should... maybe try checking your internet or restarting the app"
+            }
           </Text>
         )}
       </View>
@@ -168,7 +170,7 @@ const LoginScreen = ({ navigation }) => {
             style={[
               styles.input,
               {
-                borderColor: passwordCorrect ? "#F2F7F2" : "red",
+                borderColor: passwordCorrect ? "#F2F7F2" : "#f55",
               },
             ]}
             value={password}
@@ -244,7 +246,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   errorText: {
-    color: "red",
+    color: "#f55",
     fontSize: 12,
     marginTop: Platform.OS === "web" ? 0 : -15,
     textAlign: "center",
@@ -253,7 +255,7 @@ const styles = StyleSheet.create({
   noacc: {
     color: "#f0f0f0",
     fontSize: 17,
-    fontWeight: "bold",
+    fontWeight: "800",
     textAlign: "right",
     overflow: "visible",
   },
@@ -265,7 +267,7 @@ const styles = StyleSheet.create({
     // color: "#F2F7F2",
     color: "#0a0a0a",
     fontSize: 25,
-    fontWeight: "bold",
+    fontWeight: "800",
     textAlign: "center",
     overflow: "visible",
   },

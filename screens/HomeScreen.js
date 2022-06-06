@@ -48,6 +48,7 @@ const HomeScreen = ({ navigation }) => {
   const [Error, setError] = useState(false);
   const [textBoxOpen, setTextBoxOpen] = useState(false);
   const [chatId, setChatId] = useState("");
+  const [noChats, setNoChats] = useState("");
 
   const joinMessages = [
     "joined!",
@@ -76,6 +77,9 @@ const HomeScreen = ({ navigation }) => {
       navigation.replace("login");
       return;
     }
+    setNoChats(
+      UIText["homeScreen"][`lonely${Math.floor(Math.random() * 6) + 1}`]
+    );
     const unsubscribe = onSnapshot(
       query(
         collection(db, "privateChats"),
@@ -130,7 +134,7 @@ const HomeScreen = ({ navigation }) => {
             // marginRight: 20,
           }}
         >
-          <Popable
+          {/* <Popable
             content={
               <View style={styles.popupContainer}>
                 <Text style={styles.popupText}>
@@ -141,8 +145,8 @@ const HomeScreen = ({ navigation }) => {
             action="hover"
             style={{ opacity: 0.8 }}
             position="bottom"
-          >
-            <TouchableOpacity
+          > */}
+          {/* <TouchableOpacity
               style={{
                 // marginLeft: 20,
                 justifyContent: "center",
@@ -156,28 +160,27 @@ const HomeScreen = ({ navigation }) => {
                   Linking.openURL("https://github.com/sniiz/sendr");
                 }
               }}
-            >
-              <Text
-                style={{
-                  fontSize: 10,
-                  fontStyle: "italic",
-                  fontFamily:
-                    Platform.OS === "ios" ? "Courier New" : "monospace",
-                  color: "#727178",
-                  marginLeft: 5,
-                }}
-              >
-                <SimpleLineIcons
-                  name="social-github"
-                  size={10}
-                  color="#727178"
-                  style={{ marginLeft: 10 }}
-                />{" "}
-                {version["number"]}{" "}
-                <SimpleLineIcons name="share-alt" size={10} color="#727178" />
-              </Text>
-            </TouchableOpacity>
-          </Popable>
+            > */}
+          <Text
+            style={{
+              fontSize: 10,
+              fontStyle: "italic",
+              fontFamily: Platform.OS === "ios" ? "Courier New" : "monospace",
+              color: "#727178",
+              marginLeft: 5,
+            }}
+          >
+            <SimpleLineIcons
+              name="social-github"
+              size={10}
+              color="#727178"
+              style={{ marginLeft: 10 }}
+            />{" "}
+            {version["number"]}{" "}
+            {/* <SimpleLineIcons name="share-alt" size={10} color="#727178" /> */}
+          </Text>
+          {/* </TouchableOpacity> */}
+          {/* </Popable> */}
         </View>
       ),
       headerRight: () => (
@@ -447,7 +450,7 @@ const HomeScreen = ({ navigation }) => {
               fontStyle: "italic",
             }}
           >
-            {UIText["homeScreen"][`lonely${Math.floor(Math.random() * 6) + 1}`]}
+            {noChats}
           </Text>
         </View>
       )}
