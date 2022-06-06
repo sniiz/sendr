@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {},
+  "extends": "expo/tsconfig.base"
+}
+// tbh i have zero idea where i used typescript but sure why not
+// let's hope this doesn't break anything

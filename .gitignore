@@ -27,3 +27,4 @@ site/
 /dist
 # @end @expo/electron-adapter
 .vercel/
+node_modules_BACKUP/
