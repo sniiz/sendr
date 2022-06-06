@@ -25,7 +25,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
+    const unsub = onAuthStateChanged(getAuth(), (user) => {
       if (user && user?.emailVerified) {
         navigation.replace("home");
       }
@@ -33,7 +33,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
     return () => {
       unsub();
     };
-  }, []);
+  }, [navigation]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -84,9 +84,17 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
           padding: 10,
           paddingHorizontal: 20,
           marginBottom: 10,
+          fontWeight: "800",
         }}
       >
-        <Text style={styles.text}>
+        <Text
+          style={[
+            styles.text,
+            {
+              fontWeight: "800",
+            },
+          ]}
+        >
           {sent
             ? UIText["emailVerifyScreen"]["sentButton"]
             : UIText["emailVerifyScreen"]["verifyButton"]}
@@ -104,7 +112,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
         style={{
           borderRadius: 5,
           borderWidth: 2,
-          borderColor: "red",
+          borderColor: "#f55",
           marginTop: 100,
           padding: 10,
           paddingHorizontal: 20,
@@ -114,9 +122,9 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
           style={[
             styles.text,
             {
-              color: "red",
+              color: "#f55",
               // marginTop: 20,
-              fontWeight: "normal",
+              fontWeight: "800",
             },
           ]}
         >
@@ -147,12 +155,13 @@ const styles = StyleSheet.create({
     color: "#727178",
     fontSize: 15,
     textAlign: "center",
+    fontWeight: "bold",
   },
   title: {
     color: "#F2F7F2",
     fontSize: 40,
     marginBottom: 20,
-    fontWeight: "bold",
+    fontWeight: "800",
     textAlign: "center",
     overflow: "visible",
   },

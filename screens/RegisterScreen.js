@@ -39,7 +39,7 @@ const RegisterScreen = ({ navigation }) => {
       headerStyle: { backgroundColor: "#0a0a0a" },
       headerTintColor: "#F2F7F2",
       headerTitleAlign: "center",
-      title: UIText["registerScreen"]["barTitle"],
+      title: UIText["signUpScreen"]["barTitle"],
     });
   }, [navigation]);
 
@@ -61,7 +61,7 @@ const RegisterScreen = ({ navigation }) => {
         getDocs(
           query(collection(db, "users"), where("name", "==", fullname))
         ).then((users) => {
-          if (users.length > 0) {
+          if (users.docs.length > 0) {
             setLoading(false);
             alert(UIText["signUpScreen"]["taken"]);
             return;
@@ -108,7 +108,7 @@ const RegisterScreen = ({ navigation }) => {
         style={{
           color: "#F2F7F2",
           fontSize: 40,
-          fontWeight: "bold",
+          fontWeight: "800",
           textAlign: "center",
           overflow: "visible",
           marginBottom: 25,
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "ios" ? "Arial" : "monospace",
   },
   issue: {
-    color: "red",
+    color: "#f55",
     fontSize: 10,
     textAlign: "center",
     fontStyle: "italic",
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     // color: "#F2F7F2",
     color: "#0a0a0a",
     fontSize: 25,
-    fontWeight: "bold",
+    fontWeight: "800",
     textAlign: "center",
     overflow: "visible",
   },
