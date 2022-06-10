@@ -35,7 +35,7 @@ feedback & contributing
 </h1>
 
 <p align="center" style="font-weight: bold;">
-we're always open to suggestions and contributions!</br>if you encounter any bugs, please open an <a href="https://github.com/sniiz/sendr/issues/new">issue</a>, or, if you're a developer yourself and have a lot of free time on your hands, feel free to open a <a href="https://github.com/sniiz/sendr/pulls">pull request</a>!<br/><br/>if you have any questions, i will happily answer them at <code>haley.sniiz@gmail.com</code> or in <a href="https://twitter.com/_sniiz_">twitter dms</a>!
+we're always open to suggestions and contributions!</br>if you encounter any bugs, please open an <a href="https://github.com/sniiz/sendr/issues/new">issue</a>, or, if you're a developer yourself and care about this lil project too much, you can open a <a href="https://github.com/sniiz/sendr/pulls">pull request</a>!<br/><br/>if you have any questions, i will happily answer them at <code>haley.sniiz@gmail.com</code> or in <a href="https://twitter.com/_sniiz_">twitter dms</a>!
 </p>
 
 <p align="right" style="font-weight: bold; font-size: 10px;">
