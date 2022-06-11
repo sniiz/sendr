@@ -7,7 +7,6 @@ import {
   TouchableHighlight,
   Platform,
   TouchableOpacity,
-  ActivityIndicator,
   Text,
 } from "react-native";
 import { Button, Input, Image } from "react-native-elements";
@@ -24,6 +23,7 @@ import {
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 import { Storage } from "expo-storage";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 // const logo = require("../assets/wip_logo_#F2F7F2.png");
 const version = require("../assets/version-info.json");
@@ -42,11 +42,36 @@ const LoginScreen = ({ navigation }) => {
   const db = getFirestore();
 
   useEffect(() => {
+    if (getAuth().currentUser) {
+      console.log("LOGGED IN");
+      setIsLoggedIn(true);
+      getDoc(doc(db, `users`, user.uid)).then(
+        (userdoc) => {
+          if (!userdoc.exists()) {
+            setDoc(doc(db, "users", user.id), {
+              friendRequests: [],
+              friends: [],
+              name: user.displayName,
+              pfp: user.photoURL ? user.photoURL : null,
+              online: true,
+            }).finally(() => {
+              navigation.replace("home");
+            });
+          } else {
+            navigation.replace("home");
+          }
+        },
+        (error) => {
+          alert(error);
+          navigation.replace("home");
+        }
+      );
+    }
     const unsub = onAuthStateChanged(getAuth(), (user) => {
       if (user !== null) {
         // console.log(user);
         setIsLoggedIn(true);
-        getDoc(doc(collection(getFirestore(), "users"), user.uid)).then(
+        getDoc(doc(db, `users`, user.uid)).then(
           (userdoc) => {
             if (!userdoc.exists()) {
               setDoc(doc(db, "users", user.id), {
@@ -55,9 +80,13 @@ const LoginScreen = ({ navigation }) => {
                 name: user.displayName,
                 pfp: user.photoURL ? user.photoURL : null,
                 online: true,
-              }).then(() => {
-                navigation.replace("home");
-              });
+              })
+                .then(() => {
+                  navigation.replace("home");
+                })
+                .catch(() => {
+                  navigation.replace("home");
+                });
             } else {
               navigation.replace("home");
             }

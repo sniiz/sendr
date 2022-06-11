@@ -16,7 +16,6 @@ import {
   TouchableOpacity,
   Linking,
   Platform,
-  ActivityIndicator,
 } from "react-native";
 import { Avatar } from "react-native-elements";
 import CustomListItem from "../components/CustomListItem";
@@ -39,6 +38,7 @@ import {
 // sorry firebase is gitignored im scared of .envs
 import UIText from "../components/LocalizedText";
 import { Popable } from "react-native-popable";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 const version = require("../assets/version-info.json");
 

@@ -12,19 +12,19 @@ import { Button, Image, Input } from "react-native-elements";
 import ThemedListItem from "react-native-elements/dist/list/ListItem";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export class CoolButton extends React.Component {
-  render() {
-    return (
-      <TouchableWithoutFeedback onPress={this.props.onPress}>
-        <Text
-          style={this.props.style != null ? this.props.style : styles.login}
-        >
-          {this.props.text}
-        </Text>
-      </TouchableWithoutFeedback>
-    );
-  }
-}
+// export class CoolButton extends React.Component {
+//   render() {
+//     return (
+//       <TouchableWithoutFeedback onPress={this.props.onPress}>
+//         <Text
+//           style={this.props.style != null ? this.props.style : styles.login}
+//         >
+//           {this.props.text}
+//         </Text>
+//       </TouchableWithoutFeedback>
+//     );
+//   }
+// }
 
 export class Header extends React.Component {
   render() {

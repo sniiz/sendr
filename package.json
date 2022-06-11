@@ -1,6 +1,6 @@
 {
   "name": "sendr",
-  "version": "0.2.0-stable",
+  "version": "0.2.1-wip",
   "description": "a minimalist messaging app",
   "author": "sniiz",
   "license": "MIT",
@@ -14,7 +14,8 @@
     "preview": "node scripts/build.js",
     "deploy": "node scripts/build.js --production",
     "firestore-cleanup": "node scripts/CLEANUP.js",
-    "commit": "node scripts/github.js"
+    "commit": "node scripts/github.js",
+    "reinstall": "rm -rf node_modules && yarn install"
   },
   "build": {
     "appId": "com.sniiz.sendr"
@@ -63,7 +64,7 @@
     "react-native-hyperlink": "^0.0.19",
     "react-native-popable": "^0.4.3",
     "react-native-popup-menu": "^0.15.12",
-    "react-native-reanimated": "^2.8.0",
+    "react-native-reanimated": "~2.3.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",

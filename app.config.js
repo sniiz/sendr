@@ -4,7 +4,7 @@ export default {
   expo: {
     name: `sendr`,
     slug: "sendr",
-    version: "v0.2.0-stable-pride",
+    version: "v0.2.1-wip-pride",
     orientation: "portrait",
     // icon: "./assets/icon.png",
     icon: "./assets/pride-adaptive-icon.png",

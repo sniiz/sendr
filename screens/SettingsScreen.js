@@ -151,8 +151,8 @@ function SettingsScreen({ navigation }) {
         }
       }
     );
-    DropDownPicker.setListMode("SCROLLVIEW");
-    DropDownPicker.setTheme("DARK");
+    // DropDownPicker.setListMode("SCROLLVIEW");
+    // DropDownPicker.setTheme("DARK");
     return () => {
       unsub();
       unsubPfp();
@@ -504,7 +504,7 @@ function SettingsScreen({ navigation }) {
         ></View>
         <TouchableOpacity
           onPress={() => {
-            Clipboard.setStringAsync(auth.currentUser.uid);
+            Clipboard.setString(auth.currentUser.uid);
           }}
           style={{
             borderRadius: 5,

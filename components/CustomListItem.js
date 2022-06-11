@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ActivityIndicator } from "react-native";
+import { StyleSheet } from "react-native";
+import ActivityIndicator from "./ActivityIndicator";
 import { ListItem, Avatar } from "react-native-elements";
 import {
   collection,

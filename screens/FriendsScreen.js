@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  ActivityIndicator,
   FlatList,
   Text,
 } from "react-native";
@@ -31,6 +30,7 @@ import { Avatar } from "react-native-elements";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Popable } from "react-native-popable";
 import UIText from "../components/LocalizedText";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 const FriendsScreen = ({ navigation, route }) => {
   const [friends, setFriends] = useState([]);
@@ -90,6 +90,11 @@ const FriendsScreen = ({ navigation, route }) => {
 
   const addFriend = (id) => {
     if (id.includes("/") || id.includes(" ")) {
+      setFriendId("");
+      return;
+    }
+    if (id.trim() === "POTATOCAT") {
+      alert("no. sadly you cannot befriend the potatocat.");
       setFriendId("");
       return;
     }
