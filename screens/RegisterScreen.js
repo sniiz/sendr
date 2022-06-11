@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Platform,
-  ActivityIndicator,
 } from "react-native";
 import { Header } from "../components/CustomUi";
 import { Button, Input, Text } from "react-native-elements";
@@ -23,6 +22,7 @@ import {
   collection,
 } from "../firebase";
 import UIText from "../components/LocalizedText";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 const version = require("../assets/version-info.json");
 const RegisterScreen = ({ navigation }) => {

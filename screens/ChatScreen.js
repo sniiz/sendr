@@ -2,7 +2,6 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import * as Localization from "expo-localization";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
-  ActivityIndicator,
   FlatList,
   Keyboard,
   KeyboardAvoidingView,
@@ -34,12 +33,14 @@ import {
   deleteDoc,
   limit,
 } from "../firebase";
+import ActivityIndicator from "../components/ActivityIndicator";
 import isMobile from "react-device-detect";
 import { useKeyboard } from "@react-native-community/hooks";
 import { Popable } from "react-native-popable";
 // import Clipboard from "@react-native-clipboard/clipboard";
 import * as Clipboard from "expo-clipboard";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import Theme from "../components/themes";
 // import HyperLink from "react-native-hyperlink";
 
 const ChatScreen = ({ navigation, route }) => {
@@ -85,19 +86,20 @@ const ChatScreen = ({ navigation, route }) => {
     const unsubscribe = onSnapshot(
       query(
         collection(db, `privateChats/${route.params.id}`, "messages"),
-        orderBy("timestamp", "asc")
+        orderBy("timestamp", "desc")
         // limit(messagesToLoad)
       ),
       (snapshot) => {
-        const messages = [];
+        const messagesList = [];
         const docs = snapshot.docs;
         for (let i = 0; i < docs.length; i++) {
-          messages.push({
+          messagesList.push({
             id: docs[i].id,
             ...docs[i].data(),
           });
         }
-        setMessages(messages);
+        setMessages(messagesList);
+        // this.flatListRef.current.scrollToEnd();
       }
     );
     const unsubAuth = onAuthStateChanged(auth, (user) => {
@@ -184,7 +186,7 @@ const ChatScreen = ({ navigation, route }) => {
               <TouchableOpacity
                 activeOpacity={0.5}
                 onPress={() => {
-                  Clipboard.setStringAsync(route.params.id);
+                  Clipboard.setString(route.params.id);
                 }}
               >
                 <SimpleLineIcons name="docs" size={18} color="#F2F7F2" />
@@ -241,6 +243,8 @@ const ChatScreen = ({ navigation, route }) => {
         );
       },
     });
+    var colors = Theme.get();
+    console.log(colors);
   }, [navigation, dm, otherUser, loaded]);
   const sendMsg = () => {
     Keyboard.dismiss();
@@ -426,7 +430,7 @@ const ChatScreen = ({ navigation, route }) => {
               },
             ]}
           >
-            {item.message.trim()}
+            {item.message}
           </Text>
         </View>
       </View>
@@ -462,7 +466,7 @@ const ChatScreen = ({ navigation, route }) => {
     //   animated: true,
     //   offset: 0,
     // });
-    flatListRef.current.scrollToEnd({ animated: true });
+    // flatListRef.current.scrollToEnd({ animated: true });
   };
 
   if (!loaded) {
@@ -498,12 +502,12 @@ const ChatScreen = ({ navigation, route }) => {
                 data={messages}
                 ref={flatListRef}
                 keyExtractor={keyExtractor}
-                // ListFooterComponent={createdHeader}
-                ListHeaderComponent={createdHeader}
+                ListFooterComponent={createdHeader}
+                // ListHeaderComponent={createdHeader}
                 onContentSizeChange={scrollToBottom}
-                windowSize={21}
+                // windowSize={21}
                 renderItem={messageItem}
-                // inverted
+                inverted
                 // onEndReached={loadMore}
               />
             ) : (

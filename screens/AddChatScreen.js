@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     width: "60%",
     // maxWidth: 300,
     // fontFamily: "regular",
+    fontWeight: "bold",
   },
   inputContainer: {
     width: 320,
@@ -111,8 +112,8 @@ const styles = StyleSheet.create({
     color: "#F2F7F2",
     fontSize: 25,
     // marginTop: -10,
-    fontWeight: "bold",
-    // fontFamily: "bold",
+    fontWeight: "800",
+    // fontFamily:old",
     textAlign: "center",
     overflow: "visible",
   },
