@@ -1,5 +1,6 @@
-import { View, Image, Animated, Easing } from "react-native";
-import { SimpleLineIcons } from "@expo/vector-icons";
+import { View, Image, Animated, Easing, Text } from "react-native";
+// import { SimpleLineIcons } from "@expo/vector-icons";
+import * as Icon from "react-native-feather";
 import React from "react";
 
 // export default class ActivityIndicator extends React.PureComponent {
@@ -35,37 +36,68 @@ import React from "react";
 
 const spin = new Animated.Value(0);
 
-export default function ActivityIndicator({ size, color }) {
-  React.useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(spin, {
-          toValue: 1,
-          duration: 600,
-          useNativeDriver: true,
-          easing: Easing.linear,
-        }),
-        // Animated.timing(spin, {
-        //   toValue: 0,
-        //   duration: 1000,
-        //   useNativeDriver: true,
-        // }),
-      ])
-    ).start();
-  }, []);
+const slash = ["|", "/", "-", "\\"];
+const dots = [".˙", "··", "˙."];
+const dots2 = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+// we're open to more potential loading animations!!
+// you can always open a pr on github to add your own
+// maybe we'll make your animation the default one!
 
-  const spinny = spin.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["0deg", "360deg"],
-  });
+const animation = slash;
+const interval = 90;
+
+export default function ActivityIndicator({ size, color, style }) {
+  const [step, setStep] = React.useState(0);
+  React.useEffect(() => {
+    setTimeout(() => {
+      setStep((step) => (step + 1) % animation.length);
+    }, interval);
+  }, [step]);
+  // React.useEffect(() => {
+  //   Animated.loop(
+  //     Animated.sequence([
+  //       Animated.timing(spin, {
+  //         toValue: 1,
+  //         duration: 1000,
+  //         useNativeDriver: true,
+  //         easing: Easing.elastic(1),
+  //       }),
+  //       // Animated.timing(spin, {
+  //       //   toValue: 0,
+  //       //   duration: 1000,
+  //       //   useNativeDriver: true,
+  //       //   easing: Easing.elastic(5),
+  //       // }),
+  //     ])
+  //   ).start();
+  // }, []);
+
+  // const spinny = spin.interpolate({
+  //   inputRange: [0, 1],
+  //   outputRange: ["0deg", "360deg"],
+  // });
 
   return (
     <Animated.View
-      style={{
-        transform: [{ rotate: spinny }],
-      }}
+      style={[
+        // {
+        //   transform: [{ rotate: spinny }],
+        // },
+        style,
+      ]}
     >
-      <SimpleLineIcons name="disc" size={size} color={color} />
+      {/* <SimpleLineIcons name="disc" size={size} color={color} /> */}
+      {/* <Icon.Minus width={size} color={color} strokeWidth={2} /> */}
+      <Text
+        style={{
+          fontSize: size,
+          color: color,
+          fontWeight: "600",
+          fontFamily: "monospace",
+        }}
+      >
+        {animation[step]}
+      </Text>
     </Animated.View>
   );
 }

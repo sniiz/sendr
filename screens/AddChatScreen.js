@@ -3,12 +3,11 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  View,
-  TouchableWithoutFeedback,
   TouchableOpacity,
+  Text,
+  TextInput,
 } from "react-native";
-import { Button, Input, Text } from "react-native-elements";
-import { CoolButton } from "../components/CustomUi";
+// import { CoolButton } from "../components/CustomUi";
 import { collection, addDoc, getFirestore, getAuth } from "../firebase";
 import UIText from "../components/LocalizedText";
 
@@ -51,7 +50,7 @@ const AddChatScreen = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <Input
+      <TextInput
         placeholder={UIText["newChatScreen"]["chatNamePlaceholder"]}
         value={chat}
         style={styles.input}
@@ -65,12 +64,20 @@ const AddChatScreen = ({ navigation }) => {
           borderRadius: 5,
           borderWidth: 2,
           borderColor: "#F2F7F2",
+          backgroundColor: chat ? "#F2F7F2" : "#0a0a0a",
           padding: 8,
           paddingHorizontal: 20,
           marginBottom: 20,
         }}
       >
-        <Text style={styles.button}>
+        <Text
+          style={[
+            styles.button,
+            {
+              color: chat ? "#0a0a0a" : "#F2F7F2",
+            },
+          ]}
+        >
           {UIText["newChatScreen"]["create"]} ✍️
         </Text>
       </TouchableOpacity>
@@ -102,7 +109,10 @@ const styles = StyleSheet.create({
     width: "60%",
     // maxWidth: 300,
     // fontFamily: "regular",
+    outlineStyle: "none",
     fontWeight: "bold",
+    marginBottom: 10,
+    fontSize: 20,
   },
   inputContainer: {
     width: 320,

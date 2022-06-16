@@ -6,10 +6,10 @@ import {
   TouchableWithoutFeedback,
   TouchableHighlight,
   Platform,
+  TextInput,
   TouchableOpacity,
   Text,
 } from "react-native";
-import { Button, Input, Image } from "react-native-elements";
 import {
   getAuth,
   onAuthStateChanged,
@@ -43,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (getAuth().currentUser) {
-      console.log("LOGGED IN");
+      // console.log("LOGGED IN");
       setIsLoggedIn(true);
       getDoc(doc(db, `users`, user.uid)).then(
         (userdoc) => {
@@ -108,12 +108,9 @@ const LoginScreen = ({ navigation }) => {
         });
       }
     });
-    // setTimeout(() => {
-    //   setTakingTooLong(true);
-    //   setTimeout(() => {
-    //     setServerDown(true);
-    //   }, 15000);
-    // }, 10000);
+    setTimeout(() => {
+      setTakingTooLong(true);
+    }, 20000);
     return () => {
       unsub();
     };
@@ -149,21 +146,23 @@ const LoginScreen = ({ navigation }) => {
   if (loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size={20} color="#727178" />
+        <ActivityIndicator size={20} color="#F2F7F2" />
         {takingTooLong && (
           <Text
             style={{
-              color: "#727178",
+              color: "#F2F7F2",
               fontSize: 20,
               marginTop: 10,
+              marginBottom: -30,
               textAlign: "center",
+              paddingHorizontal: 10,
+              fontWeight: "400",
             }}
           >
             {/* {serverDown
               ? "ok, at this point either your wifi is absolute garbo either our server is down. try restarting your router.\nif that doesn't work, you can email the lead dev at haley.sniiz@gmail.com and scream at her all you want." */}
-            {
-              "this is taking longer than it should... maybe try checking your internet or restarting the app"
-            }
+            hmm... this is taking longer than it should. try checking your
+            internet or restarting the app.
           </Text>
         )}
       </View>
@@ -183,7 +182,7 @@ const LoginScreen = ({ navigation }) => {
         </Text>
         <Text style={styles.title}>{UIText["loginScreen"]["title"]}</Text>
         <View style={styles.inputContainer}>
-          <Input
+          <TextInput
             placeholder={UIText["loginScreen"]["emailPlaceholder"]}
             style={styles.input}
             autoFocus
@@ -192,7 +191,7 @@ const LoginScreen = ({ navigation }) => {
             value={email}
             onChangeText={(text) => setEmail(text)}
           />
-          <Input
+          <TextInput
             placeholder={UIText["loginScreen"]["passwordPlaceholder"]}
             secureTextEntry
             type="password"
@@ -215,8 +214,8 @@ const LoginScreen = ({ navigation }) => {
         <View style={styles.elbutton}>
           {loggingIn ? (
             <ActivityIndicator
-              size="small"
-              color="#727178"
+              size={20}
+              color="#F2F7F2"
               style={{
                 marginBottom: 20,
               }}
@@ -327,6 +326,9 @@ const styles = StyleSheet.create({
     marginTop: 0,
     textAlign: "left",
     fontWeight: "bold",
+    marginBottom: 10,
+    fontSize: 20,
+    outlineStyle: "none",
   },
   container: {
     flex: 1,

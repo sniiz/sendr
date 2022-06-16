@@ -11,18 +11,22 @@ import EmailVerifyScreen from "./screens/EmailVerifyScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import UIText from "./components/LocalizedText";
 import FriendsScreen from "./screens/FriendsScreen";
+import UserInfoScreen from "./screens/UserInfoScreen";
 import * as Linking from "expo-linking";
-import { getFirestore, setDoc, updateDoc, doc, getAuth } from "./firebase";
+import Theme from "./components/themes";
+// import { getFirestore, setDoc, updateDoc, doc, getAuth } from "./firebase";
 
 const Stack = createNativeStackNavigator();
+const theme = Theme.get("midnight");
+// console.log(theme);
 const globalScreenOptions = {
   headerStyle: {
-    backgroundColor: "#0a0a0a",
+    backgroundColor: theme?.main,
     borderBottomWidth: 2,
-    borderBottomColor: "#F2F7F2",
+    borderBottomColor: theme?.accent,
   },
-  headerTitleStyle: { color: "#F2F7F2", fontWeight: "900" },
-  headerTintColor: "#F2F7F2",
+  headerTitleStyle: { color: theme?.accent, fontWeight: "900" },
+  headerTintColor: theme?.accent,
   headerTitleAlign: "center",
 };
 const linking = {
@@ -42,6 +46,7 @@ const linking = {
       settings: "settings",
       verifyEmail: "verify-email",
       friends: "friends",
+      userInfo: "user-info",
     },
   },
 };
@@ -81,6 +86,7 @@ export default function App() {
         <Stack.Screen name="settings" component={SettingsScreen} />
         <Stack.Screen name="verifyEmail" component={EmailVerifyScreen} />
         <Stack.Screen name="friends" component={FriendsScreen} />
+        <Stack.Screen name="userInfo" component={UserInfoScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

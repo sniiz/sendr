@@ -79,7 +79,7 @@ const FriendsScreen = ({ navigation, route }) => {
         setLoading(false);
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
         setLoading(false);
       }
     );
@@ -187,7 +187,7 @@ const FriendsScreen = ({ navigation, route }) => {
           }}
         >
           {loading ? (
-            <ActivityIndicator size={30} color="#0a0a0a" />
+            <ActivityIndicator size={30} color="#F2F7F2" />
           ) : (
             <>
               {/* <Popable
@@ -243,7 +243,13 @@ const FriendsScreen = ({ navigation, route }) => {
           },
         ]}
       >
-        <ActivityIndicator size={20} color="#727178" />
+        <ActivityIndicator
+          size={20}
+          color="#F2F7F2"
+          style={{
+            alignSelf: "center",
+          }}
+        />
       </View>
     );
   }
@@ -276,6 +282,7 @@ const FriendsScreen = ({ navigation, route }) => {
             borderColor:
               friendId && !friendId.includes("/") ? "#F2F7F2" : "#727178",
             // marginRight: 10,
+            outlineStyle: "none",
             color: "#F2F7F2",
             fontWeight: "700",
           }}
@@ -297,6 +304,7 @@ const FriendsScreen = ({ navigation, route }) => {
             style={{
               marginLeft: 10,
               borderColor: "#F2F7F2",
+              backgroundColor: "#F2F7F2",
               borderRadius: 5,
               borderWidth: 2,
               padding: 10,
@@ -305,9 +313,9 @@ const FriendsScreen = ({ navigation, route }) => {
           >
             <Text
               style={{
-                color: "#F2F7F2",
+                color: "#0a0a0a",
                 fontSize: 15,
-                fontWeight: "bold",
+                fontWeight: "800",
               }}
             >
               {UIText["friendsScreen"]["add"]}

@@ -17,6 +17,8 @@ const uiText = {
       loginButton: "log in 👉",
       signUpButton: "no account? sign up 👋",
       loading: "attempting to log you in...",
+      tooLong:
+        "this is taking longer than it should... try checking your internet or restarting the app",
     },
     signUpScreen: {
       barTitle: "sign up",
@@ -27,6 +29,8 @@ const uiText = {
       passwordPlaceholder: "password",
       signUpButton: "sign up 👉",
       taken: "this nickname is already taken. please think of something else",
+      confirmPasswordPlaceholder: "enter the password again",
+      passwordsDontMatch: "passwords don't match",
     },
     emailVerifyScreen: {
       barTitle: "email verification",
@@ -36,6 +40,7 @@ const uiText = {
       errorButton: "email verification failed, please try again",
       didNotReceiveEmail:
         "did not receive the email? tap the button again to resend ✌️",
+      reload: "when you're done verifying your email, click here to reload 🔃",
     },
     newChatScreen: {
       barTitle: "new chat",
@@ -143,6 +148,8 @@ const uiText = {
       loginButton: "se connecter 👉",
       signUpButton: "pas encore inscrit? inscrivez-vous 👋",
       loading: "chargement...",
+      tooLong:
+        "cela prend plus de temps que cela ne devrait... essaie de vérifier ton internet ou de redémarrer l'application.",
     },
     signUpScreen: {
       barTitle: "inscription",
@@ -154,6 +161,8 @@ const uiText = {
       passwordPlaceholder: "mot de passe",
       signUpButton: "inscrivez-vous 👉",
       taken: "ce pseudo est déjà pris. essaye un autre",
+      confirmPasswordPlaceholder: "tape à nouveau le mot de passe",
+      passwordsDontMatch: "les mots de passe ne sont pas les mêmes",
     },
     emailVerifyScreen: {
       barTitle: "vérification email",
@@ -163,6 +172,8 @@ const uiText = {
       errorButton: "erreur de vérification email, veuillez réessayer",
       didNotReceiveEmail:
         "n'as-tu pas reçu d'email? cliques ici pour réenvoyer ✌️",
+      reload:
+        "quand tu as fini de vérifier ton email, clique ici pour recharger l'application 🔁",
     },
     newChatScreen: {
       barTitle: "chat nouveau",
@@ -272,6 +283,8 @@ const uiText = {
       loginButton: "iniciar sesión 👉",
       signUpButton: "¿no tienes cuenta? ¡regístrate 👋",
       loading: "cargando...",
+      tooLong:
+        "esto está tardando más de lo que debería... intenta comprobar tu internet o reiniciar la aplicación",
     },
     signUpScreen: {
       barTitle: "registro",
@@ -283,6 +296,8 @@ const uiText = {
       passwordPlaceholder: "contraseña",
       signUpButton: "regístrate 👉",
       taken: "ese apodo ya está en uso. prueba otro",
+      confirmPasswordPlaceholder: "escribe la misma contraseña",
+      passwordsDontMatch: "las contraseñas no coinciden",
     },
     emailVerifyScreen: {
       barTitle: "verificación de email",
@@ -398,6 +413,7 @@ const uiText = {
       loginButton: "войти 👉",
       signUpButton: "нет аккаунта? зарегистрируйся 👋",
       loading: "загрузка...",
+      tooLong: "",
     },
     signUpScreen: {
       barTitle: "создать аккаунт",
@@ -409,6 +425,8 @@ const uiText = {
       passwordPlaceholder: "пароль",
       signUpButton: "создать 👉",
       taken: "этот никнейм уже занят. придумай какой-нибудь еще",
+      confirmPasswordPlaceholder: "введи пароль еще раз",
+      passwordsDontMatch: "пароли не совпадают",
     },
     emailVerifyScreen: {
       barTitle: "подтверждение почты",
@@ -418,6 +436,8 @@ const uiText = {
       errorButton: "ошибка подтверждения почты, попробуй еще раз",
       didNotReceiveEmail:
         "не получили письмо? нажми еще раз, чтобы отправить заново ✌️",
+      reload:
+        "когда прошли по ссылке в письме, кликни здесь чтобы перезагрузить 🔃",
     },
     newChatScreen: {
       barTitle: "новый чат",
@@ -518,7 +538,6 @@ const uiText = {
       barTitle: "登录",
       title: "sendr.",
       emailPlaceholder: "电子邮件",
-
       passwordPlaceholder: "密码",
       passwordError: "密码错误",
       loginButton: "登录 👉",
@@ -535,12 +554,15 @@ const uiText = {
       passwordPlaceholder: "密码",
       signUpButton: "报名 👉",
       taken: "这个昵称已经被使用了",
+      confirmPasswordPlaceholder: "输入相同的密码",
+      passwordsDontMatch: "密码是不一样的",
     },
     emailVerifyScreen: {
       barTitle: "邮箱验证",
       title: "我们需要验证这个电子邮件是你的.",
       verifyButton: "发送验证邮件 📨",
       didNotReceiveEmail: "没有收到邮件? 点击重新发送 ✌️",
+      reload: "重新加载应用程序 🔄",
     },
     newChatScreen: {
       barTitle: "新建聊天",
@@ -655,12 +677,15 @@ const uiText = {
       signUpButton: "サインアップ 👉",
       taken:
         "このユーザーネームはすでに使用されていますので、他のユーザーネームを考えてください。",
+      confirmPasswordPlaceholder: "パスワードを再入力する",
+      passwordsDontMatch: "入力したパスワードが違う",
     },
     emailVerifyScreen: {
       barTitle: "メール確認",
       title: "このメールアドレスはあなたのものですか？",
       verifyButton: "メールを確認する 📨",
       didNotReceiveEmail: "メールが届いていませんか？ メールを再送信 ✌️",
+      reloadApp: "アプリを再起動する 🔄",
     },
     newChatScreen: {
       barTitle: "新しいチャット",
