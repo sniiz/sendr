@@ -44,7 +44,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
 
             getDoc(doc(db, `users/${otherUserId}`)).then((user) => {
               setOtherUser(user.data());
-              console.log(user.data());
+              // console.log(user.data());
               setLoading(false);
             });
           } else {

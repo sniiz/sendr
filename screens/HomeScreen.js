@@ -1,4 +1,4 @@
-import { SimpleLineIcons } from "@expo/vector-icons";
+// import { SimpleLineIcons } from "@expo/vector-icons";
 import React, {
   useEffect,
   useLayoutEffect,
@@ -17,7 +17,6 @@ import {
   Linking,
   Platform,
 } from "react-native";
-import { Avatar } from "react-native-elements";
 import CustomListItem from "../components/CustomListItem";
 import {
   getAuth,
@@ -39,6 +38,7 @@ import {
 import UIText from "../components/LocalizedText";
 import { Popable } from "react-native-popable";
 import ActivityIndicator from "../components/ActivityIndicator";
+import * as Icon from "react-native-feather";
 
 const version = require("../assets/version-info.json");
 
@@ -101,7 +101,7 @@ const HomeScreen = ({ navigation }) => {
       },
       (error) => {
         setError(true);
-        console.log(error);
+        // console.log(error);
         setLoading(false);
       }
     );
@@ -120,7 +120,6 @@ const HomeScreen = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerStyle: { backgroundColor: "#0a0a0a" },
       headerTintColor: "#F2F7F2",
       headerTitleAlign: "center",
       headerLeft: () => (
@@ -170,12 +169,7 @@ const HomeScreen = ({ navigation }) => {
               marginLeft: 5,
             }}
           >
-            <SimpleLineIcons
-              name="social-github"
-              size={10}
-              color="#727178"
-              style={{ marginLeft: 10 }}
-            />{" "}
+            {/* <Icon.Github width={20} color="#727178" strokeWidth={2} /> */}
             {version["number"]}{" "}
             {/* <SimpleLineIcons name="share-alt" size={10} color="#727178" /> */}
           </Text>
@@ -210,7 +204,8 @@ const HomeScreen = ({ navigation }) => {
                 navigation.navigate("friends");
               }}
             >
-              <SimpleLineIcons name="people" size={18} color="#F2F7F2" />
+              {/* <SimpleLineIcons name="people" size={18} color="#F2F7F2" /> */}
+              <Icon.Users width={18} color="#F2F7F2" strokeWidth={2} />
             </TouchableOpacity>
           </Popable>
 
@@ -250,7 +245,8 @@ const HomeScreen = ({ navigation }) => {
               activeOpacity={0.5}
               onPress={() => navigation.navigate("settings")}
             >
-              <SimpleLineIcons name="settings" size={18} color="#F2F7F2" />
+              {/* <SimpleLineIcons name="settings" size={18} color="#F2F7F2" /> */}
+              <Icon.Settings width={18} color="#F2F7F2" strokeWidth={2} />
             </TouchableOpacity>
           </Popable>
         </View>
@@ -322,7 +318,7 @@ const HomeScreen = ({ navigation }) => {
           },
         ]}
       >
-        <ActivityIndicator size={20} color="#727178" />
+        <ActivityIndicator size={20} color="#f2F7F2" />
       </SafeAreaView>
     );
   }
@@ -349,6 +345,7 @@ const HomeScreen = ({ navigation }) => {
             borderColor: chatId ? "#F2F7F2" : "#727178",
             fontWeight: "700",
             color: "#F2F7F2",
+            outlineStyle: "none",
           }}
           placeholder={UIText["homeScreen"]["joinChat"]}
           placeholderTextColor="#727178"
@@ -368,6 +365,7 @@ const HomeScreen = ({ navigation }) => {
             style={{
               marginLeft: 10,
               borderColor: "#F2F7F2",
+              backgroundColor: "#F2F7F2",
               borderRadius: 5,
               borderWidth: 2,
               padding: 10,
@@ -376,9 +374,9 @@ const HomeScreen = ({ navigation }) => {
           >
             <Text
               style={{
-                color: "#F2F7F2",
+                color: "#0a0a0a",
                 fontSize: 15,
-                fontWeight: "bold",
+                fontWeight: "800",
               }}
             >
               {UIText["homeScreen"]["join"]}
@@ -404,7 +402,8 @@ const HomeScreen = ({ navigation }) => {
               marginLeft: 17,
             }}
           >
-            <SimpleLineIcons name="plus" size={30} color="#727178" />
+            {/* <SimpleLineIcons name="plus" size={30} color="#727178" /> */}
+            <Icon.PlusCircle width={30} color="#727178" strokeWidth={2} />
           </TouchableOpacity>
         </ScrollView>
       ) : Error ? (

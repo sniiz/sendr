@@ -5,10 +5,11 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Text,
+  TextInput,
   Platform,
 } from "react-native";
 import { Header } from "../components/CustomUi";
-import { Button, Input, Text } from "react-native-elements";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -23,6 +24,7 @@ import {
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 import ActivityIndicator from "../components/ActivityIndicator";
+import { deleteUser } from "firebase/auth";
 
 const version = require("../assets/version-info.json");
 const RegisterScreen = ({ navigation }) => {
@@ -30,6 +32,7 @@ const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [imgurl, setImgurl] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const [loading, setLoading] = useState(false);
   const db = getFirestore();
@@ -55,6 +58,12 @@ const RegisterScreen = ({ navigation }) => {
     setEmail(email.trim());
     setPassword(password.trim());
     setFullname(fullname.trim());
+    setPasswordConfirm(passwordConfirm.trim());
+    if (password !== passwordConfirm) {
+      alert(UIText["signUpScreen"]["passwordsDontMatch"]);
+      setLoading(false);
+      return;
+    }
     createUserWithEmailAndPassword(auth, email, password)
       .then((authUser) => {
         const user = authUser.user;
@@ -62,6 +71,7 @@ const RegisterScreen = ({ navigation }) => {
           query(collection(db, "users"), where("name", "==", fullname))
         ).then((users) => {
           if (users.docs.length > 0) {
+            deleteUser(user);
             setLoading(false);
             alert(UIText["signUpScreen"]["taken"]);
             return;
@@ -84,7 +94,7 @@ const RegisterScreen = ({ navigation }) => {
               })
               .catch((error) => {
                 setLoading(false);
-                console.log(error.message);
+                // console.log(error.message);
               });
           }
         });
@@ -118,7 +128,7 @@ const RegisterScreen = ({ navigation }) => {
       </Header>
 
       <View style={styles.inputContainer}>
-        <Input
+        <TextInput
           placeholder={UIText["signUpScreen"]["nicknamePlaceholder"]}
           autoFocus
           style={styles.input}
@@ -127,7 +137,7 @@ const RegisterScreen = ({ navigation }) => {
           value={fullname}
           onChangeText={(text) => setFullname(text)}
         />
-        <Input
+        <TextInput
           placeholder={UIText["signUpScreen"]["emailPlaceholder"]}
           style={styles.input}
           type="email"
@@ -135,7 +145,7 @@ const RegisterScreen = ({ navigation }) => {
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-        <Input
+        <TextInput
           placeholder={UIText["signUpScreen"]["passwordPlaceholder"]}
           secureTextEntry
           style={styles.input}
@@ -143,6 +153,15 @@ const RegisterScreen = ({ navigation }) => {
           placeholderTextColor="#727178"
           value={password}
           onChangeText={(text) => setPassword(text)}
+        />
+        <TextInput
+          placeholder={UIText.signUpScreen.confirmPasswordPlaceholder}
+          secureTextEntry
+          style={styles.input}
+          type="password"
+          placeholderTextColor="#727178"
+          value={passwordConfirm}
+          onChangeText={(text) => setPasswordConfirm(text)}
           onSubmitEditing={register}
         />
       </View>
@@ -161,7 +180,7 @@ const RegisterScreen = ({ navigation }) => {
       {loading ? (
         <ActivityIndicator
           size="large"
-          color="#727178"
+          color="#F2F7F2"
           style={{
             marginTop: -10,
             marginBottom: 20,
@@ -232,11 +251,14 @@ const styles = StyleSheet.create({
   input: {
     color: "#F2F7F2",
     borderWidth: 2,
+    outlineStyle: "none",
     borderColor: "#F2F7F2",
     padding: 10,
     marginTop: Platform.OS === "web" ? 0 : -10,
     textAlign: "left",
     fontWeight: "bold",
+    fontSize: 20,
+    marginBottom: 10,
   },
   container: {
     flex: 1,

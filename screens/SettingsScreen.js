@@ -53,7 +53,8 @@ import * as ImagePicker from "expo-image-picker";
 import uuid from "uuid";
 import { Popable } from "react-native-popable";
 // import Clipboard from "@react-native-clipboard/clipboard";
-import * as Clipboard from "expo-clipboard";
+import Clipboard from "expo-clipboard";
+import Theme from "../components/themes";
 
 const version = require("../assets/version-info.json");
 
@@ -114,6 +115,7 @@ function SettingsScreen({ navigation }) {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
+  const [theme, setTheme] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -128,6 +130,8 @@ function SettingsScreen({ navigation }) {
       headerTitleAlign: "center",
       title: UIText["settingsScreen"]["barTitle"],
     });
+    setTheme(Theme.get());
+    console.log(Theme.list());
   }, [navigation]);
 
   useEffect(() => {
@@ -224,7 +228,7 @@ function SettingsScreen({ navigation }) {
         resolve(xhr.response);
       };
       xhr.onerror = function (e) {
-        console.log(e);
+        // console.log(e);
         reject(new TypeError("Network request failed"));
       };
       xhr.responseType = "blob";
@@ -504,7 +508,7 @@ function SettingsScreen({ navigation }) {
         ></View>
         <TouchableOpacity
           onPress={() => {
-            Clipboard.setString(auth.currentUser.uid);
+            Clipboard.setStringAsync(auth.currentUser.uid);
           }}
           style={{
             borderRadius: 5,
@@ -539,7 +543,7 @@ function SettingsScreen({ navigation }) {
                   setLogOutCount(0);
                 })
                 .catch((error) => {
-                  console.log(error);
+                  // console.log(error);
                 });
             }
             asyncSleep(7).then(() => {
@@ -580,7 +584,7 @@ function SettingsScreen({ navigation }) {
                     setDeleteCount(0);
                   })
                   .catch((error) => {
-                    console.log(error);
+                    // console.log(error);
                   });
               });
             }
@@ -716,6 +720,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 0,
     textAlign: "left",
+    outlineStyle: "none",
     fontWeight: "bold",
   },
   version: {

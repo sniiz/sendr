@@ -1,4 +1,5 @@
 import { SimpleLineIcons } from "@expo/vector-icons";
+import * as Icon from "react-native-feather";
 import * as Localization from "expo-localization";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
@@ -25,7 +26,6 @@ import {
   orderBy,
   onAuthStateChanged,
   updateDoc,
-  sendEmailVerification,
   getDoc,
   query,
   serverTimestamp,
@@ -34,16 +34,16 @@ import {
   limit,
 } from "../firebase";
 import ActivityIndicator from "../components/ActivityIndicator";
-import isMobile from "react-device-detect";
-import { useKeyboard } from "@react-native-community/hooks";
 import { Popable } from "react-native-popable";
 // import Clipboard from "@react-native-clipboard/clipboard";
-import * as Clipboard from "expo-clipboard";
-import { TouchableHighlight } from "react-native-gesture-handler";
+// import * as Clipboard from "expo-clipboard";
+import Clipboard from "expo-clipboard";
 import Theme from "../components/themes";
+import Markdown from "react-native-markdown-renderer"; // TODO markdown messagess
 // import HyperLink from "react-native-hyperlink";
 
 const ChatScreen = ({ navigation, route }) => {
+  const messagesList = [];
   const [msgInput, setMsgInput] = useState("");
   const [author, setAuthor] = useState("");
   const [otherUser, setOtherUser] = useState("");
@@ -52,13 +52,13 @@ const ChatScreen = ({ navigation, route }) => {
   // const [messagesToLoad, setMessagesToLoad] = useState(20);
 
   const [messages, setMessages] = useState([]);
-  const [usersOnline, setUsersOnline] = useState([]);
+  // const [usersOnline, setUsersOnline] = useState([]);
   const [members, setMembers] = useState([]);
   const [devs, setDevs] = useState([]);
 
   const [sending, setSending] = useState(false);
-  const [emojiPicker, setEmojiPicker] = useState(false);
-  const [emailVerified, setEmailVerified] = useState(false);
+  // const [emojiPicker, setEmojiPicker] = useState(false);
+  // const [emailVerified, setEmailVerified] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [dm, setDm] = useState(false);
 
@@ -66,18 +66,20 @@ const ChatScreen = ({ navigation, route }) => {
   const [editingId, setEditingId] = useState(null);
   const flatListRef = useRef(null);
 
+  const [theme, setTheme] = useState(null);
+
   const leaveMessages = [
     "left :(",
     "left",
     "left the chat",
     "went away :(",
-    "left us",
+    "left. they will be missed :(",
     "left us :(",
   ];
 
   const j = "TVeHDZSeiGNVN2gYmvkDDv2uCaN2";
 
-  const kb = useKeyboard();
+  // const kb = useKeyboard();
 
   const auth = getAuth();
   const db = getFirestore();
@@ -90,16 +92,14 @@ const ChatScreen = ({ navigation, route }) => {
         // limit(messagesToLoad)
       ),
       (snapshot) => {
-        const messagesList = [];
         const docs = snapshot.docs;
-        for (let i = 0; i < docs.length; i++) {
+        docs.forEach((message) => {
           messagesList.push({
-            id: docs[i].id,
-            ...docs[i].data(),
+            id: message.id,
+            ...message.data(),
           });
-        }
+        });
         setMessages(messagesList);
-        // this.flatListRef.current.scrollToEnd();
       }
     );
     const unsubAuth = onAuthStateChanged(auth, (user) => {
@@ -107,6 +107,8 @@ const ChatScreen = ({ navigation, route }) => {
         navigation.replace("login");
       } else if (!user?.emailVerified) {
         navigation.replace("verifyEmail");
+      } else {
+        unsubAuth();
       }
     });
     getDoc(doc(db, `privateChats`, route.params.id)).then((chat) => {
@@ -148,16 +150,18 @@ const ChatScreen = ({ navigation, route }) => {
   }, [route]);
 
   useLayoutEffect(() => {
+    setTheme(Theme.get("midnight"));
+
     navigation.setOptions({
       title:
         route.params?.chatName !== null ? route.params.chatName : otherUser,
-      headerStyle: {
-        backgroundColor: "#0a0a0a",
-        borderBottomWidth: 2,
-        borderBottomColor: "#F2F7F2",
-      },
+      // headerStyle: {
+      //   backgroundColor: theme?.main,
+      //   borderBottomWidth: 2,
+      //   borderBottomColor: theme?.accent,
+      // },
       // headerTitleStyle: { color: "#F2F7F2", fontWeight: "bold" },
-      headerTintColor: "#F2F7F2",
+      // headerTintColor: theme?.accent,
       headerRight: () => {
         if (dm || !loaded) {
           return null;
@@ -186,10 +190,16 @@ const ChatScreen = ({ navigation, route }) => {
               <TouchableOpacity
                 activeOpacity={0.5}
                 onPress={() => {
-                  Clipboard.setString(route.params.id);
+                  Clipboard.setStringAsync(route.params.id);
                 }}
               >
-                <SimpleLineIcons name="docs" size={18} color="#F2F7F2" />
+                {/* <SimpleLineIcons name="docs" size={18} color="#F2F7F2" /> */}
+                <Icon.Copy
+                  stroke={theme?.accent}
+                  strokeWidth={2}
+                  width={18}
+                  height={18}
+                />
               </TouchableOpacity>
             </Popable>
             <Popable
@@ -236,33 +246,39 @@ const ChatScreen = ({ navigation, route }) => {
                   navigation.replace("home");
                 }}
               >
-                <SimpleLineIcons name="logout" size={18} color="#F2F7F2" />
+                {/* <SimpleLineIcons name="logout" size={18} color="#F2F7F2" /> */}
+                <Icon.LogOut
+                  stroke={theme?.accent}
+                  strokeWidth={2}
+                  width={18}
+                  height={18}
+                />
               </TouchableOpacity>
             </Popable>
           </View>
         );
       },
     });
-    var colors = Theme.get();
-    console.log(colors);
+    // var colors = Theme.get();
+    // console.log(colors);
   }, [navigation, dm, otherUser, loaded]);
   const sendMsg = () => {
     Keyboard.dismiss();
     setSending(true);
 
     if (msgInput.trim().length > 0 && msgInput.trim().length <= 1000) {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          id: Date.now().toString(),
-          timestamp: null,
-          message: msgInput.trim(),
-          displayName: auth.currentUser.displayName,
-          // email: auth.currentUser.email,
-          uid: auth.currentUser.uid,
-          // referenceId: repliedId,
-        },
-      ]);
+      // setMessages((prevMessages) => [
+      //   ...prevMessages,
+      //   {
+      //     id: "loading...",
+      //     timestamp: null,
+      //     message: msgInput.trim(),
+      //     displayName: auth.currentUser.displayName,
+      //     // email: auth.currentUser.email,
+      //     uid: auth.currentUser.uid,
+      //     // referenceId: repliedId,
+      //   },
+      // ]);
       setMsgInput("");
       setEditingId(null);
       addDoc(collection(db, `privateChats/${route.params.id}`, "messages"), {
@@ -276,6 +292,9 @@ const ChatScreen = ({ navigation, route }) => {
           auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
       })
         .then(() => {
+          // setMessages((prevMessages) =>
+          //   prevMessages.filter((message) => message.timestamp !== null)
+          // );
           setSending(false);
           setRepliedId(null);
         })
@@ -286,13 +305,23 @@ const ChatScreen = ({ navigation, route }) => {
     }
   };
 
+  const handlePfpClick = (item) => {
+    if (item.uid === auth.currentUser.uid) {
+      navigation.navigate("settings");
+    } else {
+      navigation.navigate("userInfo", {
+        uid: item.uid,
+      });
+    }
+  };
+
   const messageItem = ({ item }) => {
     const isUser =
       item.uid === auth?.currentUser?.uid ||
       item.email === auth?.currentUser?.email;
-    const main = isUser ? "#F2F7F2" : "#0a0a0a";
-    const second = isUser ? "#0a0a0a" : "#F2F7F2";
-    const third = isUser ? "#999" : "#555";
+    const main = isUser ? theme.accent : theme.main;
+    const second = isUser ? theme.main : theme.accent;
+    const third = isUser ? theme.separator1 : theme.separator2;
     if (item.message.trim() === "") {
       return null;
     }
@@ -307,32 +336,33 @@ const ChatScreen = ({ navigation, route }) => {
           backgroundColor: main,
         }}
       >
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={() => {
-            if (item.uid === auth.currentUser.uid) {
-              navigation.navigate("settings");
-            } else {
-              navigation.navigate("friends", {
-                friendId: item.uid,
-              });
-            }
+            handlePfpClick(item);
           }}
-        > */}
-        <Image
-          source={{
-            uri: item.photoURL || "https://i.imgur.com/dA9mtkT.png",
-          }}
-          style={{
-            width: 38,
-            height: 38,
-            borderRadius: 20,
-            margin: 5,
-            marginLeft: 10,
-          }}
-        />
-        {/* </TouchableOpacity> */}
+        >
+          <Image
+            source={{
+              uri: item.photoURL || "https://i.imgur.com/dA9mtkT.png",
+            }}
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: 20,
+              margin: 5,
+              marginLeft: 10,
+            }}
+          />
+        </TouchableOpacity>
         <View style={[styles.messageView, { backgroundColor: main }]}>
-          <Text style={[styles.senderName]}>
+          <Text
+            style={[
+              styles.senderName,
+              {
+                color: theme.middle,
+              },
+            ]}
+          >
             {item.displayName}
             {devs?.includes(item.uid) ? (
               <View
@@ -450,7 +480,7 @@ const ChatScreen = ({ navigation, route }) => {
       style={{
         fontSize: 15,
         fontWeight: "bold",
-        color: "#727178",
+        color: theme?.middle,
         textAlign: "center",
         marginVertical: 10,
       }}
@@ -473,13 +503,13 @@ const ChatScreen = ({ navigation, route }) => {
     return (
       <View
         style={{
-          backgroundColor: "#0a0a0a",
+          backgroundColor: theme?.main,
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <ActivityIndicator size={20} color="#727178" />
+        <ActivityIndicator size={20} color={theme?.accent} />
       </View>
     );
   }
@@ -487,7 +517,7 @@ const ChatScreen = ({ navigation, route }) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: "#0a0a0a",
+        backgroundColor: theme?.main,
       }}
     >
       <KeyboardAvoidingView
@@ -504,7 +534,7 @@ const ChatScreen = ({ navigation, route }) => {
                 keyExtractor={keyExtractor}
                 ListFooterComponent={createdHeader}
                 // ListHeaderComponent={createdHeader}
-                onContentSizeChange={scrollToBottom}
+                // onContentSizeChange={scrollToBottom}
                 // windowSize={21}
                 renderItem={messageItem}
                 inverted
@@ -516,14 +546,14 @@ const ChatScreen = ({ navigation, route }) => {
                   alignItems: "center",
                   justifyContent: "center",
                   flex: 1,
-                  backgroundColor: "#0a0a0a",
+                  backgroundColor: theme?.main,
                 }}
               >
                 <Text
                   style={{
                     fontSize: 15,
                     // fontWeight: "bold",
-                    color: "#727178",
+                    color: theme?.middle,
                     textAlign: "center",
                     marginVertical: 10,
                   }}
@@ -543,8 +573,14 @@ const ChatScreen = ({ navigation, route }) => {
               <TextInput
                 placeholder={UIText["chatScreen"]["inputPlaceholder"]}
                 textContentType="none"
-                placeholderTextColor="#727178"
-                style={styles.textInput}
+                placeholderTextColor={theme?.middle}
+                style={[
+                  styles.textInput,
+                  {
+                    color: theme?.accent,
+                    borderColor: theme?.accent,
+                  },
+                ]}
                 value={msgInput}
                 // autoFocus
                 onChangeText={(text) => setMsgInput(text)}
@@ -566,7 +602,7 @@ const ChatScreen = ({ navigation, route }) => {
                 >
                   <ActivityIndicator
                     size="small"
-                    color="#727178"
+                    color={theme?.accent}
                     style={{ marginLeft: 15 }}
                   />
                 </Popable>
@@ -588,11 +624,12 @@ const ChatScreen = ({ navigation, route }) => {
                     style={{ marginLeft: 15 }}
                     onPress={sendMsg}
                   >
-                    <SimpleLineIcons
+                    {/* <SimpleLineIcons
                       name="paper-plane"
                       size={20}
                       color="#F2F7F2"
-                    />
+                    /> */}
+                    <Icon.Send stroke={theme?.accent} width={20} />
                   </TouchableOpacity>
                 </Popable>
               ) : (
@@ -609,11 +646,18 @@ const ChatScreen = ({ navigation, route }) => {
                   style={{ opacity: 0.8 }}
                   position="top"
                 >
-                  <SimpleLineIcons
+                  {/* <SimpleLineIcons
                     name="paper-plane"
                     size={20}
                     color="#445"
                     style={{ marginLeft: 15 }}
+                  /> */}
+                  <Icon.Send
+                    stroke={theme?.middle}
+                    width={20}
+                    style={{
+                      marginLeft: 15,
+                    }}
                   />
                 </Popable>
               )}
@@ -653,6 +697,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#F2F7F2",
     borderWidth: 2,
+    outlineStyle: "none",
     borderColor: "#F2F7F2",
     fontWeight: "bold",
   },
