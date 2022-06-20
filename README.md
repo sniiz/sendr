@@ -9,6 +9,13 @@ sendr
 <!-- a minimalistic open source messenger -->
 </p>
 
+<h1 align='center' style='font-weight: 900;'><br/>screenshots</h1>
+<div align='center'>
+
+<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/home-screenshot.png?raw=truehttps://github.com/sniiz/sendr/blob/master/misc%20stuff/home-screenshot.png?raw=true" width="300" alt="home screenshot"/><img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/friends-screenshot.png?raw=truehttps://github.com/sniiz/sendr/blob/master/misc%20stuff/friends-screenshot.png?raw=true" width="300" alt="friends screenshot"/><img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/dm-screenshot.png?raw=truehttps://github.com/sniiz/sendr/blob/master/misc%20stuff/dm-screenshot.png?raw=true" width="300" alt="dm screenshot"/><img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/group-screenshot.png?raw=truehttps://github.com/sniiz/sendr/blob/master/misc%20stuff/group-screenshot.png?raw=true" width="300" alt="friends screenshot"/>
+
+</div>
+
 <h1 align="center" style="font-weight: 900;"><br/>roadmap</h1>
 
 - [ ] native apps (WIP)
