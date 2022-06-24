@@ -12,16 +12,17 @@ import {
   getFirestore,
   getDocs,
   collection,
-  addDoc,
-  setDoc,
+  // addDoc,
+  // setDoc,
   doc,
   query,
   where,
   getDoc,
+  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
 import React, { useEffect, useState, useLayoutEffect } from "react";
-import UIText from "../components/LocalizedText";
-import { SimpleLineIcons } from "@expo/vector-icons";
+// import UIText from "../components/LocalizedText";
+// import { SimpleLineIcons } from "@expo/vector-icons";
 import ActivityIndicator from "../components/ActivityIndicator";
 
 const UserInfoScreen = ({ navigation, route }) => {

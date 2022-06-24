@@ -1,7 +1,7 @@
 import React, {
   useLayoutEffect,
   useState,
-  componentDidMount,
+  // componentDidMount,
   useEffect,
 } from "react";
 import {
@@ -12,14 +12,14 @@ import {
   Image,
   // Input,
   ScrollView,
-  KeyboardAvoidingView,
-  Switch,
+  // KeyboardAvoidingView,
+  // Switch,
   Platform,
-  Linking,
+  // Linking,
   SafeAreaView,
 } from "react-native";
 import { useKeyboard } from "@react-native-community/hooks";
-import { Avatar, Input } from "react-native-elements";
+import { Input } from "react-native-elements";
 // import ImageCropPicker from "react-native-image-crop-picker";
 import UIText from "../components/LocalizedText";
 import {
@@ -32,8 +32,8 @@ import {
   reauthenticateWithCredential,
   getDocs,
   updateDoc,
-  getDoc,
-  setDoc,
+  // getDoc,
+  // setDoc,
   doc,
   collection,
   query,
@@ -46,11 +46,12 @@ import {
   uploadBytes,
   getDownloadURL,
   getStorage,
+  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
-import DropDownPicker from "react-native-dropdown-picker";
-import { SimpleLineIcons } from "@expo/vector-icons";
+// import DropDownPicker from "react-native-dropdown-picker";
+// import { SimpleLineIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import uuid from "uuid";
+// import uuid from "uuid";
 import { Popable } from "react-native-popable";
 // import Clipboard from "@react-native-clipboard/clipboard";
 import Clipboard from "expo-clipboard";

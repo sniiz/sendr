@@ -3,8 +3,8 @@ import {
   StyleSheet,
   View,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  TouchableHighlight,
+  // TouchableWithoutFeedback,
+  // TouchableHighlight,
   Platform,
   TextInput,
   TouchableOpacity,
@@ -15,14 +15,15 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   getFirestore,
-  collection,
-  addDoc,
+  // collection,
+  // addDoc,
   setDoc,
   getDoc,
   doc,
+  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
 import UIText from "../components/LocalizedText";
-import { Storage } from "expo-storage";
+// import { Storage } from "expo-storage";
 import ActivityIndicator from "../components/ActivityIndicator";
 
 // const logo = require("../assets/wip_logo_#F2F7F2.png");
