@@ -1,34 +1,35 @@
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import {
   StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
+  // KeyboardAvoidingView,
+  // Platform,
   View,
-  TouchableWithoutFeedback,
+  // TouchableWithoutFeedback,
   TouchableOpacity,
-  Image,
+  // Image,
   TextInput,
   FlatList,
   Text,
 } from "react-native";
 import {
-  collection,
-  addDoc,
+  // collection,
+  // addDoc,
   getFirestore,
   getAuth,
   doc,
   onSnapshot,
   // serverTimestamp,
-  query,
+  // query,
   updateDoc,
-  orderBy,
+  // orderBy,
   getDoc,
   setDoc,
-  where,
+  // where,
+  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
 import { Avatar } from "react-native-elements";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { Popable } from "react-native-popable";
+// import { Popable } from "react-native-popable";
 import UIText from "../components/LocalizedText";
 import ActivityIndicator from "../components/ActivityIndicator";
 

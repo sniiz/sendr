@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   useState,
-  componentWillUnmount,
+  // componentWillUnmount,
 } from "react";
 import {
   StyleSheet,
@@ -12,15 +12,15 @@ import {
   SafeAreaView,
   ScrollView,
   TextInput,
-  Alert,
+  // Alert,
   TouchableOpacity,
-  Linking,
+  // Linking,
   Platform,
 } from "react-native";
 import CustomListItem from "../components/CustomListItem";
 import {
   getAuth,
-  signOut,
+  // signOut,
   collection,
   orderBy,
   query,
@@ -33,8 +33,8 @@ import {
   addDoc,
   serverTimestamp,
   onSnapshot,
+  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
-// sorry firebase is gitignored im scared of .envs
 import UIText from "../components/LocalizedText";
 import { Popable } from "react-native-popable";
 import ActivityIndicator from "../components/ActivityIndicator";

@@ -1,4 +1,4 @@
-import { SimpleLineIcons } from "@expo/vector-icons";
+// import { SimpleLineIcons } from "@expo/vector-icons";
 import * as Icon from "react-native-feather";
 import * as Localization from "expo-localization";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -31,7 +31,9 @@ import {
   serverTimestamp,
   doc,
   deleteDoc,
-  limit,
+  // limit,
+  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
+  // if you think something terrible happened here, you are correct
 } from "../firebase";
 import ActivityIndicator from "../components/ActivityIndicator";
 import { Popable } from "react-native-popable";
@@ -39,7 +41,7 @@ import { Popable } from "react-native-popable";
 // import * as Clipboard from "expo-clipboard";
 import Clipboard from "expo-clipboard";
 import Theme from "../components/themes";
-import Markdown from "react-native-markdown-renderer"; // TODO markdown messagess
+// import Markdown from "react-native-markdown-renderer"; // TODO markdown messagess
 // import HyperLink from "react-native-hyperlink";
 
 const ChatScreen = ({ navigation, route }) => {

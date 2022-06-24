@@ -8,6 +8,7 @@ import {
   TextInput,
 } from "react-native";
 // import { CoolButton } from "../components/CustomUi";
+// import { collection, addDoc, getFirestore, getAuth } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 import { collection, addDoc, getFirestore, getAuth } from "../firebase";
 import UIText from "../components/LocalizedText";
 

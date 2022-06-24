@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import ActivityIndicator from "./ActivityIndicator";
 import { ListItem, Avatar } from "react-native-elements";
 import {
@@ -12,8 +12,9 @@ import {
   getDoc,
   doc,
   orderBy,
+  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
-import { UIText } from "../components/LocalizedText";
+// import { UIText } from "../components/LocalizedText";
 
 const CustomListItem = ({ id, chatName, enterChat }) => {
   const [chatMessages, setChatMessages] = useState([]);

@@ -4,7 +4,7 @@ import {
   View,
   KeyboardAvoidingView,
   TouchableOpacity,
-  TouchableWithoutFeedback,
+  // TouchableWithoutFeedback,
   Text,
   TextInput,
   Platform,
@@ -21,6 +21,7 @@ import {
   updateProfile,
   where,
   collection,
+  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
 import UIText from "../components/LocalizedText";
 import ActivityIndicator from "../components/ActivityIndicator";
