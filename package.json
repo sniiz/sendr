@@ -1,6 +1,6 @@
 {
   "name": "sendr",
-  "version": "0.2.1-wip",
+  "version": "0.2.1-wip-pride",
   "description": "a minimalist messaging app",
   "author": "sniiz",
   "license": "MIT",
@@ -13,10 +13,9 @@
     "eject": "expo eject",
     "preview": "node scripts/build.js",
     "deploy": "node scripts/build.js --production",
-    "firestore-cleanup": "node scripts/CLEANUP.js",
-    "commit": "node scripts/github.js",
     "reinstall": "rm -rf node_modules && yarn install",
-    "open": "open https://sendr-sniiz.vercel.app/"
+    "open": "open https://sendr-sniiz.vercel.app/",
+    "pull": "git pull -X theirs && yarn reinstall"
   },
   "build": {
     "appId": "com.sniiz.sendr"

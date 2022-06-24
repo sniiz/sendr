@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     width: "60%",
     // maxWidth: 300,
     // fontFamily: "regular",
-    outlineStyle: "none",
+    outlineStyle: "none", // doesn't work on ios for some reason - bummer
     fontWeight: "bold",
     marginBottom: 10,
     fontSize: 20,

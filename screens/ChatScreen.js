@@ -43,7 +43,6 @@ import Markdown from "react-native-markdown-renderer"; // TODO markdown messages
 // import HyperLink from "react-native-hyperlink";
 
 const ChatScreen = ({ navigation, route }) => {
-  const messagesList = [];
   const [msgInput, setMsgInput] = useState("");
   const [author, setAuthor] = useState("");
   const [otherUser, setOtherUser] = useState("");
@@ -93,6 +92,7 @@ const ChatScreen = ({ navigation, route }) => {
       ),
       (snapshot) => {
         const docs = snapshot.docs;
+        let messagesList = [];
         docs.forEach((message) => {
           messagesList.push({
             id: message.id,
@@ -150,7 +150,7 @@ const ChatScreen = ({ navigation, route }) => {
   }, [route]);
 
   useLayoutEffect(() => {
-    setTheme(Theme.get("midnight"));
+    setTheme(Theme.get("classic"));
 
     navigation.setOptions({
       title:
@@ -267,18 +267,18 @@ const ChatScreen = ({ navigation, route }) => {
     setSending(true);
 
     if (msgInput.trim().length > 0 && msgInput.trim().length <= 1000) {
-      // setMessages((prevMessages) => [
-      //   ...prevMessages,
-      //   {
-      //     id: "loading...",
-      //     timestamp: null,
-      //     message: msgInput.trim(),
-      //     displayName: auth.currentUser.displayName,
-      //     // email: auth.currentUser.email,
-      //     uid: auth.currentUser.uid,
-      //     // referenceId: repliedId,
-      //   },
-      // ]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          id: Date.now().toString(),
+          timestamp: null,
+          message: msgInput.trim(),
+          displayName: auth.currentUser.displayName,
+          // email: auth.currentUser.email,
+          uid: auth.currentUser.uid,
+          // referenceId: repliedId,
+        },
+      ]);
       setMsgInput("");
       setEditingId(null);
       addDoc(collection(db, `privateChats/${route.params.id}`, "messages"), {
@@ -292,9 +292,6 @@ const ChatScreen = ({ navigation, route }) => {
           auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
       })
         .then(() => {
-          // setMessages((prevMessages) =>
-          //   prevMessages.filter((message) => message.timestamp !== null)
-          // );
           setSending(false);
           setRepliedId(null);
         })
@@ -681,6 +678,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 15,
+    marginBottom: 10,
   },
   replyFooter: {
     flexDirection: "row",
@@ -697,7 +695,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#F2F7F2",
     borderWidth: 2,
-    outlineStyle: "none",
+    outlineStyle: "none", // doesn't work on ios for some reason - bummer
     borderColor: "#F2F7F2",
     fontWeight: "bold",
   },

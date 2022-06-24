@@ -17,7 +17,7 @@ import Theme from "./components/themes";
 // import { getFirestore, setDoc, updateDoc, doc, getAuth } from "./firebase";
 
 const Stack = createNativeStackNavigator();
-const theme = Theme.get("midnight");
+const theme = Theme.get("classic"); // too lazy to remove the themes so i guess theyll stay
 // console.log(theme);
 const globalScreenOptions = {
   headerStyle: {

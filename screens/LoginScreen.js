@@ -42,31 +42,31 @@ const LoginScreen = ({ navigation }) => {
   const db = getFirestore();
 
   useEffect(() => {
-    if (getAuth().currentUser) {
-      // console.log("LOGGED IN");
-      setIsLoggedIn(true);
-      getDoc(doc(db, `users`, user.uid)).then(
-        (userdoc) => {
-          if (!userdoc.exists()) {
-            setDoc(doc(db, "users", user.id), {
-              friendRequests: [],
-              friends: [],
-              name: user.displayName,
-              pfp: user.photoURL ? user.photoURL : null,
-              online: true,
-            }).finally(() => {
-              navigation.replace("home");
-            });
-          } else {
-            navigation.replace("home");
-          }
-        },
-        (error) => {
-          alert(error);
-          navigation.replace("home");
-        }
-      );
-    }
+    // if (getAuth().currentUser) {
+    //   // console.log("LOGGED IN");
+    //   setIsLoggedIn(true);
+    //   getDoc(doc(db, `users`, user.uid)).then(
+    //     (userdoc) => {
+    //       if (!userdoc.exists()) {
+    //         setDoc(doc(db, "users", user.id), {
+    //           friendRequests: [],
+    //           friends: [],
+    //           name: user.displayName,
+    //           pfp: user.photoURL ? user.photoURL : null,
+    //           online: true,
+    //         }).finally(() => {
+    //           navigation.replace("home");
+    //         });
+    //       } else {
+    //         navigation.replace("home");
+    //       }
+    //     },
+    //     (error) => {
+    //       alert(error);
+    //       navigation.replace("home");
+    //     }
+    //   );
+    // }
     const unsub = onAuthStateChanged(getAuth(), (user) => {
       if (user !== null) {
         // console.log(user);
@@ -84,7 +84,8 @@ const LoginScreen = ({ navigation }) => {
                 .then(() => {
                   navigation.replace("home");
                 })
-                .catch(() => {
+                .catch((e) => {
+                  alert(e);
                   navigation.replace("home");
                 });
             } else {
@@ -139,7 +140,7 @@ const LoginScreen = ({ navigation }) => {
         setLoggingIn(false);
         if (error.message.includes("password")) {
           setPasswordCorrect(false);
-        }
+        } else alert(error);
       });
   };
 
@@ -326,9 +327,9 @@ const styles = StyleSheet.create({
     marginTop: 0,
     textAlign: "left",
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: Platform.OS === "web" ? 10 : 20,
     fontSize: 20,
-    outlineStyle: "none",
+    outlineStyle: "none", // doesn't work on ios for some reason - bummer
   },
   container: {
     flex: 1,
