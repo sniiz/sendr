@@ -1,3 +1,4 @@
+// THIS IS VERY VERY EMBARASSING GARBAGE CODE PLS DONT LOOK AT IT THANK U 🙏
 const notifier = require("node-notifier");
 const exec = require("child_process").exec;
 const ora = require("ora");
@@ -23,7 +24,6 @@ var androidDone = false;
 var iosDone = false;
 
 const webOnly = true;
-// if you're wondering why is this hardcoded, we have some weird issue with native clients at the moment
 
 // web build
 const spinner = ora("running expo build:web...", {
