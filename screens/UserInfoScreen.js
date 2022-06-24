@@ -109,8 +109,6 @@ const UserInfoScreen = ({ navigation, route }) => {
             width: 300,
             height: 300,
             borderRadius: 50,
-            borderWidth: 2,
-            borderColor: "#F2F7F2",
           }}
         />
       </TouchableOpacity>
@@ -169,3 +167,12 @@ const UserInfoScreen = ({ navigation, route }) => {
 };
 
 export default UserInfoScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#0a0a0a",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

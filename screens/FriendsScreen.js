@@ -282,7 +282,7 @@ const FriendsScreen = ({ navigation, route }) => {
             borderColor:
               friendId && !friendId.includes("/") ? "#F2F7F2" : "#727178",
             // marginRight: 10,
-            outlineStyle: "none",
+            outlineStyle: "none", // doesn't work on ios for some reason - bummer
             color: "#F2F7F2",
             fontWeight: "700",
           }}
@@ -338,9 +338,10 @@ const FriendsScreen = ({ navigation, route }) => {
               color: "#727178",
               textAlign: "center",
               alignSelf: "center",
+              marginTop: "10%",
             }}
           >
-            {"\\_(-_-)_/\n\n"}
+            {":'(\n\n"}
             <Text style={{ fontSize: 15 }}>
               {UIText["friendsScreen"]["noFriends"]}
             </Text>

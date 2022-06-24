@@ -544,6 +544,7 @@ function SettingsScreen({ navigation }) {
                 })
                 .catch((error) => {
                   // console.log(error);
+                  alert(error);
                 });
             }
             asyncSleep(7).then(() => {
@@ -720,7 +721,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 0,
     textAlign: "left",
-    outlineStyle: "none",
+    outlineStyle: "none", // doesn't work on ios for some reason - bummer
     fontWeight: "bold",
   },
   version: {
