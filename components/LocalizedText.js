@@ -119,10 +119,15 @@ const uiText = {
       add: "add",
       noFriends: "nobody wants to be friends with you :(",
       evilRant:
-        "you think you're clever huh? you think you outsmarted the system huh? well NO YOU HAVEN'T!!! THE MIGHTY POTAT CAN SEE THROUGH YOUR FUTILE TRICKS AND SHENANIGANS!!!!! YOU CANNOT ADD YOURSELF AS A FRIEND!!!!!!!",
+        "you think you're clever huh? you think you've outsmarted the system huh? well NO YOU HAVEN'T!!! THE MIGHTY POTAT CAN SEE THROUGH YOUR FUTILE TRICKS AND SHENANIGANS!!!!! YOU CANNOT ADD YOURSELF AS A FRIEND!!!!!!!",
       sentAlready: "you've already sent a friend request to this user",
       doesntExist: "user does not exist or is a friend already",
       sent: "sent request to ",
+    },
+    userInfoScreen: {
+      barTitle: "USERNAME's profile",
+      gtc: "go to chat",
+      sfr: "send friend request",
     },
     errors: {
       title: "uh oh 😯",
@@ -258,6 +263,11 @@ const uiText = {
       doesntExist: "cet utilisateur n'existe pas ou est déjà un ami",
       sent: "demande d'ami envoyée à",
     },
+    userInfoScreen: {
+      barTitle: "USERNAME de profil",
+      gtc: "ouvrir le chat",
+      str: "envoyer un demande d'ami",
+    },
     errors: {
       title: "ah non 😯",
       body: "cette erreur est survenue",
@@ -387,6 +397,11 @@ const uiText = {
       sentAlready: "ya te enviamos una solicitud de amistad",
       doesntExist: "este usuario no existe o ya es un amigo",
       sent: "envió una solicitud de amistad a",
+    },
+    userInfoScreen: {
+      barTitle: "profil de USERNAME",
+      gtc: "ir al chat",
+      str: "enviar solicitud de amistad",
     },
     errors: {
       title: "ah no 😯",
@@ -519,6 +534,11 @@ const uiText = {
       doesntExist: "такого пользователя не существует или он уже друг",
       sent: "отправлено",
     },
+    userInfoScreen: {
+      barTitle: "профиль USERNAME",
+      gtc: "открыть чат",
+      str: "добавить в друзья",
+    },
     errors: {
       title: "о нет 😯",
       body: "какая досада, произошла ошибка:",
@@ -640,6 +660,11 @@ const uiText = {
       sentAlready: "你已经向该用户发送了一个好友请求",
       doesntExist: "用户不存在或已经是朋友",
       sent: "发送请求给",
+    },
+    userInfoScreen: {
+      barTitle: "USERNAME's profile", // TODO user info chinese
+      gtc: "go to chat",
+      sfr: "send friend request",
     },
     errors: {
       title: "哎呀 😯",
@@ -763,6 +788,11 @@ const uiText = {
       sentAlready: "このユーザーに既にフレンドリクエストを送信しています。",
       doesntExist: "ユーザーが存在しないか、すでにフレンドになっている",
       sent: "へのリクエストを送信しました",
+    },
+    userInfoScreen: {
+      barTitle: "USERNAME's profile", // TODO user info japanese
+      gtc: "go to chat",
+      sfr: "send friend request",
     },
     errors: {
       title: "ああ (つω`｡)",

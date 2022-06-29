@@ -1,7 +1,7 @@
-import { StyleSheet, AppState } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -9,7 +9,7 @@ import AddChatScreen from "./screens/AddChatScreen";
 import ChatScreen from "./screens/ChatScreen";
 import EmailVerifyScreen from "./screens/EmailVerifyScreen";
 import SettingsScreen from "./screens/SettingsScreen";
-import UIText from "./components/LocalizedText";
+// import UIText from "./components/LocalizedText";
 import FriendsScreen from "./screens/FriendsScreen";
 import UserInfoScreen from "./screens/UserInfoScreen";
 import * as Linking from "expo-linking";
