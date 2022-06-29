@@ -21,7 +21,7 @@ import {
   // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
 import React, { useEffect, useState, useLayoutEffect } from "react";
-// import UIText from "../components/LocalizedText";
+import UIText from "../components/LocalizedText";
 // import { SimpleLineIcons } from "@expo/vector-icons";
 import ActivityIndicator from "../components/ActivityIndicator";
 
@@ -70,7 +70,10 @@ const UserInfoScreen = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       // title: UIText["userInfoScreen"]["barTitle"],
-      title: `${user?.name}'${user?.name?.endsWith("s") ? "" : "s"} profile`,
+      title: UIText["userInfoScreen"]["barTitle"].replace(
+        "USERNAME",
+        user.name
+      ),
     });
   }, [navigation, user]);
   if (loading) {
@@ -160,7 +163,10 @@ const UserInfoScreen = ({ navigation, route }) => {
         }}
       >
         <Text style={{ fontSize: 20, fontWeight: "800", color: "#0a0a0a" }}>
-          {isFriend ? `go to chat` : "send friend request"}
+          {/* {isFriend ? `go to chat` : "send friend request"} */}
+          {isFriend
+            ? UIText["userInfoScreen"]["gtc"]
+            : UIText["userInfoScreen"]["sfr"]}
         </Text>
       </TouchableOpacity>
     </View>
