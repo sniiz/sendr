@@ -283,7 +283,7 @@ const FriendsScreen = ({ navigation, route }) => {
             borderColor:
               friendId && !friendId.includes("/") ? "#F2F7F2" : "#727178",
             // marginRight: 10,
-            outlineStyle: "none", // doesn't work on ios for some reason - bummer
+            // outlineStyle: "none", // doesn't work on ios for some reason - bummer
             color: "#F2F7F2",
             fontWeight: "700",
           }}

@@ -722,7 +722,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 0,
     textAlign: "left",
-    outlineStyle: "none", // doesn't work on ios for some reason - bummer
+    // outlineStyle: "none", // doesn't work on ios for some reason - bummer
     fontWeight: "bold",
   },
   version: {

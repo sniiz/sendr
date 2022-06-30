@@ -1,4 +1,6 @@
 // THIS IS VERY VERY EMBARASSING GARBAGE CODE PLS DONT LOOK AT IT THANK U 🙏
+// I COMMIT THIS BC I'M CONSTANTLY MOVING BETWEEN 2 DIFFERNT COMPUTERS AND I LIKE SYNCING SHIT WITH GIT
+// USB STICKS ARE EVIL CHANGE MY MIND
 (async () => {
   const notifier = require("node-notifier");
   const exec = require("child_process").exec;
