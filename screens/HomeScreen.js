@@ -345,7 +345,7 @@ const HomeScreen = ({ navigation }) => {
             borderColor: chatId ? "#F2F7F2" : "#727178",
             fontWeight: "700",
             color: "#F2F7F2",
-            outlineStyle: "none", // doesn't work on ios for some reason - bummer
+            // outlineStyle: "none", // doesn't work on ios for some reason - bummer
           }}
           placeholder={UIText["homeScreen"]["joinChat"]}
           placeholderTextColor="#727178"

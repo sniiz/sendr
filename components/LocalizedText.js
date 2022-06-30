@@ -6,6 +6,15 @@ import * as Localization from "expo-localization";
 
 // (0.1.9) nevermind
 // TODO better localization
+
+// TODO
+// idea: automatic translator with deepl - so like
+// keep the 6 languages manually translated
+// but then automatically translate to everything else at runtime
+// can you even do that
+// is this stupid?
+// i feel like it's kinda stupid
+// idk
 const uiText = {
   en: {
     loginScreen: {
@@ -662,9 +671,9 @@ const uiText = {
       sent: "发送请求给",
     },
     userInfoScreen: {
-      barTitle: "USERNAME's profile", // TODO user info chinese
-      gtc: "go to chat",
-      sfr: "send friend request",
+      barTitle: "USERNAME的简介",
+      gtc: "开放聊天室",
+      sfr: "发送好友请求",
     },
     errors: {
       title: "哎呀 😯",
@@ -790,9 +799,9 @@ const uiText = {
       sent: "へのリクエストを送信しました",
     },
     userInfoScreen: {
-      barTitle: "USERNAME's profile", // TODO user info japanese
-      gtc: "go to chat",
-      sfr: "send friend request",
+      barTitle: "USERNAMEのプロフィール",
+      gtc: "チャットへ行く",
+      sfr: "友達申請する",
     },
     errors: {
       title: "ああ (つω`｡)",
@@ -813,7 +822,13 @@ const uiText = {
 const supported = ["en", "es", "fr", "ru", "zh", "ja"]; // terrible way to do this but nothing else worked
 
 var lang = Localization.locale.substring(0, 2);
-if (!uiText.hasOwnProperty(lang)) {
+// if (!uiText.hasOwnProperty(lang)) {
+//   lang = "en";
+// }
+// (0.2.1)
+// doesnt work
+// reverted back to the "terrible" way of doing this
+if (!supported.includes(lang)) {
   lang = "en";
 }
 

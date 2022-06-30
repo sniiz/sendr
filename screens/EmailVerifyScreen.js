@@ -20,6 +20,9 @@ import React, { useEffect, useState, useLayoutEffect } from "react";
 
 const version = require("../assets/version-info.json");
 
+// TOOD make this screen look fancier
+// a reload button maybe?
+// how do u even do that with rn
 export default React.memo(function EmailVerifyScreen({ navigation, route }) {
   const auth = getAuth();
   const [sent, setSent] = useState(false);
