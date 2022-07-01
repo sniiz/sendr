@@ -252,12 +252,13 @@ const HomeScreen = ({ navigation }) => {
         </View>
       ),
       headerTitle: () => (
-        <Text style={{ fontSize: 18, fontWeight: "900" }}>
-          <Text style={{ color: "#ff595e" }}>s</Text>
+        <Text style={{ fontSize: 18, fontWeight: "900", color: "#f2f7f2" }}>
+          {/* <Text style={{ color: "#ff595e" }}>s</Text>
           <Text style={{ color: "#ffca3a" }}>e</Text>
           <Text style={{ color: "#8ac926" }}>n</Text>
           <Text style={{ color: "#1982c4" }}>d</Text>
-          <Text style={{ color: "#9273bd" }}>r</Text>
+          <Text style={{ color: "#9273bd" }}>r</Text> */}
+          sendr
         </Text>
       ),
     });

@@ -495,7 +495,7 @@ const ChatScreen = ({ navigation, route }) => {
     //   animated: true,
     //   offset: 0,
     // });
-    // flatListRef.current.scrollToEnd({ animated: true });
+    flatListRef.current.scrollToEnd({ animated: true });
   };
 
   if (!loaded) {
@@ -531,12 +531,12 @@ const ChatScreen = ({ navigation, route }) => {
                 data={messages}
                 ref={flatListRef}
                 keyExtractor={keyExtractor}
-                ListFooterComponent={createdHeader}
-                // ListHeaderComponent={createdHeader}
-                // onContentSizeChange={scrollToBottom}
-                // windowSize={21}
+                // ListFooterComponent={createdHeader}
+                ListHeaderComponent={createdHeader}
+                onContentSizeChange={scrollToBottom}
+                windowSize={41}
                 renderItem={messageItem}
-                inverted
+                // inverted
                 // onEndReached={loadMore}
               />
             ) : (
