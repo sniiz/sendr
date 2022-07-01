@@ -18,8 +18,8 @@
     });
   }
 
-  await runShell("mv ../firebaseMobile.js /tmp/firebaseMobile.js");
-  console.log("put away firebaseMobile.js");
+  // await runShell("mv ../firebaseMobile.js /tmp/firebaseMobile.js");
+  // console.log("put away firebaseMobile.js");
 
   const versionInfo = require("../assets/version-info.json");
 
@@ -170,5 +170,5 @@
   }
 })();
 
-runShell("mv /tmp/firebaseMobile.js ../firebaseMobile.js");
-console.log("put firebaseMobile.js back");
+// runShell("mv /tmp/firebaseMobile.js ../firebaseMobile.js");
+// console.log("put firebaseMobile.js back");
