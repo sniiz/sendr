@@ -68,7 +68,7 @@ const HomeScreen = ({ navigation }) => {
 
   // const signOutUser = () => {
   //     signOut(auth).then(() =>
-  //         navigation.replace(UIText["loginScreen"]["barTitle"])
+  //         navigation.replace(UIText.loginScreen.barTitle)
   //     );
   // };
 
@@ -77,9 +77,7 @@ const HomeScreen = ({ navigation }) => {
       navigation.replace("login");
       return;
     }
-    setNoChats(
-      UIText["homeScreen"][`lonely${Math.floor(Math.random() * 6) + 1}`]
-    );
+    setNoChats(UIText.homeScreen[`lonely${Math.floor(Math.random() * 6) + 1}`]);
     const unsubscribe = onSnapshot(
       query(
         collection(db, "privateChats"),
@@ -137,7 +135,7 @@ const HomeScreen = ({ navigation }) => {
             content={
               <View style={styles.popupContainer}>
                 <Text style={styles.popupText}>
-                  {UIText["homeScreen"]["github"]}
+                  {UIText.homeScreen.github}
                 </Text>
               </View>
             }
@@ -190,7 +188,7 @@ const HomeScreen = ({ navigation }) => {
             content={
               <View style={styles.popupContainer}>
                 <Text style={styles.popupText}>
-                  {UIText["homeScreen"]["friends"]}
+                  {UIText.homeScreen.friends}
                 </Text>
               </View>
             }
@@ -213,7 +211,7 @@ const HomeScreen = ({ navigation }) => {
             content={
               <View style={styles.popupContainer}>
                 <Text style={styles.popupText}>
-                  {UIText["homeScreen"]["newChat"]}
+                  {UIText.homeScreen.newChat}
                 </Text>
               </View>
             }
@@ -233,7 +231,7 @@ const HomeScreen = ({ navigation }) => {
             content={
               <View style={styles.popupContainer}>
                 <Text style={styles.popupText}>
-                  {UIText["homeScreen"]["settings"]}
+                  {UIText.homeScreen.settings}
                 </Text>
               </View>
             }
@@ -277,7 +275,7 @@ const HomeScreen = ({ navigation }) => {
     setChatId("");
     if (id.includes("/") || id.includes(" ")) {
       setChatId("");
-      alert(UIText["homeScreen"]["invalid"]);
+      alert(UIText.homeScreen.invalid);
       return;
     }
     getDoc(doc(db, "privateChats", id)).then((chatDoc) => {
@@ -303,7 +301,7 @@ const HomeScreen = ({ navigation }) => {
           });
         }
       } else {
-        alert(UIText["homeScreen"]["noChatFound"]);
+        alert(UIText.homeScreen.noChatFound);
       }
     });
   };
@@ -348,7 +346,7 @@ const HomeScreen = ({ navigation }) => {
             color: "#F2F7F2",
             // outlineStyle: "none", // doesn't work on ios for some reason - bummer
           }}
-          placeholder={UIText["homeScreen"]["joinChat"]}
+          placeholder={UIText.homeScreen.joinChat}
           placeholderTextColor="#727178"
           value={chatId}
           onChangeText={(text) => {
@@ -380,7 +378,7 @@ const HomeScreen = ({ navigation }) => {
                 fontWeight: "800",
               }}
             >
-              {UIText["homeScreen"]["join"]}
+              {UIText.homeScreen.join}
             </Text>
           </TouchableOpacity>
         ) : null}
@@ -427,7 +425,7 @@ const HomeScreen = ({ navigation }) => {
               fontStyle: "italic",
             }}
           >
-            {UIText["errors"]["noChats"]}
+            {UIText.errors.noChats}
           </Text>
         </View>
       ) : (
