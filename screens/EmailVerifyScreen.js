@@ -45,7 +45,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
       headerTintColor: "#F2F7F2",
       headerLeft: () => null,
       headerTitleAlign: "center",
-      title: UIText["emailVerifyScreen"]["barTitle"],
+      title: UIText.emailVerifyScreen.barTitle,
     });
   }, [navigation]);
 
@@ -59,7 +59,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
         {"\n"}✨ {version.name} ✨
       </Text>
       <Text style={styles.title}>
-        {UIText["emailVerifyScreen"]["title"]}{" "}
+        {UIText.emailVerifyScreen.title}{" "}
         <Text
           style={{
             color: "#727178",
@@ -100,12 +100,12 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
           ]}
         >
           {sent
-            ? UIText["emailVerifyScreen"]["sentButton"]
-            : UIText["emailVerifyScreen"]["verifyButton"]}
+            ? UIText.emailVerifyScreen.sentButton
+            : UIText.emailVerifyScreen.verifyButton}
         </Text>
       </TouchableOpacity>
       <Text style={styles.subtitle}>
-        {UIText["emailVerifyScreen"]["didNotReceiveEmail"]}
+        {UIText.emailVerifyScreen.didNotReceiveEmail}
       </Text>
       <TouchableOpacity
         onPress={() => {
@@ -132,7 +132,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
             },
           ]}
         >
-          {UIText["settingsScreen"]["logOutButton"]}
+          {UIText.settingsScreen.logOutButton}
         </Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>

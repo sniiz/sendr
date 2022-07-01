@@ -48,7 +48,7 @@ const FriendsScreen = ({ navigation, route }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: UIText["friendsScreen"]["barTitle"],
+      title: UIText.friendsScreen.barTitle,
     });
   }, [navigation]);
 
@@ -105,14 +105,14 @@ const FriendsScreen = ({ navigation, route }) => {
     // get it? noodles? hahhahahhahha
     // im a comedic genius
     if (id === auth.currentUser.uid) {
-      alert(UIText["friendsScreen"]["evilRant"]);
+      alert(UIText.friendsScreen.evilRant);
       setFriendId("");
       return;
     }
     getDoc(doc(db, "users", id)).then((friend) => {
       if (friend.exists() && !friends.includes(id)) {
         if (friend.data()?.friendRequests?.includes(auth.currentUser.uid)) {
-          alert(UIText["friendsScreen"]["sentAlready"]);
+          alert(UIText.friendsScreen.sentAlready);
           setFriendId("");
           return;
         }
@@ -122,12 +122,12 @@ const FriendsScreen = ({ navigation, route }) => {
             auth.currentUser.uid,
           ],
         }).then(() => {
-          alert(`${UIText["friendsScreen"]["sent"]} ${friend.data().name}`);
+          alert(`${UIText.friendsScreen.sent} ${friend.data().name}`);
           setFriendId("");
         });
       } else {
         setFriendId("");
-        alert(UIText["friendsScreen"]["doesntExist"]);
+        alert(UIText.friendsScreen.doesntExist);
       }
     });
   };
@@ -287,7 +287,7 @@ const FriendsScreen = ({ navigation, route }) => {
             color: "#F2F7F2",
             fontWeight: "700",
           }}
-          placeholder={UIText["friendsScreen"]["idInput"]}
+          placeholder={UIText.friendsScreen.idInput}
           placeholderTextColor="#727178"
           value={friendId}
           onChangeText={(text) => {
@@ -319,7 +319,7 @@ const FriendsScreen = ({ navigation, route }) => {
                 fontWeight: "800",
               }}
             >
-              {UIText["friendsScreen"]["add"]}
+              {UIText.friendsScreen.add}
             </Text>
           </TouchableOpacity>
         ) : null}
@@ -344,7 +344,7 @@ const FriendsScreen = ({ navigation, route }) => {
           >
             {":'(\n\n"}
             <Text style={{ fontSize: 15 }}>
-              {UIText["friendsScreen"]["noFriends"]}
+              {UIText.friendsScreen.noFriends}
             </Text>
           </Text>
         }

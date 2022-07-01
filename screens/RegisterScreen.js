@@ -43,7 +43,7 @@ const RegisterScreen = ({ navigation }) => {
       headerStyle: { backgroundColor: "#0a0a0a" },
       headerTintColor: "#F2F7F2",
       headerTitleAlign: "center",
-      title: UIText["signUpScreen"]["barTitle"],
+      title: UIText.signUpScreen.barTitle,
     });
   }, [navigation]);
 
@@ -61,7 +61,7 @@ const RegisterScreen = ({ navigation }) => {
     setFullname(fullname.trim());
     setPasswordConfirm(passwordConfirm.trim());
     if (password !== passwordConfirm) {
-      alert(UIText["signUpScreen"]["passwordsDontMatch"]);
+      alert(UIText.signUpScreen.passwordsDontMatch);
       setLoading(false);
       return;
     }
@@ -74,7 +74,7 @@ const RegisterScreen = ({ navigation }) => {
           if (users.docs.length > 0) {
             deleteUser(user);
             setLoading(false);
-            alert(UIText["signUpScreen"]["taken"]);
+            alert(UIText.signUpScreen.taken);
             return;
           } else {
             updateProfile(user, {
@@ -125,12 +125,12 @@ const RegisterScreen = ({ navigation }) => {
           marginBottom: 25,
         }}
       >
-        {UIText["signUpScreen"]["title"]}
+        {UIText.signUpScreen.title}
       </Header>
 
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder={UIText["signUpScreen"]["nicknamePlaceholder"]}
+          placeholder={UIText.signUpScreen.nicknamePlaceholder}
           autoFocus
           style={styles.input}
           type="text"
@@ -139,7 +139,7 @@ const RegisterScreen = ({ navigation }) => {
           onChangeText={(text) => setFullname(text)}
         />
         <TextInput
-          placeholder={UIText["signUpScreen"]["emailPlaceholder"]}
+          placeholder={UIText.signUpScreen.emailPlaceholder}
           style={styles.input}
           type="email"
           placeholderTextColor="#727178"
@@ -147,7 +147,7 @@ const RegisterScreen = ({ navigation }) => {
           onChangeText={(text) => setEmail(text)}
         />
         <TextInput
-          placeholder={UIText["signUpScreen"]["passwordPlaceholder"]}
+          placeholder={UIText.signUpScreen.passwordPlaceholder}
           secureTextEntry
           style={styles.input}
           type="password"
@@ -175,7 +175,7 @@ const RegisterScreen = ({ navigation }) => {
           },
         ]}
       >
-        {UIText["signUpScreen"]["disclaimer"]}
+        {UIText.signUpScreen.disclaimer}
       </Text>
 
       {loading ? (
@@ -202,9 +202,7 @@ const RegisterScreen = ({ navigation }) => {
             marginBottom: 20,
           }}
         >
-          <Text style={styles.login}>
-            {UIText["signUpScreen"]["signUpButton"]}
-          </Text>
+          <Text style={styles.login}>{UIText.signUpScreen.signUpButton}</Text>
         </TouchableOpacity>
       )}
       {/* <View style={{ height: 1 }} /> */}

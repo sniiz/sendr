@@ -129,7 +129,7 @@ function SettingsScreen({ navigation }) {
       headerStyle: { backgroundColor: "#0a0a0a" },
       headerTintColor: "#F2F7F2",
       headerTitleAlign: "center",
-      title: UIText["settingsScreen"]["barTitle"],
+      title: UIText.settingsScreen.barTitle,
     });
     setTheme(Theme.get());
     console.log(Theme.list());
@@ -174,7 +174,7 @@ function SettingsScreen({ navigation }) {
       ).then((users) => {
         // console.log(users);
         if (users.docs.length > 0) {
-          alert(UIText["signUpScreen"]["taken"]);
+          alert(UIText.signUpScreen.taken);
           reject("nickname taken");
         } else {
           updateProfile(getAuth().currentUser, {
@@ -247,7 +247,7 @@ function SettingsScreen({ navigation }) {
     if (Platform.OS !== "web") {
       ImagePicker.requestMediaLibraryPermissionsAsync().then(() => {
         if (status !== "granted") {
-          alert(UIText["signUpScreen"]["libraryPermsError"]);
+          alert(UIText.signUpScreen.libraryPermsError);
           return;
         }
         ImagePicker.launchImageLibraryAsync({
@@ -320,13 +320,13 @@ function SettingsScreen({ navigation }) {
           }}
         />
         <Text style={[styles.settingText, { marginLeft: 0, marginBottom: 10 }]}>
-          {UIText["settingsScreen"]["pfp"]}
+          {UIText.settingsScreen.pfp}
         </Text>
         <Popable
           content={
             <View style={styles.popupContainer}>
               <Text style={styles.popupText}>
-                {UIText["settingsScreen"]["pfpChange"]}
+                {UIText.settingsScreen.pfpChange}
               </Text>
             </View>
           }
@@ -384,7 +384,7 @@ function SettingsScreen({ navigation }) {
                 /> WIP*/}
         <View style={styles.inputContainer}>
           <Text style={styles.settingText}>
-            {UIText["settingsScreen"]["username"]}
+            {UIText.settingsScreen.username}
           </Text>
           <Input
             style={styles.input}
@@ -429,17 +429,17 @@ function SettingsScreen({ navigation }) {
             >
               <Text style={styles.settingHeader}>
                 {username === user.displayName
-                  ? `${UIText["settingsScreen"]["alreadyNamed"]} ${username}!`
-                  : `${UIText["settingsScreen"]["changeUsername"]} ${username} 🤙`}
+                  ? `${UIText.settingsScreen.alreadyNamed} ${username}!`
+                  : `${UIText.settingsScreen.changeUsername} ${username} 🤙`}
               </Text>
             </TouchableOpacity>
           ) : username?.length >= 15 ? (
             <Text style={styles.settingHeader}>
-              {username} {UIText["settingsScreen"]["usernameTooLong"]}
+              {username} {UIText.settingsScreen.usernameTooLong}
             </Text>
           ) : null}
           <Text style={styles.settingText}>
-            {UIText["settingsScreen"]["password"]}
+            {UIText.settingsScreen.password}
           </Text>
           <Input
             style={styles.input}
@@ -454,7 +454,7 @@ function SettingsScreen({ navigation }) {
           {password?.length >= 6 ? (
             <Input
               style={styles.input}
-              placeholder={UIText["settingsScreen"]["oldPassword"]}
+              placeholder={UIText.settingsScreen.oldPassword}
               secureTextEntry
               onChangeText={(text) => {
                 setOldPassword(text);
@@ -482,7 +482,7 @@ function SettingsScreen({ navigation }) {
                   })
                   .catch(() => {
                     setIsLoading(false);
-                    alert(UIText["settingsScreen"]["wrongPassword"]);
+                    alert(UIText.settingsScreen.wrongPassword);
                   });
               }}
               style={{
@@ -496,7 +496,7 @@ function SettingsScreen({ navigation }) {
               }}
             >
               <Text style={[styles.settingHeader]}>
-                {UIText["settingsScreen"]["changePassword"]} 🔐
+                {UIText.settingsScreen.changePassword} 🔐
               </Text>
             </TouchableOpacity>
           ) : null}
@@ -528,7 +528,7 @@ function SettingsScreen({ navigation }) {
               6,
             ]}
           >
-            {UIText["settingsScreen"]["copyUid"]} 📁
+            {UIText.settingsScreen.copyUid} 📁
           </Text>
         </TouchableOpacity>
         <View style={{ height: 20, width: "100%" }}></View>
@@ -561,12 +561,12 @@ function SettingsScreen({ navigation }) {
           }}
         >
           <Text style={styles.dangerButton}>
-            {UIText["settingsScreen"]["logOutButton"]}
+            {UIText.settingsScreen.logOutButton}
           </Text>
         </TouchableOpacity>
         {logOutCount === 1 ? (
           <Text style={styles.settingText}>
-            {UIText["settingsScreen"]["logOutConfirm"]}
+            {UIText.settingsScreen.logOutConfirm}
           </Text>
         ) : null}
 
@@ -603,12 +603,12 @@ function SettingsScreen({ navigation }) {
           }}
         >
           <Text style={styles.dangerButton}>
-            {UIText["settingsScreen"]["deleteAccountButton"]}
+            {UIText.settingsScreen.deleteAccountButton}
           </Text>
         </TouchableOpacity>
         {deleteCount === 1 ? (
           <Text style={styles.settingText}>
-            {UIText["settingsScreen"]["deleteAccountConfirm"]}
+            {UIText.settingsScreen.deleteAccountConfirm}
           </Text>
         ) : null}
         {/* <View

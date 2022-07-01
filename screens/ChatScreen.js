@@ -124,7 +124,7 @@ const ChatScreen = ({ navigation, route }) => {
             id: member,
             name:
               user?.data()?.name === auth.currentUser.displayName
-                ? UIText["chatScreen"]["you"]
+                ? UIText.chatScreen.you
                 : user?.data()?.name,
           });
           setMembers(members);
@@ -181,7 +181,7 @@ const ChatScreen = ({ navigation, route }) => {
               content={
                 <View style={styles.popupContainer}>
                   <Text style={styles.popupText}>
-                    {UIText["chatScreen"]["copyChatId"]}
+                    {UIText.chatScreen.copyChatId}
                   </Text>
                 </View>
               }
@@ -207,9 +207,7 @@ const ChatScreen = ({ navigation, route }) => {
             <Popable
               content={
                 <View style={styles.popupContainer}>
-                  <Text style={styles.popupText}>
-                    {UIText["chatScreen"]["exit"]}
-                  </Text>
+                  <Text style={styles.popupText}>{UIText.chatScreen.exit}</Text>
                 </View>
               }
               action="hover"
@@ -485,8 +483,8 @@ const ChatScreen = ({ navigation, route }) => {
       }}
     >
       {dm
-        ? `${otherUser}${UIText["chatScreen"]["friends"]}`
-        : `${author}${UIText["chatScreen"]["created"]}${chatName}`}
+        ? `${otherUser}${UIText.chatScreen.friends}`
+        : `${author}${UIText.chatScreen.created}${chatName}`}
     </Text>
   );
 
@@ -564,13 +562,13 @@ const ChatScreen = ({ navigation, route }) => {
                   >
                     {"|^・w・)/\n\n"}
                   </Text>
-                  {UIText["chatScreen"]["saysth"]}
+                  {UIText.chatScreen.saysth}
                 </Text>
               </View>
             )}
             <View style={styles.footer}>
               <TextInput
-                placeholder={UIText["chatScreen"]["inputPlaceholder"]}
+                placeholder={UIText.chatScreen.inputPlaceholder}
                 textContentType="none"
                 placeholderTextColor={theme?.middle}
                 style={[
@@ -591,7 +589,7 @@ const ChatScreen = ({ navigation, route }) => {
                   content={
                     <View style={styles.popupContainer}>
                       <Text style={styles.popupText}>
-                        {UIText["chatScreen"]["sending"]}
+                        {UIText.chatScreen.sending}
                       </Text>
                     </View>
                   }
@@ -610,7 +608,7 @@ const ChatScreen = ({ navigation, route }) => {
                   content={
                     <View style={styles.popupContainer}>
                       <Text style={styles.popupText}>
-                        {UIText["chatScreen"]["send"]}
+                        {UIText.chatScreen.send}
                       </Text>
                     </View>
                   }
@@ -636,8 +634,7 @@ const ChatScreen = ({ navigation, route }) => {
                   content={
                     <View style={styles.popupContainer}>
                       <Text style={styles.popupText}>
-                        {msgInput.length > 1000 &&
-                          UIText["chatScreen"]["tooLong"]}
+                        {msgInput.length > 1000 && UIText.chatScreen.tooLong}
                       </Text>
                     </View>
                   }

@@ -125,7 +125,7 @@ const LoginScreen = ({ navigation }) => {
       headerLeft: () => null,
       headerShown: false,
       headerTitleAlign: "center",
-      title: UIText["loginScreen"]["barTitle"],
+      title: UIText.loginScreen.barTitle,
     });
   }, [navigation]);
 
@@ -182,10 +182,10 @@ const LoginScreen = ({ navigation }) => {
           {version.number}
           {"\n"}✨ {version.name} ✨
         </Text>
-        <Text style={styles.title}>{UIText["loginScreen"]["title"]}</Text>
+        <Text style={styles.title}>{UIText.loginScreen.title}</Text>
         <View style={styles.inputContainer}>
           <TextInput
-            placeholder={UIText["loginScreen"]["emailPlaceholder"]}
+            placeholder={UIText.loginScreen.emailPlaceholder}
             style={styles.input}
             autoFocus
             type="email"
@@ -194,7 +194,7 @@ const LoginScreen = ({ navigation }) => {
             onChangeText={(text) => setEmail(text)}
           />
           <TextInput
-            placeholder={UIText["loginScreen"]["passwordPlaceholder"]}
+            placeholder={UIText.loginScreen.passwordPlaceholder}
             secureTextEntry
             type="password"
             style={[
@@ -209,7 +209,7 @@ const LoginScreen = ({ navigation }) => {
             onSubmitEditing={signIn}
           />
           <Text style={styles.errorText}>
-            {passwordCorrect ? "" : UIText["loginScreen"]["passwordError"]}
+            {passwordCorrect ? "" : UIText.loginScreen.passwordError}
           </Text>
         </View>
 
@@ -236,9 +236,7 @@ const LoginScreen = ({ navigation }) => {
                 marginTop: -10,
               }}
             >
-              <Text style={styles.login}>
-                {UIText["loginScreen"]["loginButton"]}
-              </Text>
+              <Text style={styles.login}>{UIText.loginScreen.loginButton}</Text>
             </TouchableOpacity>
           )}
           <TouchableOpacity
@@ -253,9 +251,7 @@ const LoginScreen = ({ navigation }) => {
               marginBottom: 20,
             }}
           >
-            <Text style={styles.noacc}>
-              {UIText["loginScreen"]["signUpButton"]}
-            </Text>
+            <Text style={styles.noacc}>{UIText.loginScreen.signUpButton}</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

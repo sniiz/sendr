@@ -39,7 +39,7 @@ const AddChatScreen = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: UIText["newChatScreen"]["barTitle"],
+      title: UIText.newChatScreen.barTitle,
       headerStyle: { backgroundColor: "#0a0a0a" },
       headerTintColor: "#F2F7F2",
       headerTitleAlign: "center",
@@ -52,7 +52,7 @@ const AddChatScreen = ({ navigation }) => {
       style={styles.container}
     >
       <TextInput
-        placeholder={UIText["newChatScreen"]["chatNamePlaceholder"]}
+        placeholder={UIText.newChatScreen.chatNamePlaceholder}
         value={chat}
         style={styles.input}
         placeholderTextColor="#727178"
@@ -79,7 +79,7 @@ const AddChatScreen = ({ navigation }) => {
             },
           ]}
         >
-          {UIText["newChatScreen"]["create"]} ✍️
+          {UIText.newChatScreen.create} ✍️
         </Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>

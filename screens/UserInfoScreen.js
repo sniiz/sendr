@@ -69,11 +69,8 @@ const UserInfoScreen = ({ navigation, route }) => {
   }, []);
   useLayoutEffect(() => {
     navigation.setOptions({
-      // title: UIText["userInfoScreen"]["barTitle"],
-      title: UIText["userInfoScreen"]["barTitle"].replace(
-        "USERNAME",
-        user.name
-      ),
+      // title: UIText.userInfoScreen.barTitle,
+      title: UIText.userInfoScreen.barTitle.replace("USERNAME", user.name),
     });
   }, [navigation, user]);
   if (loading) {
@@ -164,9 +161,7 @@ const UserInfoScreen = ({ navigation, route }) => {
       >
         <Text style={{ fontSize: 20, fontWeight: "800", color: "#0a0a0a" }}>
           {/* {isFriend ? `go to chat` : "send friend request"} */}
-          {isFriend
-            ? UIText["userInfoScreen"]["gtc"]
-            : UIText["userInfoScreen"]["sfr"]}
+          {isFriend ? UIText.userInfoScreen.gtc : UIText.userInfoScreen.sfr}
         </Text>
       </TouchableOpacity>
     </View>
