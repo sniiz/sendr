@@ -191,8 +191,8 @@ const ChatScreen = ({ navigation, route }) => {
             >
               <TouchableOpacity
                 activeOpacity={0.5}
-                onPress={() => {
-                  Clipboard.setStringAsync(route.params.id);
+                onPress={async () => {
+                  await Clipboard.setStringAsync(route.params.id);
                 }}
               >
                 {/* <SimpleLineIcons name="docs" size={18} color="#F2F7F2" /> */}
