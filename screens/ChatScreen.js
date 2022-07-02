@@ -89,7 +89,7 @@ const ChatScreen = ({ navigation, route }) => {
     const unsubscribe = onSnapshot(
       query(
         collection(db, `privateChats/${route.params.id}`, "messages"),
-        orderBy("timestamp", "desc")
+        orderBy("timestamp", "asc")
         // limit(messagesToLoad)
       ),
       (snapshot) => {
