@@ -30,7 +30,7 @@
     "@tauri-apps/api": "^1.0.0-rc.6",
     "browserslist": "^4.20.2",
     "expo": "~44.0.0",
-    "expo-clipboard": "~3.0.1",
+    "expo-clipboard": "~2.1.0",
     "expo-device": "~4.1.0",
     "expo-document-picker": "~10.1.3",
     "expo-fast-image": "^1.1.3",
