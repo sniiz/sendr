@@ -508,8 +508,8 @@ function SettingsScreen({ navigation }) {
           }}
         ></View>
         <TouchableOpacity
-          onPress={() => {
-            Clipboard.setStringAsync(auth.currentUser.uid);
+          onPress={async () => {
+            await Clipboard.setStringAsync(auth.currentUser.uid);
           }}
           style={{
             borderRadius: 5,
