@@ -529,13 +529,10 @@ const ChatScreen = ({ navigation, route }) => {
                 data={messages}
                 ref={flatListRef}
                 keyExtractor={keyExtractor}
-                // ListFooterComponent={createdHeader}
                 ListHeaderComponent={createdHeader}
                 onContentSizeChange={scrollToBottom}
                 windowSize={41}
                 renderItem={messageItem}
-                // inverted
-                // onEndReached={loadMore}
               />
             ) : (
               <View
@@ -579,7 +576,6 @@ const ChatScreen = ({ navigation, route }) => {
                   },
                 ]}
                 value={msgInput}
-                // autoFocus
                 onChangeText={(text) => setMsgInput(text)}
                 onSubmitEditing={sendMsg}
                 autoCorrect={false}
