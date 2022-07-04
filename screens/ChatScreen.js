@@ -431,7 +431,7 @@ const ChatScreen = ({ navigation, route }) => {
                     fontSize: 7,
                   }}
                 >
-                  lord sex
+                  BDAY GIRL :D
                 </Text>
               </View>
             ) : null}
