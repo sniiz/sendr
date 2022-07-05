@@ -295,7 +295,7 @@ const ChatScreen = ({ navigation, route }) => {
           setSending(false);
           setRepliedId(null);
         })
-        .catch((error) => alert(error.message));
+        .catch((error) => alert(error));
     } else {
       setSending(false);
       setRepliedId(null);

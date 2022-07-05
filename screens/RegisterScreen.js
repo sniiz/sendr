@@ -32,7 +32,6 @@ const RegisterScreen = ({ navigation }) => {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [imgurl, setImgurl] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -86,7 +85,7 @@ const RegisterScreen = ({ navigation }) => {
                   friendRequests: [],
                   friends: [],
                   name: fullname,
-                  pfp: imgurl ? imgurl : null,
+                  pfp: null,
                   online: true,
                 }).then(() => {
                   setLoading(false);
@@ -101,8 +100,8 @@ const RegisterScreen = ({ navigation }) => {
         });
       })
       .catch((error) => {
+        alert(error);
         setLoading(false);
-        alert(error.message);
       });
   };
 
