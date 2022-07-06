@@ -30,4 +30,5 @@ site/
 node_modules_BACKUP/
 .vercel
 firebaseMobile.js
-# firebase.js
+firebase.js
+.env 

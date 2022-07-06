@@ -29,6 +29,7 @@
     "@react-navigation/native-stack": "^6.5.0",
     "@tauri-apps/api": "^1.0.0-rc.6",
     "browserslist": "^4.20.2",
+    "dotenv": "^16.0.1",
     "expo": "~44.0.0",
     "expo-clipboard": "~2.1.0",
     "expo-device": "~4.1.0",

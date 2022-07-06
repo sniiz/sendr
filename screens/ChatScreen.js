@@ -431,7 +431,7 @@ const ChatScreen = ({ navigation, route }) => {
                     fontSize: 7,
                   }}
                 >
-                  BDAY GIRL :D
+                  lord sex
                 </Text>
               </View>
             ) : null}
@@ -557,7 +557,7 @@ const ChatScreen = ({ navigation, route }) => {
                       fontSize: 30,
                     }}
                   >
-                    {"|^・w・)/\n\n"}
+                    {"ヽ(・∀・)ﾉ\n\n"}
                   </Text>
                   {UIText.chatScreen.saysth}
                 </Text>
@@ -690,7 +690,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#F2F7F2",
     borderWidth: 2,
-    // outlineStyle: "none", // doesn't work on ios for some reason - bummer
+    outlineStyle: "none", // doesn't work on ios for some reason - bummer
     borderColor: "#F2F7F2",
     fontWeight: "bold",
   },

@@ -179,7 +179,7 @@ const RegisterScreen = ({ navigation }) => {
 
       {loading ? (
         <ActivityIndicator
-          size="large"
+          size={10}
           color="#F2F7F2"
           style={{
             marginTop: -10,
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   input: {
     color: "#F2F7F2",
     borderWidth: 2,
-    // outlineStyle: "none", // doesn't work on ios for some reason - bummer
+    outlineStyle: "none", // doesn't work on ios for some reason - bummer
     borderColor: "#F2F7F2",
     padding: 10,
     marginTop: Platform.OS === "web" ? 0 : -10,

@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: Platform.OS === "web" ? 10 : 20,
     fontSize: 20,
-    // outlineStyle: "none", // doesn't work on ios for some reason - bummer
+    outlineStyle: "none", // doesn't work on ios for some reason - bummer
   },
   container: {
     flex: 1,

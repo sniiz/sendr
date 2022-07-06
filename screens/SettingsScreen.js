@@ -664,6 +664,8 @@ function SettingsScreen({ navigation }) {
           {"\n"}verified: {auth?.currentUser?.emailVerified?.toString()}
           {"\n\n"}
           user id: {auth?.currentUser?.uid}
+          {"\n"}
+          client: {Platform.OS}
         </Text>
         <View
           style={{
@@ -722,7 +724,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 0,
     textAlign: "left",
-    // outlineStyle: "none", // doesn't work on ios for some reason - bummer
+    outlineStyle: "none", // doesn't work on ios for some reason - bummer
     fontWeight: "bold",
   },
   version: {
