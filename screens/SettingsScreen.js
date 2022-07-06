@@ -316,7 +316,7 @@ function SettingsScreen({ navigation }) {
         <View
           style={{
             width: "100%",
-            height: "10%",
+            height: "5%",
           }}
         />
         <Text style={[styles.settingText, { marginLeft: 0, marginBottom: 10 }]}>
@@ -659,17 +659,16 @@ function SettingsScreen({ navigation }) {
           }}
         ></View>
         <Text style={styles.version}>
-          info:{"\n"} app version: {version.number} · ✨ {version.name} ✨
+          info:{"\n"} app version: {version.number} · ✨ {version.name} ✨{"\n"}
+          client: {Platform.OS}
           {"\n\n"}email: {auth?.currentUser?.email}
           {"\n"}verified: {auth?.currentUser?.emailVerified?.toString()}
           {"\n\n"}
           user id: {auth?.currentUser?.uid}
-          {"\n"}
-          client: {Platform.OS}
         </Text>
         <View
           style={{
-            height: "5%",
+            height: "7%",
             width: "100%",
           }}
         ></View>
@@ -724,7 +723,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 0,
     textAlign: "left",
-    outlineStyle: "none", // doesn't work on ios for some reason - bummer
+    // outlineStyle: "none", // doesn't work on ios for some reason - bummer
     fontWeight: "bold",
   },
   version: {
