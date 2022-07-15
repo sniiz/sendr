@@ -98,7 +98,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
         >
           {loading ? (
             <ActivityIndicator size={10} color="#727178" />
-          ) : chatMessages[0]?.displayName && chatMessages[0]?.message ? (
+          ) : chatMessages[0]?.displayName ? (
             `${
               chatMessages[0]?.displayName === getAuth().currentUser.displayName
                 ? "you"

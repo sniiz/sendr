@@ -31,6 +31,8 @@ import {
   serverTimestamp,
   doc,
   deleteDoc,
+  uploadBytes,
+  getDownloadURL,
   // limit,
   // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
   // if you think something terrible happened here, you are correct
@@ -79,8 +81,6 @@ const ChatScreen = ({ navigation, route }) => {
   ];
 
   const j = "TVeHDZSeiGNVN2gYmvkDDv2uCaN2";
-
-  // const kb = useKeyboard();
 
   const auth = getAuth();
   const db = getFirestore();
@@ -233,6 +233,7 @@ const ChatScreen = ({ navigation, route }) => {
                       displayName: "potat",
                       uid: "POTATOCAT",
                       photoURL: "https://i.imgur.com/UFr7hCb.png",
+                      attachments: [],
                     }
                   );
                   updateDoc(doc(db, `privateChats`, route.params.id), {
@@ -259,23 +260,55 @@ const ChatScreen = ({ navigation, route }) => {
         );
       },
     });
-    // var colors = Theme.get();
-    // console.log(colors);
   }, [navigation, dm, otherUser, loaded]);
+
   const sendMsg = () => {
     Keyboard.dismiss();
     setSending(true);
 
     if (msgInput.trim().length > 0 && msgInput.trim().length <= 1000) {
+      // find links in message
+      const links =
+        msgInput.match(
+          /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
+        ) || [];
+      // get the images only
+      links = links.filter(
+        (link) =>
+          link.endsWith(".png") ||
+          link.endsWith(".jpg") ||
+          link.endsWith(".gif")
+      );
+      // 5 images per message max
+      if (links.length >= 5) {
+        links = links.slice(0, 5);
+      }
+      let messageText = msgInput.trim().replace(
+        // all items in images
+        new RegExp(links.join("|"), "gi"),
+        "(image attachment)"
+      );
+      let images = [];
+      for (let image in links) {
+        // get image sizes
+        Image.getSize(image, (width, height) => {
+          images.push({
+            url: image,
+            width: width,
+            height: height,
+          });
+        });
+      }
       setMessages((prevMessages) => [
         ...prevMessages,
         {
           id: Date.now().toString(),
           timestamp: null,
-          message: msgInput.trim(),
+          message: messageText,
           displayName: auth.currentUser.displayName,
           // email: auth.currentUser.email,
           uid: auth.currentUser.uid,
+          attachments: images,
           // referenceId: repliedId,
         },
       ]);
@@ -283,13 +316,14 @@ const ChatScreen = ({ navigation, route }) => {
       setEditingId(null);
       addDoc(collection(db, `privateChats/${route.params.id}`, "messages"), {
         timestamp: serverTimestamp(),
-        message: msgInput.trim(),
+        message: messageText,
         displayName: auth.currentUser.displayName,
         // email: auth.currentUser.email,
         uid: auth.currentUser.uid,
         // referenceId: repliedId,
         photoURL:
           auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
+        attachments: images,
       })
         .then(() => {
           setSending(false);
@@ -459,6 +493,19 @@ const ChatScreen = ({ navigation, route }) => {
           >
             {item.message}
           </Text>
+          {item.attachments?.length > 0
+            ? item.attachments?.map((att) => {
+                return (
+                  <Image
+                    source={{
+                      uri: att.url,
+                      width: att.width,
+                    }}
+                    style={{}}
+                  />
+                );
+              })
+            : null}
         </View>
       </View>
     );
