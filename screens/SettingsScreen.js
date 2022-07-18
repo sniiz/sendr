@@ -54,7 +54,7 @@ import * as ImagePicker from "expo-image-picker";
 // import uuid from "uuid";
 import { Popable } from "react-native-popable";
 // import Clipboard from "@react-native-clipboard/clipboard";
-import Clipboard from "expo-clipboard";
+import { setString } from "expo-clipboard";
 import Theme from "../components/themes";
 
 const version = require("../assets/version-info.json");
@@ -111,16 +111,17 @@ function SettingsScreen({ navigation }) {
   // WIP
 
   const [pfp, setPfp] = useState(null);
-  const [uploading, setUploading] = useState(false);
+  // const [uploading, setUploading] = useState(false);
 
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
+  const [deletePassword, setDeletePassword] = useState("");
   const [theme, setTheme] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const kb = useKeyboard();
+  // const kb = useKeyboard();
   const auth = getAuth();
   const user = auth.currentUser;
 
@@ -471,7 +472,6 @@ function SettingsScreen({ navigation }) {
                   user.email,
                   oldPassword
                 );
-
                 reauthenticateWithCredential(user, credential)
                   .then(() => {
                     updatePassword(user, password).then(() => {
@@ -508,8 +508,8 @@ function SettingsScreen({ navigation }) {
           }}
         ></View>
         <TouchableOpacity
-          onPress={async () => {
-            await Clipboard.setStringAsync(auth.currentUser.uid);
+          onPress={() => {
+            setString(auth.currentUser.uid);
           }}
           style={{
             borderRadius: 5,
@@ -573,24 +573,10 @@ function SettingsScreen({ navigation }) {
         <View style={{ height: 20, width: "100%" }}></View>
 
         <TouchableOpacity
-          onPress={() => {
+          onPress={async () => {
             setDeleteCount(deleteCount + 1);
             setLogOutCount(0);
-            if (deleteCount === 1) {
-              deleteDoc(
-                doc(getFirestore(), `users/${auth.currentUser.uid}`)
-              ).then(() => {
-                deleteUser(user)
-                  .then(() => {
-                    navigation.replace("login");
-                    setDeleteCount(0);
-                  })
-                  .catch((error) => {
-                    // console.log(error);
-                  });
-              });
-            }
-            asyncSleep(7).then(() => {
+            asyncSleep(120).then(() => {
               setDeleteCount(0);
             });
           }}
@@ -606,10 +592,33 @@ function SettingsScreen({ navigation }) {
             {UIText.settingsScreen.deleteAccountButton}
           </Text>
         </TouchableOpacity>
-        {deleteCount === 1 ? (
-          <Text style={styles.settingText}>
-            {UIText.settingsScreen.deleteAccountConfirm}
-          </Text>
+        {deleteCount ? (
+          <>
+            <Input
+              style={styles.input}
+              placeholder={UIText.loginScreen.passwordPlaceholder}
+              secureTextEntry
+              onChangeText={(text) => {
+                setDeletePassword(text);
+              }}
+              placeholderTextColor="#727178"
+              value={deletePassword}
+            />
+            <TouchableOpacity
+              onPress={() => {}}
+              style={{
+                borderRadius: 5,
+                borderWidth: 2,
+                borderColor: "#ff5555",
+                padding: 10,
+                paddingHorizontal: 20,
+              }}
+            >
+              <Text style={styles.dangerButton}>
+                {UIText.settingsScreen.deleteAccountButton}
+              </Text>
+            </TouchableOpacity>
+          </>
         ) : null}
         {/* <View
                         style={{

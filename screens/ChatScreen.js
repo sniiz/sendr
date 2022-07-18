@@ -41,7 +41,7 @@ import ActivityIndicator from "../components/ActivityIndicator";
 import { Popable } from "react-native-popable";
 // import Clipboard from "@react-native-clipboard/clipboard";
 // import * as Clipboard from "expo-clipboard";
-import Clipboard from "expo-clipboard";
+import { setString } from "expo-clipboard";
 import Theme from "../components/themes";
 // import Markdown from "react-native-markdown-renderer"; // TODO markdown messagess
 // import HyperLink from "react-native-hyperlink";
@@ -191,8 +191,8 @@ const ChatScreen = ({ navigation, route }) => {
             >
               <TouchableOpacity
                 activeOpacity={0.5}
-                onPress={async () => {
-                  await Clipboard.setStringAsync(route.params.id);
+                onPress={() => {
+                  setString(route.params.id);
                 }}
               >
                 {/* <SimpleLineIcons name="docs" size={18} color="#F2F7F2" /> */}
@@ -499,9 +499,13 @@ const ChatScreen = ({ navigation, route }) => {
                   <Image
                     source={{
                       uri: att.url,
-                      width: att.width,
                     }}
-                    style={{}}
+                    style={{
+                      width: att.width,
+                      height: att.height,
+                      margin: 5,
+                      marginLeft: 10,
+                    }}
                   />
                 );
               })

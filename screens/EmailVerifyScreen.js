@@ -27,17 +27,38 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
   const auth = getAuth();
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [tooLong, setTooLong] = useState(false);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(getAuth(), (user) => {
-      if (user && user?.emailVerified) {
+      if (user?.emailVerified) {
         navigation.replace("home");
       }
     });
+    const tooLongTimer = setTimeout(() => {
+      setTooLong(true);
+    }, 20000);
     return () => {
       unsub();
+      clearTimeout(tooLongTimer);
     };
   }, [navigation]);
+
+  useEffect(() => {
+    const verifyChecker = setInterval(() => {
+      console.log("checking");
+      if (getAuth().currentUser?.emailVerified) {
+        console.log("verified, redirecting");
+        navigation.replace("home");
+        clearInterval(verifyChecker);
+      } else {
+        console.log("not verified");
+      }
+    }, 2000);
+    return () => {
+      clearInterval(verifyChecker);
+    };
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -81,10 +102,10 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
             });
         }}
         style={{
-          // backgroundColor: "#F2F7F2",
+          backgroundColor: sent ? "#0a0a0a" : "#F2F7F2",
           borderRadius: 5,
           borderWidth: 2,
-          borderColor: "#F2F7F2",
+          borderColor: sent ? "#F2F7F2" : "#727178",
           padding: 10,
           paddingHorizontal: 20,
           marginBottom: 10,
@@ -96,6 +117,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
             styles.text,
             {
               fontWeight: "800",
+              color: sent ? "#F2F7F2" : "#0a0a0a",
             },
           ]}
         >
@@ -117,6 +139,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
           borderRadius: 5,
           borderWidth: 2,
           borderColor: "#f55",
+          backgroundColor: tooLong ? "#f55" : "#0a0a0a",
           marginTop: 100,
           padding: 10,
           paddingHorizontal: 20,
@@ -126,7 +149,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
           style={[
             styles.text,
             {
-              color: "#f55",
+              color: tooLong ? "#0a0a0a" : "#f55",
               // marginTop: 20,
               fontWeight: "800",
             },
