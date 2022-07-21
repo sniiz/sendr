@@ -103,6 +103,8 @@ const uiText = {
       friends: " and you became friends!",
       copyChatId: "copy chat id",
       exit: "exit chat",
+      badWord:
+        "your message contains language some people may find offensive. sendr is not a place for hate speech. press the send button again if you're absolutely sure you're not offending anyone.",
     },
     homeScreen: {
       lonely1: "so lonely here...",
@@ -242,6 +244,8 @@ const uiText = {
       friends: " et toi êtes devenus amis!",
       copyChatId: "copier l'id du chat",
       exit: "quitter le chat",
+      badWord:
+        "ton message contient des expressions que certaines personnes peuvent trouver offensantes. sendr n'est pas un endroit pour les discours haineux. appuie à nouveau sur le bouton d'envoi si tu es absolument sûr de ne pas offenser quelqu'un. ",
     },
     homeScreen: {
       lonely1: "ça y est tout seul ici...",
@@ -378,6 +382,8 @@ const uiText = {
       friends: " y tú han sido amigos!",
       copyChatId: "copiar id del chat",
       exit: "salir del chat",
+      badWord:
+        "tu mensaje contiene expresiones que algunas personas pueden considerar ofensivas. sendr no es un lugar para discursos de odio. vuelve a pulsar el botón de enviar si estás absolutamente seguro de no ofender a nadie.",
     },
     homeScreen: {
       lonely1: "se está tan solo aquí...",
@@ -515,6 +521,8 @@ const uiText = {
       friends: " и ты теперь друзья!",
       copyChatId: "скопировать id чата",
       exit: "покинуть чат",
+      badWord:
+        "наша система нашла в твоем сообщении слово, которое некоторые люди могут посчитать обидным. sendr хочет предоставить одинаково приятный опыт каждому пользователю, так что пожалуйста постарайся не обижать других людей. если ты уверены что это не обидно, нажми на кнопку отправить еще раз.",
     },
     homeScreen: {
       lonely1: "здесь так одиноко...",
@@ -641,6 +649,8 @@ const uiText = {
       friends: "跟你成为了朋友",
       copyChatId: "复制聊天ID到剪贴板",
       exit: "退出聊天",
+      badWord:
+        "你的信息中有一些人可能认为是冒犯性的词语。sendr不是一个发表仇恨言论的地方。如果你绝对确定你没有冒犯任何人，请再次按下发送按钮。",
     },
     homeScreen: {
       lonely1: "这里什么都没有...",
@@ -769,6 +779,8 @@ const uiText = {
       friends: "と友達になったんだね",
       copyChatId: "チャットIDをコピーする",
       exit: "チャットを終了する",
+      badWord:
+        "あなたのメッセージには、一部の人が不快に思う言葉が含まれています。セーンダはヘイトスピーチのための場所ではありません。不快な思いをさせていないことを確認した上で、もう一度送信ボタンを押してください。",
     },
     homeScreen: {
       lonely1: "ここに何もない...",

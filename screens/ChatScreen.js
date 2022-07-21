@@ -15,6 +15,7 @@ import {
   TouchableWithoutFeedback,
   Image,
   View,
+  ScrollView,
 } from "react-native";
 import UIText from "../components/LocalizedText";
 import {
@@ -64,10 +65,13 @@ const ChatScreen = ({ navigation, route }) => {
   // const [emailVerified, setEmailVerified] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [dm, setDm] = useState(false);
+  const [msgBlocked, setMsgBlocked] = useState(false);
 
   const [repliedId, setRepliedId] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const flatListRef = useRef(null);
+
+  const [badWords, setBadWords] = useState([]);
 
   const [theme, setTheme] = useState(null);
 
@@ -85,7 +89,8 @@ const ChatScreen = ({ navigation, route }) => {
   const auth = getAuth();
   const db = getFirestore();
 
-  useEffect(() => {
+  useEffect(async () => {
+    // TODO get rid of callback hell
     const unsubscribe = onSnapshot(
       query(
         collection(db, `privateChats/${route.params.id}`, "messages"),
@@ -145,6 +150,9 @@ const ChatScreen = ({ navigation, route }) => {
       setDevs(devs.data().ids);
       // console.log(devs.data().ids);
     });
+    setBadWords(
+      (await getDoc(doc(db, "otherStuff", "badWords"))).data().badWords
+    );
     return () => {
       unsubscribe();
       unsubAuth();
@@ -268,36 +276,53 @@ const ChatScreen = ({ navigation, route }) => {
 
     if (msgInput.trim().length > 0 && msgInput.trim().length <= 1000) {
       // find links in message
-      const links =
+      let messageText = msgInput.trim();
+      if (!msgBlocked) {
+        for (let word of badWords) {
+          if (messageText.includes(word)) {
+            alert(UIText.chatScreen.badWord);
+            setMsgBlocked(true);
+            setSending(false);
+            return;
+          }
+        }
+      }
+
+      setMsgBlocked(false);
+
+      let links =
         msgInput.match(
           /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
         ) || [];
-      // get the images only
-      links = links.filter(
-        (link) =>
-          link.endsWith(".png") ||
-          link.endsWith(".jpg") ||
-          link.endsWith(".gif")
-      );
-      // 5 images per message max
-      if (links.length >= 5) {
-        links = links.slice(0, 5);
-      }
-      let messageText = msgInput.trim().replace(
-        // all items in images
-        new RegExp(links.join("|"), "gi"),
-        "(image attachment)"
-      );
       let images = [];
-      for (let image in links) {
-        // get image sizes
-        Image.getSize(image, (width, height) => {
-          images.push({
-            url: image,
-            width: width,
-            height: height,
+
+      // get the images only
+      if (links.length > 0) {
+        links = links.filter(
+          (link) =>
+            link.endsWith(".png") ||
+            link.endsWith(".jpg") ||
+            link.endsWith(".gif")
+        );
+        // 5 images per message max
+        if (links.length >= 5) {
+          links = links.slice(0, 5);
+        }
+        messageText = messageText.replace(
+          // all items in images
+          new RegExp(links.join("|"), "gi"),
+          "(image attachment)"
+        );
+        for (let image of links) {
+          // get image sizes
+          Image.getSize(image, (w, h) => {
+            images.push({
+              url: image,
+              width: w,
+              height: h,
+            });
           });
-        });
+        }
       }
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -308,26 +333,30 @@ const ChatScreen = ({ navigation, route }) => {
           displayName: auth.currentUser.displayName,
           // email: auth.currentUser.email,
           uid: auth.currentUser.uid,
-          attachments: images,
+          // attachments: images,
           // referenceId: repliedId,
         },
       ]);
       setMsgInput("");
       setEditingId(null);
+      console.log(images);
       addDoc(collection(db, `privateChats/${route.params.id}`, "messages"), {
         timestamp: serverTimestamp(),
         message: messageText,
         displayName: auth.currentUser.displayName,
-        // email: auth.currentUser.email,
         uid: auth.currentUser.uid,
-        // referenceId: repliedId,
         photoURL:
           auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
-        attachments: images,
+        attachments: images.map((image) => ({
+          url: image.url,
+          width: image.width,
+          height: image.height,
+        })), // im desperate
       })
         .then(() => {
           setSending(false);
           setRepliedId(null);
+          console.log(images);
         })
         .catch((error) => alert(error));
     } else {
@@ -493,23 +522,22 @@ const ChatScreen = ({ navigation, route }) => {
           >
             {item.message}
           </Text>
-          {item.attachments?.length > 0
-            ? item.attachments?.map((att) => {
-                return (
-                  <Image
-                    source={{
-                      uri: att.url,
-                    }}
-                    style={{
-                      width: att.width,
-                      height: att.height,
-                      margin: 5,
-                      marginLeft: 10,
-                    }}
-                  />
-                );
-              })
-            : null}
+          {item.attachments ? (
+            <ScrollView horizontal={true}>
+              {item.attachments.map((image) => (
+                <Image
+                  key={image.url}
+                  source={{ uri: image.url }}
+                  style={{
+                    width: image.width / 2,
+                    height: image.height / 2,
+                    margin: 5,
+                    marginLeft: 10,
+                  }}
+                />
+              ))}
+            </ScrollView>
+          ) : null}
         </View>
       </View>
     );
