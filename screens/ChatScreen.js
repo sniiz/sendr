@@ -279,7 +279,7 @@ const ChatScreen = ({ navigation, route }) => {
       let messageText = msgInput.trim();
       if (!msgBlocked) {
         for (let word of badWords) {
-          if (messageText.includes(word)) {
+          if (messageText.toLowerCase().includes(word)) {
             alert(UIText.chatScreen.badWord);
             setMsgBlocked(true);
             setSending(false);
@@ -655,7 +655,10 @@ const ChatScreen = ({ navigation, route }) => {
                   },
                 ]}
                 value={msgInput}
-                onChangeText={(text) => setMsgInput(text)}
+                onChangeText={(text) => {
+                  setMsgInput(text);
+                  setMsgBlocked(false);
+                }}
                 onSubmitEditing={sendMsg}
                 autoCorrect={false}
               />
