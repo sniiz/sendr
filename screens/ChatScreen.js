@@ -333,7 +333,7 @@ const ChatScreen = ({ navigation, route }) => {
           displayName: auth.currentUser.displayName,
           // email: auth.currentUser.email,
           uid: auth.currentUser.uid,
-          // attachments: images,
+          attachments: images,
           // referenceId: repliedId,
         },
       ]);
@@ -343,15 +343,11 @@ const ChatScreen = ({ navigation, route }) => {
       addDoc(collection(db, `privateChats/${route.params.id}`, "messages"), {
         timestamp: serverTimestamp(),
         message: messageText,
+        attachments: images,
         displayName: auth.currentUser.displayName,
         uid: auth.currentUser.uid,
         photoURL:
           auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
-        attachments: images.map((image) => ({
-          url: image.url,
-          width: image.width,
-          height: image.height,
-        })), // im desperate
       })
         .then(() => {
           setSending(false);
@@ -523,7 +519,12 @@ const ChatScreen = ({ navigation, route }) => {
             {item.message}
           </Text>
           {item.attachments ? (
-            <ScrollView horizontal={true}>
+            <ScrollView
+              horizontal
+              style={{
+                maxWidth: "90%",
+              }}
+            >
               {item.attachments.map((image) => (
                 <Image
                   key={image.url}
@@ -531,8 +532,11 @@ const ChatScreen = ({ navigation, route }) => {
                   style={{
                     width: image.width / 2,
                     height: image.height / 2,
+                    maxHeight: 400,
+                    maxWidth: 400,
+                    aspectRatio: image.width / image.height,
                     margin: 5,
-                    marginLeft: 10,
+                    // marginLeft: 10,
                   }}
                 />
               ))}

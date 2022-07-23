@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>image from sendr</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  </head>
+  <body>
+    <div
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0a0a0a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <img id="image" />
+      <script>
+        /*global $ */
+        $(document).ready(() => {
+          var imageAddress =
+            location.search.slice(1) ||
+            "https://firebasestorage.googleapis.com/v0/b/sniiz-sendr.appspot.com/o/ezgif-4-d962febe5f.gif?alt=media&token=d4a1d1b0-3b47-4dcd-8bf3-43fe8e57cee9";
+          var image = new Image();
+          image.onload = function () {
+            // $("img.image").css({
+            //   width: image.width,
+            //   height: image.height,
+            // });
+            $("img#image").css({
+              "max-height": "100%",
+              "max-width": "100%",
+              "aspect-ratio": image.width / image.height,
+            });
+            // $("img.image").attr("src", imageAddress);
+            $("img#image").attr("src", imageAddress);
+          };
+          image.src = imageAddress;
+          console.log(imageAddress);
+        });
+      </script>
+    </div>
+  </body>
+</html>
