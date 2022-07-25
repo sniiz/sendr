@@ -62,8 +62,8 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerStyle: { backgroundColor: "#0a0a0a" },
-      headerTintColor: "#F2F7F2",
+      headerStyle: { backgroundColor: "#0a0a0b" },
+      headerTintColor: "#f4f5f5",
       headerLeft: () => null,
       headerTitleAlign: "center",
       title: UIText.emailVerifyScreen.barTitle,
@@ -102,10 +102,10 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
             });
         }}
         style={{
-          backgroundColor: sent ? "#0a0a0a" : "#F2F7F2",
+          backgroundColor: sent ? "#0a0a0b" : "#f4f5f5",
           borderRadius: 5,
           borderWidth: 2,
-          borderColor: sent ? "#F2F7F2" : "#727178",
+          borderColor: sent ? "#f4f5f5" : "#727178",
           padding: 10,
           paddingHorizontal: 20,
           marginBottom: 10,
@@ -117,7 +117,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
             styles.text,
             {
               fontWeight: "800",
-              color: sent ? "#F2F7F2" : "#0a0a0a",
+              color: sent ? "#f4f5f5" : "#0a0a0b",
             },
           ]}
         >
@@ -139,7 +139,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
           borderRadius: 5,
           borderWidth: 2,
           borderColor: "#f55",
-          backgroundColor: tooLong ? "#f55" : "#0a0a0a",
+          backgroundColor: tooLong ? "#f55" : "#0a0a0b",
           marginTop: 100,
           padding: 10,
           paddingHorizontal: 20,
@@ -149,7 +149,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
           style={[
             styles.text,
             {
-              color: tooLong ? "#0a0a0a" : "#f55",
+              color: tooLong ? "#0a0a0b" : "#f55",
               // marginTop: 20,
               fontWeight: "800",
             },
@@ -165,7 +165,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 100,
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   title: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     fontSize: 40,
     marginBottom: 20,
     fontWeight: "800",
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     overflow: "visible",
   },
   text: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     fontSize: 20,
     textAlign: "center",
     // fontFamily: Platform.OS === "ios" ? "Arial" : "monospace",

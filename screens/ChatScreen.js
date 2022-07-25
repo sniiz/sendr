@@ -170,7 +170,7 @@ const ChatScreen = ({ navigation, route }) => {
       //   borderBottomWidth: 2,
       //   borderBottomColor: theme?.accent,
       // },
-      // headerTitleStyle: { color: "#F2F7F2", fontWeight: "bold" },
+      // headerTitleStyle: { color: "#f4f5f5", fontWeight: "bold" },
       // headerTintColor: theme?.accent,
       headerRight: () => {
         if (dm || !loaded) {
@@ -203,7 +203,7 @@ const ChatScreen = ({ navigation, route }) => {
                   setString(route.params.id);
                 }}
               >
-                {/* <SimpleLineIcons name="docs" size={18} color="#F2F7F2" /> */}
+                {/* <SimpleLineIcons name="docs" size={18} color="#f4f5f5" /> */}
                 <Icon.Copy
                   stroke={theme?.accent}
                   strokeWidth={2}
@@ -255,7 +255,7 @@ const ChatScreen = ({ navigation, route }) => {
                   navigation.replace("home");
                 }}
               >
-                {/* <SimpleLineIcons name="logout" size={18} color="#F2F7F2" /> */}
+                {/* <SimpleLineIcons name="logout" size={18} color="#f4f5f5" /> */}
                 <Icon.LogOut
                   stroke={theme?.accent}
                   strokeWidth={2}
@@ -435,7 +435,7 @@ const ChatScreen = ({ navigation, route }) => {
               >
                 <Text
                   style={{
-                    color: "#F2F7F2",
+                    color: "#f4f5f5",
                     fontWeight: "800",
                     fontSize: 7,
                   }}
@@ -460,7 +460,7 @@ const ChatScreen = ({ navigation, route }) => {
               >
                 <Text
                   style={{
-                    color: "#F2F7F2",
+                    color: "#f4f5f5",
                     fontWeight: "800",
                     fontSize: 7,
                   }}
@@ -485,7 +485,7 @@ const ChatScreen = ({ navigation, route }) => {
               >
                 <Text
                   style={{
-                    color: "#0a0a0a",
+                    color: "#0a0a0b",
                     fontWeight: "800",
                     fontSize: 7,
                   }}
@@ -706,7 +706,7 @@ const ChatScreen = ({ navigation, route }) => {
                     {/* <SimpleLineIcons
                       name="paper-plane"
                       size={20}
-                      color="#F2F7F2"
+                      color="#f4f5f5"
                     /> */}
                     <Icon.Send stroke={theme?.accent} width={20} />
                   </TouchableOpacity>
@@ -774,10 +774,10 @@ const styles = StyleSheet.create({
     flex: 1,
     // marginRight: 15,
     padding: 10,
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     borderWidth: 2,
     // outlineStyle: "none", // doesn't work on ios for some reason - bummer
-    borderColor: "#F2F7F2",
+    borderColor: "#f4f5f5",
     fontWeight: "bold",
   },
   receiverText: {
@@ -792,14 +792,14 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   sendbutton: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     marginLeft: 15,
   },
   messageView: {
     padding: 15,
     paddingLeft: 5,
     // paddingLeft: 30,
-    // backgroundColor: "#F2F7F2",
+    // backgroundColor: "#f4f5f5",
     alignItems: "flex-start",
     width: "100%",
     marginVertical: 0,
@@ -818,12 +818,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
     paddingVertical: "10%",
     paddingHorizontal: "5%",
   },
   popupText: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     fontSize: 12,
     fontWeight: "bold",
   },

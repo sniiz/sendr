@@ -188,7 +188,7 @@ const FriendsScreen = ({ navigation, route }) => {
           }}
         >
           {loading ? (
-            <ActivityIndicator size={30} color="#F2F7F2" />
+            <ActivityIndicator size={30} color="#f4f5f5" />
           ) : (
             <>
               {/* <Popable
@@ -204,7 +204,7 @@ const FriendsScreen = ({ navigation, route }) => {
               <TouchableOpacity
                 onPress={() => confirmFriend(item.id, item.name)}
               >
-                <SimpleLineIcons name="check" size={30} color="#0a0a0a" />
+                <SimpleLineIcons name="check" size={30} color="#0a0a0b" />
               </TouchableOpacity>
               {/* </Popable>
               <Popable
@@ -223,7 +223,7 @@ const FriendsScreen = ({ navigation, route }) => {
                   marginHorizontal: 10,
                 }}
               >
-                <SimpleLineIcons name="close" size={30} color="#0a0a0a" />
+                <SimpleLineIcons name="close" size={30} color="#0a0a0b" />
               </TouchableOpacity>
               {/* </Popable> */}
             </>
@@ -246,7 +246,7 @@ const FriendsScreen = ({ navigation, route }) => {
       >
         <ActivityIndicator
           size={20}
-          color="#F2F7F2"
+          color="#f4f5f5"
           style={{
             alignSelf: "center",
           }}
@@ -260,7 +260,7 @@ const FriendsScreen = ({ navigation, route }) => {
         flex: 1,
         // alignItems: "center",
         // justifyContent: "center",
-        backgroundColor: "#0a0a0a",
+        backgroundColor: "#0a0a0b",
       }}
     >
       <View
@@ -281,10 +281,10 @@ const FriendsScreen = ({ navigation, route }) => {
             padding: 10,
             borderWidth: 2,
             borderColor:
-              friendId && !friendId.includes("/") ? "#F2F7F2" : "#727178",
+              friendId && !friendId.includes("/") ? "#f4f5f5" : "#727178",
             // marginRight: 10,
             // outlineStyle: "none", // doesn't work on ios for some reason - bummer
-            color: "#F2F7F2",
+            color: "#f4f5f5",
             fontWeight: "700",
           }}
           placeholder={UIText.friendsScreen.idInput}
@@ -304,8 +304,8 @@ const FriendsScreen = ({ navigation, route }) => {
             }}
             style={{
               marginLeft: 10,
-              borderColor: "#F2F7F2",
-              backgroundColor: "#F2F7F2",
+              borderColor: "#f4f5f5",
+              backgroundColor: "#f4f5f5",
               borderRadius: 5,
               borderWidth: 2,
               padding: 10,
@@ -314,7 +314,7 @@ const FriendsScreen = ({ navigation, route }) => {
           >
             <Text
               style={{
-                color: "#0a0a0a",
+                color: "#0a0a0b",
                 fontSize: 15,
                 fontWeight: "800",
               }}
@@ -358,13 +358,13 @@ export default React.memo(FriendsScreen);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
   },
   friendContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: "#F2F7F2",
+    backgroundColor: "#f4f5f5",
     padding: 5,
     // paddingVertical: 15,
     width: "100%",
@@ -375,17 +375,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginLeft: 10,
-    color: "#0a0a0a",
+    color: "#0a0a0b",
   },
   popupContainer: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
     padding: 10,
     flex: 1,
   },
   popupText: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     fontSize: 12,
     fontWeight: "bold",
   },

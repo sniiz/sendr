@@ -76,7 +76,7 @@ const UserInfoScreen = ({ navigation, route }) => {
   if (loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size={20} color="#F2F7F2" />
+        <ActivityIndicator size={20} color="#f4f5f5" />
       </View>
     );
   }
@@ -84,7 +84,7 @@ const UserInfoScreen = ({ navigation, route }) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: "#0a0a0a",
+        backgroundColor: "#0a0a0b",
         alignItems: "center",
         justifyContent: "center",
       }}
@@ -119,7 +119,7 @@ const UserInfoScreen = ({ navigation, route }) => {
           fontWeight: "800",
           marginBottom: 10,
           textAlign: "center",
-          color: "#F2F7F2",
+          color: "#f4f5f5",
         }}
       >
         {user.name}
@@ -128,7 +128,7 @@ const UserInfoScreen = ({ navigation, route }) => {
         style={{
           fontSize: 20,
           fontWeight: "bold",
-          color: "#F2F7F2",
+          color: "#f4f5f5",
           textAlign: "center",
         }}
       >
@@ -138,7 +138,7 @@ const UserInfoScreen = ({ navigation, route }) => {
       </Text> */}
       <TouchableOpacity
         style={{
-          backgroundColor: "#F2F7F2",
+          backgroundColor: "#f4f5f5",
           padding: 10,
           paddingHorizontal: 15,
           borderRadius: 10,
@@ -159,7 +159,7 @@ const UserInfoScreen = ({ navigation, route }) => {
           }
         }}
       >
-        <Text style={{ fontSize: 20, fontWeight: "800", color: "#0a0a0a" }}>
+        <Text style={{ fontSize: 20, fontWeight: "800", color: "#0a0a0b" }}>
           {/* {isFriend ? `go to chat` : "send friend request"} */}
           {isFriend ? UIText.userInfoScreen.gtc : UIText.userInfoScreen.sfr}
         </Text>
@@ -173,7 +173,7 @@ export default UserInfoScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
     alignItems: "center",
     justifyContent: "center",
   },

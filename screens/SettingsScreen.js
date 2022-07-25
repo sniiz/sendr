@@ -127,8 +127,8 @@ function SettingsScreen({ navigation }) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerStyle: { backgroundColor: "#0a0a0a" },
-      headerTintColor: "#F2F7F2",
+      headerStyle: { backgroundColor: "#0a0a0b" },
+      headerTintColor: "#f4f5f5",
       headerTitleAlign: "center",
       title: UIText.settingsScreen.barTitle,
     });
@@ -300,7 +300,7 @@ function SettingsScreen({ navigation }) {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#0a0a0a",
+        backgroundColor: "#0a0a0b",
         // paddingBottom: kb.keyboardHeight * 10,
       }}
       behavior="padding"
@@ -308,7 +308,7 @@ function SettingsScreen({ navigation }) {
       <ScrollView
         contentContainerStyle={styles.container}
         style={{
-          backgroundColor: "#0a0a0a",
+          backgroundColor: "#0a0a0b",
           // paddingVertical: 30,
           flex: 1,
           width: "100%",
@@ -359,7 +359,7 @@ function SettingsScreen({ navigation }) {
                     value={pronoun}
                     placeholder="select your pronouns"
                     placeholderStyle={{
-                        color: "#F2F7F2",
+                        color: "#f4f5f5",
                     }}
                     items={items}
                     setOpen={setPronounPickerOpen}
@@ -368,8 +368,8 @@ function SettingsScreen({ navigation }) {
                     containerStyle={{
                         width: "fit-content",
                         padding: 10,
-                        color: "#F2F7F2",
-                        borderColor: "#F2F7F2",
+                        color: "#f4f5f5",
+                        borderColor: "#f4f5f5",
                         borderWidth: 2,
                         alignItems: "center",
                         justifyContent: "center",
@@ -377,10 +377,10 @@ function SettingsScreen({ navigation }) {
                     labelStyle={{
                         fontWeight: "bold",
                         textAlign: "center",
-                        color: "#F2F7F2",
+                        color: "#f4f5f5",
                     }}
                     listItemContainer={{
-                        backgroundColor: "#0a0a0a",
+                        backgroundColor: "#0a0a0b",
                     }}
                 /> WIP*/}
         <View style={styles.inputContainer}>
@@ -421,7 +421,7 @@ function SettingsScreen({ navigation }) {
               style={{
                 borderRadius: 5,
                 borderWidth: 2,
-                borderColor: "#F2F7F2",
+                borderColor: "#f4f5f5",
                 padding: 8,
                 paddingHorizontal: 20,
                 marginLeft: 10,
@@ -488,7 +488,7 @@ function SettingsScreen({ navigation }) {
               style={{
                 borderRadius: 5,
                 borderWidth: 2,
-                borderColor: "#F2F7F2",
+                borderColor: "#f4f5f5",
                 padding: 8,
                 paddingHorizontal: 20,
                 marginLeft: 10,
@@ -514,7 +514,7 @@ function SettingsScreen({ navigation }) {
           style={{
             borderRadius: 5,
             borderWidth: 2,
-            borderColor: "#F2F7F2",
+            borderColor: "#f4f5f5",
             padding: 10,
             paddingHorizontal: 20,
           }}
@@ -523,7 +523,7 @@ function SettingsScreen({ navigation }) {
             style={[
               styles.dangerButton,
               {
-                color: "#F2F7F2",
+                color: "#f4f5f5",
               },
               6,
             ]}
@@ -691,7 +691,7 @@ export default React.memo(SettingsScreen);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
     alignItems: "center",
     justifyContent: "flex-start",
   },
@@ -725,9 +725,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   input: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     borderWidth: 2,
-    borderColor: "#F2F7F2",
+    borderColor: "#f4f5f5",
     width: "100%",
     padding: 10,
     marginTop: 0,
@@ -754,11 +754,11 @@ const styles = StyleSheet.create({
   popupContainer: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
     paddingVertical: "10%",
   },
   popupText: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     fontSize: 12,
     fontWeight: "bold",
   },

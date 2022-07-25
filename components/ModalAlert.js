@@ -49,12 +49,12 @@ export default React.memo(function ModalAlert({
 const styles = StyleSheet.create({
   modal: {
     flex: 1,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
     alignItems: "center",
     justifyContent: "center",
   },
   modalContent: {
-    backgroundColor: "#F2F7F2",
+    backgroundColor: "#f4f5f5",
     borderRadius: 10,
     padding: 10,
     width: "80%",
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: "800",
-    color: "#0a0a0a",
+    color: "#0a0a0b",
     textAlign: "center",
   },
   modalBody: {
@@ -77,14 +77,14 @@ const styles = StyleSheet.create({
   modalMessage: {
     fontSize: 20,
     fontWeight: "800",
-    color: "#0a0a0a",
+    color: "#0a0a0b",
     textAlign: "center",
   },
   modalFooter: {
     marginTop: 10,
   },
   modalButton: {
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
     padding: 10,
     paddingHorizontal: 15,
     borderRadius: 10,
@@ -95,6 +95,6 @@ const styles = StyleSheet.create({
   modalButtonText: {
     fontSize: 20,
     fontWeight: "800",
-    color: "#F2F7F2",
+    color: "#f4f5f5",
   },
 });

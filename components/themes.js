@@ -13,7 +13,7 @@ export default class Theme {
 
   static themes = {
     classic: {
-      main: "#0a0a0a",
+      main: "#0a0a0b",
       accent: "#fefeff",
       middle: "#727178",
       red: "#ff5555",
@@ -22,7 +22,7 @@ export default class Theme {
     },
     light: {
       main: "#fefeff",
-      accent: "#0a0a0a",
+      accent: "#0a0a0b",
       middle: "#727178",
       red: "#ff5555",
       separator1: "#ddd",
@@ -45,7 +45,7 @@ export default class Theme {
       separator2: "gray",
     },
     midnight: {
-      main: "#0a0a0a",
+      main: "#0a0a0b",
       accent: "#666", // hehe satan
       middle: "#333",
       red: "#a33",

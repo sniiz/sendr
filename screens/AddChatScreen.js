@@ -40,8 +40,8 @@ const AddChatScreen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: UIText.newChatScreen.barTitle,
-      headerStyle: { backgroundColor: "#0a0a0a" },
-      headerTintColor: "#F2F7F2",
+      headerStyle: { backgroundColor: "#0a0a0b" },
+      headerTintColor: "#f4f5f5",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -64,8 +64,8 @@ const AddChatScreen = ({ navigation }) => {
         style={{
           borderRadius: 5,
           borderWidth: 2,
-          borderColor: "#F2F7F2",
-          backgroundColor: chat ? "#F2F7F2" : "#0a0a0a",
+          borderColor: "#f4f5f5",
+          backgroundColor: chat ? "#f4f5f5" : "#0a0a0b",
           padding: 8,
           paddingHorizontal: 20,
           marginBottom: 20,
@@ -75,7 +75,7 @@ const AddChatScreen = ({ navigation }) => {
           style={[
             styles.button,
             {
-              color: chat ? "#0a0a0a" : "#F2F7F2",
+              color: chat ? "#0a0a0b" : "#f4f5f5",
             },
           ]}
         >
@@ -90,7 +90,7 @@ export default React.memo(AddChatScreen);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
     padding: 30,
     alignContent: "center",
     justifyContent: "center",
@@ -100,9 +100,9 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   input: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     borderWidth: 2,
-    borderColor: "#F2F7F2",
+    borderColor: "#f4f5f5",
     padding: 10,
     marginTop: 0,
     // alignSelf: "center",
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   button: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     fontSize: 25,
     // marginTop: -10,
     fontWeight: "800",

@@ -118,7 +118,7 @@ const HomeScreen = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTintColor: "#F2F7F2",
+      headerTintColor: "#f4f5f5",
       headerTitleAlign: "center",
       headerLeft: () => (
         <View
@@ -202,8 +202,8 @@ const HomeScreen = ({ navigation }) => {
                 navigation.navigate("friends");
               }}
             >
-              {/* <SimpleLineIcons name="people" size={18} color="#F2F7F2" /> */}
-              <Icon.Users width={18} color="#F2F7F2" strokeWidth={2} />
+              {/* <SimpleLineIcons name="people" size={18} color="#f4f5f5" /> */}
+              <Icon.Users width={18} color="#f4f5f5" strokeWidth={2} />
             </TouchableOpacity>
           </Popable>
 
@@ -223,7 +223,7 @@ const HomeScreen = ({ navigation }) => {
               activeOpacity={0.5}
               onPress={() => navigation.navigate("newChat")}
             >
-              <SimpleLineIcons name="speech" size={18} color="#F2F7F2" />
+              <SimpleLineIcons name="speech" size={18} color="#f4f5f5" />
             </TouchableOpacity>
           </Popable> */}
 
@@ -243,14 +243,14 @@ const HomeScreen = ({ navigation }) => {
               activeOpacity={0.5}
               onPress={() => navigation.navigate("settings")}
             >
-              {/* <SimpleLineIcons name="settings" size={18} color="#F2F7F2" /> */}
-              <Icon.Settings width={18} color="#F2F7F2" strokeWidth={2} />
+              {/* <SimpleLineIcons name="settings" size={18} color="#f4f5f5" /> */}
+              <Icon.Settings width={18} color="#f4f5f5" strokeWidth={2} />
             </TouchableOpacity>
           </Popable>
         </View>
       ),
       headerTitle: () => (
-        <Text style={{ fontSize: 18, fontWeight: "900", color: "#f2f7f2" }}>
+        <Text style={{ fontSize: 18, fontWeight: "900", color: "#f4f5f5" }}>
           {/* <Text style={{ color: "#ff595e" }}>s</Text>
           <Text style={{ color: "#ffca3a" }}>e</Text>
           <Text style={{ color: "#8ac926" }}>n</Text>
@@ -317,7 +317,7 @@ const HomeScreen = ({ navigation }) => {
           },
         ]}
       >
-        <ActivityIndicator size={20} color="#f2F7F2" />
+        <ActivityIndicator size={20} color="#f4f5f5" />
       </SafeAreaView>
     );
   }
@@ -341,9 +341,9 @@ const HomeScreen = ({ navigation }) => {
             fontSize: 15,
             padding: 10,
             borderWidth: 2,
-            borderColor: chatId ? "#F2F7F2" : "#727178",
+            borderColor: chatId ? "#f4f5f5" : "#727178",
             fontWeight: "700",
-            color: "#F2F7F2",
+            color: "#f4f5f5",
             // outlineStyle: "none", // doesn't work on ios for some reason - bummer
           }}
           placeholder={UIText.homeScreen.joinChat}
@@ -363,8 +363,8 @@ const HomeScreen = ({ navigation }) => {
             }}
             style={{
               marginLeft: 10,
-              borderColor: "#F2F7F2",
-              backgroundColor: "#F2F7F2",
+              borderColor: "#f4f5f5",
+              backgroundColor: "#f4f5f5",
               borderRadius: 5,
               borderWidth: 2,
               padding: 10,
@@ -373,7 +373,7 @@ const HomeScreen = ({ navigation }) => {
           >
             <Text
               style={{
-                color: "#0a0a0a",
+                color: "#0a0a0b",
                 fontSize: 15,
                 fontWeight: "800",
               }}
@@ -461,11 +461,11 @@ export default React.memo(HomeScreen);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    color: "#0a0a0a",
+    color: "#0a0a0b",
   },
   containerStatic: {
     flex: 1,
-    color: "#0a0a0a",
+    color: "#0a0a0b",
     alignItems: "center",
     justifyContent: "space-evenly",
     paddingVertical: "15%",
@@ -474,17 +474,17 @@ const styles = StyleSheet.create({
   popupContainer: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
     paddingVertical: "10%",
   },
   popupText: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     fontSize: 12,
     fontWeight: "bold",
   },
   main: {
     flex: 1,
-    color: "#0a0a0a",
-    backgroundColor: "#0a0a0a",
+    color: "#0a0a0b",
+    backgroundColor: "#0a0a0b",
   },
 });

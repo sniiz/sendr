@@ -39,8 +39,8 @@ const RegisterScreen = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerStyle: { backgroundColor: "#0a0a0a" },
-      headerTintColor: "#F2F7F2",
+      headerStyle: { backgroundColor: "#0a0a0b" },
+      headerTintColor: "#f4f5f5",
       headerTitleAlign: "center",
       title: UIText.signUpScreen.barTitle,
     });
@@ -116,7 +116,7 @@ const RegisterScreen = ({ navigation }) => {
       </Text>
       <Header
         style={{
-          color: "#F2F7F2",
+          color: "#f4f5f5",
           fontSize: 40,
           fontWeight: "800",
           textAlign: "center",
@@ -180,7 +180,7 @@ const RegisterScreen = ({ navigation }) => {
       {loading ? (
         <ActivityIndicator
           size={10}
-          color="#F2F7F2"
+          color="#f4f5f5"
           style={{
             marginTop: -10,
             marginBottom: 20,
@@ -190,10 +190,10 @@ const RegisterScreen = ({ navigation }) => {
         <TouchableOpacity
           onPress={register}
           style={{
-            backgroundColor: "#F2F7F2",
+            backgroundColor: "#f4f5f5",
             borderRadius: 5,
             // borderWidth: 2,
-            // borderColor: "#F2F7F2",
+            // borderColor: "#f4f5f5",
             padding: 8,
             paddingHorizontal: 20,
             marginBottom: 20,
@@ -239,18 +239,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   login: {
-    // color: "#F2F7F2",
-    color: "#0a0a0a",
+    // color: "#f4f5f5",
+    color: "#0a0a0b",
     fontSize: 25,
     fontWeight: "800",
     textAlign: "center",
     overflow: "visible",
   },
   input: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     borderWidth: 2,
     // outlineStyle: "none", // doesn't work on ios for some reason - bummer
-    borderColor: "#F2F7F2",
+    borderColor: "#f4f5f5",
     padding: 10,
     marginTop: Platform.OS === "web" ? 0 : -10,
     textAlign: "left",
@@ -264,6 +264,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     paddingBottom: 10,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
   },
 });

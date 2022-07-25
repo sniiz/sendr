@@ -26,7 +26,7 @@ import UIText from "../components/LocalizedText";
 // import { Storage } from "expo-storage";
 import ActivityIndicator from "../components/ActivityIndicator";
 
-// const logo = require("../assets/wip_logo_#F2F7F2.png");
+// const logo = require("../assets/wip_logo_#f4f5f5.png");
 const version = require("../assets/version-info.json");
 
 const LoginScreen = ({ navigation }) => {
@@ -99,8 +99,8 @@ const LoginScreen = ({ navigation }) => {
         } else {
           setLoading(false);
           navigation.setOptions({
-            headerStyle: { backgroundColor: "#0a0a0a" },
-            headerTintColor: "#F2F7F2",
+            headerStyle: { backgroundColor: "#0a0a0b" },
+            headerTintColor: "#f4f5f5",
             headerLeft: () => null,
             gesturesEnabled: false,
             headerShown: true,
@@ -119,8 +119,8 @@ const LoginScreen = ({ navigation }) => {
 
     useLayoutEffect(() => {
       navigation.setOptions({
-        headerStyle: { backgroundColor: "#0a0a0a" },
-        headerTintColor: "#F2F7F2",
+        headerStyle: { backgroundColor: "#0a0a0b" },
+        headerTintColor: "#f4f5f5",
         headerLeft: () => null,
         headerShown: false,
         headerTitleAlign: "center",
@@ -147,11 +147,11 @@ const LoginScreen = ({ navigation }) => {
     if (loading) {
       return (
         <View style={styles.container}>
-          <ActivityIndicator size={20} color="#F2F7F2" />
+          <ActivityIndicator size={20} color="#f4f5f5" />
           {takingTooLong && (
             <Text
               style={{
-                color: "#F2F7F2",
+                color: "#f4f5f5",
                 fontSize: 20,
                 marginTop: 10,
                 marginBottom: -30,
@@ -201,7 +201,7 @@ const LoginScreen = ({ navigation }) => {
               style={[
                 styles.input,
                 {
-                  borderColor: passwordCorrect ? "#F2F7F2" : "#f55",
+                  borderColor: passwordCorrect ? "#f4f5f5" : "#f55",
                 },
               ]}
               value={password}
@@ -218,7 +218,7 @@ const LoginScreen = ({ navigation }) => {
             {loggingIn ? (
               <ActivityIndicator
                 size={20}
-                color="#F2F7F2"
+                color="#f4f5f5"
                 style={{
                   marginBottom: 20,
                 }}
@@ -229,8 +229,8 @@ const LoginScreen = ({ navigation }) => {
                 style={{
                   borderRadius: 5,
                   // borderWidth: 2,
-                  // borderColor: "#F2F7F2",
-                  backgroundColor: "#F2F7F2",
+                  // borderColor: "#f4f5f5",
+                  backgroundColor: "#f4f5f5",
                   padding: 8,
                   paddingHorizontal: 20,
                   marginBottom: 20,
@@ -245,10 +245,10 @@ const LoginScreen = ({ navigation }) => {
             <TouchableOpacity
               onPress={() => navigation.navigate("signUp")}
               style={{
-                // backgroundColor: "#F2F7F2",
+                // backgroundColor: "#f4f5f5",
                 borderRadius: 5,
                 borderWidth: 2,
-                borderColor: "#F2F7F2",
+                borderColor: "#f4f5f5",
                 padding: 8,
                 paddingHorizontal: 20,
                 marginBottom: 20,
@@ -275,8 +275,8 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     marginBottom: 10,
-    color: "#F2F7F2",
-    backgroundColor: "#0a0a0a",
+    color: "#f4f5f5",
+    backgroundColor: "#0a0a0b",
     fontWeight: "bold",
   },
   errorText: {
@@ -295,18 +295,18 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
   },
   login: {
-    // color: "#F2F7F2",
-    color: "#0a0a0a",
+    // color: "#f4f5f5",
+    color: "#0a0a0b",
     fontSize: 25,
     fontWeight: "800",
     textAlign: "center",
     overflow: "visible",
   },
   title: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     fontSize: 40,
     fontWeight: "800",
     textAlign: "center",
@@ -325,9 +325,9 @@ const styles = StyleSheet.create({
     fontFamily: "monospace",
   },
   input: {
-    color: "#F2F7F2",
+    color: "#f4f5f5",
     borderWidth: 2,
-    borderColor: "#F2F7F2",
+    borderColor: "#f4f5f5",
     padding: 10,
     marginTop: 0,
     textAlign: "left",
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 5,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#0a0a0b",
   },
 });
 

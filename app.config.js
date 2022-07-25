@@ -11,7 +11,7 @@ export default {
     splash: {
       image: "./assets/splash.png",
       resizeMode: "contain",
-      backgroundColor: "#0a0a0a",
+      backgroundColor: "#0a0a0b",
     },
     // plugins: [
     //     "expo-image-picker",
@@ -35,7 +35,7 @@ export default {
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         // foregroundImage: "./assets/pride-adaptive-icon.png",
-        backgroundColor: "#0a0a0a",
+        backgroundColor: "#0a0a0b",
       },
     },
     web: {

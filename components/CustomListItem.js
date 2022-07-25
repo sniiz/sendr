@@ -65,8 +65,8 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
       containerStyle={{
         backgroundColor:
           chatMessages[0]?.uid === getAuth().currentUser.uid
-            ? "#F2F7F2"
-            : "#0a0a0a",
+            ? "#f4f5f5"
+            : "#0a0a0b",
       }}
     >
       <Avatar
@@ -85,8 +85,8 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
             fontWeight: "800",
             color:
               chatMessages[0]?.uid === getAuth().currentUser.uid
-                ? "#0a0a0a"
-                : "#f2f7f2",
+                ? "#0a0a0b"
+                : "#f4f5f5",
           }}
         >
           {dm ? otherUser.name : chatName}
