@@ -271,40 +271,40 @@ const HomeScreen = ({ navigation }) => {
     });
   };
 
-  const joinChat = (id) => {
-    setChatId("");
-    if (id.includes("/") || id.includes(" ")) {
-      setChatId("");
-      alert(UIText.homeScreen.invalid);
-      return;
-    }
-    getDoc(doc(db, "privateChats", id)).then((chatDoc) => {
-      // console.log(chatDoc);
-      if (chatDoc.exists()) {
-        const chat = chatDoc.data();
-        if (chat.members.includes(getAuth().currentUser.uid)) {
-          enterChat(id, chat.chatName, chat.author);
-        } else {
-          updateDoc(doc(db, "privateChats", id), {
-            members: [...chat.members, getAuth().currentUser.uid],
-          }).then(() => {
-            addDoc(collection(db, `privateChats/${id}`, "messages"), {
-              timestamp: serverTimestamp(),
-              message: `${getAuth().currentUser.displayName} ${
-                joinMessages[Math.floor(Math.random() * joinMessages.length)]
-              }`,
-              displayName: "potat",
-              uid: "POTATOCAT",
-              photoURL: "https://i.imgur.com/UFr7hCb.png",
-            });
-            enterChat(id, chat.chatName, chat.author);
-          });
-        }
-      } else {
-        alert(UIText.homeScreen.noChatFound);
-      }
-    });
-  };
+  // const joinChat = (id) => {
+  //   setChatId("");
+  //   if (id.includes("/") || id.includes(" ")) {
+  //     setChatId("");
+  //     alert(UIText.homeScreen.invalid);
+  //     return;
+  //   }
+  //   getDoc(doc(db, "privateChats", id)).then((chatDoc) => {
+  //     // console.log(chatDoc);
+  //     if (chatDoc.exists()) {
+  //       const chat = chatDoc.data();
+  //       if (chat.members.includes(getAuth().currentUser.uid)) {
+  //         enterChat(id, chat.chatName, chat.author);
+  //       } else {
+  //         updateDoc(doc(db, "privateChats", id), {
+  //           members: [...chat.members, getAuth().currentUser.uid],
+  //         }).then(() => {
+  //           addDoc(collection(db, `privateChats/${id}`, "messages"), {
+  //             timestamp: serverTimestamp(),
+  //             message: `${getAuth().currentUser.displayName} ${
+  //               joinMessages[Math.floor(Math.random() * joinMessages.length)]
+  //             }`,
+  //             displayName: "potat",
+  //             uid: "POTATOCAT",
+  //             photoURL: "https://i.imgur.com/UFr7hCb.png",
+  //           });
+  //           enterChat(id, chat.chatName, chat.author);
+  //         });
+  //       }
+  //     } else {
+  //       alert(UIText.homeScreen.noChatFound);
+  //     }
+  //   });
+  // };
 
   if (loading) {
     return (
@@ -323,7 +323,7 @@ const HomeScreen = ({ navigation }) => {
   }
   return (
     <SafeAreaView style={styles.main}>
-      <View
+      {/* <View
         style={{
           flexDirection: "row",
           justifyContent: "center",
@@ -382,7 +382,7 @@ const HomeScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         ) : null}
-      </View>
+      </View> */}
       {!Error && chats.length > 0 ? (
         <ScrollView style={styles.container}>
           {chats.map(({ id, chatName, author }) => (
