@@ -28,7 +28,7 @@ export default {
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.sniiz.sendr",
-      buildNumber: "0.2.1",
+      buildNumber: "0.2.2",
     },
     android: {
       package: "com.sniiz.sendr",

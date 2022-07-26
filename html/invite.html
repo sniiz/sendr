@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>sendr invite</title>
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <style>
+      h1 {
+        font-size: 3em;
+        font-weight: bolder; /* color: #f4f5f5; */
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        text-align: center;
+        margin-left: 2em;
+        margin-right: 2em;
+      }
+      h3 {
+        font-size: 1.5em;
+        color: #8b8b8b;
+        font-family: monospace;
+        text-align: center;
+        margin-left: 2em;
+        margin-right: 2em;
+      }
+      input {
+        font-size: 1.5em;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        font-weight: bold; /* text-align: center; */
+        background-color: #0a0a0b;
+        color: #f4f5f5;
+        border: 2px solid #f4f5f5;
+        padding: 0.5em;
+        margin: 0.5em;
+      }
+      .letter {
+        /* animation */
+        animation: float 2s ease-in-out infinite;
+        width: 10em;
+        aspect-ratio: 1;
+      }
+      .acceptButton {
+        background-color: #0a0a0b;
+        border: 2px solid #f4f5f5;
+        border-radius: 5px;
+        padding: 0.5em;
+        font-size: 0.5em;
+        font-weight: bolder;
+        color: #f4f5f5;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        text-align: center;
+        margin: 2em;
+        cursor: pointer;
+      }
+      .loginButton {
+        background-color: #0a0a0b;
+        border: 2px solid #f4f5f5;
+        border-radius: 5px;
+        padding: 0.5em;
+        font-size: 0.5em;
+        font-weight: bolder;
+        color: #f4f5f5;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        text-align: center;
+        margin: 2em;
+        cursor: pointer;
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(20px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+      @keyframes rainbowdropshadow {
+        0% {
+          box-shadow: 2px 2px 0 #ff0000, 4px 4px 0 #ff7f00, 6px 6px 0 #ffff00;
+          border-color: #ff0000;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        8% {
+          box-shadow: 2px 2px 0 #ff7f00, 4px 4px 0 #ffff00, 6px 6px 0 #7fff00;
+          border-color: #ff7f00;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        16% {
+          box-shadow: 2px 2px 0 #ffff00, 4px 4px 0 #7fff00, 6px 6px 0 #00ff00;
+          border-color: #ffff00;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        25% {
+          box-shadow: 2px 2px 0 #7fff00, 4px 4px 0 #00ff00, 6px 6px 0 #00ff7f;
+          border-color: #7fff00;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        33% {
+          box-shadow: 2px 2px 0 #00ff00, 4px 4px 0 #00ff7f, 6px 6px 0 #00ffff;
+          border-color: #00ff00;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        41% {
+          box-shadow: 2px 2px 0 #00ff7f, 4px 4px 0 #00ffff, 6px 6px 0 #007fff;
+          border-color: #00ff7f;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        50% {
+          box-shadow: 2px 2px 0 #00ffff, 4px 4px 0 #007fff, 6px 6px 0 #0000ff;
+          border-color: #00ffff;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        58% {
+          box-shadow: 2px 2px 0 #007fff, 4px 4px 0 #0000ff, 6px 6px 0 #7f00ff;
+          border-color: #007fff;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        66% {
+          box-shadow: 2px 2px 0 #0000ff, 4px 4px 0 #7f00ff, 6px 6px 0 #ff00ff;
+          border-color: #0000ff;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        75% {
+          box-shadow: 2px 2px 0 #7f00ff, 4px 4px 0 #ff00ff, 6px 6px 0 #ff007f;
+          border-color: #7f00ff;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        83% {
+          box-shadow: 2px 2px 0 #ff00ff, 4px 4px 0 #ff007f, 6px 6px 0 #ff0000;
+          border-color: #ff00ff;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        91% {
+          box-shadow: 2px 2px 0 #ff007f, 4px 4px 0 #ff0000, 6px 6px 0 #ff7f00;
+          border-color: #ff007f;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+        100% {
+          box-shadow: 2px 2px 0 #ff0000, 4px 4px 0 #ff7f00, 6px 6px 0 #ffff00;
+          border-color: #ff0000;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+      }
+      @keyframes therearenone {
+        0% {
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+          background-color: #f4f5f5;
+          color: #0a0a0b;
+        }
+      }
+      @keyframes shake-little {
+        2% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        4% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        6% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        8% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        10% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        12% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        14% {
+          transform: translate(0px, 1px) rotate(0.5deg);
+        }
+        16% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        18% {
+          transform: translate(0px, 1px) rotate(0.5deg);
+        }
+        20% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        22% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        24% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        26% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        28% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        30% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        32% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        34% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        36% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        38% {
+          transform: translate(0px, 1px) rotate(0.5deg);
+        }
+        40% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        42% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        44% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        46% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        48% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        50% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        52% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        54% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        56% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        58% {
+          transform: translate(0px, 1px) rotate(0.5deg);
+        }
+        60% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        62% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        64% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        66% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        68% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        70% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        72% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        74% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        76% {
+          transform: translate(0px, 1px) rotate(0.5deg);
+        }
+        78% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        80% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        82% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        84% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        86% {
+          transform: translate(0px, 1px) rotate(0.5deg);
+        }
+        88% {
+          transform: translate(1px, 1px) rotate(0.5deg);
+        }
+        90% {
+          transform: translate(0px, 0px) rotate(0.5deg);
+        }
+        92% {
+          transform: translate(0px, 1px) rotate(0.5deg);
+        }
+        94% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        96% {
+          transform: translate(0px, 1px) rotate(0.5deg);
+        }
+        98% {
+          transform: translate(1px, 0px) rotate(0.5deg);
+        }
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0);
+        }
+      }
+    </style>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+      import {
+        getFirestore,
+        doc,
+        updateDoc,
+        getDoc,
+        query,
+        where,
+        serverTimestamp,
+        addDoc,
+        collection,
+      } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
+      window.initializeApp = initializeApp;
+      window.getAuth = getAuth;
+      window.getFirestore = getFirestore;
+      window.doc = doc;
+      window.updateDoc = updateDoc;
+      window.getDoc = getDoc;
+      window.query = query;
+      window.where = where;
+      window.onAuthStateChanged = onAuthStateChanged;
+      window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+      window.serverTimestamp = serverTimestamp;
+      window.addDoc = addDoc;
+      window.collection = collection;
+      const firebaseConfig = {
+        apiKey: "AIzaSyD2c5D7MtdLHYcTQpm2GJsDb2PY36lGmss",
+        authDomain: "sniiz-sendr.firebaseapp.com",
+        databaseURL: "https://sniiz-sendr-default-rtdb.firebaseio.com",
+        projectId: "sniiz-sendr",
+        storageBucket: "sniiz-sendr.appspot.com",
+        messagingSenderId: "762806681066",
+        appId: "1:762806681066:web:90d314bbed15da56cb8693",
+      };
+      initializeApp(firebaseConfig);
+      $(document).ready(() => {
+        const urlParams = Object.fromEntries(
+          new URLSearchParams(window.location.search)
+        );
+        if (urlParams === {}) {
+          window.close();
+        }
+        window.urlParams = urlParams;
+        if (urlParams.chatId === undefined) {
+          $("#title").text("broken link. are you sure this came from sendr?");
+        }
+        $("#title").text(
+          `${urlParams.inviter || "someone"} invited you to join ${
+            urlParams.chatName || "a chat on sendr"
+          }!`
+        );
+      });
+    </script>
+  </head>
+  <body>
+    <div
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0a0a0b;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+      id="body"
+    >
+      <div
+        style="
+          background-color: #0a0a0b;
+          color: #f4f5f5;
+          height: 4em;
+          width: 100%;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 9999;
+          border-bottom: 2px solid #f4f5f5;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <h1 style="font-size: 1.5em; font-weight: 900">sendr</h1>
+      </div>
+      <img
+        src="https://i.imgur.com/CXM8jGE.png"
+        class="letter"
+        id="letter"
+        onmouseover="letterOnHover()"
+        onmouseleave="letterOnLeave()"
+      />
+      <h1 id="title" style="color: #f4f5f5"></h1>
+      <h3 id="status"></h3>
+      <div
+        class="acceptButton"
+        id="acceptButton"
+        onclick="acceptInvite()"
+        onmouseover="buttonOnHover()"
+        onmouseleave="buttonOnLeave()"
+      >
+        <h1 id="buttonText">accept invite</h1>
+      </div>
+    </div>
+    <script>
+      function letterOnHover() {
+        $("#letter").attr("src", "https://i.imgur.com/3ynhB94.png");
+        $("#letter").css("animation", "shake-little 1s infinite");
+      }
+      function letterOnLeave() {
+        $("#letter").attr("src", "https://i.imgur.com/CXM8jGE.png");
+        $("#letter").css("animation", "float 2s ease-in-out infinite");
+      }
+      function buttonOnHover() {
+        $("#acceptButton").css(
+          "animation",
+          "rainbowdropshadow 0.5s infinite, shake-little 1s infinite"
+        );
+        $("#buttonText").text("ACCEPT INVITE!!!");
+      }
+      function buttonOnLeave() {
+        $("#acceptButton").css("animation", "none");
+        $("#buttonText").text("accept invite");
+      }
+      function acceptInvite() {
+        $("#acceptButton").stop().animate({ opacity: 0 });
+        $("#acceptButton").remove();
+        $("#title").text("accepting invite, please wait...");
+        $("#status").text("logging in...");
+        onAuthStateChanged(getAuth(), (user) => {
+          if (user) {
+            $("#status").text(`logged in as ${user.displayName}`);
+            let db = getFirestore();
+            getDoc(doc(db, "privateChats", urlParams.chatId)).then((chat) => {
+              if (!chat.exists()) {
+                $("#title").text("chat not found. broken link?");
+              } else {
+                $("#title").text(`almost there...`);
+                if (chat.data().members.includes(user.uid)) {
+                  $("#title").text(
+                    `you're already in ${chat.data().chatName}!`
+                  );
+                } else {
+                  $("#status").text(`adding you to ${chat.data().chatName}...`);
+                  updateDoc(doc(db, "privateChats", urlParams.chatId), {
+                    members: [...chat.data().members, user.uid],
+                  }).then(() => {
+                    $("#status").text(`added! finishing up...`);
+                    let joinMessages = [
+                      "joined!",
+                      "is here!",
+                      "appeared out of thin air!",
+                      "has arrived!",
+                      "entered!",
+                      "came in!",
+                      "has joined!",
+                      "joined us here on this fine day!",
+                      "stopped by!",
+                      "came by!",
+                    ];
+                    addDoc(
+                      collection(
+                        db,
+                        `privateChats/${urlParams.id}`,
+                        "messages"
+                      ),
+                      {
+                        timestamp: serverTimestamp(),
+                        message: `${user.displayName} ${
+                          joinMessages[
+                            Math.floor(Math.random() * joinMessages.length)
+                          ]
+                        }`,
+                        displayName: "potat",
+                        uid: "POTATOCAT",
+                        photoURL: "https://i.imgur.com/UFr7hCb.png",
+                        attachments: [],
+                      }
+                    ).then(() => {
+                      $("#status").text("done!");
+                      $("#title").text(
+                        `you're now in ${chat.data().chatName}! redirecting...`
+                      );
+                      setTimeout(() => {
+                        window.close();
+                        window.open(
+                          `https://sendrapp.vercel.app/chat`,
+                          "_self"
+                        );
+                      }, 1000);
+                    });
+                  });
+                }
+              }
+            });
+          } else {
+            $("#status").append("<br>no user logged in");
+            $("#title").text("enter your email and password");
+            $("#body").append(
+              '<div class="loginInfo" id="loginInfo"><input type="email" id="email" placeholder="sendr account email" /><input type="password" id="password" placeholder="password" /><div class="loginButton" id="loginButton" onclick="login()" onmouseenter="loginButtonOnHover()" onmouseleave="loginButtonOnLeave()"><h1 id="loginButtonText">log in and join chat</h1></div></div>'
+            );
+          }
+        });
+      }
+      function login() {
+        $("#loginButton").stop().animate({ opacity: 0 });
+        let email = $("#email").val();
+        let password = $("#password").val();
+        signInWithEmailAndPassword(getAuth(), email, password)
+          .then(() => {})
+          .catch((error) => {
+            console.error(error);
+            $("#status").text(`error: ${error.message}`);
+          });
+      }
+      function loginButtonOnHover() {
+        $("#loginButton").css(
+          "animation",
+          "rainbowdropshadow 0.5s infinite, shake-little 1s infinite"
+        );
+        $("#loginButtonText").text("LOG IN AND JOIN CHAT!!!");
+      }
+      function loginButtonOnLeave() {
+        $("#loginButton").css("animation", "none");
+        $("#loginButtonText").text("log in and join chat");
+      }
+    </script>
+  </body>
+</html>

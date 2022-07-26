@@ -200,7 +200,9 @@ const ChatScreen = ({ navigation, route }) => {
               <TouchableOpacity
                 activeOpacity={0.5}
                 onPress={() => {
-                  setString(route.params.id);
+                  setString(
+                    `https://sendr-sniiz.vercel.app/invite.html?inviter=${auth.currentUser.displayName}&chatId=${route.params.id}&chatName=${chatName}`
+                  );
                 }}
               >
                 {/* <SimpleLineIcons name="docs" size={18} color="#f4f5f5" /> */}
@@ -270,7 +272,7 @@ const ChatScreen = ({ navigation, route }) => {
     });
   }, [navigation, dm, otherUser, loaded]);
 
-  const sendMsg = () => {
+  const sendMessage = async () => {
     Keyboard.dismiss();
     setSending(true);
 
@@ -297,7 +299,7 @@ const ChatScreen = ({ navigation, route }) => {
       let images = [];
 
       // get the images only
-      if (links.length > 0) {
+      if (links.length) {
         links = links.filter(
           (link) =>
             link.endsWith(".png") ||
@@ -309,12 +311,10 @@ const ChatScreen = ({ navigation, route }) => {
           links = links.slice(0, 5);
         }
         messageText = messageText.replace(
-          // all items in images
           new RegExp(links.join("|"), "gi"),
           "(image attachment)"
         );
         for (let image of links) {
-          // get image sizes
           Image.getSize(image, (w, h) => {
             images.push({
               url: image,
@@ -324,37 +324,22 @@ const ChatScreen = ({ navigation, route }) => {
           });
         }
       }
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          id: Date.now().toString(),
-          timestamp: null,
-          message: messageText,
-          displayName: auth.currentUser.displayName,
-          // email: auth.currentUser.email,
-          uid: auth.currentUser.uid,
-          attachments: images,
-          // referenceId: repliedId,
-        },
-      ]);
       setMsgInput("");
       setEditingId(null);
-      console.log(images);
-      addDoc(collection(db, `privateChats/${route.params.id}`, "messages"), {
-        timestamp: serverTimestamp(),
-        message: messageText,
-        attachments: images,
-        displayName: auth.currentUser.displayName,
-        uid: auth.currentUser.uid,
-        photoURL:
-          auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
-      })
-        .then(() => {
-          setSending(false);
-          setRepliedId(null);
-          console.log(images);
-        })
-        .catch((error) => alert(error));
+      await addDoc(
+        collection(db, `privateChats/${route.params.id}`, "messages"),
+        {
+          timestamp: serverTimestamp(),
+          message: messageText,
+          attachments: images,
+          displayName: auth.currentUser.displayName,
+          uid: auth.currentUser.uid,
+          photoURL:
+            auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
+        }
+      ).catch((error) => alert(error));
+      setSending(false);
+      setRepliedId(null);
     } else {
       setSending(false);
       setRepliedId(null);
@@ -526,19 +511,36 @@ const ChatScreen = ({ navigation, route }) => {
               }}
             >
               {item.attachments.map((image) => (
-                <Image
-                  key={image.url}
-                  source={{ uri: image.url }}
+                <TouchableOpacity
                   style={{
-                    width: image.width / 2,
-                    height: image.height / 2,
-                    maxHeight: 400,
-                    maxWidth: 400,
-                    aspectRatio: image.width / image.height,
                     margin: 5,
-                    // marginLeft: 10,
                   }}
-                />
+                  key={image.url}
+                  onPress={() => {
+                    if (Platform.OS === "web") {
+                      window.open(
+                        `https://safe-image-view.vercel.app/?${image.url}`,
+                        "_blank"
+                      );
+                    } else {
+                      Linking.openURL(
+                        `https://safe-image-view.vercel.app/?${image.url}`
+                      );
+                    }
+                  }}
+                >
+                  <Image
+                    source={{ uri: image.url }}
+                    style={{
+                      width: image.width / 2,
+                      height: image.height / 2,
+                      maxHeight: 400,
+                      maxWidth: 400,
+                      aspectRatio: image.width / image.height,
+                      // marginLeft: 10,
+                    }}
+                  />
+                </TouchableOpacity>
               ))}
             </ScrollView>
           ) : null}
@@ -663,7 +665,7 @@ const ChatScreen = ({ navigation, route }) => {
                   setMsgInput(text);
                   setMsgBlocked(false);
                 }}
-                onSubmitEditing={sendMsg}
+                onSubmitEditing={sendMessage}
                 autoCorrect={false}
               />
               {sending ? (
@@ -701,7 +703,7 @@ const ChatScreen = ({ navigation, route }) => {
                   <TouchableOpacity
                     activeOpacity={0.5}
                     style={{ marginLeft: 15 }}
-                    onPress={sendMsg}
+                    onPress={sendMessage}
                   >
                     {/* <SimpleLineIcons
                       name="paper-plane"

@@ -96,9 +96,15 @@ const UserInfoScreen = ({ navigation, route }) => {
         }}
         onPress={() => {
           if (Platform.OS === "web") {
-            window.open(user.pfp, "_blank");
+            window.open(
+              `https://safe-image-view.vercel.app/?${user.pfp}`,
+              "_blank"
+            );
           } else {
-            Linking.openURL(user.pfp || "https://ingur.com/dA9mtkT.png");
+            Linking.openURL(
+              `https://safe-image-view.vercel.app/?${user.pfp}` ||
+                "https://ingur.com/dA9mtkT.png"
+            );
           }
         }}
       >

@@ -50,7 +50,7 @@
       spinner.text = "deploying...";
       // spinner.color = "purple";
       runShell(
-        `cp -R ./.vercel ./web-build && cp -r ./html/404.html ./web-build && cp -r ./html/imageView.html ./web-build && vercel ./web-build ${
+        `cp -R ./.vercel ./web-build && cp -a ./html/. ./web-build && vercel ./web-build ${
           production ? "--prod" : ""
         }`
       ).then(() => {
