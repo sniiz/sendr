@@ -201,7 +201,9 @@ const ChatScreen = ({ navigation, route }) => {
                 activeOpacity={0.5}
                 onPress={() => {
                   setString(
-                    `https://sendr-sniiz.vercel.app/invite.html?inviter=${auth.currentUser.displayName}&chatId=${route.params.id}&chatName=${chatName}`
+                    encodeURI(
+                      `https://sendr-sniiz.vercel.app/invite.html?inviter=${auth.currentUser.displayName}&chatId=${route.params.id}&chatName=${chatName}`
+                    )
                   );
                 }}
               >
