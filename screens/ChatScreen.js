@@ -279,7 +279,6 @@ const ChatScreen = ({ navigation, route }) => {
     setSending(true);
 
     if (msgInput.trim().length > 0 && msgInput.trim().length <= 1000) {
-      // find links in message
       let messageText = msgInput.trim();
       if (!msgBlocked) {
         for (let word of badWords) {
@@ -328,17 +327,19 @@ const ChatScreen = ({ navigation, route }) => {
       }
       setMsgInput("");
       setEditingId(null);
+      const message = {
+        // its late im literally in bed, tired, and desperate
+        timestamp: serverTimestamp(),
+        message: messageText,
+        attachments: images,
+        displayName: auth.currentUser.displayName,
+        uid: auth.currentUser.uid,
+        photoURL:
+          auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
+      };
       await addDoc(
         collection(db, `privateChats/${route.params.id}`, "messages"),
-        {
-          timestamp: serverTimestamp(),
-          message: messageText,
-          attachments: images,
-          displayName: auth.currentUser.displayName,
-          uid: auth.currentUser.uid,
-          photoURL:
-            auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
-        }
+        message
       ).catch((error) => alert(error));
       setSending(false);
       setRepliedId(null);
