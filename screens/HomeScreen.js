@@ -26,12 +26,7 @@ import {
   query,
   onAuthStateChanged,
   where,
-  updateDoc,
-  doc,
-  getDoc,
   getFirestore,
-  addDoc,
-  serverTimestamp,
   onSnapshot,
   // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
@@ -46,8 +41,6 @@ const HomeScreen = ({ navigation }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [Error, setError] = useState(false);
-  const [textBoxOpen, setTextBoxOpen] = useState(false);
-  const [chatId, setChatId] = useState("");
   const [noChats, setNoChats] = useState("");
 
   const joinMessages = [
@@ -65,12 +58,6 @@ const HomeScreen = ({ navigation }) => {
 
   const auth = getAuth();
   const db = getFirestore();
-
-  // const signOutUser = () => {
-  //     signOut(auth).then(() =>
-  //         navigation.replace(UIText.loginScreen.barTitle)
-  //     );
-  // };
 
   useEffect(() => {
     if (!auth?.currentUser?.uid) {
@@ -131,33 +118,6 @@ const HomeScreen = ({ navigation }) => {
             // marginRight: 20,
           }}
         >
-          {/* <Popable
-            content={
-              <View style={styles.popupContainer}>
-                <Text style={styles.popupText}>
-                  {UIText.homeScreen.github}
-                </Text>
-              </View>
-            }
-            action="hover"
-            style={{ opacity: 0.8 }}
-            position="bottom"
-          > */}
-          {/* <TouchableOpacity
-              style={{
-                // marginLeft: 20,
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "row",
-              }}
-              onPress={() => {
-                if (Platform.OS === "web") {
-                  window.open("https://github.com/sniiz/sendr", "_blank");
-                } else {
-                  Linking.openURL("https://github.com/sniiz/sendr");
-                }
-              }}
-            > */}
           <Text
             style={{
               fontSize: 10,
@@ -167,12 +127,8 @@ const HomeScreen = ({ navigation }) => {
               marginLeft: 5,
             }}
           >
-            {/* <Icon.Github width={20} color="#727178" strokeWidth={2} /> */}
             {version["number"]}{" "}
-            {/* <SimpleLineIcons name="share-alt" size={10} color="#727178" /> */}
           </Text>
-          {/* </TouchableOpacity> */}
-          {/* </Popable> */}
         </View>
       ),
       headerRight: () => (
@@ -206,26 +162,6 @@ const HomeScreen = ({ navigation }) => {
               <Icon.Users width={18} color="#f4f5f5" strokeWidth={2} />
             </TouchableOpacity>
           </Popable>
-
-          {/* <Popable
-            content={
-              <View style={styles.popupContainer}>
-                <Text style={styles.popupText}>
-                  {UIText.homeScreen.newChat}
-                </Text>
-              </View>
-            }
-            action="hover"
-            style={{ opacity: 0.8 }}
-            position="bottom"
-          >
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => navigation.navigate("newChat")}
-            >
-              <SimpleLineIcons name="speech" size={18} color="#f4f5f5" />
-            </TouchableOpacity>
-          </Popable> */}
 
           <Popable
             content={
@@ -270,42 +206,6 @@ const HomeScreen = ({ navigation }) => {
       author,
     });
   };
-
-  // const joinChat = (id) => {
-  //   setChatId("");
-  //   if (id.includes("/") || id.includes(" ")) {
-  //     setChatId("");
-  //     alert(UIText.homeScreen.invalid);
-  //     return;
-  //   }
-  //   getDoc(doc(db, "privateChats", id)).then((chatDoc) => {
-  //     // console.log(chatDoc);
-  //     if (chatDoc.exists()) {
-  //       const chat = chatDoc.data();
-  //       if (chat.members.includes(getAuth().currentUser.uid)) {
-  //         enterChat(id, chat.chatName, chat.author);
-  //       } else {
-  //         updateDoc(doc(db, "privateChats", id), {
-  //           members: [...chat.members, getAuth().currentUser.uid],
-  //         }).then(() => {
-  //           addDoc(collection(db, `privateChats/${id}`, "messages"), {
-  //             timestamp: serverTimestamp(),
-  //             message: `${getAuth().currentUser.displayName} ${
-  //               joinMessages[Math.floor(Math.random() * joinMessages.length)]
-  //             }`,
-  //             displayName: "potat",
-  //             uid: "POTATOCAT",
-  //             photoURL: "https://i.imgur.com/UFr7hCb.png",
-  //           });
-  //           enterChat(id, chat.chatName, chat.author);
-  //         });
-  //       }
-  //     } else {
-  //       alert(UIText.homeScreen.noChatFound);
-  //     }
-  //   });
-  // };
-
   if (loading) {
     return (
       <SafeAreaView
@@ -323,66 +223,6 @@ const HomeScreen = ({ navigation }) => {
   }
   return (
     <SafeAreaView style={styles.main}>
-      {/* <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 10,
-          borderBottomWidth: 2,
-          borderBottomColor: "#727178",
-        }}
-      >
-        <TextInput
-          style={{
-            width: "100%",
-            maxWidth: "100%",
-            flex: 1,
-            fontSize: 15,
-            padding: 10,
-            borderWidth: 2,
-            borderColor: chatId ? "#f4f5f5" : "#727178",
-            fontWeight: "700",
-            color: "#f4f5f5",
-            // outlineStyle: "none", // doesn't work on ios for some reason - bummer
-          }}
-          placeholder={UIText.homeScreen.joinChat}
-          placeholderTextColor="#727178"
-          value={chatId}
-          onChangeText={(text) => {
-            setChatId(text);
-          }}
-          onSubmitEditing={() => {
-            joinChat(chatId.trim());
-          }}
-        />
-        {chatId ? (
-          <TouchableOpacity
-            onPress={() => {
-              joinChat(chatId.trim());
-            }}
-            style={{
-              marginLeft: 10,
-              borderColor: "#f4f5f5",
-              backgroundColor: "#f4f5f5",
-              borderRadius: 5,
-              borderWidth: 2,
-              padding: 10,
-              paddingHorizontal: 13,
-            }}
-          >
-            <Text
-              style={{
-                color: "#0a0a0b",
-                fontSize: 15,
-                fontWeight: "800",
-              }}
-            >
-              {UIText.homeScreen.join}
-            </Text>
-          </TouchableOpacity>
-        ) : null}
-      </View> */}
       {!Error && chats.length > 0 ? (
         <ScrollView style={styles.container}>
           {chats.map(({ id, chatName, author }) => (

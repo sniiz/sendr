@@ -33,19 +33,12 @@ import {
   doc,
   deleteDoc,
   uploadBytes,
-  getDownloadURL,
-  // limit,
-  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
-  // if you think something terrible happened here, you are correct
+  getDownloadURL, // 👀
 } from "../firebase";
 import ActivityIndicator from "../components/ActivityIndicator";
 import { Popable } from "react-native-popable";
-// import Clipboard from "@react-native-clipboard/clipboard";
-// import * as Clipboard from "expo-clipboard";
 import { setString } from "expo-clipboard";
 import Theme from "../components/themes";
-// import Markdown from "react-native-markdown-renderer"; // TODO markdown messagess
-// import HyperLink from "react-native-hyperlink";
 
 const ChatScreen = ({ navigation, route }) => {
   const [msgInput, setMsgInput] = useState("");
@@ -53,22 +46,15 @@ const ChatScreen = ({ navigation, route }) => {
   const [otherUser, setOtherUser] = useState("");
   const [chatName, setChatName] = useState("");
 
-  // const [messagesToLoad, setMessagesToLoad] = useState(20);
-
   const [messages, setMessages] = useState([]);
-  // const [usersOnline, setUsersOnline] = useState([]);
   const [members, setMembers] = useState([]);
   const [devs, setDevs] = useState([]);
 
   const [sending, setSending] = useState(false);
-  // const [emojiPicker, setEmojiPicker] = useState(false);
-  // const [emailVerified, setEmailVerified] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [dm, setDm] = useState(false);
   const [msgBlocked, setMsgBlocked] = useState(false);
 
-  const [repliedId, setRepliedId] = useState(null);
-  const [editingId, setEditingId] = useState(null);
   const flatListRef = useRef(null);
 
   const [badWords, setBadWords] = useState([]);
@@ -95,7 +81,6 @@ const ChatScreen = ({ navigation, route }) => {
       query(
         collection(db, `privateChats/${route.params.id}`, "messages"),
         orderBy("timestamp", "asc")
-        // limit(messagesToLoad)
       ),
       (snapshot) => {
         const docs = snapshot.docs;
@@ -148,7 +133,6 @@ const ChatScreen = ({ navigation, route }) => {
     });
     getDoc(doc(db, "otherStuff", "devs")).then((devs) => {
       setDevs(devs.data().ids);
-      // console.log(devs.data().ids);
     });
     setBadWords(
       (await getDoc(doc(db, "otherStuff", "badWords"))).data().badWords
@@ -165,13 +149,6 @@ const ChatScreen = ({ navigation, route }) => {
     navigation.setOptions({
       title:
         route.params?.chatName !== null ? route.params.chatName : otherUser,
-      // headerStyle: {
-      //   backgroundColor: theme?.main,
-      //   borderBottomWidth: 2,
-      //   borderBottomColor: theme?.accent,
-      // },
-      // headerTitleStyle: { color: "#f4f5f5", fontWeight: "bold" },
-      // headerTintColor: theme?.accent,
       headerRight: () => {
         if (dm || !loaded) {
           return null;
@@ -326,7 +303,6 @@ const ChatScreen = ({ navigation, route }) => {
         }
       }
       setMsgInput("");
-      setEditingId(null);
       const message = {
         // its late im literally in bed, tired, and desperate
         timestamp: serverTimestamp(),
@@ -342,10 +318,8 @@ const ChatScreen = ({ navigation, route }) => {
         message
       ).catch((error) => alert(error));
       setSending(false);
-      setRepliedId(null);
     } else {
       setSending(false);
-      setRepliedId(null);
     }
   };
 

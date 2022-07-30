@@ -39,8 +39,6 @@ const FriendsScreen = ({ navigation, route }) => {
 
   const [loading, setLoading] = useState(true);
 
-  const [uid, setUid] = useState("");
-
   const [friendId, setFriendId] = useState(route.params?.friendId || "");
 
   const auth = getAuth();

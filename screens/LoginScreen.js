@@ -36,9 +36,7 @@ const LoginScreen = ({ navigation }) => {
     const [passwordCorrect, setPasswordCorrect] = useState(true);
     const [loading, setLoading] = useState(true);
     const [loggingIn, setLoggingIn] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [takingTooLong, setTakingTooLong] = useState(false);
-    const [serverDown, setServerDown] = useState(false);
 
     const auth = getAuth();
     const db = getFirestore();
@@ -72,7 +70,6 @@ const LoginScreen = ({ navigation }) => {
       const unsub = onAuthStateChanged(getAuth(), (user) => {
         if (user !== null) {
           // console.log(user);
-          setIsLoggedIn(true);
           getDoc(doc(db, `users`, user.uid)).then(
             async (userdoc) => {
               if (!userdoc?.exists()) {

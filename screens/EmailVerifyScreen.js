@@ -26,7 +26,6 @@ const version = require("../assets/version-info.json");
 export default React.memo(function EmailVerifyScreen({ navigation, route }) {
   const auth = getAuth();
   const [sent, setSent] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [tooLong, setTooLong] = useState(false);
 
   useEffect(() => {

@@ -1,26 +1,15 @@
-import React, {
-  useLayoutEffect,
-  useState,
-  // componentDidMount,
-  useEffect,
-} from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
   Image,
-  // Input,
   ScrollView,
-  // KeyboardAvoidingView,
-  // Switch,
   Platform,
-  // Linking,
   SafeAreaView,
 } from "react-native";
-import { useKeyboard } from "@react-native-community/hooks";
 import { Input } from "react-native-elements";
-// import ImageCropPicker from "react-native-image-crop-picker";
 import UIText from "../components/LocalizedText";
 import {
   getAuth,
@@ -46,14 +35,9 @@ import {
   uploadBytes,
   getDownloadURL,
   getStorage,
-  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
-// import DropDownPicker from "react-native-dropdown-picker";
-// import { SimpleLineIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-// import uuid from "uuid";
 import { Popable } from "react-native-popable";
-// import Clipboard from "@react-native-clipboard/clipboard";
 import { setString } from "expo-clipboard";
 import Theme from "../components/themes";
 
@@ -117,9 +101,6 @@ function SettingsScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [deletePassword, setDeletePassword] = useState("");
-  const [theme, setTheme] = useState(null);
-
-  const [isLoading, setIsLoading] = useState(false);
 
   // const kb = useKeyboard();
   const auth = getAuth();
@@ -132,7 +113,6 @@ function SettingsScreen({ navigation }) {
       headerTitleAlign: "center",
       title: UIText.settingsScreen.barTitle,
     });
-    setTheme(Theme.get());
     console.log(Theme.list());
   }, [navigation]);
 
@@ -354,35 +334,6 @@ function SettingsScreen({ navigation }) {
             />
           </TouchableOpacity>
         </Popable>
-        {/* <DropDownPicker
-                    open={pronounPickerOpen}
-                    value={pronoun}
-                    placeholder="select your pronouns"
-                    placeholderStyle={{
-                        color: "#f4f5f5",
-                    }}
-                    items={items}
-                    setOpen={setPronounPickerOpen}
-                    setValue={setPronoun}
-                    setItems={setItems}
-                    containerStyle={{
-                        width: "fit-content",
-                        padding: 10,
-                        color: "#f4f5f5",
-                        borderColor: "#f4f5f5",
-                        borderWidth: 2,
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                    labelStyle={{
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        color: "#f4f5f5",
-                    }}
-                    listItemContainer={{
-                        backgroundColor: "#0a0a0b",
-                    }}
-                /> WIP*/}
         <View style={styles.inputContainer}>
           <Text style={styles.settingText}>
             {UIText.settingsScreen.username}
@@ -397,9 +348,7 @@ function SettingsScreen({ navigation }) {
             value={username !== null ? username : user?.displayName}
             onSubmitEditing={() => {
               if (username >= 3 && username < 15) {
-                setIsLoading(true);
                 applyNickname(getFirestore(), user.uid, username).then(() => {
-                  setIsLoading(false);
                   setUsername(null);
                 });
               }
@@ -409,10 +358,8 @@ function SettingsScreen({ navigation }) {
             <TouchableOpacity
               onPress={() => {
                 if (username !== user?.displayName && username !== "potat") {
-                  setIsLoading(true);
                   applyNickname(getFirestore(), user.uid, username).finally(
                     () => {
-                      setIsLoading(false);
                       setUsername(null);
                     }
                   );
@@ -467,7 +414,6 @@ function SettingsScreen({ navigation }) {
           {oldPassword?.length > 0 && password?.length > 0 ? (
             <TouchableOpacity
               onPress={() => {
-                setIsLoading(true);
                 var credential = EmailAuthProvider.credential(
                   user.email,
                   oldPassword
@@ -475,13 +421,11 @@ function SettingsScreen({ navigation }) {
                 reauthenticateWithCredential(user, credential)
                   .then(() => {
                     updatePassword(user, password).then(() => {
-                      setIsLoading(false);
                       setPassword("");
                       setOldPassword("");
                     });
                   })
                   .catch(() => {
-                    setIsLoading(false);
                     alert(UIText.settingsScreen.wrongPassword);
                   });
               }}
@@ -620,47 +564,6 @@ function SettingsScreen({ navigation }) {
             </TouchableOpacity>
           </>
         ) : null}
-        {/* <View
-                        style={{
-                            height: "5%",
-                            width: "100%",
-                        }}
-                    ></View>
-                    <TouchableOpacity
-                        onPress={() => {
-                            if (Platform.OS === "web") {
-                                window.open(
-                                    "https://github.com/sniiz/sendr/issues",
-                                    "_blank"
-                                );
-                            } else {
-                                Linking.openURL(
-                                    "https://github.com/sniiz/sendr/issues"
-                                );
-                            }
-                        }}
-                    >
-                        <Text
-                            style={{
-                                color: "#727178",
-                                fontSize: 10,
-                                fontFamily:
-                                    Platform.OS === "ios"
-                                        ? "Courier"
-                                        : "monospace",
-                                marginHorizontal: 30,
-                                textAlign: "center",
-                            }}
-                        >
-                            having trouble with sendr? have a suggestion to make
-                            the app better? open an issue on github!!{" "}
-                            <SimpleLineIcons
-                                name="share-alt"
-                                size={10}
-                                color="#727178"
-                            />
-                        </Text>
-                    </TouchableOpacity> */}
         <View
           style={{
             height: "5%",
