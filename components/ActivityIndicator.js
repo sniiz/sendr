@@ -13,7 +13,7 @@ const dots2 = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "�
 // maybe we'll make your animation the default one!
 
 const animation = slash;
-const interval = 90;
+const interval = 100;
 
 export default function ActivityIndicator({ size, color, style }) {
   const [step, setStep] = React.useState(0);

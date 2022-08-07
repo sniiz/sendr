@@ -122,6 +122,11 @@ const ChatScreen = ({ navigation, route }) => {
           setMembers(members);
         });
       }
+      if (!chat.data().members.includes(auth.currentUser.uid)) {
+        alert("you are not in this chat.");
+        navigation.replace("home");
+        return;
+      }
       setDm(chat.data().dm);
       if (chat.data().dm) {
         const otherUserId = chat
@@ -274,7 +279,7 @@ const ChatScreen = ({ navigation, route }) => {
 
       let links =
         msgInput.match(
-          /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
+          /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g // ugly
         ) || [];
       let images = [];
 
@@ -304,7 +309,6 @@ const ChatScreen = ({ navigation, route }) => {
           });
         }
       }
-      setMsgInput("");
       const message = {
         // its late im literally in bed, tired, and desperate
         timestamp: serverTimestamp(),
@@ -320,7 +324,8 @@ const ChatScreen = ({ navigation, route }) => {
         message
       )
         .catch((error) => alert(error))
-        .then(() => {
+        .finally(() => {
+          setMsgInput("");
           setSending(false);
         });
     } else {
