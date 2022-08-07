@@ -45,6 +45,8 @@ const ChatScreen = ({ navigation, route }) => {
   const [author, setAuthor] = useState("");
   const [otherUser, setOtherUser] = useState("");
   const [chatName, setChatName] = useState("");
+  const [replyTo, setReplyTo] = useState("");
+  const [edit, setEdit] = useState("");
 
   const [messages, setMessages] = useState([]);
   const [members, setMembers] = useState([]);
@@ -251,7 +253,7 @@ const ChatScreen = ({ navigation, route }) => {
     });
   }, [navigation, dm, otherUser, loaded]);
 
-  const sendMessage = async () => {
+  const sendMessage = () => {
     Keyboard.dismiss();
     setSending(true);
 
@@ -313,11 +315,14 @@ const ChatScreen = ({ navigation, route }) => {
         photoURL:
           auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
       };
-      await addDoc(
+      addDoc(
         collection(db, `privateChats/${route.params.id}`, "messages"),
         message
-      ).catch((error) => alert(error));
-      setSending(false);
+      )
+        .catch((error) => alert(error))
+        .then(() => {
+          setSending(false);
+        });
     } else {
       setSending(false);
     }
@@ -373,102 +378,129 @@ const ChatScreen = ({ navigation, route }) => {
           />
         </TouchableOpacity>
         <View style={[styles.messageView, { backgroundColor: main }]}>
-          <Text
-            style={[
-              styles.senderName,
-              {
-                color: theme.middle,
-              },
-            ]}
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              margin: 5,
+            }}
           >
-            {item.displayName}
-            {devs?.includes(item.uid) ? (
-              <View
-                style={{
-                  backgroundColor: "#55f",
-                  padding: 5,
-                  paddingVertical: 3,
-                  borderRadius: 7,
-                  marginLeft: 3,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  alignSelf: "center",
-                }}
-              >
-                <Text
+            <Text
+              style={[
+                styles.senderName,
+                {
+                  color: theme.middle,
+                },
+              ]}
+            >
+              {item.displayName}
+              {devs?.includes(item.uid) ? (
+                <View
                   style={{
-                    color: "#f4f5f5",
-                    fontWeight: "800",
-                    fontSize: 7,
+                    backgroundColor: "#55f",
+                    padding: 5,
+                    paddingVertical: 3,
+                    borderRadius: 7,
+                    marginLeft: 3,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    alignSelf: "center",
                   }}
                 >
-                  DEV
-                </Text>
-              </View>
-            ) : null}
-            {item.uid === "POTATOCAT" ? (
-              <View
-                style={{
-                  backgroundColor: "#55f",
-                  // // width: "auto",
-                  padding: 5,
-                  paddingVertical: 3,
-                  borderRadius: 7,
-                  marginLeft: 3,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  alignSelf: "center",
-                }}
-              >
-                <Text
+                  <Text
+                    style={{
+                      color: "#f4f5f5",
+                      fontWeight: "800",
+                      fontSize: 7,
+                    }}
+                  >
+                    DEV
+                  </Text>
+                </View>
+              ) : null}
+              {item.uid === "POTATOCAT" ? (
+                <View
                   style={{
-                    color: "#f4f5f5",
-                    fontWeight: "800",
-                    fontSize: 7,
+                    backgroundColor: "#55f",
+                    // // width: "auto",
+                    padding: 5,
+                    paddingVertical: 3,
+                    borderRadius: 7,
+                    marginLeft: 3,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    alignSelf: "center",
                   }}
                 >
-                  SYSTEM
-                </Text>
-              </View>
-            ) : null}
-            {item.uid === j ? (
-              <View
-                style={{
-                  backgroundColor: "#ffd22e",
-                  // // width: "auto",
-                  padding: 5,
-                  paddingVertical: 3,
-                  borderRadius: 7,
-                  marginLeft: 3,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  alignSelf: "center",
-                }}
-              >
-                <Text
+                  <Text
+                    style={{
+                      color: "#f4f5f5",
+                      fontWeight: "800",
+                      fontSize: 7,
+                    }}
+                  >
+                    SYSTEM
+                  </Text>
+                </View>
+              ) : null}
+              {item.uid === j ? (
+                <View
                   style={{
-                    color: "#0a0a0b",
-                    fontWeight: "800",
-                    fontSize: 7,
+                    backgroundColor: "#ffd22e",
+                    // // width: "auto",
+                    padding: 5,
+                    paddingVertical: 3,
+                    borderRadius: 7,
+                    marginLeft: 3,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    alignSelf: "center",
                   }}
                 >
-                  lord sex
-                </Text>
-              </View>
-            ) : null}
-            {" · "}
-            {item.timestamp
-              ? new Date(item.timestamp.seconds * 1000).toLocaleDateString(
-                  Localization.locale,
-                  {
-                    month: "short",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                  }
-                )
-              : "loading..."}
-          </Text>
+                  <Text
+                    style={{
+                      color: "#0a0a0b",
+                      fontWeight: "800",
+                      fontSize: 7,
+                    }}
+                  >
+                    lord sex
+                  </Text>
+                </View>
+              ) : null}
+              {" · "}
+              {item.timestamp
+                ? new Date(item.timestamp.seconds * 1000).toLocaleDateString(
+                    Localization.locale,
+                    {
+                      month: "short",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                    }
+                  )
+                : "loading..."}
+            </Text>
+            <View>
+              {item.uid === auth.currentUser.uid ? (
+                <>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setEdit(item.id);
+                    }}
+                    style={{}}
+                  >
+                    <Icon.Edit2
+                      width={10}
+                      color={theme.middle}
+                      strokeWidth={2}
+                    />
+                  </TouchableOpacity>
+                </>
+              ) : null}
+            </View>
+          </View>
           <Text
             style={[
               styles.receiverText,

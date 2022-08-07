@@ -1,21 +1,21 @@
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
-  StyleSheet,
-  Text,
   KeyboardAvoidingView,
   // View,
   Platform,
+  StyleSheet,
+  Text,
   TouchableOpacity,
 } from "react-native";
+import UIText from "../components/LocalizedText";
 import {
   getAuth,
+  onAuthStateChanged,
+  sendEmailVerification,
   // createUserWithEmailAndPassword,
   // updateProfile,
   signOut,
-  // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
-import { onAuthStateChanged, sendEmailVerification } from "../firebase";
-import UIText from "../components/LocalizedText";
-import React, { useEffect, useState, useLayoutEffect } from "react";
 // import { NavigationContainer } from "@react-navigation/native";
 
 const version = require("../assets/version-info.json");

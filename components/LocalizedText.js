@@ -13,7 +13,7 @@ import * as Localization from "expo-localization";
 // but then automatically translate to everything else at runtime
 // can you even do that
 // is this stupid?
-// i feel like it's kinda stupid
+// i feel like this is kinda stupid
 // idk
 const uiText = {
   en: {
