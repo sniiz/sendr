@@ -224,6 +224,47 @@ function SettingsScreen({ navigation }) {
     return await getDownloadURL(fileRef);
   };
 
+  const pfpUrlCallback = async (url) => {
+    setPfp(url);
+    await updateDoc(doc(collection(getFirestore(), "users"), user.uid), {
+      pfp: url,
+    }).catch((err) => {
+      alert(err);
+    });
+    await updateProfile(getAuth().currentUser, {
+      photoURL: url,
+    }).catch((err) => {
+      alert(err);
+    });
+    let chats = await getDocs(
+      query(
+        collection(getFirestore(), "privateChats"),
+        where("members", "array-contains", user.uid)
+      )
+    );
+    chats.forEach(async (chat) => {
+      let messages = await getDocs(
+        query(
+          collection(getFirestore(), "privateChats", chat.id, "messages"),
+          where("uid", "==", user.uid)
+        )
+      );
+      messages.forEach((message) => {
+        updateDoc(
+          doc(
+            collection(getFirestore(), "privateChats", chat.id, "messages"),
+            message.id
+          ),
+          {
+            pfp: url,
+          }
+        ).catch((err) => {
+          alert(err);
+        });
+      });
+    });
+  };
+
   const handlePfp = () => {
     if (Platform.OS !== "web") {
       ImagePicker.requestMediaLibraryPermissionsAsync().then(() => {
@@ -239,15 +280,7 @@ function SettingsScreen({ navigation }) {
           allowsMultipleSelection: false,
         }).then((result) => {
           if (!result.cancelled) {
-            uploadImage(result.uri).then((url) => {
-              setPfp(url);
-              updateDoc(doc(collection(getFirestore(), "users"), user.uid), {
-                pfp: url,
-              });
-              updateProfile(getAuth().currentUser, {
-                photoURL: url,
-              });
-            });
+            uploadImage(result.uri).then(pfpUrlCallback);
           }
         });
       });
@@ -260,15 +293,7 @@ function SettingsScreen({ navigation }) {
         allowsMultipleSelection: false,
       }).then((result) => {
         if (!result.cancelled) {
-          uploadImage(result.uri).then((url) => {
-            setPfp(url);
-            updateDoc(doc(collection(getFirestore(), "users"), user.uid), {
-              pfp: url,
-            });
-            updateProfile(getAuth().currentUser, {
-              photoURL: url,
-            });
-          });
+          uploadImage(result.uri).then(pfpUrlCallback);
         }
       });
     }

@@ -486,10 +486,9 @@ const ChatScreen = ({ navigation, route }) => {
                     }
                   )
                 : "loading..."}
-            </Text>
-            <View>
               {item.uid === auth.currentUser.uid ? (
                 <>
+                  {"   "}
                   <TouchableOpacity
                     onPress={() => {
                       setEdit(item.id);
@@ -504,7 +503,7 @@ const ChatScreen = ({ navigation, route }) => {
                   </TouchableOpacity>
                 </>
               ) : null}
-            </View>
+            </Text>
           </View>
           <Text
             style={[
