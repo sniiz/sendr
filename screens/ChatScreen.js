@@ -67,7 +67,6 @@ const ChatScreen = ({ navigation, route }) => {
     "left :(",
     "left",
     "left the chat",
-    "went away :(",
     "left. they will be missed :(",
     "left us :(",
   ];
@@ -318,6 +317,7 @@ const ChatScreen = ({ navigation, route }) => {
         uid: auth.currentUser.uid,
         photoURL:
           auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
+        edited: false,
       };
       addDoc(
         collection(db, `privateChats/${route.params.id}`, "messages"),
@@ -486,23 +486,6 @@ const ChatScreen = ({ navigation, route }) => {
                     }
                   )
                 : "loading..."}
-              {item.uid === auth.currentUser.uid ? (
-                <>
-                  {"   "}
-                  <TouchableOpacity
-                    onPress={() => {
-                      setEdit(item.id);
-                    }}
-                    style={{}}
-                  >
-                    <Icon.Edit2
-                      width={10}
-                      color={theme.middle}
-                      strokeWidth={2}
-                    />
-                  </TouchableOpacity>
-                </>
-              ) : null}
             </Text>
           </View>
           <Text
@@ -558,6 +541,21 @@ const ChatScreen = ({ navigation, route }) => {
             </ScrollView>
           ) : null}
         </View>
+        {item.uid === auth.currentUser.uid && (
+          <TouchableOpacity
+            onPress={() => {
+              setEdit(item);
+              setMsgInput(item.message);
+            }}
+            style={{
+              margin: 5,
+              marginRight: 10,
+              alignSelf: "flex-end",
+            }}
+          >
+            <Icon.Edit2 width={10} color={theme?.middle} strokeWidth={2} />
+          </TouchableOpacity>
+        )}
       </View>
     );
   };
@@ -661,6 +659,34 @@ const ChatScreen = ({ navigation, route }) => {
                 </Text>
               </View>
             )}
+            {edit ? (
+              <View style={styles.replyFooter}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setEdit("");
+                    setMsgInput("");
+                  }}
+                  style={{
+                    marginRight: 10,
+                  }}
+                >
+                  <Icon.XCircle
+                    width={20}
+                    color={theme?.middle}
+                    strokeWidth={2}
+                  />
+                </TouchableOpacity>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontWeight: "bold",
+                    color: theme?.middle,
+                  }}
+                >
+                  editing "{edit.message}"
+                </Text>
+              </View>
+            ) : null}
             <View style={styles.footer}>
               <TextInput
                 placeholder={UIText.chatScreen.inputPlaceholder}
@@ -823,7 +849,7 @@ const styles = StyleSheet.create({
   senderName: {
     // left: 10,
     // paddingRight: 10,
-    // marginLeft: -5,
+    marginLeft: -5,
     fontSize: 10,
     color: "#727178",
     alignItems: "center",
