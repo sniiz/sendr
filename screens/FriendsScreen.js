@@ -6,7 +6,7 @@ import {
   View,
   // TouchableWithoutFeedback,
   TouchableOpacity,
-  // Image,
+  Image,
   TextInput,
   FlatList,
   Text,
@@ -40,6 +40,8 @@ const FriendsScreen = ({ navigation, route }) => {
   const [loading, setLoading] = useState(true);
 
   const [friendId, setFriendId] = useState(route.params?.friendId || "");
+
+  const [megamind, setMegamind] = useState(false);
 
   const auth = getAuth();
   const db = getFirestore();
@@ -82,6 +84,7 @@ const FriendsScreen = ({ navigation, route }) => {
         setLoading(false);
       }
     );
+    setMegamind(Math.round(Math.random() * 50) === 28);
     return () => {
       unsubscribe();
     };
@@ -93,7 +96,7 @@ const FriendsScreen = ({ navigation, route }) => {
       return;
     }
     if (id.trim() === "POTATOCAT") {
-      alert("no. sadly you cannot befriend the potatocat.");
+      alert("no. sadly you cannot befriend the potatocat."); // TODO translate
       setFriendId("");
       return;
     }
@@ -322,31 +325,52 @@ const FriendsScreen = ({ navigation, route }) => {
           </TouchableOpacity>
         ) : null}
       </View>
-      <FlatList
-        data={requests}
-        renderItem={friendRequestItem}
-        keyExtractor={(item) => item.id}
-        style={{
-          flex: 1,
-        }}
-        ListEmptyComponent={
-          <Text
+      {requests.length === 0 && megamind ? (
+        <View
+          style={[
+            styles.container,
+            {
+              alignContent: "center",
+              justifyContent: "center",
+            },
+          ]}
+        >
+          <Image
+            source={require("../assets/nofriends.jpg")}
             style={{
-              fontSize: 30,
-              fontFamily: "monospace",
-              color: "#727178",
-              textAlign: "center",
+              width: "30%",
+              aspectRatio: 300 / 222,
               alignSelf: "center",
-              marginTop: "10%",
             }}
-          >
-            {":'(\n\n"}
-            <Text style={{ fontSize: 15 }}>
-              {UIText.friendsScreen.noFriends}
+          />
+        </View>
+      ) : (
+        <FlatList
+          data={requests}
+          renderItem={friendRequestItem}
+          keyExtractor={(item) => item.id}
+          style={{
+            flex: 1,
+          }}
+          ListEmptyComponent={
+            <Text
+              style={{
+                fontSize: 30,
+                fontFamily: "monospace",
+                color: "#727178",
+                textAlign: "center",
+                alignSelf: "center",
+                marginTop: "10%",
+              }}
+            >
+              {":'(\n\n"}
+              <Text style={{ fontSize: 15 }}>
+                {UIText.friendsScreen.noFriends}
+              </Text>
             </Text>
-          </Text>
-        }
-      />
+          }
+        />
+      )}
     </View>
   );
 };
