@@ -122,7 +122,7 @@ const ChatScreen = ({ navigation, route }) => {
         });
       }
       if (!chat.data().members.includes(auth.currentUser.uid)) {
-        alert("you are not in this chat.");
+        alert("you are not in this chat."); // TODO translate
         navigation.replace("home");
         return;
       }

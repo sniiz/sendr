@@ -47,18 +47,22 @@ const RegisterScreen = ({ navigation }) => {
   }, [navigation]);
 
   const register = () => {
-    if (fullname === "potat") {
-      alert(
-        "that username is reserved for system messages. please choose another"
-      );
-      return;
-    }
     setLoading(true);
     const auth = getAuth();
     setEmail(email.trim());
     setPassword(password.trim());
     setFullname(fullname.trim());
     setPasswordConfirm(passwordConfirm.trim());
+    if (fullname === "potat" || fullname === "POTATOCAT") {
+      alert(
+        "that username is reserved for system messages. please choose another" // TODO translate
+      );
+      return;
+    }
+    if (fullname.length < 3 || fullname.length > 15) {
+      alert(`${fullname} ${UIText.settingsScreen.usernameTooLong}`);
+      return;
+    }
     if (password !== passwordConfirm) {
       alert(UIText.signUpScreen.passwordsDontMatch);
       setLoading(false);
