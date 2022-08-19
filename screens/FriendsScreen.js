@@ -84,7 +84,9 @@ const FriendsScreen = ({ navigation, route }) => {
         setLoading(false);
       }
     );
-    setMegamind(Math.round(Math.random() * 50) === 28);
+    const funnyNumber = Math.round(Math.random() * 50);
+    console.log(funnyNumber);
+    setMegamind(funnyNumber === 28);
     return () => {
       unsubscribe();
     };

@@ -499,14 +499,14 @@ const ChatScreen = ({ navigation, route }) => {
           >
             {item.message}
           </Text>
-          {item.attachments ? (
+          {item.attachments?.length > 0 && (
             <ScrollView
               horizontal
               style={{
                 maxWidth: "90%",
               }}
             >
-              {item.attachments.map((image) => (
+              {item?.attachments?.map((image) => (
                 <TouchableOpacity
                   style={{
                     margin: 5,
@@ -526,20 +526,20 @@ const ChatScreen = ({ navigation, route }) => {
                   }}
                 >
                   <Image
-                    source={{ uri: image.url }}
+                    source={{ uri: image?.url }}
                     style={{
-                      width: image.width / 2,
-                      height: image.height / 2,
+                      width: image?.width / 2,
+                      height: image?.height / 2,
                       maxHeight: 400,
                       maxWidth: 400,
-                      aspectRatio: image.width / image.height,
+                      aspectRatio: image?.width / image?.height,
                       // marginLeft: 10,
                     }}
                   />
                 </TouchableOpacity>
               ))}
             </ScrollView>
-          ) : null}
+          )}
         </View>
         {item.uid === auth.currentUser.uid && (
           <TouchableOpacity

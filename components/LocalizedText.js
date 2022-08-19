@@ -126,8 +126,10 @@ const uiText = {
     },
     friendsScreen: {
       barTitle: "friends",
-      idInput: "add friend by uid (found in the settings)",
+      idInput: "add friend by name or uid",
       add: "add",
+      byName: "by name",
+      byUid: "by uid",
       noFriends: "nobody wants to be friends with you :(",
       evilRant:
         "you think you're clever huh? you think you've outsmarted the system huh? well NO YOU HAVEN'T!!! THE MIGHTY POTAT CAN SEE THROUGH YOUR FUTILE TRICKS AND SHENANIGANS!!!!! YOU CANNOT ADD YOURSELF AS A FRIEND!!!!!!!",
@@ -267,8 +269,10 @@ const uiText = {
     },
     friendsScreen: {
       barTitle: "amis",
-      idInput: "ajouter un ami par uid (trouvé dans les paramètres)",
+      idInput: "ajouter un ami par pseudo ou uid",
       add: "ajouter",
+      byName: "par pseudo",
+      byUid: "par uid",
       noFriends: "personne ne veut être ami avec toi :(",
       evilRant:
         "Tu te crois malin, hein ? Tu penses avoir déjoué le système, hein ? Eh bien NON, tu ne l'as pas fait !!! LE PUISSANT POTAT PEUT VOIR À TRAVERS TES TOURS FUTILES ET TES MANIGANCES !!!!! TU NE PEUX PAS T'AJOUTER EN TANT QU'AMI !!!!!!!",
@@ -405,8 +409,10 @@ const uiText = {
     },
     friendsScreen: {
       barTitle: "amigos",
-      idInput: "añadir amigo por uid (se encuentra en los ajustes)",
+      idInput: "añadir amigo por apodo o uid",
       add: "añadir",
+      byName: "por apodo",
+      byUid: "por uid",
       noFriends: "nadie quiere ser amigo tuyo :(",
       evilRant: "no puedes añadirte como amigo",
       sentAlready: "ya te enviamos una solicitud de amistad",
@@ -544,8 +550,10 @@ const uiText = {
     },
     friendsScreen: {
       barTitle: "друзья",
-      idInput: "добавить друга по uid (это в настройках)",
+      idInput: "добавить друга по нику или по uid",
       add: "добавить",
+      byName: "по нику",
+      byUid: "по uid",
       noFriends: "никто не хочет с тобой дружить :(",
       evilRant: "нельзя добавить себя в список друзей",
       doesntExist: "такого пользователя не существует или он уже друг",
@@ -672,8 +680,10 @@ const uiText = {
     },
     friendsScreen: {
       barTitle: "好友",
-      idInput: "通过UID添加朋友（在设置中找到）",
+      idInput: "按姓名或UID添加朋友",
       add: "添加",
+      byName: "",
+      byUid: "", // too lazy to translate ┐(シ)ﾉ彡
       noFriends: "没有人愿意和你做朋友 :(",
       evilRant: "你不能向自己发送好友请求",
       sentAlready: "你已经向该用户发送了一个好友请求",
@@ -693,7 +703,6 @@ const uiText = {
       serverTitle: "哎呀 😯",
       serverBody: "我们的服务器出错了。 对不起!",
       serverOk: "好的",
-
       noChats: "哎呀。 我们的服务器出错了，无法获取你的聊天。",
       serverMoreInfo: "更多信息",
     },
@@ -802,8 +811,10 @@ const uiText = {
     },
     friendsScreen: {
       barTitle: "友達",
-      idInput: "uidで友達を追加する（設定にあります）",
+      idInput: "名前またはUIDで友達を追加する",
       add: "追加",
+      byName: "",
+      byUid: "", // this too
       noFriends: "誰もあなたとフレンドになりたがらない :(",
       evilRant: "自分自身にフレンドリクエストを送信することはできません。",
       sentAlready: "このユーザーに既にフレンドリクエストを送信しています。",
@@ -846,6 +857,8 @@ if (!supported.includes(lang)) {
 
 // HMM I WONDER WHAT THIS COULD BE
 if (new Date().getDate() === 25 && new Date().getMonth() === 4) {
+  // welcome to clunk city
+  // population: this
   const emojis =
     /((\ud83c[\udde6-\uddff]){2}|([\#\*0-9]\u20e3)|(\u00a9|\u00ae|[\u2000-\u3300]|[\ud83c-\ud83e][\ud000-\udfff])((\ud83c[\udffb-\udfff])?(\ud83e[\uddb0-\uddb3])?(\ufe0f?\u200d([\u2000-\u3300]|[\ud83c-\ud83e][\ud000-\udfff])\ufe0f?)?)*)/g;
   for (var key in uiText[lang]) {
