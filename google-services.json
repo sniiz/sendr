@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "762806681066",
+    "firebase_url": "https://sniiz-sendr-default-rtdb.firebaseio.com",
+    "project_id": "sniiz-sendr",
+    "storage_bucket": "sniiz-sendr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762806681066:android:d8b649df30f5b363cb8693",
+        "android_client_info": {
+          "package_name": "com.sniiz.sendr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "762806681066-4s97b8747g9h9p6gfee8l22dluni6k7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1-HtIWihWcSKGYZytq2mM6RZQds2OPX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "762806681066-4s97b8747g9h9p6gfee8l22dluni6k7s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -181,12 +181,29 @@ const ChatScreen = ({ navigation, route }) => {
             >
               <TouchableOpacity
                 activeOpacity={0.5}
-                onPress={() => {
-                  setString(
-                    encodeURI(
-                      `https://sendr-sniiz.vercel.app/invite.html?inviter=${auth.currentUser.displayName}&chatId=${route.params.id}&chatName=${chatName}`
-                    )
+                onPress={async () => {
+                  const longLink = encodeURI(
+                    `https://sendr-sniiz.vercel.app/invite.html?inviter=${auth.currentUser.displayName}&chatId=${route.params.id}&chatName=${chatName}`
                   );
+                  const res = await fetch(
+                    `https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyD2c5D7MtdLHYcTQpm2GJsDb2PY36lGmss`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        // longDynamicLink: `https://sndr.page.link/?link=${longLink}&apn=com.sendr.sniiz`,
+                        dynamicLinkInfo: {
+                          domainUriPrefix: "https://sndr.page.link",
+                          link: longLink,
+                        },
+                      }),
+                    }
+                  );
+                  const shortLink = await res.json();
+                  console.log(shortLink.shortLink);
+                  setString(shortLink.shortLink);
                 }}
               >
                 {/* <SimpleLineIcons name="docs" size={18} color="#f4f5f5" /> */}

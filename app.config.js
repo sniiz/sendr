@@ -31,6 +31,7 @@ export default {
       buildNumber: "1.0.0",
     },
     android: {
+      googleServicesFile: "./google-services.json",
       package: "com.sniiz.sendr",
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
