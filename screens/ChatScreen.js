@@ -153,8 +153,7 @@ const ChatScreen = ({ navigation, route }) => {
     setTheme(Theme.get("classic"));
 
     navigation.setOptions({
-      title:
-        route.params?.chatName !== null ? route.params.chatName : otherUser,
+      title: chatName || otherUser,
       headerRight: () => {
         if (dm || !loaded) {
           return null;
@@ -255,7 +254,7 @@ const ChatScreen = ({ navigation, route }) => {
         );
       },
     });
-  }, [navigation, dm, otherUser, loaded]);
+  }, [navigation, dm, otherUser, loaded, chatName]);
 
   const sendMessage = () => {
     Keyboard.dismiss();

@@ -42,6 +42,7 @@ const HomeScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [Error, setError] = useState(false);
   const [noChats, setNoChats] = useState("");
+  const [requests, setRequests] = useState([]);
 
   const joinMessages = [
     "joined!",
@@ -64,6 +65,13 @@ const HomeScreen = ({ navigation }) => {
       navigation.replace("login");
       return;
     }
+    const unsubAuth = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigation.replace("login");
+      } else if (!user?.emailVerified) {
+        navigation.replace("verifyEmail");
+      }
+    });
     setNoChats(UIText.homeScreen[`lonely${Math.floor(Math.random() * 6) + 1}`]);
     const unsubscribe = onSnapshot(
       query(
@@ -90,13 +98,6 @@ const HomeScreen = ({ navigation }) => {
         setLoading(false);
       }
     );
-    const unsubAuth = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        navigation.replace("login");
-      } else if (!user?.emailVerified) {
-        navigation.replace("verifyEmail");
-      }
-    });
     return () => {
       unsubscribe();
       unsubAuth();
@@ -202,8 +203,6 @@ const HomeScreen = ({ navigation }) => {
     // unsubscribe();
     navigation.navigate("chat", {
       id,
-      chatName,
-      author,
     });
   };
   if (loading) {

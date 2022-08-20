@@ -18,6 +18,10 @@ const AddChatScreen = ({ navigation }) => {
   const createChat = () => {
     const db = getFirestore();
     const auth = getAuth();
+    if (chat.length > 15) {
+      alert("chat name must be less than 15 characters");
+      return;
+    }
     addDoc(collection(db, "privateChats"), {
       chatName: chat,
       author: auth.currentUser.displayName,
@@ -27,8 +31,8 @@ const AddChatScreen = ({ navigation }) => {
       .then((ref) =>
         navigation.navigate("chat", {
           id: ref.id,
-          chatName: chat,
-          author: auth.currentUser.displayName,
+          // chatName: chat,
+          // author: auth.currentUser.displayName,
         })
       )
       .catch((error) => alert(error));

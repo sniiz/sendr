@@ -156,7 +156,7 @@ const UserInfoScreen = ({ navigation, route }) => {
           if (isFriend) {
             navigation.navigate("chat", {
               id: dmID,
-              name: user.name,
+              // name: user.name,
             });
           } else {
             navigation.navigate("friends", {
