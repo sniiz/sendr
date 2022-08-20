@@ -1,9 +1,6 @@
-import { View, Image, Animated, Easing, Text } from "react-native";
+import { Animated, Text } from "react-native";
 // import { SimpleLineIcons } from "@expo/vector-icons";
-import * as Icon from "react-native-feather";
 import React from "react";
-
-const spin = new Animated.Value(0);
 
 const slash = ["|", "/", "-", "\\"];
 const dots = [".˙", "··", "˙."];

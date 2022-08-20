@@ -37,7 +37,8 @@ import {
 } from "../firebase";
 import ActivityIndicator from "../components/ActivityIndicator";
 import { Popable } from "react-native-popable";
-import { setString } from "expo-clipboard";
+// import { setString } from "expo-clipboard";
+import * as Clipboard from "expo-clipboard";
 import Theme from "../components/themes";
 
 const ChatScreen = ({ navigation, route }) => {
@@ -81,7 +82,7 @@ const ChatScreen = ({ navigation, route }) => {
     const unsubscribe = onSnapshot(
       query(
         collection(db, `privateChats/${route.params.id}`, "messages"),
-        orderBy("timestamp", "asc")
+        orderBy("timestamp", "desc")
       ),
       (snapshot) => {
         const docs = snapshot.docs;
@@ -149,6 +150,30 @@ const ChatScreen = ({ navigation, route }) => {
     };
   }, [route]);
 
+  const generateInviteLink = async () => {
+    const longLink = encodeURI(
+      `https://sendr-sniiz.vercel.app/invite.html?inviter=${auth.currentUser.displayName}&chatId=${route.params.id}&chatName=${chatName}`
+    );
+    const res = await fetch(
+      `https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyD2c5D7MtdLHYcTQpm2GJsDb2PY36lGmss`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          // longDynamicLink: `https://sndr.page.link/?link=${longLink}&apn=com.sendr.sniiz`,
+          dynamicLinkInfo: {
+            domainUriPrefix: "https://sndr.page.link",
+            link: longLink,
+          },
+        }),
+      }
+    );
+    const data = await res.json();
+    return data.shortLink;
+  };
+
   useLayoutEffect(() => {
     setTheme(Theme.get("classic"));
 
@@ -182,28 +207,12 @@ const ChatScreen = ({ navigation, route }) => {
               <TouchableOpacity
                 activeOpacity={0.5}
                 onPress={async () => {
-                  const longLink = encodeURI(
-                    `https://sendr-sniiz.vercel.app/invite.html?inviter=${auth.currentUser.displayName}&chatId=${route.params.id}&chatName=${chatName}`
+                  const success = Clipboard.setString(
+                    await generateInviteLink()
                   );
-                  const res = await fetch(
-                    `https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyD2c5D7MtdLHYcTQpm2GJsDb2PY36lGmss`,
-                    {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        // longDynamicLink: `https://sndr.page.link/?link=${longLink}&apn=com.sendr.sniiz`,
-                        dynamicLinkInfo: {
-                          domainUriPrefix: "https://sndr.page.link",
-                          link: longLink,
-                        },
-                      }),
-                    }
+                  alert(
+                    success ? "copied" : "copy failed. are you using safari?"
                   );
-                  const shortLink = await res.json();
-                  console.log(shortLink.shortLink);
-                  setString(shortLink.shortLink);
                 }}
               >
                 {/* <SimpleLineIcons name="docs" size={18} color="#f4f5f5" /> */}
@@ -606,11 +615,11 @@ const ChatScreen = ({ navigation, route }) => {
   );
 
   const scrollToBottom = () => {
-    // flatListRef.current.scrollToOffset({
-    //   animated: true,
-    //   offset: 0,
-    // });
-    flatListRef.current.scrollToEnd({ animated: true });
+    flatListRef.current.scrollToOffset({
+      animated: true,
+      offset: 0,
+    });
+    // flatListRef.current.scrollToEnd({ animated: true });
   };
 
   if (!loaded) {
@@ -645,11 +654,13 @@ const ChatScreen = ({ navigation, route }) => {
               <FlatList
                 data={messages}
                 ref={flatListRef}
-                keyExtractor={keyExtractor}
-                ListHeaderComponent={createdHeader}
-                onContentSizeChange={scrollToBottom}
-                windowSize={41}
+                // keyExtractor={keyExtractor}
+                // ListHeaderComponent={createdHeader}
+                ListFooterComponent={createdHeader}
+                // onContentSizeChange={scrollToBottom}
+                // windowSize={41}
                 renderItem={messageItem}
+                inverted
               />
             ) : (
               <View

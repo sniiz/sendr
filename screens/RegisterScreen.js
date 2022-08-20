@@ -21,6 +21,9 @@ import {
   updateProfile,
   where,
   collection,
+  uploadBytes,
+  getDownloadURL,
+  getStorage,
   // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
 import UIText from "../components/LocalizedText";
@@ -45,6 +48,10 @@ const RegisterScreen = ({ navigation }) => {
       title: UIText.signUpScreen.barTitle,
     });
   }, [navigation]);
+
+  const generatePfp = async () => {
+    // TODO
+  };
 
   const register = () => {
     setLoading(true);

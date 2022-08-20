@@ -1,16 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
-import { Button, Image, Input } from "react-native-elements";
-import ThemedListItem from "react-native-elements/dist/list/ListItem";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Platform, StyleSheet, Text } from "react-native";
 
 // export class CoolButton extends React.Component {
 //   render() {
