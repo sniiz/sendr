@@ -137,8 +137,8 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
         style={{
           borderRadius: 5,
           borderWidth: 2,
-          borderColor: "#f55",
-          backgroundColor: tooLong ? "#f55" : "#0a0a0b",
+          borderColor: "#fa5f5f",
+          backgroundColor: tooLong ? "#fa5f5f" : "#0a0a0b",
           marginTop: 100,
           padding: 10,
           paddingHorizontal: 20,
@@ -148,7 +148,7 @@ export default React.memo(function EmailVerifyScreen({ navigation, route }) {
           style={[
             styles.text,
             {
-              color: tooLong ? "#0a0a0b" : "#f55",
+              color: tooLong ? "#0a0a0b" : "#fa5f5f",
               // marginTop: 20,
               fontWeight: "800",
             },

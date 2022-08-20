@@ -27,6 +27,7 @@ import {
   onAuthStateChanged,
   where,
   getFirestore,
+  doc,
   onSnapshot,
   // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
@@ -98,8 +99,16 @@ const HomeScreen = ({ navigation }) => {
         setLoading(false);
       }
     );
+    const unsubscribeRequests = onSnapshot(
+      doc(db, "users", getAuth().currentUser.uid),
+      (snapshot) => {
+        console.log(snapshot);
+        setRequests(snapshot.data().friendRequests);
+      }
+    );
     return () => {
       unsubscribe();
+      unsubscribeRequests();
       unsubAuth();
     };
   }, []);
@@ -160,7 +169,26 @@ const HomeScreen = ({ navigation }) => {
               }}
             >
               {/* <SimpleLineIcons name="people" size={18} color="#f4f5f5" /> */}
-              <Icon.Users width={18} color="#f4f5f5" strokeWidth={2} />
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: "#fa5f5f",
+                  // marginTop: -5,
+                  textShadowColor: "#fa5f5f",
+                  textShadowOffset: { width: 0, height: 0 },
+                  textShadowRadius: 15,
+                }}
+              >
+                <Icon.Users
+                  width={18}
+                  color={requests.length > 0 ? "#fa5f5f" : "#f4f5f5"}
+                  strokeWidth={2}
+                  style={{
+                    marginBottom: -5,
+                  }}
+                />
+                {requests?.length > 0 ? " !" : null}
+              </Text>
             </TouchableOpacity>
           </Popable>
 
@@ -197,7 +225,7 @@ const HomeScreen = ({ navigation }) => {
         </Text>
       ),
     });
-  }, [navigation]);
+  }, [navigation, requests]);
 
   const enterChat = (id, chatName, author) => {
     // unsubscribe();
@@ -222,9 +250,9 @@ const HomeScreen = ({ navigation }) => {
   }
   return (
     <SafeAreaView style={styles.main}>
-      {!Error && chats.length > 0 ? (
-        <ScrollView style={styles.container}>
-          {chats.map(({ id, chatName, author }) => (
+      <ScrollView style={styles.container}>
+        {!Error && chats.length > 0 ? (
+          chats.map(({ id, chatName, author }) => (
             <CustomListItem
               key={id}
               id={id}
@@ -232,65 +260,82 @@ const HomeScreen = ({ navigation }) => {
               enterChat={enterChat}
               author={author}
             />
-          ))}
-          <TouchableOpacity
-            onPress={() => navigation.navigate("newChat")}
+          ))
+        ) : Error ? (
+          <View style={styles.containerStatic}>
+            <Text
+              style={{
+                fontSize: 40,
+                color: "#727178",
+                textAlign: "center",
+              }}
+            >
+              {"(」°ロ°)」"}
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: "#727178",
+                textAlign: "center",
+                fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
+                fontStyle: "italic",
+              }}
+            >
+              {UIText.errors.noChats}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.containerStatic}>
+            <Text
+              style={{
+                fontSize: 40,
+                color: "#727178",
+                textAlign: "center",
+              }}
+            >
+              {"(っ´ω`)ﾉ(╥ω╥)"}
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: "#727178",
+                textAlign: "center",
+                fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
+                fontStyle: "italic",
+              }}
+            >
+              {"\n"}
+              {noChats}
+            </Text>
+          </View>
+        )}
+        <TouchableOpacity
+          onPress={() => navigation.navigate("newChat")}
+          style={{
+            margin: 10,
+            marginLeft: 17,
+            width: 30,
+          }}
+        >
+          <Popable
+            content={
+              <View style={styles.popupContainer}>
+                <Text style={styles.popupText}>
+                  {UIText.newChatScreen.barTitle}
+                </Text>
+              </View>
+            }
+            action="hover"
+            position="right"
             style={{
-              margin: 10,
-              marginLeft: 17,
+              opacity: 0.8,
             }}
           >
             {/* <SimpleLineIcons name="plus" size={30} color="#727178" /> */}
             <Icon.PlusCircle width={30} color="#727178" strokeWidth={2} />
-          </TouchableOpacity>
-        </ScrollView>
-      ) : Error ? (
-        <View style={styles.containerStatic}>
-          <Text
-            style={{
-              fontSize: 40,
-              color: "#727178",
-              textAlign: "center",
-            }}
-          >
-            {"(」°ロ°)」"}
-          </Text>
-          <Text
-            style={{
-              fontSize: 15,
-              color: "#727178",
-              textAlign: "center",
-              fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
-              fontStyle: "italic",
-            }}
-          >
-            {UIText.errors.noChats}
-          </Text>
-        </View>
-      ) : (
-        <View style={styles.containerStatic}>
-          <Text
-            style={{
-              fontSize: 40,
-              color: "#727178",
-              textAlign: "center",
-            }}
-          >
-            {"(っ´ω`)ﾉ(╥ω╥)"}
-          </Text>
-          <Text
-            style={{
-              fontSize: 15,
-              color: "#727178",
-              textAlign: "center",
-              fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
-              fontStyle: "italic",
-            }}
-          >
-            {noChats}
-          </Text>
-        </View>
-      )}
+          </Popable>
+        </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -323,7 +368,6 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    color: "#0a0a0b",
     backgroundColor: "#0a0a0b",
   },
 });

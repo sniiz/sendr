@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "ios" ? "Arial" : "monospace",
   },
   issue: {
-    color: "#f55",
+    color: "#fa5f5f",
     fontSize: 10,
     textAlign: "center",
     fontStyle: "italic",

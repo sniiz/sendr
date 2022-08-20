@@ -198,7 +198,7 @@ const LoginScreen = ({ navigation }) => {
               style={[
                 styles.input,
                 {
-                  borderColor: passwordCorrect ? "#f4f5f5" : "#f55",
+                  borderColor: passwordCorrect ? "#f4f5f5" : "#fa5f5f",
                 },
               ]}
               value={password}
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   errorText: {
-    color: "#f55",
+    color: "#fa5f5f",
     fontSize: 12,
     marginTop: Platform.OS === "web" ? 0 : -15,
     textAlign: "center",

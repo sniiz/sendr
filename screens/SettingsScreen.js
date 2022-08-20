@@ -524,7 +524,7 @@ function SettingsScreen({ navigation }) {
           style={{
             borderRadius: 5,
             borderWidth: 2,
-            borderColor: "#ff5555",
+            borderColor: "#fa5f5f",
             padding: 10,
             paddingHorizontal: 20,
           }}
@@ -552,7 +552,7 @@ function SettingsScreen({ navigation }) {
           style={{
             borderRadius: 5,
             borderWidth: 2,
-            borderColor: "#ff5555",
+            borderColor: "#fa5f5f",
             padding: 10,
             paddingHorizontal: 20,
           }}
@@ -578,7 +578,7 @@ function SettingsScreen({ navigation }) {
               style={{
                 borderRadius: 5,
                 borderWidth: 2,
-                borderColor: "#ff5555",
+                borderColor: "#fa5f5f",
                 padding: 10,
                 paddingHorizontal: 20,
               }}
@@ -640,7 +640,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
   dangerButton: {
-    color: "#ff5555",
+    color: "#fa5f5f",
     fontSize: 20,
     fontWeight: "800",
     textAlign: "center",

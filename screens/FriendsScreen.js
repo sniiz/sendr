@@ -159,6 +159,8 @@ const FriendsScreen = ({ navigation, route }) => {
   const rejectFriend = (id) => {
     updateDoc(doc(db, "users", auth.currentUser.uid), {
       friendRequests: requests.filter((item) => item.id !== id),
+    }).then(() => {
+      setRequests(requests.filter((item) => item.id !== id));
     });
   };
 
