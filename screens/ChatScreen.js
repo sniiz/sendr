@@ -45,7 +45,7 @@ const ChatScreen = ({ navigation, route }) => {
   const [author, setAuthor] = useState("");
   const [otherUser, setOtherUser] = useState("");
   const [chatName, setChatName] = useState("");
-  const [replyTo, setReplyTo] = useState("");
+  // const [replyTo, setReplyTo] = useState("");
   const [edit, setEdit] = useState("");
 
   const [messages, setMessages] = useState([]);
@@ -295,7 +295,7 @@ const ChatScreen = ({ navigation, route }) => {
         }
         messageText = messageText.replace(
           new RegExp(links.join("|"), "gi"),
-          "(image attachment)"
+          "(image)"
         );
         for (let image of links) {
           Image.getSize(image, (w, h) => {
@@ -311,7 +311,7 @@ const ChatScreen = ({ navigation, route }) => {
         // its late im literally in bed, tired, and desperate
         timestamp: serverTimestamp(),
         message: messageText,
-        attachments: images,
+        // attachments: images,
         displayName: auth.currentUser.displayName,
         uid: auth.currentUser.uid,
         photoURL:
@@ -322,6 +322,11 @@ const ChatScreen = ({ navigation, route }) => {
         collection(db, `privateChats/${route.params.id}`, "messages"),
         message
       )
+        .then((msgDoc) => {
+          updateDoc(msgDoc, {
+            attachments: images,
+          }); // kind of a hack but OMG FINALLY IT WORKS
+        })
         .catch((error) => alert(error))
         .finally(() => {
           setMsgInput("");
