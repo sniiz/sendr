@@ -15,7 +15,8 @@
     "deploy": "node scripts/build.js --production",
     "reinstall": "rm -rf node_modules && yarn install",
     "open": "open https://sendr-sniiz.vercel.app/",
-    "pull": "git pull -X theirs && yarn reinstall"
+    "pull": "git pull -X theirs && yarn reinstall",
+    "g": "open https://github.com/sniiz/sendr"
   },
   "build": {
     "appId": "com.sniiz.sendr"
