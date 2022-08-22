@@ -49,10 +49,6 @@ const RegisterScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-  const generatePfp = async () => {
-    // TODO
-  };
-
   const register = () => {
     setLoading(true);
     const auth = getAuth();
@@ -75,6 +71,16 @@ const RegisterScreen = ({ navigation }) => {
       setLoading(false);
       return;
     }
+    const pfps = [
+      "https://i.imgur.com/68Kbi0t.png",
+      "https://i.imgur.com/I3ypNtV.png",
+      "https://i.imgur.com/UOEm7Y2.png",
+      "https://i.imgur.com/65Ep9wh.png",
+      "https://i.imgur.com/4FDSA37.png",
+      "https://i.imgur.com/P9d2Pai.png",
+      "https://i.imgur.com/Oq3Lttw.png",
+      "https://i.imgur.com/CET8tG8.png",
+    ];
     createUserWithEmailAndPassword(auth, email, password)
       .then((authUser) => {
         const user = authUser.user;
@@ -96,7 +102,7 @@ const RegisterScreen = ({ navigation }) => {
                   friendRequests: [],
                   friends: [],
                   name: fullname,
-                  pfp: null,
+                  pfp: pfps[Math.floor(Math.random() * pfps.length)],
                   online: true,
                 }).then(() => {
                   setLoading(false);
