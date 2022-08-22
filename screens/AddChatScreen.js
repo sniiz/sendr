@@ -18,8 +18,8 @@ const AddChatScreen = ({ navigation }) => {
   const createChat = () => {
     const db = getFirestore();
     const auth = getAuth();
-    if (chat.length > 15) {
-      alert("chat name must be less than 15 characters");
+    if (chat.length > 30) {
+      alert("chat name must be less than 30 characters");
       return;
     }
     addDoc(collection(db, "privateChats"), {
@@ -27,6 +27,7 @@ const AddChatScreen = ({ navigation }) => {
       author: auth.currentUser.displayName,
       members: [auth.currentUser.uid],
       dm: false,
+      lastMessage: null,
     })
       .then((ref) =>
         navigation.navigate("chat", {
@@ -57,7 +58,12 @@ const AddChatScreen = ({ navigation }) => {
         value={chat}
         style={styles.input}
         placeholderTextColor="#727178"
-        onChangeText={(text) => setChat(text)}
+        onChangeText={(text) => {
+          if (text.length >= 30) {
+            text = text.substring(0, 30);
+          }
+          setChat(text);
+        }}
         onSubmitEditing={createChat}
       />
       <TouchableOpacity

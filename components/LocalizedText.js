@@ -105,6 +105,7 @@ const uiText = {
       exit: "exit chat",
       badWord:
         "your message contains language some people may find offensive. sendr is not a place for hate speech. press the send button again if you're absolutely sure you're not offending anyone.",
+      edited: "edited",
     },
     homeScreen: {
       lonely1: "so lonely here...",

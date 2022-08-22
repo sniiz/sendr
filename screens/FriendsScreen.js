@@ -150,6 +150,7 @@ const FriendsScreen = ({ navigation, route }) => {
         members: [auth.currentUser.uid, id],
         author: null,
         dm: true,
+        lastMessage: null,
       }).then((chat) => {
         navigation.navigate("home");
       });

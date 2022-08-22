@@ -47,7 +47,7 @@ const ChatScreen = ({ navigation, route }) => {
   const [otherUser, setOtherUser] = useState("");
   const [chatName, setChatName] = useState("");
   // const [replyTo, setReplyTo] = useState("");
-  const [edit, setEdit] = useState("");
+  const [edit, setEdit] = useState(null);
 
   const [messages, setMessages] = useState([]);
   const [members, setMembers] = useState([]);
@@ -249,8 +249,8 @@ const ChatScreen = ({ navigation, route }) => {
             >
               <TouchableOpacity
                 activeOpacity={0.5}
-                onPress={() => {
-                  addDoc(
+                onPress={async () => {
+                  await addDoc(
                     collection(
                       db,
                       `privateChats/${route.params.id}`,
@@ -269,13 +269,14 @@ const ChatScreen = ({ navigation, route }) => {
                       attachments: [],
                     }
                   );
-                  updateDoc(doc(db, `privateChats`, route.params.id), {
+                  await updateDoc(doc(db, `privateChats`, route.params.id), {
                     members: members.filter(
                       (member) => member.id !== auth.currentUser.uid
                     ),
                   });
+                  console.log(members);
                   if (members.length === 1) {
-                    deleteDoc(doc(db, `privateChats`, route.params.id));
+                    await deleteDoc(doc(db, `privateChats`, route.params.id));
                   }
                   navigation.replace("home");
                 }}
@@ -357,20 +358,44 @@ const ChatScreen = ({ navigation, route }) => {
           auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
         edited: false,
       };
-      addDoc(
-        collection(db, `privateChats/${route.params.id}`, "messages"),
-        message
-      )
-        .then((msgDoc) => {
-          updateDoc(msgDoc, {
+      if (edit === {}) {
+        addDoc(
+          collection(db, `privateChats/${route.params.id}`, "messages"),
+          message
+        )
+          .then((msgDoc) => {
+            updateDoc(msgDoc, {
+              attachments: images,
+            }); // kind of a hack but OMG FINALLY IT WORKS
+          })
+          .catch((error) => alert(error))
+          .finally(() => {
+            setMsgInput("");
+            setSending(false);
+            updateDoc(doc(db, "privateChats", route.params.id), {
+              lastMessage: serverTimestamp(),
+            }).catch((err) => {
+              console.warn(err);
+            });
+          });
+      } else {
+        updateDoc(
+          doc(db, `privateChats/${route.params.id}`, "messages", edit.id),
+          {
+            message: messageText,
+            edited: true,
             attachments: images,
-          }); // kind of a hack but OMG FINALLY IT WORKS
-        })
-        .catch((error) => alert(error))
-        .finally(() => {
-          setMsgInput("");
-          setSending(false);
-        });
+          }
+        )
+          .catch((err) => {
+            alert(err);
+          })
+          .finally(() => {
+            setEdit(null);
+            setMsgInput("");
+            setSending(false);
+          });
+      }
     } else {
       setSending(false);
     }
@@ -529,6 +554,12 @@ const ChatScreen = ({ navigation, route }) => {
                     }
                   )
                 : "loading..."}
+              {item.edited ? (
+                <>
+                  {" · "}
+                  {UIText.chatScreen.edited}
+                </>
+              ) : null}
             </Text>
           </View>
           <Text
@@ -541,6 +572,23 @@ const ChatScreen = ({ navigation, route }) => {
             ]}
           >
             {item.message}
+            {item.uid === auth.currentUser.uid && (
+              <TouchableOpacity
+                onPress={() => {
+                  setEdit(item);
+                  setMsgInput(item.message);
+                }}
+                style={{
+                  // margin: 5,
+                  marginLeft: 10,
+                  alignItems: "center",
+
+                  alignSelf: "flex-end",
+                }}
+              >
+                <Icon.Edit2 width={10} color="#727178" strokeWidth={2} />
+              </TouchableOpacity>
+            )}
           </Text>
           {item.attachments?.length > 0 && (
             <ScrollView
@@ -584,21 +632,6 @@ const ChatScreen = ({ navigation, route }) => {
             </ScrollView>
           )}
         </View>
-        {item.uid === auth.currentUser.uid && (
-          <TouchableOpacity
-            onPress={() => {
-              setEdit(item);
-              setMsgInput(item.message);
-            }}
-            style={{
-              margin: 5,
-              marginRight: 10,
-              alignSelf: "flex-end",
-            }}
-          >
-            <Icon.Edit2 width={10} color={theme?.middle} strokeWidth={2} />
-          </TouchableOpacity>
-        )}
       </View>
     );
   };
@@ -667,7 +700,7 @@ const ChatScreen = ({ navigation, route }) => {
               <FlatList
                 data={messages}
                 ref={flatListRef}
-                // keyExtractor={keyExtractor}
+                keyExtractor={keyExtractor}
                 // ListHeaderComponent={createdHeader}
                 ListFooterComponent={createdHeader}
                 // onContentSizeChange={scrollToBottom}
@@ -704,11 +737,11 @@ const ChatScreen = ({ navigation, route }) => {
                 </Text>
               </View>
             )}
-            {edit ? (
+            {edit !== null ? (
               <View style={styles.replyFooter}>
                 <TouchableOpacity
                   onPress={() => {
-                    setEdit("");
+                    setEdit(null);
                     setMsgInput("");
                   }}
                   style={{

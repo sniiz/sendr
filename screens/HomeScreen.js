@@ -77,6 +77,7 @@ const HomeScreen = ({ navigation }) => {
     const unsubscribe = onSnapshot(
       query(
         collection(db, "privateChats"),
+        // orderBy("lastMessage", "desc"),
         orderBy("chatName", "desc"),
         where("members", "array-contains", getAuth().currentUser.uid)
       ),
@@ -95,7 +96,7 @@ const HomeScreen = ({ navigation }) => {
       },
       (error) => {
         setError(true);
-        // console.log(error);
+        console.log(error);
         setLoading(false);
       }
     );
@@ -191,7 +192,6 @@ const HomeScreen = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </Popable>
-
           <Popable
             content={
               <View style={styles.popupContainer}>
@@ -317,7 +317,7 @@ const HomeScreen = ({ navigation }) => {
             width: 30,
           }}
         >
-          <Popable
+          {/* <Popable
             content={
               <View style={styles.popupContainer}>
                 <Text style={styles.popupText}>
@@ -330,10 +330,10 @@ const HomeScreen = ({ navigation }) => {
             style={{
               opacity: 0.8,
             }}
-          >
-            {/* <SimpleLineIcons name="plus" size={30} color="#727178" /> */}
-            <Icon.PlusCircle width={30} color="#727178" strokeWidth={2} />
-          </Popable>
+          > */}
+          {/* <SimpleLineIcons name="plus" size={30} color="#727178" /> */}
+          <Icon.PlusCircle width={30} color="#727178" strokeWidth={2} />
+          {/* </Popable> */}
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
