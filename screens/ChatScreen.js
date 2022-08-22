@@ -64,12 +64,13 @@ const ChatScreen = ({ navigation, route }) => {
 
   const [theme, setTheme] = useState(null);
 
-  const leaveMessages = [
+  var leaveMessages = [
     "left :(",
     "left",
     "left the chat",
     "left. they will be missed :(",
     "left us :(",
+    "is no longer among us",
   ];
 
   const j = "TVeHDZSeiGNVN2gYmvkDDv2uCaN2";
@@ -108,6 +109,7 @@ const ChatScreen = ({ navigation, route }) => {
     getDoc(doc(db, `privateChats`, route.params.id)).then((chat) => {
       setAuthor(chat.data().author);
       setChatName(chat.data().chatName);
+      leaveMessages.push(`left ${chat.data().chatName} :(`);
       // load chat members and retrieve their names
       const members = [];
       for (let member of chat.data().members) {
@@ -207,11 +209,22 @@ const ChatScreen = ({ navigation, route }) => {
               <TouchableOpacity
                 activeOpacity={0.5}
                 onPress={async () => {
-                  const success = Clipboard.setString(
-                    await generateInviteLink()
-                  );
+                  const link = await generateInviteLink();
+                  let success;
+                  if (Platform.OS === "web") {
+                    success = true;
+                    await navigator.clipboard.writeText(link).catch(() => {
+                      success = false;
+                    });
+                  } else {
+                    success = Clipboard.setString(link);
+                  }
+                  console.log(success);
+                  console.log(link);
                   alert(
-                    success ? "copied" : "copy failed. are you using safari?"
+                    success
+                      ? "copied to clipboard"
+                      : `we couldn't copy the link, so please copy it yourself: ${link}`
                   );
                 }}
               >
