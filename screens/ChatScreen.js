@@ -358,7 +358,24 @@ const ChatScreen = ({ navigation, route }) => {
           auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
         edited: false,
       };
-      if (edit === {}) {
+      if (edit) {
+        updateDoc(
+          doc(db, `privateChats/${route.params.id}`, "messages", edit?.id),
+          {
+            message: messageText,
+            edited: true,
+            attachments: images,
+          }
+        )
+          .catch((err) => {
+            alert(err);
+          })
+          .finally(() => {
+            setEdit(null);
+            setMsgInput("");
+            setSending(false);
+          });
+      } else {
         addDoc(
           collection(db, `privateChats/${route.params.id}`, "messages"),
           message
@@ -377,23 +394,6 @@ const ChatScreen = ({ navigation, route }) => {
             }).catch((err) => {
               console.warn(err);
             });
-          });
-      } else {
-        updateDoc(
-          doc(db, `privateChats/${route.params.id}`, "messages", edit.id),
-          {
-            message: messageText,
-            edited: true,
-            attachments: images,
-          }
-        )
-          .catch((err) => {
-            alert(err);
-          })
-          .finally(() => {
-            setEdit(null);
-            setMsgInput("");
-            setSending(false);
           });
       }
     } else {

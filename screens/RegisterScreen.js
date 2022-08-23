@@ -66,6 +66,10 @@ const RegisterScreen = ({ navigation }) => {
       alert(`${fullname} ${UIText.settingsScreen.usernameTooLong}`);
       return;
     }
+    if (Platform.OS === "web" && navigator?.userAgent?.match(/safari/i))
+      alert(
+        "it looks like you're using an apple device. please beware that the chat scrolling may be reversed. (we will not show this message again)"
+      );
     if (password !== passwordConfirm) {
       alert(UIText.signUpScreen.passwordsDontMatch);
       setLoading(false);
@@ -104,6 +108,7 @@ const RegisterScreen = ({ navigation }) => {
                   name: fullname,
                   pfp: pfps[Math.floor(Math.random() * pfps.length)],
                   online: true,
+                  status: "",
                 }).then(() => {
                   setLoading(false);
                   navigation.navigate("verifyEmail");

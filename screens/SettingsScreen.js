@@ -99,6 +99,7 @@ function SettingsScreen({ navigation }) {
 
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState("");
+  const [status, setStatus] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [deletePassword, setDeletePassword] = useState("");
 
@@ -128,12 +129,13 @@ function SettingsScreen({ navigation }) {
         setUsername("undefined");
       }
     });
-    const unsubPfp = onSnapshot(
+    const unsubProfile = onSnapshot(
       doc(getFirestore(), "users", user.uid),
-      (doc) => {
-        if (doc.exists()) {
-          setPfp(doc.data().pfp || "https://i.imgur.com/dA9mtkT.png");
-          setUsername(doc.data().username);
+      (profileDoc) => {
+        if (profileDoc.exists()) {
+          setPfp(profileDoc.data().pfp || "https://i.imgur.com/dA9mtkT.png");
+          setUsername(profileDoc.data().username);
+          setStatus(profileDoc.data().status);
         }
       }
     );
@@ -141,7 +143,7 @@ function SettingsScreen({ navigation }) {
     // DropDownPicker.setTheme("DARK");
     return () => {
       unsub();
-      unsubPfp();
+      unsubProfile();
     };
   }, []);
   const asyncSleep = (sec) =>
@@ -289,7 +291,7 @@ function SettingsScreen({ navigation }) {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 0,
+        quality: 0.4,
         allowsMultipleSelection: false,
       }).then((result) => {
         if (!result.cancelled) {
@@ -360,6 +362,57 @@ function SettingsScreen({ navigation }) {
           </TouchableOpacity>
         </Popable>
         <View style={styles.inputContainer}>
+          <Text style={styles.settingText}>{UIText.settingsScreen.status}</Text>
+          <Input
+            style={styles.input}
+            placeholder={UIText.settingsScreen.statusPlaceholder}
+            placeholderTextColor="#727178"
+            onChangeText={(text) => {
+              setStatus(text);
+            }}
+            value={status}
+            onSubmitEditing={() => {
+              if (status.length < 100) {
+                updateDoc(doc(getFirestore(), "users", user.uid), {
+                  status: status,
+                }).then(() => {
+                  alert("updated!");
+                  setStatus(status);
+                });
+              }
+            }}
+          />
+          <TouchableOpacity
+            onPress={() => {
+              if (status.length < 100) {
+                updateDoc(doc(getFirestore(), "users", user.uid), {
+                  status: status,
+                }).then(() => {
+                  alert("updated!");
+                  setStatus(status);
+                });
+              }
+            }}
+            style={{
+              borderRadius: 5,
+              borderWidth: 2,
+              borderColor: "#f4f5f5",
+              padding: 8,
+              paddingHorizontal: 20,
+              marginLeft: 10,
+              marginBottom: 10,
+            }}
+          >
+            <Text style={styles.settingHeader}>
+              {UIText.settingsScreen.applyStatus}
+            </Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              width: "100%",
+              height: "5%",
+            }}
+          />
           <Text style={styles.settingText}>
             {UIText.settingsScreen.username}
           </Text>

@@ -130,6 +130,20 @@ const UserInfoScreen = ({ navigation, route }) => {
       >
         {user.name}
       </Text>
+      {user.status ? (
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: "600",
+            marginBottom: 10,
+            textAlign: "center",
+            color: "#727178",
+            fontStyle: "italic",
+          }}
+        >
+          {user.status}
+        </Text>
+      ) : null}
       {/* <Text
         style={{
           fontSize: 20,

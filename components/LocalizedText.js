@@ -83,6 +83,9 @@ const uiText = {
       copyUid: "copy uid",
       libraryPermsError:
         "we need permission to access your photo library if you want to change your profile picture",
+      status: "status",
+      statusPlaceholder: "what's going on?",
+      applyStatus: "apply ✏️",
     },
     profileScreen: {
       barTitle: "profile",
@@ -249,6 +252,7 @@ const uiText = {
       exit: "quitter le chat",
       badWord:
         "ton message contient des expressions que certaines personnes peuvent trouver offensantes. sendr n'est pas un endroit pour les discours haineux. appuie à nouveau sur le bouton d'envoi si tu es absolument sûr de ne pas offenser quelqu'un. ",
+      edited: "édité",
     },
     homeScreen: {
       lonely1: "ça y est tout seul ici...",
@@ -389,6 +393,7 @@ const uiText = {
       exit: "salir del chat",
       badWord:
         "tu mensaje contiene expresiones que algunas personas pueden considerar ofensivas. sendr no es un lugar para discursos de odio. vuelve a pulsar el botón de enviar si estás absolutamente seguro de no ofender a nadie.",
+      edited: "editado",
     },
     homeScreen: {
       lonely1: "se está tan solo aquí...",
@@ -530,6 +535,7 @@ const uiText = {
       exit: "покинуть чат",
       badWord:
         "наша система нашла в твоем сообщении слово, которое некоторые люди могут посчитать обидным. sendr хочет предоставить одинаково приятный опыт каждому пользователю, так что пожалуйста постарайся не обижать других людей. если ты уверены что это не обидно, нажми на кнопку отправить еще раз.",
+      edited: "отредактировано",
     },
     homeScreen: {
       lonely1: "здесь так одиноко...",
@@ -660,6 +666,7 @@ const uiText = {
       exit: "退出聊天",
       badWord:
         "你的信息中有一些人可能认为是冒犯性的词语。sendr不是一个发表仇恨言论的地方。如果你绝对确定你没有冒犯任何人，请再次按下发送按钮。",
+      edited: "编辑的",
     },
     homeScreen: {
       lonely1: "这里什么都没有...",
@@ -791,6 +798,7 @@ const uiText = {
       exit: "チャットを終了する",
       badWord:
         "あなたのメッセージには、一部の人が不快に思う言葉が含まれています。セーンダはヘイトスピーチのための場所ではありません。不快な思いをさせていないことを確認した上で、もう一度送信ボタンを押してください。",
+      edited: "編集済",
     },
     homeScreen: {
       lonely1: "ここに何もない...",
