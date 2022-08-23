@@ -139,6 +139,7 @@ const UserInfoScreen = ({ navigation, route }) => {
             textAlign: "center",
             color: "#727178",
             fontStyle: "italic",
+            paddingHorizontal: "20%",
           }}
         >
           {user.status}
