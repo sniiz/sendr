@@ -94,7 +94,9 @@ const ChatScreen = ({ navigation, route }) => {
             ...message.data(),
           });
         });
+        console.log("messages updated");
         setMessages(messagesList);
+        // scrollToBottom(flatListRef);
       }
     );
     const unsubAuth = onAuthStateChanged(auth, (user) => {
@@ -178,7 +180,6 @@ const ChatScreen = ({ navigation, route }) => {
 
   useLayoutEffect(() => {
     setTheme(Theme.get("classic"));
-
     navigation.setOptions({
       title: chatName || otherUser,
       headerRight: () => {
@@ -411,6 +412,14 @@ const ChatScreen = ({ navigation, route }) => {
     }
   };
 
+  // const scrollToBottom = () => {
+  //   // flr?.current?.scrollToOffset({
+  //   //   animated: false,
+  //   //   offset: 0,
+  //   // });
+  //   flatListRef.current.scrollToEnd({ animated: false });
+  // };
+
   const messageItem = ({ item }) => {
     const isUser =
       item.uid === auth?.currentUser?.uid ||
@@ -562,34 +571,70 @@ const ChatScreen = ({ navigation, route }) => {
               ) : null}
             </Text>
           </View>
-          <Text
-            style={[
-              styles.receiverText,
-              {
-                color: item.timestamp ? second : third,
-                fontStyle: item.uid === "POTATOCAT" ? "italic" : "normal",
-              },
-            ]}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              width: "90%",
+              marginTop: isUser ? -5 : 0,
+            }}
           >
-            {item.message}
-            {item.uid === auth.currentUser.uid && (
-              <TouchableOpacity
-                onPress={() => {
-                  setEdit(item);
-                  setMsgInput(item.message);
-                }}
-                style={{
-                  // margin: 5,
-                  marginLeft: 10,
-                  alignItems: "center",
-
-                  alignSelf: "flex-end",
-                }}
-              >
-                <Icon.Edit2 width={10} color="#727178" strokeWidth={2} />
-              </TouchableOpacity>
+            <Text
+              style={[
+                styles.receiverText,
+                {
+                  color: item.timestamp ? second : third,
+                  fontStyle: item.uid === "POTATOCAT" ? "italic" : "normal",
+                },
+              ]}
+            >
+              {item.message}
+            </Text>
+            {isUser && (
+              <>
+                <TouchableOpacity
+                  onPress={() => {
+                    setEdit(item);
+                    setMsgInput(item.message);
+                  }}
+                  style={{
+                    // margin: 5,
+                    marginLeft: 10,
+                    alignItems: "center",
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  <Icon.Edit2 width={11} color="#727178" strokeWidth={2} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (auth.currentUser.uid !== item.uid) {
+                      alert(
+                        "nice try (although im not sure how you would even do that)"
+                      ); // better safe than sorry i guess
+                      return;
+                    }
+                    deleteDoc(
+                      doc(
+                        db,
+                        `privateChats/${route.params.id}/messages/${item.id}`
+                      )
+                    );
+                  }}
+                  style={{
+                    // margin: 5,
+                    marginLeft: 10,
+                    alignItems: "center",
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  <Icon.Trash2 width={11} color="#727178" strokeWidth={2} />
+                </TouchableOpacity>
+              </>
             )}
-          </Text>
+          </View>
           {item.attachments?.length > 0 && (
             <ScrollView
               horizontal
@@ -660,14 +705,6 @@ const ChatScreen = ({ navigation, route }) => {
     </Text>
   );
 
-  const scrollToBottom = () => {
-    flatListRef.current.scrollToOffset({
-      animated: true,
-      offset: 0,
-    });
-    // flatListRef.current.scrollToEnd({ animated: true });
-  };
-
   if (!loaded) {
     return (
       <View
@@ -703,10 +740,12 @@ const ChatScreen = ({ navigation, route }) => {
                 keyExtractor={keyExtractor}
                 // ListHeaderComponent={createdHeader}
                 ListFooterComponent={createdHeader}
-                // onContentSizeChange={scrollToBottom}
-                // windowSize={41}
+                // onContentSizeChange={() => {
+                //   flatListRef.current.scrollToEnd();
+                // }}
+                // windowSize={11}
                 renderItem={messageItem}
-                inverted
+                // initialScrollIndex={messages.length - 1}
               />
             ) : (
               <View

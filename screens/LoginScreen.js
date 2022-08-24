@@ -135,10 +135,10 @@ const LoginScreen = ({ navigation }) => {
         .then(() => {
           setLoggingIn(false);
           if (Platform.OS === "web" && navigator?.userAgent?.match(/safari/i))
-            alert(
-              "it looks like you're using an apple device. please beware that due to the way webkit works the chat scrolling may be reversed. (we will not show this message again)"
-            );
-          navigation.replace("home");
+            // alert(
+            //   "it looks like you're using an apple device. please beware that due to the way webkit works the chat scrolling may be reversed. (we will not show this message again)"
+            // );
+            navigation.replace("home");
         })
         .catch((error) => {
           setLoggingIn(false);

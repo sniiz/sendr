@@ -67,14 +67,14 @@ const RegisterScreen = ({ navigation }) => {
       return;
     }
     if (Platform.OS === "web" && navigator?.userAgent?.match(/safari/i))
-      alert(
-        "it looks like you're using an apple device. please beware that the chat scrolling may be reversed. (we will not show this message again)"
-      );
-    if (password !== passwordConfirm) {
-      alert(UIText.signUpScreen.passwordsDontMatch);
-      setLoading(false);
-      return;
-    }
+      if (password !== passwordConfirm) {
+        // alert(
+        //   "it looks like you're using an apple device. please beware that the chat scrolling may be reversed. (we will not show this message again)"
+        // );
+        alert(UIText.signUpScreen.passwordsDontMatch);
+        setLoading(false);
+        return;
+      }
     const pfps = [
       "https://i.imgur.com/68Kbi0t.png",
       "https://i.imgur.com/I3ypNtV.png",
