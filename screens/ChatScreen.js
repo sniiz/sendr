@@ -40,6 +40,7 @@ import { Popable } from "react-native-popable";
 // import { setString } from "expo-clipboard";
 import * as Clipboard from "expo-clipboard";
 import Theme from "../components/themes";
+import BigList from "react-native-big-list";
 
 const ChatScreen = ({ navigation, route }) => {
   const [msgInput, setMsgInput] = useState("");
@@ -440,6 +441,12 @@ const ChatScreen = ({ navigation, route }) => {
           borderTopWidth: 1,
           backgroundColor: main,
         }}
+        onLayout={(event) => {
+          if (item.y) {
+            console.log("layout update");
+            messages[messages.find(item)].y = event.layout.height;
+          }
+        }}
       >
         <TouchableOpacity
           onPress={() => {
@@ -640,6 +647,7 @@ const ChatScreen = ({ navigation, route }) => {
               horizontal
               style={{
                 maxWidth: "90%",
+                height: 400,
               }}
             >
               {item?.attachments?.map((image) => (
@@ -664,9 +672,7 @@ const ChatScreen = ({ navigation, route }) => {
                   <Image
                     source={{ uri: image?.url }}
                     style={{
-                      width: image?.width / 2,
-                      height: image?.height / 2,
-                      maxHeight: 400,
+                      height: 300,
                       maxWidth: 400,
                       aspectRatio: image?.width / image?.height,
                       // marginLeft: 10,
@@ -689,7 +695,7 @@ const ChatScreen = ({ navigation, route }) => {
     console.log(messagesToLoad);
   };
 
-  const createdHeader = (
+  const createdHeader = () => (
     <Text
       style={{
         fontSize: 15,
@@ -734,17 +740,21 @@ const ChatScreen = ({ navigation, route }) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             {messages.length !== 0 ? (
-              <FlatList
+              <BigList
                 data={messages}
                 ref={flatListRef}
                 keyExtractor={keyExtractor}
                 // ListHeaderComponent={createdHeader}
-                ListFooterComponent={createdHeader}
+                // ListFooterComponent={createdHeader}
+                renderFooter={createdHeader}
+                footerHeight={40}
                 // onContentSizeChange={() => {
                 //   flatListRef.current.scrollToEnd();
                 // }}
                 // windowSize={11}
                 renderItem={messageItem}
+                inverted
+                itemHeight={(item) => (item.y ? item.y : 71)}
                 // initialScrollIndex={messages.length - 1}
               />
             ) : (
