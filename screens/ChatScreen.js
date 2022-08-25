@@ -40,7 +40,7 @@ import { Popable } from "react-native-popable";
 // import { setString } from "expo-clipboard";
 import * as Clipboard from "expo-clipboard";
 import Theme from "../components/themes";
-import BigList from "react-native-big-list";
+import { FlashList } from "@shopify/flash-list"; // im desperate
 
 const ChatScreen = ({ navigation, route }) => {
   const [msgInput, setMsgInput] = useState("");
@@ -183,6 +183,18 @@ const ChatScreen = ({ navigation, route }) => {
     setTheme(Theme.get("classic"));
     navigation.setOptions({
       title: chatName || otherUser,
+      // headerTitle: () => (
+      //   <Text
+      //     style={{
+      //       width: "30%",
+      //       // textAlign: "center",
+      //       fontWeight: "800",
+      //       color: "#f4f5f5",
+      //     }}
+      //   >
+      //     {chatName || otherUser}
+      //   </Text>
+      // ),
       headerRight: () => {
         if (dm || !loaded) {
           return null;
@@ -191,9 +203,10 @@ const ChatScreen = ({ navigation, route }) => {
           <View
             style={{
               marginRight: 20,
-              width: 120,
+              width: "25%",
               flexDirection: "row",
               justifyContent: "space-evenly",
+              paddingHorizontal: 10,
             }}
           >
             <Popable
@@ -239,6 +252,13 @@ const ChatScreen = ({ navigation, route }) => {
                 />
               </TouchableOpacity>
             </Popable>
+            {/* <View
+              style={{
+                minWidth: 10,
+                maxWidth: 20,
+                backgroundColor: "white",
+              }}
+            /> */}
             <Popable
               content={
                 <View style={styles.popupContainer}>
@@ -335,10 +355,10 @@ const ChatScreen = ({ navigation, route }) => {
         if (links.length >= 5) {
           links = links.slice(0, 5);
         }
-        messageText = messageText.replace(
-          new RegExp(links.join("|"), "gi"),
-          "(image)"
-        );
+        // messageText = messageText.replace(
+        //   new RegExp(links.join("|"), "gi"),
+        //   "(image)"
+        // );
         for (let image of links) {
           Image.getSize(image, (w, h) => {
             images.push({
@@ -421,6 +441,11 @@ const ChatScreen = ({ navigation, route }) => {
   //   flatListRef.current.scrollToEnd({ animated: false });
   // };
 
+  // const calcHeight = (event, item) => {
+  //   if (!event?.nativeEvent?.layout) return;
+  //   messages[messages.indexOf(item)].y = event.nativeEvent.layout.height; // this doesnt feel like a good idea
+  // };
+
   const messageItem = ({ item }) => {
     const isUser =
       item.uid === auth?.currentUser?.uid ||
@@ -441,12 +466,7 @@ const ChatScreen = ({ navigation, route }) => {
           borderTopWidth: 1,
           backgroundColor: main,
         }}
-        onLayout={(event) => {
-          if (item.y) {
-            console.log("layout update");
-            messages[messages.find(item)].y = event.layout.height;
-          }
-        }}
+        // onLayout={calcHeight(event, item)}
       >
         <TouchableOpacity
           onPress={() => {
@@ -613,7 +633,7 @@ const ChatScreen = ({ navigation, route }) => {
                     alignSelf: "flex-end",
                   }}
                 >
-                  <Icon.Edit2 width={11} color="#727178" strokeWidth={2} />
+                  <Icon.Edit2 width={12} color="#727178" strokeWidth={2} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
@@ -637,7 +657,7 @@ const ChatScreen = ({ navigation, route }) => {
                     alignSelf: "flex-end",
                   }}
                 >
-                  <Icon.Trash2 width={11} color="#727178" strokeWidth={2} />
+                  <Icon.Trash2 width={12} color="#727178" strokeWidth={2} />
                 </TouchableOpacity>
               </>
             )}
@@ -647,7 +667,6 @@ const ChatScreen = ({ navigation, route }) => {
               horizontal
               style={{
                 maxWidth: "90%",
-                height: 400,
               }}
             >
               {item?.attachments?.map((image) => (
@@ -672,8 +691,8 @@ const ChatScreen = ({ navigation, route }) => {
                   <Image
                     source={{ uri: image?.url }}
                     style={{
-                      height: 300,
-                      maxWidth: 400,
+                      height: image?.height / 2,
+                      maxHeight: 300,
                       aspectRatio: image?.width / image?.height,
                       // marginLeft: 10,
                     }}
@@ -689,11 +708,11 @@ const ChatScreen = ({ navigation, route }) => {
 
   const keyExtractor = (item) => item.id;
 
-  const loadMore = () => {
-    setMessagesToLoad(messagesToLoad + 20);
-    console.log("load more");
-    console.log(messagesToLoad);
-  };
+  // const loadMore = () => {
+  //   setMessagesToLoad(messagesToLoad + 20);
+  //   console.log("load more");
+  //   console.log(messagesToLoad);
+  // };
 
   const createdHeader = () => (
     <Text
@@ -703,6 +722,11 @@ const ChatScreen = ({ navigation, route }) => {
         color: theme?.middle,
         textAlign: "center",
         marginVertical: 10,
+        transform: [
+          {
+            scaleY: -1,
+          },
+        ],
       }}
     >
       {dm
@@ -740,7 +764,7 @@ const ChatScreen = ({ navigation, route }) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             {messages.length !== 0 ? (
-              <BigList
+              <FlashList
                 data={messages}
                 ref={flatListRef}
                 keyExtractor={keyExtractor}
@@ -754,7 +778,7 @@ const ChatScreen = ({ navigation, route }) => {
                 // windowSize={11}
                 renderItem={messageItem}
                 inverted
-                itemHeight={(item) => (item.y ? item.y : 71)}
+                estimatedItemSize={71}
                 // initialScrollIndex={messages.length - 1}
               />
             ) : (
@@ -950,7 +974,7 @@ const styles = StyleSheet.create({
   },
   receiverText: {
     fontWeight: "600",
-    maxWidth: "90%",
+    maxWidth: "80%",
   },
   createdText: {
     color: "#727178",

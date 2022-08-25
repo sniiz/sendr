@@ -146,8 +146,10 @@ function SettingsScreen({ navigation }) {
       unsubProfile();
     };
   }, []);
+
   const asyncSleep = (sec) =>
     new Promise((resolve) => setTimeout(resolve, sec * 1000));
+
   const applyNickname = (db, uid, nickname) => {
     nickname = nickname.trim();
 

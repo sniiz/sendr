@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, useWindowDimensions, View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { useEffect } from "react";
@@ -75,21 +75,39 @@ export default function App() {
   //     });
   //   }
   // };
-  return (
-    <NavigationContainer style={styles.container} linking={linking}>
-      <Stack.Navigator screenOptions={globalScreenOptions}>
-        <Stack.Screen name="login" component={LoginScreen} />
-        <Stack.Screen name="signUp" component={RegisterScreen} />
-        <Stack.Screen name="home" component={HomeScreen} />
-        <Stack.Screen name="newChat" component={AddChatScreen} />
-        <Stack.Screen name="chat" component={ChatScreen} />
-        <Stack.Screen name="settings" component={SettingsScreen} />
-        <Stack.Screen name="verifyEmail" component={EmailVerifyScreen} />
-        <Stack.Screen name="friends" component={FriendsScreen} />
-        <Stack.Screen name="userInfo" component={UserInfoScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+
+  // var scale = useWindowDimensions().fontScale;
+  var dims = useWindowDimensions();
+  if (dims.height < 400 || dims.width < 400) {
+    return (
+      <View style={styles.container}>
+        <Text
+          style={{
+            fontSize: 10,
+            color: "#727178",
+          }}
+        >
+          your device/window is way too small to properly use sendr.
+        </Text>
+      </View>
+    );
+  } else {
+    return (
+      <NavigationContainer style={styles.container} linking={linking}>
+        <Stack.Navigator screenOptions={globalScreenOptions}>
+          <Stack.Screen name="login" component={LoginScreen} />
+          <Stack.Screen name="signUp" component={RegisterScreen} />
+          <Stack.Screen name="home" component={HomeScreen} />
+          <Stack.Screen name="newChat" component={AddChatScreen} />
+          <Stack.Screen name="chat" component={ChatScreen} />
+          <Stack.Screen name="settings" component={SettingsScreen} />
+          <Stack.Screen name="verifyEmail" component={EmailVerifyScreen} />
+          <Stack.Screen name="friends" component={FriendsScreen} />
+          <Stack.Screen name="userInfo" component={UserInfoScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
