@@ -230,6 +230,9 @@ const uiText = {
       copyUid: "copier l'uid",
       libraryPermsError:
         "nous avons besoin de permission pour accéder à ta bibliothèque si tu veux changer ta photo de profil",
+      status: "statut",
+      statusPlaceholder: "comment ça va?",
+      applyStatus: "appliquer ✏️",
     },
     profileScreen: {
       barTitle: "profil",
@@ -372,6 +375,9 @@ const uiText = {
       copyUid: "copiar uid",
       libraryPermsError:
         "necesitamos permisos para acceder a tu biblioteca si quieres cambiar tu foto de perfil",
+      status: "estado",
+      statusPlaceholder: "¿cómo va todo?",
+      applyStatus: "aplicar ✏️",
     },
     profileScreen: {
       barTitle: "perfil",
@@ -513,6 +519,9 @@ const uiText = {
       copyUid: "скопировать uid",
       libraryPermsError:
         "нам нужны права на доступ к галерее чтобы поменять тебе картинку профиля",
+      status: "статус",
+      statusPlaceholder: "что нового?",
+      applyStatus: "применить ✏️",
     },
     profileScreen: {
       barTitle: "профиль",
@@ -644,6 +653,10 @@ const uiText = {
       wrongPassword: "密码错误，请再试一次",
       pfpChange: "点击改变",
       copyUid: "复制UID到剪贴板",
+      libraryPermsError: ":(", // TODO
+      status: "身份",
+      statusPlaceholder: "怎么了",
+      applyStatus: "应用 ✏️",
     },
     profileScreen: {
       barTitle: "个人资料",
@@ -776,6 +789,10 @@ const uiText = {
       wrongPassword: "パスワードが間違っています。 再度お試しください",
       pfpChange: "クリックで変更",
       copyUid: "uidをクリップボードにコピーする",
+      libraryPermsError: ":(",
+      status: "ステータス",
+      statusPlaceholder: "ごきげんいかがですか",
+      applyStatus: "反映させる ✏️",
     },
     profileScreen: {
       barTitle: "プロフィール",

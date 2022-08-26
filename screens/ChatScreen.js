@@ -203,10 +203,12 @@ const ChatScreen = ({ navigation, route }) => {
           <View
             style={{
               marginRight: 20,
-              width: "25%",
+              width: "30%",
+              minWidth: 100,
+              maxWidth: 200,
               flexDirection: "row",
               justifyContent: "space-evenly",
-              paddingHorizontal: 10,
+              paddingHorizontal: 5,
             }}
           >
             <Popable

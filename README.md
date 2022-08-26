@@ -9,6 +9,18 @@ sendr
 <!-- a minimalistic open source messenger -->
 </p>
 
+<h1 align='center' style='font-weight: 900;'><br/>changelog v1.0.0 (28.08.22)</h1>
+<p style="font-weight: bold;">
+- added this changelog, duh<br>
+- added image attachments<br>
+- added edit and delete message buttons<br>
+- added statuses<br>
+- made invite links shorter<br>
+- made the chat screen use flashlist instead of flatlist for better performance in big chats<br>
+- made it possible to send friend requests by name instead iof by uid (you can still use uid but.. why would you)<br>
+- and some other stability improvements and bug fixes
+</p>
+
 <h1 align='center' style='font-weight: 900;'><br/>screenshots</h1>
 <div align='center'>
 

@@ -83,7 +83,7 @@ export default function App() {
       <View style={styles.container}>
         <Text
           style={{
-            fontSize: 10,
+            fontSize: 20,
             color: "#727178",
           }}
         >

@@ -24,7 +24,10 @@ import {
   // orderBy,
   getDoc,
   setDoc,
-  // where,
+  getDocs,
+  query,
+  where,
+  collection,
   // } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 } from "../firebase";
 import { Avatar } from "react-native-elements";
@@ -80,7 +83,7 @@ const FriendsScreen = ({ navigation, route }) => {
         setLoading(false);
       },
       (error) => {
-        // console.log(error);
+        console.log(error);
         setLoading(false);
       }
     );
@@ -93,46 +96,104 @@ const FriendsScreen = ({ navigation, route }) => {
   }, [route]);
 
   const addFriend = (id) => {
-    if (id.includes("/") || id.includes(" ")) {
-      setFriendId("");
-      return;
-    }
-    if (id.trim() === "POTATOCAT") {
-      alert("no. sadly you cannot befriend the potatocat."); // TODO translate
-      setFriendId("");
-      return;
-    }
-    // jeez look at this mess
-    // you know what this reminds me of?
-    // r a m e n
-    // get it? noodles? hahhahahhahha
-    // im a comedic genius
-    if (id === auth.currentUser.uid) {
-      alert(UIText.friendsScreen.evilRant);
-      setFriendId("");
-      return;
-    }
-    getDoc(doc(db, "users", id)).then((friend) => {
-      if (friend.exists() && !friends.includes(id)) {
-        if (friend.data()?.friendRequests?.includes(auth.currentUser.uid)) {
-          alert(UIText.friendsScreen.sentAlready);
-          setFriendId("");
-          return;
-        }
-        updateDoc(doc(db, "users", id), {
-          friendRequests: [
-            ...friend.data().friendRequests,
-            auth.currentUser.uid,
-          ],
-        }).then(() => {
-          alert(`${UIText.friendsScreen.sent} ${friend.data().name}`);
-          setFriendId("");
-        });
-      } else {
+    id = id.trim();
+    if (id.length > 15) {
+      if (id.includes("/") || id.includes(" ")) {
         setFriendId("");
-        alert(UIText.friendsScreen.doesntExist);
+        return;
       }
-    });
+      if (id === "POTATOCAT") {
+        alert("no. sadly you cannot befriend the potatocat."); // TODO translate
+        setFriendId("");
+        return;
+      }
+      // jeez look at this mess
+      // you know what this reminds me of?
+      // r a m e n
+      // get it? noodles? hahhahahhahha
+      // im a comedic genius
+      if (id === auth.currentUser.uid) {
+        alert(UIText.friendsScreen.evilRant);
+        setFriendId("");
+        return;
+      }
+      getDoc(doc(db, "users", id)).then((friend) => {
+        if (friend.exists() && !friends.includes(id)) {
+          if (friend.data()?.friendRequests?.includes(auth.currentUser.uid)) {
+            alert(UIText.friendsScreen.sentAlready);
+            setFriendId("");
+            return;
+          }
+          updateDoc(doc(db, "users", id), {
+            friendRequests: [
+              ...friend.data().friendRequests,
+              auth.currentUser.uid,
+            ],
+          }).then(() => {
+            alert(`${UIText.friendsScreen.sent}${friend.data().name}`);
+            setFriendId("");
+          });
+        } else {
+          setFriendId("");
+          alert(UIText.friendsScreen.doesntExist);
+        }
+      });
+    } else {
+      if (id === auth.currentUser.displayName) {
+        alert(UIText.friendsScreen.evilRant);
+        setFriendId("");
+        return;
+      }
+      if (id === "potat" || id === "POTATOCAT") {
+        alert("no. sadly you cannot befriend the potatocat."); // TODO translate
+        setFriendId("");
+        return;
+      }
+      getDocs(query(collection(db, "users"), where("name", "==", id))).then(
+        async (potentialFriends) => {
+          if (potentialFriends.docs.length === 0 || friends.includes(id)) {
+            alert(UIText.friendsScreen.doesntExist);
+            setFriendId("");
+            return;
+          }
+          id = potentialFriends.docs[0].id;
+          let friend = await getDoc(doc(db, "users", id));
+          if (friend.exists() && !friends.includes(id)) {
+            if (friend.data()?.friendRequests?.includes(auth.currentUser.uid)) {
+              alert(UIText.friendsScreen.sentAlready);
+              setFriendId("");
+              return;
+            }
+            updateDoc(doc(db, "users", id), {
+              friendRequests: [
+                ...friend.data().friendRequests,
+                auth.currentUser.uid,
+              ],
+            }).then(() => {
+              alert(`${UIText.friendsScreen.sent}${friend.data().name}`);
+              setFriendId("");
+            });
+          } else {
+            setFriendId("");
+            alert(UIText.friendsScreen.doesntExist);
+          }
+          // if (friend.data()?.friendRequests?.includes(auth.currentUser.uid)) {
+          //   alert(UIText.friendsScreen.sentAlready);
+          //   setFriendId("");
+          //   return;
+          // }
+          // updateDoc(doc(db, "users", friend.id), {
+          //   friendRequests: [
+          //     ...friend.data().friendRequests,
+          //     auth.currentUser.uid,
+          //   ],
+          // }).then(() => {
+          //   alert(`${UIText.friendsScreen.sent}${friend.data().name}`);
+          //   setFriendId("");
+          // });
+        }
+      );
+    }
   };
 
   const confirmFriend = (id, name) => {

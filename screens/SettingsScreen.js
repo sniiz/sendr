@@ -271,8 +271,8 @@ function SettingsScreen({ navigation }) {
 
   const handlePfp = () => {
     if (Platform.OS !== "web") {
-      ImagePicker.requestMediaLibraryPermissionsAsync().then(() => {
-        if (status !== "granted") {
+      ImagePicker.requestMediaLibraryPermissionsAsync().then((s) => {
+        if (!s.granted) {
           alert(UIText.signUpScreen.libraryPermsError);
           return;
         }
