@@ -1,4 +1,10 @@
-import { StyleSheet, useWindowDimensions, View, Text } from "react-native";
+import {
+  StyleSheet,
+  useWindowDimensions,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { useEffect } from "react";
@@ -13,6 +19,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 import FriendsScreen from "./screens/FriendsScreen";
 import UserInfoScreen from "./screens/UserInfoScreen";
 import * as Linking from "expo-linking";
+import { useState } from "react";
 import Theme from "./components/themes";
 // import { getFirestore, setDoc, updateDoc, doc, getAuth } from "./firebase";
 
@@ -52,6 +59,7 @@ const linking = {
 };
 
 export default function App() {
+  const [declined, setDeclined] = useState(false);
   // useEffect(() => {
   //   AppState.addEventListener("change", handleAppStateChange);
   //   return () => {
@@ -78,17 +86,34 @@ export default function App() {
 
   // var scale = useWindowDimensions().fontScale;
   var dims = useWindowDimensions();
-  if (dims.height < 400 || dims.width < 400) {
+  if ((dims.height < 350 || dims.width < 400) && !declined) {
     return (
       <View style={styles.container}>
         <Text
           style={{
             fontSize: 20,
             color: "#727178",
+            textAlign: "center",
           }}
         >
-          your device/window is way too small to properly use sendr.
+          your device/window may be too small to properly use sendr.
         </Text>
+        <TouchableOpacity
+          onPress={() => {
+            setDeclined(true);
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 25,
+              color: "#f2f1f8",
+              textAlign: "center",
+              marginTop: 10,
+            }}
+          >
+            press to proceed anyway
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   } else {
