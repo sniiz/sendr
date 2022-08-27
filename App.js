@@ -86,7 +86,7 @@ export default function App() {
 
   // var scale = useWindowDimensions().fontScale;
   var dims = useWindowDimensions();
-  if ((dims.height < 350 || dims.width < 400) && !declined) {
+  if ((dims.height < 350 || dims.width < 350) && !declined) {
     return (
       <View style={styles.container}>
         <Text
