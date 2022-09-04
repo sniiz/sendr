@@ -230,43 +230,50 @@ function SettingsScreen({ navigation }) {
 
   const pfpUrlCallback = async (url) => {
     setPfp(url);
-    await updateDoc(doc(collection(getFirestore(), "users"), user.uid), {
-      pfp: url,
-    }).catch((err) => {
-      alert(err);
-    });
-    await updateProfile(getAuth().currentUser, {
+    updateProfile(getAuth().currentUser, {
       photoURL: url,
-    }).catch((err) => {
-      alert(err);
-    });
-    let chats = await getDocs(
-      query(
-        collection(getFirestore(), "privateChats"),
-        where("members", "array-contains", user.uid)
-      )
-    );
-    chats.forEach(async (chat) => {
-      let messages = await getDocs(
-        query(
-          collection(getFirestore(), "privateChats", chat.id, "messages"),
-          where("uid", "==", user.uid)
-        )
-      );
-      messages.forEach((message) => {
-        updateDoc(
-          doc(
-            collection(getFirestore(), "privateChats", chat.id, "messages"),
-            message.id
-          ),
-          {
-            pfp: url,
-          }
-        ).catch((err) => {
+    })
+      .catch((err) => {
+        alert(err);
+      })
+      .then(async () => {
+        await updateDoc(doc(collection(getFirestore(), "users"), user.uid), {
+          pfp: url,
+        }).catch((err) => {
           alert(err);
         });
+        let chats = await getDocs(
+          query(
+            collection(getFirestore(), "privateChats"),
+            where("members", "array-contains", user.uid)
+          )
+        );
+        chats.forEach(async (chat) => {
+          let messages = await getDocs(
+            query(
+              collection(getFirestore(), "privateChats", chat.id, "messages"),
+              where("uid", "==", user.uid)
+            )
+          );
+          messages.forEach((message) => {
+            updateDoc(
+              doc(
+                collection(getFirestore(), "privateChats", chat.id, "messages"),
+                message.id
+              ),
+              {
+                pfp: url,
+              }
+            )
+              .catch((err) => {
+                alert(err);
+              })
+              .then(() => {
+                alert("updated!");
+              });
+          });
+        });
       });
-    });
   };
 
   const handlePfp = () => {

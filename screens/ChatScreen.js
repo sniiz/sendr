@@ -59,6 +59,8 @@ const ChatScreen = ({ navigation, route }) => {
   const [dm, setDm] = useState(false);
   const [msgBlocked, setMsgBlocked] = useState(false);
 
+  const [self, setSelf] = useState({});
+
   const flatListRef = useRef(null);
 
   const [badWords, setBadWords] = useState([]);
@@ -142,6 +144,9 @@ const ChatScreen = ({ navigation, route }) => {
         });
       }
       setLoaded(true);
+    });
+    getDoc(doc(db, "users", auth.currentUser.uid)).then((profile) => {
+      setSelf(profile.data());
     });
     getDoc(doc(db, "otherStuff", "devs")).then((devs) => {
       setDevs(devs.data().ids);
@@ -376,10 +381,9 @@ const ChatScreen = ({ navigation, route }) => {
         timestamp: serverTimestamp(),
         message: messageText,
         // attachments: images,
-        displayName: auth.currentUser.displayName,
+        displayName: self.name,
         uid: auth.currentUser.uid,
-        photoURL:
-          auth.currentUser.photoURL || "https://i.imgur.com/dA9mtkT.png",
+        photoURL: self.pfp,
         edited: false,
       };
       if (edit) {
