@@ -109,9 +109,9 @@ function SettingsScreen({ navigation }) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerStyle: { backgroundColor: "#0a0a0b" },
-      headerTintColor: "#f4f5f5",
-      headerTitleAlign: "center",
+      // headerStyle: { backgroundColor: "#0a0a0b" },
+      // headerTintColor: "#f4f5f5",
+      // headerTitleAlign: "center",
       title: UIText.settingsScreen.barTitle,
     });
     console.log(Theme.list());
