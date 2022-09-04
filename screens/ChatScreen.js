@@ -74,7 +74,7 @@ const ChatScreen = ({ navigation, route }) => {
     "is no longer among us",
   ];
 
-  const j = "TVeHDZSeiGNVN2gYmvkDDv2uCaN2";
+  // const j = "TVeHDZSeiGNVN2gYmvkDDv2uCaN2";
 
   const auth = getAuth();
   const db = getFirestore();
@@ -555,7 +555,7 @@ const ChatScreen = ({ navigation, route }) => {
                   </Text>
                 </View>
               ) : null}
-              {item.uid === j ? (
+              {/* {item.uid === j ? (
                 <View
                   style={{
                     backgroundColor: "#ffd22e",
@@ -579,7 +579,7 @@ const ChatScreen = ({ navigation, route }) => {
                     lord sex
                   </Text>
                 </View>
-              ) : null}
+              ) : null} */}
               {" · "}
               {item.timestamp
                 ? new Date(item.timestamp.seconds * 1000).toLocaleDateString(
