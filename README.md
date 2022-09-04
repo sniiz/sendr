@@ -21,16 +21,6 @@ sendr
 - and some other stability improvements and bug fixes
 </p>
 
-<h1 align='center' style='font-weight: 900;'><br/>screenshots</h1>
-<div align='center'>
-
-<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/home-screenshot.png?raw=true" width="300" alt="home screenshot"/>
-<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/friends-screenshot.png?raw=true" width="300" alt="friends screenshot"/>
-<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/dm-screenshot-1.png?raw=true" width="300" alt="dm screenshot"/>
-<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/group-screenshot.png?raw=true" width="300" alt="friends screenshot"/>
-
-</div>
-
 <h1 align="center" style="font-weight: 900;"><br/>roadmap</h1>
 
 - [ ] native apps (WIP)
@@ -51,6 +41,20 @@ sendr
 - [x] pfp picker
 
 - [ ] ~~custom server perhaps (oh god no)~~
+
+<h1 align='center' style='font-weight: 900;'><br/>gallery</h1>
+<div align='center'>
+
+<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/home-screenshot.png?raw=true" width="300" alt="home screenshot"/>
+<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/friends-screenshot.png?raw=true" width="300" alt="friends screenshot"/>
+<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/dm-screenshot-1.png?raw=true" width="300" alt="dm screenshot"/>
+<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/dm-screenshot-2.png?raw=true" width="300" alt="amother dm screenshot"/>
+<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/group-screenshot.png?raw=true" width="300" alt="friends screenshot"/>
+<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/profile-screenshot-1.png?raw=true" width="300" alt="profile screenshot"/>
+<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/profile-screenshot-2.png?raw=true" width="300" alt="another profile screenshot"/>
+<img src="https://github.com/sniiz/sendr/blob/master/misc%20stuff/screenshots/settings-screenshot.png?raw=true" width="300" alt="settings screenshot"/>
+
+</div>
 
 <h1 align="center" style="font-weight: 900;">
 feedback & contributing
