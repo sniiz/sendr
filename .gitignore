@@ -33,3 +33,4 @@ node_modules_BACKUP/
 firebaseMobile.js
 # firebase.js
 .env 
+google-services.js

@@ -4,7 +4,7 @@ export default {
   expo: {
     name: `sendr`,
     slug: "sendr",
-    version: "v1.0.0-wip",
+    version: "v1.0.0-android",
     orientation: "portrait",
     icon: "./assets/icon.png",
     // icon: "./assets/pride-adaptive-icon.png",
@@ -31,8 +31,8 @@ export default {
       buildNumber: "1.0.0",
     },
     android: {
-      googleServicesFile: "./google-services.json",
       package: "com.sniiz.sendr",
+      googleServicesFile: "./google-services.json",
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         // foregroundImage: "./assets/pride-adaptive-icon.png",
@@ -44,5 +44,10 @@ export default {
       // favicon: "./assets/pride-favicon.png",
     },
     scheme: "sendr",
+    extra: {
+      eas: {
+        projectId: "b5016c96-d33a-4893-95e7-9a1781a2f95a",
+      },
+    },
   },
 };
