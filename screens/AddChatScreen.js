@@ -4,9 +4,10 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
-  Text,
   TextInput,
+  Text,
 } from "react-native";
+// import { Text } from "../components/AndroidSafeText";
 // import { CoolButton } from "../components/CustomUi";
 // import { collection, addDoc, getFirestore, getAuth } from Platform.OS === "web" ? "../firebase" : "../firebaseMobile";
 import { collection, addDoc, getFirestore, getAuth } from "../firebase";

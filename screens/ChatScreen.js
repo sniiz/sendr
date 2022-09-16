@@ -9,14 +9,15 @@ import {
   Platform,
   SafeAreaView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Image,
   View,
   ScrollView,
+  Text,
 } from "react-native";
+// import { Text } from "../components/AndroidSafeText";
 import UIText from "../components/LocalizedText";
 import {
   addDoc,
