@@ -29,7 +29,7 @@ import {
   deleteUser,
   signOut,
 } from "firebase/auth";
-import { getMessaging } from "firebase/messaging";
+// import { getMessaging } from "firebase/messaging";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // import { getDoc } from 'firebase/firestore'
 const firebaseConfig = {
