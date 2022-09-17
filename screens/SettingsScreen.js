@@ -662,6 +662,9 @@ function SettingsScreen({ navigation }) {
           client: {Platform.OS}
           {"\n\n"}email: {auth?.currentUser?.email}
           {"\n"}verified: {auth?.currentUser?.emailVerified?.toString()}
+          {"\n"}
+          created: {auth?.currentUser?.metadata?.creationTime}
+          {"\n"}last sign in: {auth?.currentUser?.metadata?.lastSignInTime}
           {"\n\n"}
           user id: {auth?.currentUser?.uid}
         </Text>

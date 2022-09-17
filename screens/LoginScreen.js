@@ -184,7 +184,8 @@ const LoginScreen = ({ navigation }) => {
           <Text
             style={[styles.version, { marginBottom: loading ? "70%" : 20 }]}
           >
-            {version.number}
+            v{version.number}
+            {"\n"}build {version.build}
             {"\n"}✨ {version.name} ✨
           </Text>
           <Text style={styles.title}>{UIText.loginScreen.title}</Text>

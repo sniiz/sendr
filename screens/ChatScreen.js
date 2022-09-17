@@ -3,7 +3,6 @@ import * as Icon from "react-native-feather";
 import * as Localization from "expo-localization";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
-  FlatList,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -42,6 +41,7 @@ import { Popable } from "react-native-popable";
 import * as Clipboard from "expo-clipboard";
 import Theme from "../components/themes";
 import { FlashList } from "@shopify/flash-list"; // im desperate
+import Hyperlink from "react-native-hyperlink";
 
 const ChatScreen = ({ navigation, route }) => {
   const [msgInput, setMsgInput] = useState("");
@@ -295,7 +295,8 @@ const ChatScreen = ({ navigation, route }) => {
                       }`,
                       displayName: "potat",
                       uid: "POTATOCAT",
-                      photoURL: "https://i.imgur.com/UFr7hCb.png",
+                      photoURL:
+                        "https://firebasestorage.googleapis.com/v0/b/sniiz-sendr.appspot.com/o/POTATOCAT.png?alt=media&token=318b0de5-d9e4-490d-96a9-4349aa9663cb",
                       attachments: [],
                     }
                   );
@@ -615,17 +616,41 @@ const ChatScreen = ({ navigation, route }) => {
               marginTop: isUser ? -5 : 0,
             }}
           >
-            <Text
+            <Hyperlink
+              onPress={(url) => {
+                if (
+                  url.endsWith(".png") ||
+                  url.endsWith(".jpg") ||
+                  url.endsWith(".gif")
+                )
+                  return;
+                if (Platform.OS === "web") {
+                  window.open(url, "_blank");
+                } else {
+                  Linking.openURL(url);
+                }
+              }}
               style={[
                 styles.receiverText,
                 {
                   color: item.timestamp ? second : third,
                   fontStyle: item.uid === "POTATOCAT" ? "italic" : "normal",
+                  width: "auto",
                 },
               ]}
             >
-              {item.message}
-            </Text>
+              <Text
+                style={[
+                  styles.receiverText,
+                  {
+                    color: item.timestamp ? second : third,
+                    fontStyle: item.uid === "POTATOCAT" ? "italic" : "normal",
+                  },
+                ]}
+              >
+                {item.message}
+              </Text>
+            </Hyperlink>
             {isUser && (
               <>
                 <TouchableOpacity
@@ -648,6 +673,7 @@ const ChatScreen = ({ navigation, route }) => {
                       alert(
                         "nice try (although im not sure how you would even do that)"
                       ); // better safe than sorry i guess
+                      // also TODO translate
                       return;
                     }
                     deleteDoc(

@@ -37,7 +37,7 @@ const UserInfoScreen = ({ navigation, route }) => {
       })
       .catch((err) => {
         // console.log(err);
-        alert("user does not exist"); // TODO translate
+        alert("failed to fetch user"); // TODO translate
         navigation.replace("home");
       });
     getDoc(doc(getFirestore(), "users", getAuth().currentUser.uid)).then(

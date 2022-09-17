@@ -138,7 +138,8 @@ const HomeScreen = ({ navigation }) => {
               marginLeft: 5,
             }}
           >
-            {version["number"]}{" "}
+            v{version["number"]}
+            {"  "}build {version.build}
           </Text>
         </View>
       ),
