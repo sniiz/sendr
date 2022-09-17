@@ -476,6 +476,8 @@
             getDoc(doc(db, "privateChats", urlParams.chatId)).then((chat) => {
               if (!chat.exists()) {
                 $("#title").text("chat not found. broken link?");
+              } else if (chat.data().dm === true) {
+                $("#title").text("chat not found. broken link?");
               } else {
                 $("#title").text(`almost there...`);
                 if (chat.data().members.includes(user.uid)) {
@@ -488,35 +490,31 @@
                     members: [...chat.data().members, user.uid],
                   }).then(() => {
                     $("#status").text(`added! finishing up...`);
-                    let joinMessages = [
-                      "joined!",
-                      "is here!",
-                      "appeared out of thin air!",
-                      "has arrived!",
-                      "entered!",
-                      "came in!",
-                      "has joined!",
-                      "joined us here on this fine day!",
-                      "stopped by!",
-                      "came by!",
-                    ];
+                    let message = user.displayName + [
+                      " joined!",
+                      " is here!",
+                      " appeared out of thin air!",
+                      " has arrived!",
+                      " entered!",
+                      " came in!",
+                      " has joined!",
+                      " joined us here on this fine day!",
+                      " stopped by!",
+                      " came by!",
+                    ][Math.floor(Math.random() * 10)];
                     addDoc(
                       collection(
                         db,
-                        `privateChats/${urlParams.id}`,
-                        "messages"
+                        `privateChats/${urlParams.id}/messages`,
                       ),
                       {
                         timestamp: serverTimestamp(),
-                        message: `${user.displayName} ${
-                          joinMessages[
-                            Math.floor(Math.random() * joinMessages.length)
-                          ]
-                        }`,
+                        message: message,
                         displayName: "potat",
                         uid: "POTATOCAT",
-                        photoURL: "https://i.imgur.com/UFr7hCb.png",
+                        photoURL: "https://firebasestorage.googleapis.com/v0/b/sniiz-sendr.appspot.com/o/POTATOCAT.png?alt=media&token=318b0de5-d9e4-490d-96a9-4349aa9663cb",
                         attachments: [],
+                        edited: false
                       }
                     ).then(() => {
                       $("#status").text("done!");

@@ -125,10 +125,37 @@ const UserInfoScreen = ({ navigation, route }) => {
           fontWeight: "800",
           marginBottom: 10,
           textAlign: "center",
+          alignItems: "flex-start",
+          justifyContent: "flex-start",
           color: "#f4f5f5",
         }}
       >
         {user.name}
+        {route.params.uid === "POTATOCAT" ? (
+          <View
+            style={{
+              backgroundColor: "#55f",
+              // // width: "auto",
+              padding: 5,
+              paddingVertical: 3,
+              borderRadius: 7,
+              marginLeft: 3,
+              alignItems: "center",
+              justifyContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                color: "#f4f5f5",
+                fontWeight: "800",
+                fontSize: 15,
+              }}
+            >
+              SYSTEM
+            </Text>
+          </View>
+        ) : null}
       </Text>
       {user.status ? (
         <Text

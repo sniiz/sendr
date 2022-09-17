@@ -28,6 +28,10 @@ export default function ActivityIndicator({ size, color, style }) {
         //   transform: [{ rotate: spinny }],
         // },
         style,
+        {
+          width: size,
+          height: size,
+        },
       ]}
     >
       {/* <SimpleLineIcons name="disc" size={size} color={color} /> */}
