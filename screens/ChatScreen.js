@@ -616,7 +616,7 @@ const ChatScreen = ({ navigation, route }) => {
               marginTop: isUser ? -5 : 0,
             }}
           >
-            <Hyperlink
+            {/* <Hyperlink
               onPress={(url) => {
                 if (
                   url.endsWith(".png") ||
@@ -638,19 +638,19 @@ const ChatScreen = ({ navigation, route }) => {
                   width: "auto",
                 },
               ]}
+            > */}
+            <Text
+              style={[
+                styles.receiverText,
+                {
+                  color: item.timestamp ? second : third,
+                  fontStyle: item.uid === "POTATOCAT" ? "italic" : "normal",
+                },
+              ]}
             >
-              <Text
-                style={[
-                  styles.receiverText,
-                  {
-                    color: item.timestamp ? second : third,
-                    fontStyle: item.uid === "POTATOCAT" ? "italic" : "normal",
-                  },
-                ]}
-              >
-                {item.message}
-              </Text>
-            </Hyperlink>
+              {item.message}
+            </Text>
+            {/* </Hyperlink> */}
             {isUser && (
               <>
                 <TouchableOpacity

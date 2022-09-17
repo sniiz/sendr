@@ -5,6 +5,7 @@
   const notifier = require("node-notifier");
   const exec = require("child_process").exec;
   const ora = require("ora");
+  const fetch = require("node-fetch");
 
   function runShell(cmd) {
     return new Promise((resolve, reject) => {
@@ -65,7 +66,24 @@
           symbol: "🎉",
           text: "deployed",
         });
-
+        // https://discord.com/api/webhooks/1020752664079904868/uhAoAYW3yJS8zr7CClQ2NZGKdPmxSKM71aPwXzuSTiLuuniVdvw8TM2DJgKckR37JR8q
+        fetch(
+          "https://discord.com/api/webhooks/1020752664079904868/uhAoAYW3yJS8zr7CClQ2NZGKdPmxSKM71aPwXzuSTiLuuniVdvw8TM2DJgKckR37JR8q",
+          {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: "potatinator 4000 (version logging edition)",
+              avatar_url:
+                "https://cdn.discordapp.com/attachments/931632733636153394/1020613293028683826/robo.png",
+              content: production
+                ? `new sendr version just deployed to production (https://sendrapp.vercel.app) 🎉\n\`\`\`\n✨ ${versionInfo.name} ✨\nv${versionInfo.number}\nbuild ${versionInfo.build}\`\`\`go check out the changelog over at https://github.com/sniiz/sendr#readme (or angrily scream at haley if it's not there)`
+                : `new wip sendr version just deployed to https://sendr-sniiz.vercel.app\n\`\`\`\n✨ ${versionInfo.name} ✨\nv${versionInfo.number}\nbuild ${versionInfo.build}\`\`\``,
+            }),
+          }
+        );
         // console.log("web build published");
       });
     })

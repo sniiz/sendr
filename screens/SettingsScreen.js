@@ -657,9 +657,10 @@ function SettingsScreen({ navigation }) {
             width: "100%",
           }}
         ></View>
-        <Text style={styles.version}>
+        <Text style={styles.version} onLongPress={() => {}}>
           info:{"\n"} app version: {version.number} · ✨ {version.name} ✨{"\n"}
           client: {Platform.OS}
+          {"\n"}build number: {version.build}
           {"\n\n"}email: {auth?.currentUser?.email}
           {"\n"}verified: {auth?.currentUser?.emailVerified?.toString()}
           {"\n"}

@@ -519,15 +519,14 @@
                     ).then(() => {
                       $("#status").text("done!");
                       $("#title").text(
-                        `you're now in ${chat.data().chatName}! redirecting...`
+                        `you're now in ${chat.data().chatName} 🎉 redirecting in 5 seconds...`
                       );
                       setTimeout(() => {
-                        window.close();
                         window.open(
                           `https://sendrapp.vercel.app/chat`,
-                          "_self"
+                          "_blank"
                         );
-                      }, 1000);
+                      }, 5000);
                     });
                   });
                 }
