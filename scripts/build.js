@@ -5,7 +5,7 @@
   const notifier = require("node-notifier");
   const exec = require("child_process").exec;
   const ora = require("ora");
-  const fetch = require("node-fetch");
+  const fetch = await import("node-fetch");
 
   function runShell(cmd) {
     return new Promise((resolve, reject) => {
@@ -66,7 +66,6 @@
           symbol: "🎉",
           text: "deployed",
         });
-        // https://discord.com/api/webhooks/1020752664079904868/uhAoAYW3yJS8zr7CClQ2NZGKdPmxSKM71aPwXzuSTiLuuniVdvw8TM2DJgKckR37JR8q
         fetch(
           "https://discord.com/api/webhooks/1020752664079904868/uhAoAYW3yJS8zr7CClQ2NZGKdPmxSKM71aPwXzuSTiLuuniVdvw8TM2DJgKckR37JR8q",
           {

@@ -34,4 +34,4 @@ firebaseMobile.js
 # firebase.js
 .env 
 google-services.js
-scripts/
+scripts/build.js

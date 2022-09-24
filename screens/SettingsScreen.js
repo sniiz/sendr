@@ -40,6 +40,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Popable } from "react-native-popable";
 import { setString } from "expo-clipboard";
 import Theme from "../components/themes";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 const version = require("../assets/version-info.json");
 
@@ -95,7 +96,7 @@ function SettingsScreen({ navigation }) {
   // WIP
 
   const [pfp, setPfp] = useState(null);
-  // const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState("");
@@ -152,7 +153,15 @@ function SettingsScreen({ navigation }) {
 
   const applyNickname = (db, uid, nickname) => {
     nickname = nickname.trim();
-
+    if (
+      nickname.includes("&") ||
+      nickname.includes("?") ||
+      nickname.includes("/")
+    ) {
+      alert(
+        'your name cannot contain non-url friendly characters, such as "&" or "?" or "/"' // TODO translate
+      );
+    }
     return new Promise((resolve, reject) => {
       getDocs(
         query(collection(db, "users"), where("name", "==", nickname))
@@ -264,19 +273,20 @@ function SettingsScreen({ navigation }) {
               {
                 pfp: url,
               }
-            )
-              .catch((err) => {
-                alert(err);
-              })
-              .then(() => {
-                alert("updated!");
-              });
+            ).catch((err) => {
+              alert(err);
+            });
+            // .then(() => {
+            // });
           });
         });
+        alert("updated!");
+        setUploading(false);
       });
   };
 
   const handlePfp = () => {
+    setUploading(true);
     if (Platform.OS !== "web") {
       ImagePicker.requestMediaLibraryPermissionsAsync().then((s) => {
         if (!s.granted) {
@@ -292,6 +302,8 @@ function SettingsScreen({ navigation }) {
         }).then((result) => {
           if (!result.cancelled) {
             uploadImage(result.uri).then(pfpUrlCallback);
+          } else {
+            setUploading(false);
           }
         });
       });
@@ -305,6 +317,8 @@ function SettingsScreen({ navigation }) {
       }).then((result) => {
         if (!result.cancelled) {
           uploadImage(result.uri).then(pfpUrlCallback);
+        } else {
+          setUploading(false);
         }
       });
     }
@@ -339,37 +353,52 @@ function SettingsScreen({ navigation }) {
         <Text style={[styles.settingText, { marginLeft: 0, marginBottom: 10 }]}>
           {UIText.settingsScreen.pfp}
         </Text>
-        <Popable
-          content={
-            <View style={styles.popupContainer}>
-              <Text style={styles.popupText}>
-                {UIText.settingsScreen.pfpChange}
-              </Text>
-            </View>
-          }
-          action="hover"
-          style={{ opacity: 0.8 }}
-          position="bottom"
-        >
-          <TouchableOpacity
-            onPress={handlePfp}
+        {uploading ? (
+          <View
             style={{
               marginBottom: 10,
+              width: 150,
+              height: 150,
+              // flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Image
+            <ActivityIndicator size={20} color="#f4f5f5" />
+          </View>
+        ) : (
+          <Popable
+            content={
+              <View style={styles.popupContainer}>
+                <Text style={styles.popupText}>
+                  {UIText.settingsScreen.pfpChange}
+                </Text>
+              </View>
+            }
+            action="hover"
+            style={{ opacity: 0.8 }}
+            position="bottom"
+          >
+            <TouchableOpacity
+              onPress={handlePfp}
               style={{
-                width: 150,
-                height: 150,
-                borderRadius: 1000000,
+                marginBottom: 10,
               }}
-              resizeMode={"cover"}
-              source={{
-                uri: pfp || "https://i.imgur.com/dA9mtkT.png",
-              }}
-            />
-          </TouchableOpacity>
-        </Popable>
+            >
+              <Image
+                style={{
+                  width: 150,
+                  height: 150,
+                  borderRadius: 1000000,
+                }}
+                resizeMode={"cover"}
+                source={{
+                  uri: pfp || "https://i.imgur.com/dA9mtkT.png",
+                }}
+              />
+            </TouchableOpacity>
+          </Popable>
+        )}
         <View style={styles.inputContainer}>
           <Text style={styles.settingText}>{UIText.settingsScreen.status}</Text>
           <Input
@@ -386,7 +415,7 @@ function SettingsScreen({ navigation }) {
                   status: status,
                 }).then(() => {
                   alert("updated!");
-                  setStatus(status);
+                  // setStatus(status);
                 });
               }
             }}
@@ -398,7 +427,7 @@ function SettingsScreen({ navigation }) {
                   status: status,
                 }).then(() => {
                   alert("updated!");
-                  setStatus(status);
+                  // setStatus(status);
                 });
               }
             }}

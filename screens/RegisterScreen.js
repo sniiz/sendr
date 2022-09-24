@@ -66,15 +66,23 @@ const RegisterScreen = ({ navigation }) => {
       alert(`${fullname} ${UIText.settingsScreen.usernameTooLong}`);
       return;
     }
-    if (Platform.OS === "web" && navigator?.userAgent?.match(/safari/i))
-      if (password !== passwordConfirm) {
-        // alert(
-        //   "it looks like you're using an apple device. please beware that the chat scrolling may be reversed. (we will not show this message again)"
-        // );
-        alert(UIText.signUpScreen.passwordsDontMatch);
-        setLoading(false);
-        return;
-      }
+    if (
+      fullname.includes("&") ||
+      fullname.includes("?") ||
+      fullname.includes("/")
+    ) {
+      alert(
+        'your username cannot contain non-url friendly characters, such as "&" or "?" or "/"'
+      );
+    }
+    if (password !== passwordConfirm) {
+      // alert(
+      //   "it looks like you're using an apple device. please beware that the chat scrolling may be reversed. (we will not show this message again)"
+      // );
+      alert(UIText.signUpScreen.passwordsDontMatch);
+      setLoading(false);
+      return;
+    }
     const pfps = [
       "https://i.imgur.com/68Kbi0t.png",
       "https://i.imgur.com/I3ypNtV.png",
