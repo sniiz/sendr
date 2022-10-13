@@ -5,9 +5,9 @@ const Header = (props) => {
   return (
     <div
       style={{
-        background: "rgba(10, 10, 11, 0.57)",
-        backdropFilter: "blur(10.5px)",
-        WebkitBackdropFilter: "blur(10.5px)",
+        background: "rgba(10, 10, 11, 0.2)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-evenly",
@@ -16,6 +16,7 @@ const Header = (props) => {
         position: "fixed",
         top: 0,
         padding: "10px",
+        borderBottom: "1px solid #f4f5f5",
         // border: "2px solid #f4f5f5",
       }}
     >
@@ -53,7 +54,7 @@ const Header = (props) => {
             fontFamily:
               "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
             fontWeight: "900",
-            fontSize: "20px",
+            fontSize: "18px",
           }}
         >
           {props.title}
