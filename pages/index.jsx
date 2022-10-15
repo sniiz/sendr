@@ -14,8 +14,8 @@ import {
   doc,
 } from "../components/firebase";
 import Spinner from "../components/LoadingSpinner";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
+// import Particles from "react-tsparticles";
+// import { loadFull } from "tsparticles";
 // import "../styles/Login.module.css";
 
 const Login = (props) => {
@@ -56,14 +56,14 @@ const Login = (props) => {
     alert("this is just a demo");
   };
 
-  const particlesInit = useCallback(async (engine) => {
-    console.log(engine);
-    await loadFull(engine);
-  }, []);
+  // const particlesInit = useCallback(async (engine) => {
+  //   console.log(engine);
+  //   await loadFull(engine);
+  // }, []);
 
-  const particlesLoaded = useCallback(async (container) => {
-    await console.log(container);
-  }, []);
+  // const particlesLoaded = useCallback(async (container) => {
+  //   await console.log(container);
+  // }, []);
 
   useState(() => {
     // router.prefetch("/home");
@@ -149,7 +149,7 @@ const Login = (props) => {
           // overflowX: "hidden",
         }}
       >
-        <Particles
+        {/* <Particles
           id="tsparticles"
           init={particlesInit}
           loaded={particlesLoaded}
@@ -211,7 +211,7 @@ const Login = (props) => {
               },
             },
           }}
-        />
+        /> */}
         <Header
           router={props.router}
           title={UIText.loginScreen.barTitle}
