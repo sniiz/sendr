@@ -5,7 +5,8 @@ import UIText from "../components/LocalizedText";
 import Header from "../components/Header";
 import version from "../components/version-info";
 import {
-  getAuth,
+  // getAuth,
+  auth,
   onAuthStateChanged,
   // signInWithEmailAndPassword,
   getFirestore,
@@ -67,7 +68,7 @@ const Login = (props) => {
 
   useState(() => {
     // router.prefetch("/home");
-    const unsub = onAuthStateChanged(getAuth(), (user) => {
+    const unsub = onAuthStateChanged(auth, (user) => {
       if (user !== null) {
         // console.log(user);
         getDoc(doc(db, `users`, user.uid)).then(

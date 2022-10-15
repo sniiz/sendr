@@ -5,7 +5,7 @@ import UIText from "../../components/LocalizedText";
 import Header from "../../components/Header";
 import version from "../../components/version-info";
 import {
-  getAuth,
+  // getAuth,
   collection,
   orderBy,
   query,
@@ -14,6 +14,7 @@ import {
   getFirestore,
   doc,
   onSnapshot,
+  auth,
 } from "../../components/firebase";
 import Spinner from "../../components/LoadingSpinner";
 
@@ -27,7 +28,7 @@ const Home = (props) => {
   const router = useRouter();
 
   useEffect(() => {
-    const auth = getAuth();
+    // const auth = getAuth();
     const db = getFirestore();
     if (!auth?.currentUser?.uid) {
       router.push("/");
@@ -46,7 +47,7 @@ const Home = (props) => {
         collection(db, "privateChats"),
         // orderBy("lastMessage", "desc"),
         orderBy("chatName", "desc"),
-        where("members", "array-contains", getAuth().currentUser.uid)
+        where("members", "array-contains", auth.currentUser.uid)
       ),
       (snapshot) => {
         setChats(
@@ -68,7 +69,7 @@ const Home = (props) => {
       }
     );
     const unsubscribeRequests = onSnapshot(
-      doc(db, "users", getAuth().currentUser.uid),
+      doc(db, "users", auth.currentUser.uid),
       (snapshot) => {
         console.log(snapshot);
         setRequests(snapshot.data().friendRequests);

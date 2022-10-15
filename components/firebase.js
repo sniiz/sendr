@@ -17,7 +17,7 @@ import {
   where,
 } from "firebase/firestore";
 import {
-  getAuth,
+  // getAuth,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -28,6 +28,7 @@ import {
   EmailAuthProvider,
   deleteUser,
   signOut,
+  initializeAuth,
 } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 const firebaseConfig = {
@@ -40,8 +41,15 @@ const firebaseConfig = {
   appId: "1:762806681066:web:90d314bbed15da56cb8693",
 };
 if (!getApps().length) initializeApp(firebaseConfig);
+const auth = initializeAuth(app, {
+  persistence: [
+    indexedDBLocalPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence,
+  ],
+});
 export {
-  getAuth,
+  // getAuth,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -71,4 +79,5 @@ export {
   uploadBytes,
   getDownloadURL,
   limit,
+  auth,
 };
