@@ -8,7 +8,7 @@ import {
   // getAuth,
   auth,
   onAuthStateChanged,
-  // signInWithEmailAndPassword,
+  signInWithEmailAndPassword,
   getFirestore,
   setDoc,
   getDoc,
@@ -23,10 +23,10 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // const [passwordCorrect, setPasswordCorrect] = useState(true);
+  const [passwordCorrect, setPasswordCorrect] = useState(true);
   const [loading, setLoading] = useState(true);
   const [loggingIn, setLoggingIn] = useState(false);
-  // const [takingTooLong, setTakingTooLong] = useState(false);
+  const [takingTooLong, setTakingTooLong] = useState(false);
 
   // const auth = getAuth();
   const db = getFirestore();
@@ -34,23 +34,23 @@ const Login = (props) => {
   const router = useRouter();
 
   const handleLogin = async () => {
-    // setLoggingIn(true);
-    // setPasswordCorrect(true);
-    // setEmail(email.trim());
-    // setPassword(password.trim());
-    // signInWithEmailAndPassword(auth, email, password)
-    //   .then(() => {
-    //     setLoggingIn(false);
-    //     router.replace("/home");
-    //   })
-    //   .catch((error) => {
-    //     setLoggingIn(false);
-    //     // if (error.message.includes("password")) {
-    //     //   setPasswordCorrect(false);
-    //     // } else alert(error);
-    //     alert(error);
-    //   });
-    alert("this is just a demo");
+    setLoggingIn(true);
+    setPasswordCorrect(true);
+    setEmail(email.trim());
+    setPassword(password.trim());
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        setLoggingIn(false);
+        router.replace("/home");
+      })
+      .catch((error) => {
+        setLoggingIn(false);
+        // if (error.message.includes("password")) {
+        //   setPasswordCorrect(false);
+        // } else alert(error);
+        // alert(error);
+      });
+    // alert("this is just a demo");
   };
 
   const handleSignUp = () => {
@@ -147,72 +147,8 @@ const Login = (props) => {
           minWidth: "100vw",
           overflowY: "scroll",
           flexDirection: "column",
-          // overflowX: "hidden",
         }}
       >
-        {/* <Particles
-          id="tsparticles"
-          init={particlesInit}
-          loaded={particlesLoaded}
-          style={{
-            zIndex: "99",
-          }}
-          options={{
-            particles: {
-              number: {
-                value: 50,
-                density: {
-                  enable: false,
-                },
-              },
-              size: {
-                value: 3,
-                random: true,
-                animation: {
-                  speed: 10,
-                  decay: 10,
-                },
-              },
-              color: {
-                value: "#f4f5f5",
-                animation: {
-                  speed: 1,
-                  l: 0,
-                },
-              },
-              line_linked: {
-                enable: false,
-              },
-              move: {
-                direction: "none",
-                enable: true,
-                outModes: "bounce",
-                random: true,
-                speed: 1,
-                straight: true,
-              },
-            },
-            interactivity: {
-              events: {
-                onhover: {
-                  enable: true,
-                  mode: "bubble",
-                },
-              },
-              modes: {
-                bubble: {
-                  distance: 250,
-                  duration: 1,
-                  size: 6,
-                },
-                repulse: {
-                  distance: 100,
-                  duration: 1000,
-                },
-              },
-            },
-          }}
-        /> */}
         <Header
           router={props.router}
           title={UIText.loginScreen.barTitle}
