@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import { withRouter, useRouter } from "next/router";
 import UIText from "../components/LocalizedText";
@@ -7,7 +7,7 @@ import version from "../components/version-info";
 import {
   getAuth,
   onAuthStateChanged,
-  signInWithEmailAndPassword,
+  // signInWithEmailAndPassword,
   getFirestore,
   setDoc,
   getDoc,
@@ -22,12 +22,12 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [passwordCorrect, setPasswordCorrect] = useState(true);
+  // const [passwordCorrect, setPasswordCorrect] = useState(true);
   const [loading, setLoading] = useState(true);
   const [loggingIn, setLoggingIn] = useState(false);
-  const [takingTooLong, setTakingTooLong] = useState(false);
+  // const [takingTooLong, setTakingTooLong] = useState(false);
 
-  const auth = getAuth();
+  // const auth = getAuth();
   const db = getFirestore();
 
   const router = useRouter();
