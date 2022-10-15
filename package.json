@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "patch-package"
+    "lint": "next lint"
   },
   "dependencies": {
     "debug": "^4.3.4",
@@ -20,8 +19,6 @@
   },
   "devDependencies": {
     "eslint": "8.24.0",
-    "eslint-config-next": "12.3.1",
-    "patch-package": "^6.4.7",
-    "postinstall-postinstall": "^2.1.0"
+    "eslint-config-next": "12.3.1"
   }
 }

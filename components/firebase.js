@@ -29,6 +29,9 @@ import {
   deleteUser,
   signOut,
   initializeAuth,
+  indexedDBLocalPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
 } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 const firebaseConfig = {
@@ -40,7 +43,9 @@ const firebaseConfig = {
   messagingSenderId: "762806681066",
   appId: "1:762806681066:web:90d314bbed15da56cb8693",
 };
-if (!getApps().length) initializeApp(firebaseConfig);
+var app;
+if (!getApps().length) app = initializeApp(firebaseConfig);
+else app = getApps()[0];
 const auth = initializeAuth(app, {
   persistence: [
     indexedDBLocalPersistence,
