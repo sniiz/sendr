@@ -108,7 +108,7 @@ const Login = (props) => {
     };
   }, []);
 
-  if (loading || !particlesLoaded)
+  if (loading)
     return (
       <>
         <Head>
