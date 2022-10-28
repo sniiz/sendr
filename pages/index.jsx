@@ -15,9 +15,9 @@ import {
   doc,
 } from "../components/firebase";
 import Spinner from "../components/LoadingSpinner";
-// import Particles from "react-tsparticles";
-// import { loadFull } from "tsparticles";
-// import "../styles/Login.module.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../styles/Login.module.css";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -47,14 +47,12 @@ const Login = (props) => {
         setLoggingIn(false);
         // if (error.message.includes("password")) {
         //   setPasswordCorrect(false);
-        // } else alert(error);
-        // alert(error);
+        toast.error(error.toString());
       });
-    // alert("this is just a demo");
   };
 
   const handleSignUp = () => {
-    alert("this is just a demo");
+    toast.info("not yet");
   };
 
   // const particlesInit = useCallback(async (engine) => {
@@ -92,7 +90,7 @@ const Login = (props) => {
             }
           },
           (error) => {
-            alert(error);
+            toast.error(error);
             router.replace("/home");
           }
         );
@@ -134,6 +132,22 @@ const Login = (props) => {
     );
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        style={{
+          zIndex: "10001",
+        }}
+        bodyClassName="toast-container"
+      />
       <Head>
         <title>{`${UIText.loginScreen.barTitle} | sendr`}</title>
       </Head>
@@ -197,7 +211,7 @@ const Login = (props) => {
             border: "2px solid #f4f5f5",
             zIndex: "1000",
             // width: "30vw",
-            // color,
+            color: "#f4f5f5",
             "&:placeholder": {
               color: "#727178",
             },
@@ -208,7 +222,7 @@ const Login = (props) => {
           placeholder={UIText.loginScreen.passwordPlaceholder}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          onSubmit={(event) => alert("ye")}
+          onSubmit={(event) => toast("ye")}
           style={{
             background: "rgba(10, 10, 11, 0.2)",
             backdropFilter: "blur(10px)",
@@ -223,7 +237,7 @@ const Login = (props) => {
             border: "2px solid #f4f5f5",
             zIndex: "1000",
             // width: "30vw",
-            // color,
+            color: "#f4f5f5",
             "&:placeholder": {
               color: "#727178",
             },

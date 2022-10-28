@@ -17,6 +17,7 @@ import {
   auth,
 } from "../../components/firebase";
 import Spinner from "../../components/LoadingSpinner";
+import FeatherIcon from "feather-icons-react";
 
 const Home = (props) => {
   const [chats, setChats] = useState([]);
@@ -80,7 +81,7 @@ const Home = (props) => {
       unsubscribeRequests();
       unsubAuth();
     };
-  }, []);
+  }, [loading, router]);
   return (
     <>
       <Head>
@@ -99,7 +100,48 @@ const Home = (props) => {
           // overflowX: "hidden",
         }}
       >
-        <Header router={props.router} title="sendr" left={() => {}} hideArrow />
+        <Header
+          router={props.router}
+          title="sendr"
+          left={
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                // alignSelf: "flex-start",
+                justifySelf: "left",
+              }}
+            >
+              <p
+                style={{
+                  color: "#f4f5f5",
+                }}
+              >
+                {version.number}
+              </p>
+            </div>
+          }
+          right={
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                // alignSelf: "flex-end",
+              }}
+            >
+               <p
+                style={{
+                  color: "#00000000",
+                }}
+              >
+                {version.number}
+              </p>
+            </div>
+          }
+          hideArrow
+        />
       </div>
     </>
   );

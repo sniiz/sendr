@@ -9,7 +9,9 @@ const Header = (props) => {
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         display: "flex",
+        flexDirection: "row",
         alignItems: "center",
+        // justifyContent: "flex-start",
         justifyContent: "space-evenly",
         width: "100vw",
         zIndex: "10000",
@@ -20,11 +22,12 @@ const Header = (props) => {
         // border: "2px solid #f4f5f5",
       }}
     >
+      {props.left}
       <div
         style={{
           display: "flex",
-          justifyContent: "space-evenly",
-          // alignItems: "center",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <div
@@ -47,7 +50,6 @@ const Header = (props) => {
               <FeatherIcon icon="chevron-left" />
             </TouchableOpacity>
           )}
-          {props.left || null}
         </div>
         <h1
           style={{
@@ -55,12 +57,14 @@ const Header = (props) => {
               "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
             fontWeight: "900",
             fontSize: "18px",
+            color: "#f4f5f5",
+            // justifySelf: "center",
           }}
         >
           {props.title}
         </h1>
-        {props.right || null}
       </div>
+      {props.right}
     </div>
   );
 };

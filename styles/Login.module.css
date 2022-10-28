@@ -1,7 +1,13 @@
-.container {
+/* .container {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   background-color: #0a0a0b;
+} */
+
+.toast-container {
+  background-color: "rgba(244, 245, 245, 0.5)";
+  backdrop-filter: "blur(10px)";
+  -webkit-backdrop-filter: "blur(10px)";
 }
