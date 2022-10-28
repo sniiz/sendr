@@ -25,6 +25,8 @@ const Home = (props) => {
   const [Error, setError] = useState(false);
   const [noChats, setNoChats] = useState("");
   const [requests, setRequests] = useState([]);
+  const [displayFriends, setDisplayFriends] = useState(false);
+  const [displaySettings, setDisplaySettings] = useState(false);
 
   const router = useRouter();
 
@@ -73,7 +75,7 @@ const Home = (props) => {
       doc(db, "users", auth.currentUser.uid),
       (snapshot) => {
         console.log(snapshot);
-        setRequests(snapshot.data().friendRequests);
+        setRequests(snapshot.data()?.friendRequests);
       }
     );
     return () => {
@@ -115,7 +117,8 @@ const Home = (props) => {
             >
               <p
                 style={{
-                  color: "#f4f5f5",
+                  color: "#727178",
+                  fontFamily: "monospace",
                 }}
               >
                 {version.number}
@@ -127,17 +130,68 @@ const Home = (props) => {
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "space-evenly",
                 // alignSelf: "flex-end",
               }}
             >
-               <p
+              <div
                 style={{
-                  color: "#00000000",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  color: "#f4f5f5",
+                  cursor: "pointer",
+                  marginBottom: -10,
+                  width: 20,
                 }}
+                onClick
+                onMouseEnter={() => setDisplayFriends(true)}
+                onMouseLeave={() => setDisplayFriends(false)}
               >
-                {version.number}
-              </p>
+                <FeatherIcon icon="users" size={20} />
+                {displayFriends ? (
+                  <p
+                    style={{
+                      color: "#727178",
+                      fontSize: 10,
+                      marginTop: 0,
+                      marginBottom: -12,
+                    }}
+                  >
+                    friends
+                  </p>
+                ) : null}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  color: "#f4f5f5",
+                  cursor: "pointer",
+                  marginBottom: -10,
+                  width: 20,
+                }}
+                onClick
+                onMouseEnter={() => setDisplaySettings(true)}
+                onMouseLeave={() => setDisplaySettings(false)}
+              >
+                <FeatherIcon icon="settings" size={20} />
+                {displayFriends ? (
+                  <p
+                    style={{
+                      color: "#727178",
+                      fontSize: 10,
+                      marginTop: 0,
+                      marginBottom: -12,
+                    }}
+                  >
+                    friends
+                  </p>
+                ) : null}
+              </div>
             </div>
           }
           hideArrow

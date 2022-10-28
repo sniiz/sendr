@@ -55,15 +55,6 @@ const Login = (props) => {
     toast.info("not yet");
   };
 
-  // const particlesInit = useCallback(async (engine) => {
-  //   console.log(engine);
-  //   await loadFull(engine);
-  // }, []);
-
-  // const particlesLoaded = useCallback(async (container) => {
-  //   await console.log(container);
-  // }, []);
-
   useState(() => {
     // router.prefetch("/home");
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -81,7 +72,7 @@ const Login = (props) => {
                 status: "",
                 notifsKey: "",
               }).catch((e) => {
-                alert(e);
+                toast.error(e);
                 router.replace("/home");
               });
               router.replace("/home");
@@ -90,8 +81,10 @@ const Login = (props) => {
             }
           },
           (error) => {
-            toast.error(error);
-            router.replace("/home");
+            toast.error(error.toString());
+            setTimeout(() => {
+              router.replace("/home");
+            }, 2000);
           }
         );
       } else {
@@ -110,6 +103,22 @@ const Login = (props) => {
   if (loading)
     return (
       <>
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          // closeOnClick
+          rtl={false}
+          // pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          style={{
+            zIndex: "10001",
+          }}
+          bodyClassName="toast-container"
+        />
         <Head>
           <title>{`${UIText.loginScreen.barTitle} | sendr`}</title>
         </Head>
