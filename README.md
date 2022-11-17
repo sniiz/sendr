@@ -21,7 +21,7 @@ sendr
 - added statuses<br>
 - made invite links shorter<br>
 - made the chat screen use flashlist instead of flatlist for better performance in big chats<br>
-- made it possible to send friend requests by name instead iof by uid (you can still use uid but.. why would you)<br>
+- made it possible to send friend requests by name instead of by uid (you can still use uid but.. why would you)<br>
 - and some other stability improvements and bug fixes
 </p>
 
