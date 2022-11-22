@@ -18,7 +18,7 @@ const Header = (props) => {
         position: "fixed",
         top: 0,
         padding: "10px",
-        borderBottom: "1px solid #f4f5f5",
+        // borderBottom: "1px solid #f4f5f5", // ugly
         // border: "2px solid #f4f5f5",
       }}
     >
@@ -45,6 +45,7 @@ const Header = (props) => {
               }}
               style={{
                 backgroundColor: "#00000000",
+                mixBlendMode: "difference",
               }}
             >
               <FeatherIcon icon="chevron-left" />
@@ -58,6 +59,7 @@ const Header = (props) => {
             fontWeight: "900",
             fontSize: "18px",
             color: "#f4f5f5",
+            mixBlendMode: "difference",
             // justifySelf: "center",
           }}
         >
