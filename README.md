@@ -1,5 +1,5 @@
 <h1 align="center" style="font-weight: 900;">
-⚠️ sendr is moving to next.js, see branch "nextjs-rewrite" ⚠️
+⚠️ this project is pretty much abandoned at this point, if i were you i probably wouldn't bother ⚠️
 </h1>
 
 <!-- ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white) ![Mac OS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0) ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white) ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black) -->
@@ -65,7 +65,7 @@ feedback & contributing
 </h1>
 
 <p align="center" style="font-weight: bold;">
-we're always open to suggestions and contributions!</br>if you encounter any bugs, please open an <a href="https://github.com/sniiz/sendr/issues/new">issue</a>, or, if you're a developer yourself and care about this lil project too much, you can open a <a href="https://github.com/sniiz/sendr/pulls">pull request</a>!<br/><br/>if you have any questions, i will happily answer them at <code>haley.sniiz@gmail.com</code> or in <a href="https://twitter.com/_sniiz_">twitter dms</a>!
+we're always open to suggestions and contributions!</br>if you encounter any bugs, please open an <a href="https://github.com/sniiz/sendr/issues/new">issue</a>, or, if you're a developer yourself and care about this lil project too much, you can open a <a href="https://github.com/sniiz/sendr/pulls">pull request</a>!<br/><br/>if you have any questions, i will happily answer them at <code>haley@program.mr</code> or in <a href="https://twitter.com/_sniiz_">twitter dms</a>!
 </p>
 
 <p align="right" style="font-weight: bold; font-size: 10px;">
